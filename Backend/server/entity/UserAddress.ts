@@ -1,4 +1,4 @@
-import { Entity, ManyToOne, PrimaryColumn } from 'typeorm'
+import { Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm'
 import { Address } from './Address'
 import { User } from './User'
 
@@ -10,10 +10,12 @@ export class UserAddress {
 	address_id?: string
 
 	@ManyToOne(() => User, (user) => user.addressConnection, { primary: true })
+	@JoinColumn({ name: 'user_id' })
 	user?: User
 
 	@ManyToOne(() => Address, (address) => address.userConnection, {
 		primary: true,
 	})
+	@JoinColumn({ name: 'address_id' })
 	address?: Address
 }

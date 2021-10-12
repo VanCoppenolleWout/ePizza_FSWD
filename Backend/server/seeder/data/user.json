@@ -1,0 +1,26 @@
+[
+	{
+		"name": "Glenn",
+		"surname": "Troncquo",
+		"email": "glennisslim@gmail.com",
+		"birthdate": "2001-06-20",
+		"phone_nr": "+32496054389",
+		"password": "glenn1"
+	},
+	{
+		"name": "Wout",
+		"surname": "Vancoppenolle",
+		"email": "wout@gmail.com",
+		"birthdate": "2000-06-20",
+		"phone_nr": "+32496054389",
+		"password": "wout1"
+	},
+	{
+		"name": "Niels",
+		"surname": "Onderbeke",
+		"email": "niels@gmail.com",
+		"birthdate": "2001-06-20",
+		"phone_nr": "+32496054389",
+		"password": "niels1"
+	}
+]

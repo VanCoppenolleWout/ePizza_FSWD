@@ -3,6 +3,7 @@ import {
 	Entity,
 	JoinColumn,
 	ManyToOne,
+	OneToMany,
 	PrimaryGeneratedColumn,
 } from 'typeorm'
 import { OrderPizza } from './OrderPizza'
@@ -26,6 +27,6 @@ export class Order {
 	@JoinColumn({ name: 'user_id' })
 	userConnection?: User
 
-	@ManyToOne(() => OrderPizza, (orderPizza) => orderPizza.order)
+	@OneToMany(() => OrderPizza, (orderPizza) => orderPizza.order)
 	pizzaConnection?: Pizza[]
 }

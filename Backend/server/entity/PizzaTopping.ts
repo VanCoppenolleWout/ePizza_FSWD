@@ -7,13 +7,15 @@ export class PizzaTopping {
 	@PrimaryColumn('uuid')
 	pizza_id?: string
 	@PrimaryColumn('uuid')
-	order_id?: string
+	topping_id?: string
 
-	@ManyToOne(() => Pizza, (pizza) => pizza.toppingConnection)
+	@ManyToOne(() => Pizza, (pizza) => pizza.toppingConnection, { primary: true })
 	@JoinColumn({ name: 'pizza_id' })
 	pizza?: Pizza
 
-	@ManyToOne(() => Topping, (topping) => topping.pizzaConnection)
+	@ManyToOne(() => Topping, (topping) => topping.pizzaConnection, {
+		primary: true,
+	})
 	@JoinColumn({ name: 'topping_id' })
 	topping?: Topping
 }
