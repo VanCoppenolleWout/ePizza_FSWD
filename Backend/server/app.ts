@@ -1,10 +1,26 @@
 import express, { Request, Response } from 'express'
+import {
+	ConnectionOptions,
+	createConnection,
+	getConnectionOptions,
+} from 'typeorm'
+import { createDatabase } from 'typeorm-extension'
 
-const app = express(),
-	port = 3001
+const port = 3001
 
-app.get('/', (request: Request, response: Response) => {
-	response.send('Hello World')
-})
-
-app.listen(port, () => console.info(`Listening on: http://localhost:${port}`))
+;(async () => {
+	const connectionOptions: ConnectionOptions = await getConnectionOptions()
+	createDatabase({ ifNotExist: true }, connectionOptions)
+	.then(() => console.log('Database created'))
+	.then(createConnection)
+	.then(async () => {
+		const app = express()
+		app.get('/', (request: Request, response: Response) =>
+			response.send('Hello World')
+		)
+		
+		app.listen(port, () =>
+			console.info(`👾\nServer listening on: http://localhost:${port}`)
+		)
+	})
+})()
