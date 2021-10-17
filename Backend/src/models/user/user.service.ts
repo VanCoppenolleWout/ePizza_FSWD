@@ -1,7 +1,5 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common'
 import { UserDTO } from './user.dto'
-import { createCipheriv, randomBytes, scrypt } from 'crypto'
-import { promisify } from 'util'
 import { User } from './user.entity'
 import { hash } from 'bcrypt'
 import { Repository } from 'typeorm'
@@ -15,7 +13,7 @@ export class UserService {
 
   async findOne(email: string) {
     const user = await this.userRepository.findOne({ where: { email: email } })
-    return plainToClass(User, user)
+    return user
   }
 
   async userLogin(userDTO: UserDTO) {
@@ -29,6 +27,6 @@ export class UserService {
         user.password = hash
         return this.userRepository.save(user)
       })
-      .then((res) => res)
+      .then((res) => plainToClass(User, res))
   }
 }
