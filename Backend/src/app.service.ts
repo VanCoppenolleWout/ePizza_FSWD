@@ -1,5 +1,5 @@
 import { Injectable, OnApplicationBootstrap } from '@nestjs/common'
-import { UserService } from './database/seeders/users/user.service'
+import { UserService } from './database/seeders/seed.service'
 
 @Injectable()
 export class AppService implements OnApplicationBootstrap {
@@ -9,6 +9,7 @@ export class AppService implements OnApplicationBootstrap {
   }
 
   onApplicationBootstrap() {
-    // this.userService.save()
+    // this.userService.seedUsers()
+    this.userService.seedPizza()
   }
 }
