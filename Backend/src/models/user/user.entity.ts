@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer'
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 import { Address } from '../address/address.entity'
 import { Order } from '../order/order.entity'
@@ -18,6 +19,7 @@ export class User {
   @Column()
   phone_nr?: string
   @Column()
+  @Exclude()
   password?: string
 
   @OneToMany(() => Order, (order) => order.userConnection)

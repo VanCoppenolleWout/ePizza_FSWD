@@ -7,7 +7,7 @@ import users from '../data/user.json'
 import pizzas from '../data/pizza.json'
 
 @Injectable()
-export class UserService {
+export class SeedService {
   constructor(
     @Inject('USER_REPOSITORY')
     private userRepository: Repository<User>,
@@ -15,18 +15,23 @@ export class UserService {
     private pizzaRepository: Repository<Pizza>,
   ) {}
 
-  async seedUsers(): Promise<User[]> {
+  // USER
+  async seedUser(): Promise<User[]> {
     const userORM: User[] = plainToClass(User, users)
-    return this.userRepository.save(userORM)
+    return await this.userRepository.save(userORM)
   }
 
+  async findUser(): Promise<User[]> {
+    return await this.userRepository.find()
+  }
+
+  //PIZZA
   async seedPizza(): Promise<Pizza[]> {
     const pizzaORM: Pizza[] = plainToClass(Pizza, pizzas)
     return this.pizzaRepository.save(pizzaORM)
   }
 
-  async findAll(): Promise<User[]> {
-    console.log('lets find all')
-    return this.userRepository.find()
+  async findPizza(): Promise<Pizza[]> {
+    return await this.userRepository.find()
   }
 }

@@ -3,7 +3,7 @@ import { User } from 'src/models/user/user.entity'
 import { Connection } from 'typeorm'
 
 
-export const seedProviders = [
+export const repositoryProviders = [
   {
     provide: 'USER_REPOSITORY',
     useFactory: (connection: Connection) => connection.getRepository(User),
