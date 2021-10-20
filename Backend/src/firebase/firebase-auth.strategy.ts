@@ -22,17 +22,17 @@ export class FirebaseAuthStrategy extends PassportStrategy(
   Strategy,
   'firebase-auth',
 ) {
-  private defaultApp: any
+  private firebaseApp: any
   constructor() {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     })
-    this.defaultApp = firebase.initializeApp({
+    this.firebaseApp = firebase.initializeApp({
       credential: firebase.credential.cert(firebase_params),
     })
   }
   async validate(token: string) {
-    const firebaseUser: any = await this.defaultApp
+    const firebaseUser = await this.firebaseApp
       .auth()
       .verifyIdToken(token, true)
       .catch((err) => {

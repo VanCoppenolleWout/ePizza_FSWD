@@ -1,5 +1,4 @@
 import { Injectable, Inject } from '@nestjs/common'
-import { plainToClass } from 'class-transformer'
 import { Pizza } from 'src/models/pizza/pizza.entity'
 import { User } from 'src/models/user/user.entity'
 import { Repository } from 'typeorm'
@@ -30,6 +29,6 @@ export class SeedService {
   }
 
   async findPizza(): Promise<Pizza[]> {
-    return await this.userRepository.find()
+    return await this.pizzaRepository.find()
   }
 }

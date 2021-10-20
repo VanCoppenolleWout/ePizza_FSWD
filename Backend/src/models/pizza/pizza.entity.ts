@@ -11,6 +11,8 @@ export class Pizza {
   @Column()
   name?: string
   @Column()
+  amount: number
+  @Column()
   price?: number
 
   @OneToMany(() => OrderPizza, (orderPizza) => orderPizza.pizza)
