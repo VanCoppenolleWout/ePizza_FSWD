@@ -14,6 +14,7 @@ import { AppService } from './app.service'
 import { AuthService } from './auth/auth.service'
 import { JwtAuthGuard } from './auth/jwt-auth.guard'
 import { LocalAuthGuard } from './auth/local-auth.guard'
+import { FirebaseAuthGuard } from './firebase/firebase-auth.guard'
 
 @Controller()
 export class AppController {
@@ -32,5 +33,11 @@ export class AppController {
   @Get('profile')
   getProfile(@Request() req) {
     return req.user
+  }
+
+  @Get('firebase')
+  @UseGuards(FirebaseAuthGuard)
+  get() {
+    return 'you are authenticated succesfully'
   }
 }
