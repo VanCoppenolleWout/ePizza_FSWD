@@ -1,5 +1,4 @@
 import { Injectable, Inject } from '@nestjs/common'
-import { plainToClass } from 'class-transformer'
 import { Pizza } from 'src/models/pizza/pizza.entity'
 import { User } from 'src/models/user/user.entity'
 import { Repository } from 'typeorm'
@@ -17,8 +16,7 @@ export class SeedService {
 
   // USER
   async seedUser(): Promise<User[]> {
-    const userORM: User[] = plainToClass(User, users)
-    return await this.userRepository.save(userORM)
+    return await this.userRepository.save(users)
   }
 
   async findUser(): Promise<User[]> {
@@ -27,11 +25,10 @@ export class SeedService {
 
   //PIZZA
   async seedPizza(): Promise<Pizza[]> {
-    const pizzaORM: Pizza[] = plainToClass(Pizza, pizzas)
-    return this.pizzaRepository.save(pizzaORM)
+    return this.pizzaRepository.save(pizzas)
   }
 
   async findPizza(): Promise<Pizza[]> {
-    return await this.userRepository.find()
+    return await this.pizzaRepository.find()
   }
 }

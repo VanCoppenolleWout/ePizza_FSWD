@@ -1,18 +1,22 @@
 [
   {
     "name": "Pepperoni",
-    "price": 7
+    "price": 7,
+    "amount": 10
   },
   {
     "name": "Hawai",
-    "price": 7
+    "price": 7,
+    "amount": 10
   },
   {
     "name": "Spinach",
-    "price": 7
+    "price": 7,
+    "amount": 10
   },
   {
     "name": "Champignon",
-    "price": 7
+    "price": 7,
+    "amount": 10
   }
 ]

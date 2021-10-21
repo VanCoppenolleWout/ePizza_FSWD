@@ -21,12 +21,16 @@ export class UserService {
   }
 
   async registerUser(user: User): Promise<User> {
-    const saltRounds = 10
-    return hash(user.password, saltRounds)
-      .then((hash) => {
-        user.password = hash
-        return this.userRepository.save(user)
-      })
-      .then((res) => plainToClass(User, res))
+    try {
+      return await this.userRepository.save(user)
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: 'Bad request: Check user info',
+        },
+        HttpStatus.BAD_REQUEST,
+      )
+    }
   }
 }

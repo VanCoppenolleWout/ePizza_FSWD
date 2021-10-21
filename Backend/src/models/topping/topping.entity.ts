@@ -5,11 +5,13 @@ import { PizzaTopping } from '../pizzatopping/pizzatopping.entity'
 @Entity('Topping')
 export class Topping {
   @PrimaryGeneratedColumn('uuid')
-  topping_id?: string
+  topping_id: string
   @Column()
-  name?: string
+  name: string
   @Column()
-  price?: number
+  amount: number
+  @Column()
+  price: number
 
   @OneToMany(() => PizzaTopping, (pizzaTopping) => pizzaTopping.topping)
   pizzaConnection?: Pizza[]

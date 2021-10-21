@@ -19,8 +19,10 @@ export class User {
   @Column()
   phone_nr?: string
   @Column()
-  @Exclude()
-  password?: string
+  type?: string
+  // @Column()
+  // @Exclude()
+  // password?: string
 
   @OneToMany(() => Order, (order) => order.userConnection)
   orderConnection?: Order[]
