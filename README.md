@@ -31,6 +31,7 @@ ePizza_FSWD
 * Backend structuur & seeding database (nestjs)
 
 ### Milestone 2 (10 november)
+* PKCE-flow met 'Firebase'
 * Design in vue uitgewerkt
 * Integratie tussen front- en backend
 * Backend authorizatie + authenticatie
