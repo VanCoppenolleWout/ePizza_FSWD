@@ -9,6 +9,7 @@ export class UserController {
 
   @Get(':email')
   async findOne(@Param() params): Promise<User> {
+    console.log(process.env.MYSQL_ROOT_PASSWORD)
     return await this.userService.findOne(params.email)
   }
 

@@ -9,7 +9,7 @@ async function bootstrap() {
     .setTitle('Pizza Backend Routes')
     .setDescription('Pizza API')
     .setVersion('1.0')
-    .addTag('cats')
+    .addTag('pizza')
     .build()
   const document = SwaggerModule.createDocument(app, config)
   SwaggerModule.setup('api', app, document)

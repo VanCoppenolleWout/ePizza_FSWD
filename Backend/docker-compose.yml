@@ -4,7 +4,7 @@ services:
     ports:
       - 3307:3306
     env_file:
-      - .env
+      - .database.env
     volumes:
       - database-pizza:/var/lib/mysql
 

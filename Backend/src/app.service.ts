@@ -12,11 +12,11 @@ export class AppService implements OnApplicationBootstrap {
   }
 
   async onApplicationBootstrap() {
-    // check users
+    // Seed users if not exists
     const users: User[] = await this.seedService.findUser()
     users.length > 0 ? null : this.seedService.seedUser()
 
-    // check pizza
+    // Seed pizza if not exists
     const pizzas: Pizza[] = await this.seedService.findPizza()
     pizzas.length > 0 ? null : this.seedService.seedPizza()
   }
