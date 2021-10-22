@@ -9,6 +9,7 @@ export class AppController {
   @Get('firebase')
   @UseGuards(FirebaseAuthGuard)
   get(@Req() req) {
+    
     return req.user
   }
 }
