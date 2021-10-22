@@ -13,10 +13,7 @@ import { ConfigModule } from '@nestjs/config'
     SeedModule,
     UserModule,
     FirebaseAuthStrategy,
-    ConfigModule.forRoot({
-      envFilePath: ['database.env', 'firebase.env', '.env'],
-      isGlobal: true,
-    }),
+    ConfigModule.forRoot(),
   ],
   controllers: [AppController],
   providers: [AppService],
