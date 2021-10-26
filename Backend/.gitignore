@@ -36,3 +36,6 @@ lerna-debug.log*
 
 # ENV FILES
 .env
+
+# FIREBASE CONFIG FILE
+src/firebase/firebase.config.json
