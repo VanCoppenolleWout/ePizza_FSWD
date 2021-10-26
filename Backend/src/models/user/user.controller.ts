@@ -12,9 +12,11 @@ export class UserController {
   //   return await this.userService.findOne(params.email)
   // }
 
-  @UseGuards(FirebaseAuthGuard)
-  @Post('register')
-  async registerUser(@Body() user: User) {
+  // @UseGuards(FirebaseAuthGuard)
+  @Post('signup')
+  async signUp(@Body() user: User) {
     return await this.userService.registerUser(user)
   }
+
+
 }

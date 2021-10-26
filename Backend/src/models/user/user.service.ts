@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common'
 import { User } from './user.entity'
 import { Repository } from 'typeorm'
+import { getAuth } from 'firebase-admin/auth'
 
 @Injectable()
 export class UserService {
@@ -13,17 +14,35 @@ export class UserService {
     return user
   }
 
-  async registerUser(user: User): Promise<User> {
-    try {
-      return await this.userRepository.save(user)
-    } catch (error) {
-      throw new HttpException(
-        {
-          status: HttpStatus.BAD_REQUEST,
-          error: 'Bad request: Check user info',
-        },
-        HttpStatus.BAD_REQUEST,
-      )
-    }
+  async registerUser(user: User): Promise<HttpStatus> {
+    return new Promise((resolve, reject) => {
+      getAuth()
+        .createUser({
+          email: user.email,
+          password: 'secretPassword',
+        })
+        .then((userRecord) => {
+          // Firebase User succesfully created
+          user.user_id = userRecord.uid
+          // Save user in database
+          this.userRepository.save(user)
+        })
+        .then(() => {
+          resolve(HttpStatus.CREATED)
+        })
+        .catch((error) => {
+          // Error occurred while creating user
+          reject(
+            new HttpException(
+              {
+                status: HttpStatus.BAD_REQUEST,
+                error: error,
+              },
+              HttpStatus.BAD_REQUEST,
+            ),
+          )
+        })
+    })
   }
+
 }
