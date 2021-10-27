@@ -7,7 +7,11 @@ module.exports = {
   darkMode: 'media', // or 'class'
 
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'montserrat': ['"Montserrat"', 'Helvetica Neue'],
+      }
+    },
   },
 
   variants: {
