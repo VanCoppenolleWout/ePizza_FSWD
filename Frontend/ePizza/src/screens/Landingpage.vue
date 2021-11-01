@@ -13,19 +13,19 @@ export default defineComponent({
 <template>
   <AppHeader />
   <div class="mt-32">
-    <div class="max-w-4xl">
+    <div class="max-w-c1">
       <h1 class="font-semibold text-6xl">
         Newest, freshest and best pizza in
         <span class="text-red-500">Kortrijk</span>.
       </h1>
-      <h2 class="font-medium text-2xl">
+      <h2 class="font-medium text-2xl pt-10">
         Always wanted to try the freshest pizza in the whole wide world? 
         Wait no longer and taste for <span class="text-red-500">youself</span>.
       </h2>
-      <div>
-        <button>DELIVERY</button>
-        <p>OR</p>
-        <button>CARRYOUT</button>
+      <div class="flex flex-row items-center space-x-5 mt-6">
+        <button class="rounded-xl bg-yellow-300 py-4 w-40 text-white font-semibold">DELIVERY</button>
+        <p class=" font-semibold">OR</p>
+        <button class="rounded-xl bg-yellow-300 py-4 w-40 text-white font-semibold">CARRYOUT</button>
       </div>
       <div>
         <div></div>
@@ -37,7 +37,8 @@ export default defineComponent({
         <div></div>
         <div></div>
       </div>
+      <img class="fixed -right-1/4 top-48" src="../assets/images/pizza-bg.png" alt="" />
     </div>
-    <img src="../assets/images/pizza-bg.png" alt="" />
+    
   </div>
 </template>
