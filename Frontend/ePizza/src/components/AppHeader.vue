@@ -8,7 +8,7 @@ export default defineComponent({
 
 <template>
   <div class="flex flex-row justify-between">
-    <h1 class="cursor-pointer font-bold text-3xl text-gray-600">ePizza</h1>
+    <h1 class="cursor-pointer font-bold text-3xl text-red-500">ePizza</h1>
     <div class="hidden md:flex flex-row justify-between space-x-8 font-medium">
       <div
         class="
