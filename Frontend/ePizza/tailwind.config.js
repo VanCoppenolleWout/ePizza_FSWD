@@ -9,8 +9,11 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        'montserrat': ['"Montserrat"', 'Helvetica Neue'],
-      }
+        montserrat: ['"Montserrat"', 'Helvetica Neue'],
+      },
+      maxWidth: {
+        'test': '800px',
+      },
     },
   },
 

@@ -7,7 +7,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="p-8 lg:py-20 lg:px-40">
+  <div class="p-8 lg:py-20 lg:px-40 relative overflow-hidden">
     <RouterView />
   </div>
 </template>

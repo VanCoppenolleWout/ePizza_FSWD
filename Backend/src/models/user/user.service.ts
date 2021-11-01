@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common'
 import { User } from './user.entity'
 import { Repository } from 'typeorm'
 import { getAuth } from 'firebase-admin/auth'
+import firebase from 'src/firebase/firebase'
 
 @Injectable()
 export class UserService {
@@ -14,7 +15,7 @@ export class UserService {
     return user
   }
 
-  async registerUser(user: User): Promise<HttpStatus> {
+  async registerUser(user: User): Promise<any> {
     return new Promise((resolve, reject) => {
       getAuth()
         .createUser({
