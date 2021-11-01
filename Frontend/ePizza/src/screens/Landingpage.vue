@@ -13,8 +13,9 @@ export default defineComponent({
 </script>
 
 <template>
+
   <AppHeader />
-  <div class="mt-32">
+  <div class="mt-32 ">
     <img
       class="
         absolute
