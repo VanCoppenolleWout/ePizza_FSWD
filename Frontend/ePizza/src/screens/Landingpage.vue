@@ -70,7 +70,6 @@ export default defineComponent({
 
 <style>
 .pizza-image {
-  /* right: -400px; */
   right: -200px;
 }
 </style>

@@ -2,6 +2,7 @@
 import { defineComponent } from 'vue'
 import { User } from '../interfaces/user'
 import { signUp } from '../utils/network'
+import RegisterComponent from '../components/RegisterComponent.vue'
 
 export default defineComponent({
   setup() {
@@ -18,14 +19,15 @@ export default defineComponent({
       const test = await signUp(url, user)
       console.log(test)
     }
-
     return {
       signup,
     }
   },
+  components: { RegisterComponent },
 })
 </script>
 
 <template>
-  <p @click="signup">register</p>
+  <!-- <p @click="signup">register</p> -->
+  <RegisterComponent />
 </template>
