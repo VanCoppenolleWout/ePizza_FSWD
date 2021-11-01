@@ -15,6 +15,11 @@ export default defineComponent({
 <template>
   <AppHeader />
   <div class="mt-32">
+    <img
+      class="absolute top-48 pizza-image hidden md:block w-96 pointer-events-none"
+      src="../assets/images/pizza-bg.png"
+      alt=""
+    />
     <div class="max-w-c1">
       <h1 class="font-semibold text-6xl">
         Newest, freshest and best pizza in
@@ -41,7 +46,13 @@ export default defineComponent({
       </div>
       <img class="fixed -right-1/4 top-48" src="../assets/images/pizza-bg.png" alt="" />
     </div>
-    
   </div>
   <AppFooter/>
 </template>
+
+<style>
+.pizza-image {
+  /* right: -400px; */
+  right: -200px;
+}
+</style>
