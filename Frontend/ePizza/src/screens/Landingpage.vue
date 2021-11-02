@@ -13,7 +13,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="p-8 lg:py-20 lg:px-40 relative overflow-hidden">
+  <div class="p-8 lg:py-20 lg:px-32 relative overflow-hidden">
     <AppHeader />
     <div class="mt-32">
       <img
@@ -24,17 +24,18 @@ export default defineComponent({
           hidden
           md:block
           w-96
+          lg:w-input
           pointer-events-none
         "
         src="../assets/images/pizza-bg.png"
         alt=""
       />
       <div class="max-w-c1">
-        <h1 class="font-semibold text-6xl">
+        <h1 class="font-semibold text-6xl max-w-xl">
           Newest, freshest and best pizza in
           <span class="text-red-500">Kortrijk</span>.
         </h1>
-        <h2 class="font-medium text-2xl pt-10">
+        <h2 class="font-medium text-2xl pt-10 max-w-xl">
           Always wanted to try the freshest pizza in the whole wide world? Wait
           no longer and taste for <span class="text-red-500">youself</span>.
         </h2>
@@ -63,7 +64,6 @@ export default defineComponent({
         </div>
       </div>
     </div>
-    
   </div>
   <AppFooter />
 </template>
@@ -71,5 +71,10 @@ export default defineComponent({
 <style>
 .pizza-image {
   right: -200px;
+}
+@media (min-width: 1024px) {
+  .pizza-image {
+    right: -280px;
+  }
 }
 </style>
