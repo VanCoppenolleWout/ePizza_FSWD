@@ -26,6 +26,9 @@ export default defineComponent({
           w-96
           lg:w-input
           pointer-events-none
+          transition-all
+          ease-in
+          duration-300
         "
         src="../assets/images/pizza-bg.png"
         alt=""
