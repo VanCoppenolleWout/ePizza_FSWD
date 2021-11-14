@@ -25,7 +25,7 @@ module.exports = {
         'p-gray-200': '#919191',
         'p-gray-300': '#707070',
         'p-yellow': '#E3BB52',
-      }
+      },
     },
   },
 
@@ -45,10 +45,10 @@ module.exports = {
             maxWidth: '700px',
           },
           '@screen lg': {
-            maxWidth: '800px',
+            maxWidth: '984px',
           },
           '@screen xl': {
-            maxWidth: '900px',
+            maxWidth: '1220px',
           },
         },
       })

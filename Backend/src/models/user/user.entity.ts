@@ -14,11 +14,11 @@ export class User {
   @Column()
   email?: string
   @Column()
-  birthdate?: Date
+  birthdate?: string
   @Column()
   phone_nr?: string
   @Column()
-  type?: string
+  password?: string
 
   @OneToMany(() => Order, (order) => order.userConnection)
   orderConnection?: Order[]

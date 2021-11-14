@@ -1,5 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common'
-import { FirebaseAuthGuard } from 'src/firebase/firebase-auth.guard'
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common'
 import { User } from './user.entity'
 import { UserService } from './user.service'
 
@@ -18,5 +17,8 @@ export class UserController {
     return await this.userService.registerUser(user)
   }
 
-
+  // @Get('login')
+  // async login(@Body() body) {
+  //   return await this.userService.login(body.uid)
+  // }
 }

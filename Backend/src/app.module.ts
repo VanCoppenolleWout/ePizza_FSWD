@@ -15,7 +15,7 @@ import { ConfigModule } from '@nestjs/config'
     FirebaseAuthStrategy,
     // declare this to use dot env files
     ConfigModule.forRoot({
-      envFilePath: ['ormconfig.env',],
+      envFilePath: ['ormconfig.env', '.env'],
     }),
   ],
   controllers: [AppController],
