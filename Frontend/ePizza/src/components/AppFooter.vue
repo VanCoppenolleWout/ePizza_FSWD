@@ -10,7 +10,7 @@ export default defineComponent({
   <footer class="bg-footerbg relative bottom-0 px-40 pt-20 pb-10" style="background-color: #f1f0f2">
     <div class="flex flex-col justify-between space-y-10">
       <div class="flex flex-row justify-between">
-        <div class="text-3xl text-gray-600 font-bold">ePizza</div>
+        <div class="text-3xl text-p-gray font-bold">ePizza</div>
         <div class="flex flex-row space-x-20">
           <div class="space-y-3">
             <h3 class="text-2xl font-medium">About us</h3>

@@ -3,7 +3,11 @@
 @tailwind utilities;
 
 @layer utilities {
-    .max-w-c1 {
+    .m-w-top {
         max-width: 53.25rem;
+    }
+
+    .m-w-landing {
+        max-width: 51.5rem;
     }
 }
