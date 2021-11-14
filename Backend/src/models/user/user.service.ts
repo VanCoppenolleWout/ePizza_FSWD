@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common'
 import { User } from './user.entity'
 import { Repository } from 'typeorm'
 import { getAuth } from 'firebase-admin/auth'
-import firebase from 'src/firebase/firebase'
+import MailService from '@sendgrid/mail'
 
 @Injectable()
 export class UserService {
@@ -15,34 +15,41 @@ export class UserService {
     return user
   }
 
+  // async login(uid: string) {
+  //   return await getAuth().createCustomToken(uid)
+  // }
+
   async registerUser(user: User): Promise<any> {
-    return new Promise((resolve, reject) => {
-      getAuth()
+    try {
+      return await getAuth()
         .createUser({
           email: user.email,
-          password: 'secretPassword',
+          password: user.password,
         })
-        .then((userRecord) => {
+        .then(async (userRecord) => {
+          await getAuth()
+            .generateEmailVerificationLink(user.email)
+            .then(async (link) => {
+              // Construct email verification template, embed the link and send
+              // using custom SMTP server.
+              MailService.setApiKey(process.env.SENDGRID_API_KEY)
+              const msg = {
+                to: user.email, // Change to your recipient
+                from: 'glennisslim@gmail.com', // Change to your verified sender
+                subject: 'Email verification ePizza',
+                html: `<div style="">${link}</div>`,
+              }
+              await MailService.send(msg)
+            })
           // Firebase User succesfully created
           user.user_id = userRecord.uid
           // Save user in database
-          this.userRepository.save(user)
+          await this.userRepository.save(user)
         })
-        .then(() => {
-          resolve(HttpStatus.CREATED)
-        })
-        .catch((error) => {
-          // Error occurred while creating user
-          reject(
-            new HttpException(
-              {
-                status: HttpStatus.BAD_REQUEST,
-                error: error,
-              },
-              HttpStatus.BAD_REQUEST,
-            ),
-          )
-        })
-    })
+        .then(() => 'user created')
+    } catch (error) {
+      user.user_id ? getAuth().deleteUser(user.user_id) : null
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST)
+    }
   }
 }
