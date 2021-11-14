@@ -2,16 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+
+.test {
+}
+
 @layer utilities {
-    .m-w-top {
-        max-width: 53.25rem;
-    }
+  .m-w-top {
+    max-width: 53.25rem;
+  }
 
-    .m-w-landing {
-        max-width: 51.5rem;
-    }
+  .m-w-landing {
+    max-width: 51.5rem;
+  }
 
-    .m-w-card {
-        max-width: 24.5rem;
-    }
+  .m-w-card {
+    max-width: 24.5rem;
+  }
+
+  input[type='radio'] {
+    opacity: 0;
+    position: absolute;
+  }
+
+  input[type='radio']:focus + label {
+    padding: 0.5rem 1rem;
+    background-color: #F54749;
+    color: white;
+    border-radius: 0.5rem;
+  }
 }

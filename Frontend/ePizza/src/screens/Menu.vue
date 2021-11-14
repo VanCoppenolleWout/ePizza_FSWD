@@ -19,18 +19,33 @@ export default defineComponent({
 <template>
   <div class="p-8 lg:py-20 lg:px-40">
     <AppHeader />
-    <div>
+    <div class="mt-20 flex flex-row justify-between">
       <div>
-        <div class="flex flex-row space-x-4 mt-20 text-lg">
+        <div class="flex flex-row space-x-4 text-lg">
           <p>Filter</p>
-          <!-- <button class="" v-on:click="filterPizza('all')">All</button>
-          <button class="" v-on:click="filterPizza('veg')">Vegetarian</button> -->
-          <input type="radio" name="select" id="option-1"  v-on:click="filterPizza()"  checked>
-          <input type="radio" name="select" id="option-2"  class="appearance-none t">
-          <label for="option-1" class="">Lol</label>
-          <label for="option-2" class="checked:bg-blue-600">Lol:</label>
+          <input
+            id="option-1"
+            type="radio"
+            name="id-type"
+            value="option-1"
+            v-on:click="filterPizza()"
+            checked
+          />
+          <label for="option-1" class="config-select">
+            <span>All</span>
+          </label>
+          <input
+            id="option-2"
+            type="radio"
+            name="id-type"
+            value="option-2"
+            v-on:click="filterPizza()"
+          />
+          <label for="option-2" class="config-select id-config-wrapper">
+            <span>Vegetarian</span>
+          </label>
         </div>
-        <section class="mt-16">
+        <section class="mt-10">
           <div class="grid grid-cols-4">
             <div class="w-64 rounded-xl bg-white h-full">
               <img
