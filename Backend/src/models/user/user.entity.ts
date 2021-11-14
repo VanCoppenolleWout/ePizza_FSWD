@@ -14,8 +14,6 @@ export class User {
   @Column()
   email?: string
   @Column()
-  birthdate?: string
-  @Column()
   phone_nr?: string
   @Column()
   password?: string

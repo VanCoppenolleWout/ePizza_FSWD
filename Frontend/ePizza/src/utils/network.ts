@@ -1,10 +1,12 @@
-// const url = 'http://localhost:3001'
-export const signUp = async (url: string, body: any) =>
-  fetch(url, {
+import { User } from '../interfaces/user'
+
+const url = 'http://localhost:3001'
+export const signUp = async (endpoint: string, body: User) =>
+  fetch(`${url}/${endpoint}`, {
+    method: 'POST',
     headers: {
-      'Accept': 'application/json',
+      Accept: 'application/json',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(body),
-    method: 'POST',
   }).then((res) => res.json())

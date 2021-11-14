@@ -15,10 +15,6 @@ export class UserService {
     return user
   }
 
-  // async login(uid: string) {
-  //   return await getAuth().createCustomToken(uid)
-  // }
-
   async registerUser(user: User): Promise<any> {
     try {
       return await getAuth()
@@ -46,7 +42,7 @@ export class UserService {
           // Save user in database
           await this.userRepository.save(user)
         })
-        .then(() => 'user created')
+        .then(() => ({ message: 'user created', created: true }))
     } catch (error) {
       user.user_id ? getAuth().deleteUser(user.user_id) : null
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST)
