@@ -10,4 +10,8 @@
     .m-w-landing {
         max-width: 51.5rem;
     }
+
+    .m-w-card {
+        max-width: 24.5rem;
+    }
 }

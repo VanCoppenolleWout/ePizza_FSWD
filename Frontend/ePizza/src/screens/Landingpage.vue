@@ -70,7 +70,7 @@ export default defineComponent({
         >
           <div
             class="
-              max-w-sm
+              m-w-card
               flex flex-col
               justify-between
               items-center
@@ -95,7 +95,7 @@ export default defineComponent({
           </div>
           <div
             class="
-              max-w-sm
+              m-w-card
               flex flex-col
               justify-between
               items-center
@@ -120,7 +120,7 @@ export default defineComponent({
           </div>
           <div
             class="
-              max-w-sm
+              m-w-card
               flex flex-col
               justify-between
               items-center
@@ -145,7 +145,7 @@ export default defineComponent({
           </div>
           <div
             class="
-              max-w-sm
+              m-w-card
               flex flex-col
               justify-between
               items-center
@@ -169,7 +169,7 @@ export default defineComponent({
             </p>
           </div>
         </div>
-        <div class="mt-20 mb-28 flex flex-row justify-between items-center">
+        <div class="mt-20 mb-20 flex flex-row justify-between items-center">
           <div class="space-y-3">
             <h1 class="text-p-red font-semibold text-3xl">Any Questions?</h1>
             <h2 class="font-medium text-2xl">Contact us anytime.</h2>
