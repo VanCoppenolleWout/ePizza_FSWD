@@ -1,5 +1,7 @@
 <script lang="ts">
 import { defineComponent, Ref, ref } from 'vue'
+import { User } from '../interfaces/user'
+import { signUp } from '../utils/network'
 
 export default defineComponent({
   setup() {
@@ -20,19 +22,41 @@ export default defineComponent({
     let confirmPasswordError: Ref<string> = ref('')
     let errorMsg: Ref<string> = ref('')
 
-    const handleForm = () => {
+    const handleForm = async () => {
       animateCircle.value = true
       if (
-        name === null ||
+        name.value === null ||
         surname.value === null ||
         email.value === null ||
         telephone.value === null ||
         password.value === null ||
-        confirmPassword === null
+        confirmPassword.value === null ||
+        name.value === '' ||
+        surname.value === '' ||
+        email.value === '' ||
+        telephone.value === '' ||
+        password.value === '' ||
+        confirmPassword.value === ''
       ) {
-        // animate.value = false
         errorMsg.value = 'Please fill in all fields'
-        // animateCircle.value = false
+        animateCircle.value = false
+      } else if (password.value !== confirmPassword.value) {
+        animateCircle.value = false
+        errorMsg.value = 'Password value do not match'
+      } else {
+        errorMsg.value = ''
+        let user: User = {
+          name: name.value,
+          surname: surname.value,
+          email: email.value,
+          phone_nr: telephone.value,
+          password: password.value,
+        }
+
+        let sign = await signUp('user/signup', user)
+        sign.create
+          ? null
+          : ((errorMsg.value = sign.message), (animateCircle.value = false))
       }
     }
 
@@ -193,6 +217,7 @@ export default defineComponent({
               p-2
               px-4
             "
+            required
             type="text"
             id="name"
             placeholder="John"
@@ -219,6 +244,7 @@ export default defineComponent({
               p-2
               px-4
             "
+            required
             type="text"
             id="surname"
             placeholder="Doe"
@@ -235,6 +261,7 @@ export default defineComponent({
         <div class="mb-7 flex-1 relative">
           <label class="block mb-1 font-semibold" for="email">Email</label>
           <input
+            required
             class="
               rounded-md
               outline-none
@@ -263,6 +290,7 @@ export default defineComponent({
             >Telephone</label
           >
           <input
+            required
             class="
               rounded-md
               outline-none
@@ -293,6 +321,7 @@ export default defineComponent({
             >Password</label
           >
           <input
+            required
             class="
               rounded-md
               outline-none
@@ -322,6 +351,7 @@ export default defineComponent({
             >Confirm password</label
           >
           <input
+            required
             class="
               rounded-md
               outline-none
@@ -350,7 +380,10 @@ export default defineComponent({
           </div>
         </div>
       </div>
-      <div class="mb-2 text-red-500 flex justify-center -mt-8" v-if="errorMsg">
+      <div
+        class="mb-2 text-red-500 flex justify-center -mt-8 text-center"
+        v-if="errorMsg"
+      >
         {{ errorMsg }}
       </div>
 

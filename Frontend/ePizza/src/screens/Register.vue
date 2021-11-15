@@ -14,7 +14,6 @@ export default defineComponent({
         name: 'Woutroee',
         surname: 'Vancoppenolle',
         email: 'niggeronthetriggedrd2@gmail.com',
-        birthdate: '2000-06-20',
         phone_nr: '+32496054389',
         password: 'test',
       }
