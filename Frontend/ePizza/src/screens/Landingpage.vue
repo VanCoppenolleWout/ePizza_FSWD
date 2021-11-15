@@ -26,8 +26,8 @@ export default defineComponent({
 
 <template>
   <div class="p-8 lg:py-20 lg:px-40 relative overflow-hidden">
-    <AppHeader />
     <BannerComponent v-if="test" />
+      <AppHeader mode='full'/>
     <div class="mt-32">
       <img
         class="

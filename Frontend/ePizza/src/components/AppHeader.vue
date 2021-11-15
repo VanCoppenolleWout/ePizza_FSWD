@@ -3,6 +3,9 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   setup() {},
+  props: {
+    mode: String,
+  },
 })
 </script>
 
@@ -10,56 +13,57 @@ export default defineComponent({
   <div class="flex flex-row justify-between">
     <h1 class="cursor-pointer font-bold text-3xl text-p-red">ePizza</h1>
     <div class="hidden md:flex flex-row justify-between space-x-8 font-medium">
-      <div
-        class="
-          flex flex-row
-          justify-between
-          space-x-2
-          items-center
-          text-p-red
-        "
-      >
-        <router-link
-          to="/services"
+      <div v-if="mode === 'full'">
+        <div
           class="
-            cursor-pointer
-            px-6
-            py-2
-            overflow-hidden
-            rounded-xl
-            hover:bg-red-100
+            flex flex-row
+            justify-between
+            space-x-2
+            items-center
+            text-p-red
           "
         >
-          Services
-        </router-link>
-        <router-link
-          to="/menu"
-          class="
-            cursor-pointer
-            px-6
-            py-2
-            overflow-hidden
-            rounded-xl
-            hover:bg-red-100
-          "
-        >
-          Menu
-        </router-link>
-        <router-link
-          to="/contact"
-          class="
-            cursor-pointer
-            px-6
-            py-2
-            overflow-hidden
-            rounded-xl
-            hover:bg-red-100
-          "
-        >
-          Contact
-        </router-link>
+          <router-link
+            to="/services"
+            class="
+              cursor-pointer
+              px-6
+              py-2
+              overflow-hidden
+              rounded-xl
+              hover:bg-red-100
+            "
+          >
+            Services
+          </router-link>
+          <router-link
+            to="/menu"
+            class="
+              cursor-pointer
+              px-6
+              py-2
+              overflow-hidden
+              rounded-xl
+              hover:bg-red-100
+            "
+          >
+            Menu
+          </router-link>
+          <router-link
+            to="/contact"
+            class="
+              cursor-pointer
+              px-6
+              py-2
+              overflow-hidden
+              rounded-xl
+              hover:bg-red-100
+            "
+          >
+            Contact
+          </router-link>
+        </div>
       </div>
-
       <div
         class="
           bg-p-red
