@@ -24,8 +24,8 @@ export default defineComponent({
 
 <template>
   <div class="w-96 bg-white rounded-lg">
-    <div class="p-8">
-      <div class="flex flex-col justify-between">
+    <div class="p-8 flex flex-col justify-between">
+      <div class="">
         <h1 class="text-3xl font-bold text-p-gray-300 mb-10">Basket</h1>
         <div v-if="items !== null">
           <p>Place an order.</p>

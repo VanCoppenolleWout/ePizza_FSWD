@@ -2,11 +2,10 @@
 import { defineComponent } from 'vue'
 import AppHeader from '../components/AppHeader.vue'
 import ItemBasket from '../components/ItemBasket.vue'
-import MenuItem from '../components/MenuItem.vue'
 
 export default defineComponent({
   setup() {},
-  components: { AppHeader, ItemBasket, MenuItem },
+  components: { AppHeader, ItemBasket },
 
   methods: {
     filterPizza() {
@@ -21,8 +20,7 @@ export default defineComponent({
     <AppHeader />
     <div class="mt-20 flex flex-row justify-between">
       <div>
-        <div class="flex flex-row space-x-4 text-lg">
-          <p>Filter</p>
+        <div class="flex flex-row text-lg">
           <input
             id="option-1"
             type="radio"
@@ -31,7 +29,7 @@ export default defineComponent({
             v-on:click="filterPizza()"
             checked
           />
-          <label for="option-1" class="config-select">
+          <label for="option-1" class="px-4 py-2 mr-2 cursor-pointer">
             <span>All</span>
           </label>
           <input
@@ -41,7 +39,7 @@ export default defineComponent({
             value="option-2"
             v-on:click="filterPizza()"
           />
-          <label for="option-2" class="config-select id-config-wrapper">
+          <label for="option-2" class="px-4 py-2 cursor-pointer">
             <span>Vegetarian</span>
           </label>
         </div>
@@ -55,7 +53,7 @@ export default defineComponent({
               />
               <div class="flex flex-row justify-between items-center p-6">
                 <p class="text-lg">{{ 'Margherita' }}</p>
-                <RouterLink :to="'/pizzadetail'" class="h-8">
+                <RouterLink :to="'/detail'" class="h-8">
                   <button>
                     <svg
                       class="bg-p-yellow rounded"
