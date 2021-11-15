@@ -30,8 +30,8 @@ export class UserService {
               // using custom SMTP server.
               MailService.setApiKey(process.env.SENDGRID_API_KEY)
               const msg = {
-                to: user.email, // Change to your recipient
-                from: 'glennisslim@gmail.com', // Change to your verified sender
+                to: user.email,
+                from: 'glennisslim@gmail.com',
                 subject: 'Email verification ePizza',
                 html: `<div style="">${link}</div>`,
               }

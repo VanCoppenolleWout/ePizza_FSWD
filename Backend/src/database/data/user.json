@@ -1,7 +1,7 @@
 [
   {
     "name": "Glenn",
-    "surname": "Troncquo",
+    "lastname": "Troncquo",
     "email": "glennisslim@gmail.com",
     "birthdate": "2001-06-20",
     "phone_nr": "+32496054389",
@@ -9,7 +9,7 @@
   },
   {
     "name": "Wout",
-    "surname": "Vancoppenolle",
+    "lastname": "Vancoppenolle",
     "email": "wout@gmail.com",
     "birthdate": "2000-06-20",
     "phone_nr": "+32496054389",
@@ -17,7 +17,7 @@
   },
   {
     "name": "Niels",
-    "surname": "Onderbeke",
+    "lastname": "Onderbeke",
     "email": "niels@gmail.com",
     "birthdate": "2001-06-20",
     "phone_nr": "+32496054389",
@@ -25,7 +25,7 @@
   },
   {
     "name": "Maxime",
-    "surname": "Vermeeren",
+    "lastname": "Vermeeren",
     "email": "maxime@gmail.com",
     "birthdate": "2001-06-20",
     "phone_nr": "+32496054389",

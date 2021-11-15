@@ -10,7 +10,7 @@ export class User {
   @Column()
   name?: string
   @Column()
-  surname?: string
+  lastname?: string
   @Column()
   email?: string
   @Column()

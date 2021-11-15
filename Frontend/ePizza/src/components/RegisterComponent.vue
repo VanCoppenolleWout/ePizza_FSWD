@@ -1,40 +1,39 @@
 <script lang="ts">
 import { defineComponent, Ref, ref } from 'vue'
+import { Router, useRouter } from 'vue-router'
 import { User } from '../interfaces/user'
 import { signUp } from '../utils/network'
+import InputComponent from './InputComponent.vue'
 
 export default defineComponent({
   setup() {
     let name: Ref<string | null> = ref(null)
-    let surname: Ref<string | null> = ref(null)
+    let lastname: Ref<string | null> = ref(null)
     let email: Ref<string | null> = ref(null)
-    let telephone: Ref<string | null> = ref(null)
+    let phone_nr: Ref<string | null> = ref(null)
     let password: Ref<string | null> = ref(null)
     let confirmPassword: Ref<string | null> = ref(null)
-    let animateCircle: Ref<boolean> = ref(false)
 
-    //
-    let nameError: Ref<string> = ref('')
-    let surnameError: Ref<string> = ref('')
-    let emailError: Ref<string> = ref('')
-    let telephoneError: Ref<string> = ref('')
-    let passwordError: Ref<string> = ref('')
-    let confirmPasswordError: Ref<string> = ref('')
+    let animateCircle: Ref<boolean> = ref(false)
+    let popUp: Ref<boolean> = ref(false)
+    const router: Router = useRouter()
+
     let errorMsg: Ref<string> = ref('')
 
     const handleForm = async () => {
       animateCircle.value = true
+
       if (
         name.value === null ||
-        surname.value === null ||
+        lastname.value === null ||
         email.value === null ||
-        telephone.value === null ||
+        phone_nr.value === null ||
         password.value === null ||
         confirmPassword.value === null ||
         name.value === '' ||
-        surname.value === '' ||
+        lastname.value === '' ||
         email.value === '' ||
-        telephone.value === '' ||
+        phone_nr.value === '' ||
         password.value === '' ||
         confirmPassword.value === ''
       ) {
@@ -44,98 +43,58 @@ export default defineComponent({
         animateCircle.value = false
         errorMsg.value = 'Password value do not match'
       } else {
+        //request to backend if fields are filled in
         errorMsg.value = ''
         let user: User = {
           name: name.value,
-          surname: surname.value,
+          lastname: lastname.value,
           email: email.value,
-          phone_nr: telephone.value,
+          phone_nr: phone_nr.value,
           password: password.value,
         }
-
         let sign = await signUp('user/signup', user)
-        sign.create
-          ? null
-          : ((errorMsg.value = sign.message), (animateCircle.value = false))
+        //Registered succesfully ? -> back to home
+        sign.created
+          ? ((animateCircle.value = false),
+            router.push({ name: 'home', params: { userCreated: 1 } }))
+          : (errorMsg.value = sign.message)
       }
     }
 
-    const handleEmpty = (value: string) => {
-      if (value === 'name') {
-        name.value === ''
-          ? (nameError.value = 'This field is required')
-          : (nameError.value = '')
-      }
-      if (value === 'surname') {
-        surname.value === ''
-          ? (surnameError.value = 'This field is required')
-          : (surnameError.value = '')
-      }
-      if (value === 'email') {
-        email.value === ''
-          ? (emailError.value = 'This field is required')
-          : (emailError.value = '')
-      }
-      if (value === 'telephone') {
-        telephone.value === ''
-          ? (telephoneError.value = 'This field is required')
-          : (telephoneError.value = '')
-      }
-      if (value === 'password') {
-        password.value === ''
-          ? (passwordError.value = 'This field is required')
-          : (passwordError.value = '')
-      }
-      if (value === 'confirmPassword') {
-        confirmPassword.value === ''
-          ? (confirmPasswordError.value = 'This field is required')
-          : (confirmPasswordError.value = '')
-      }
+    const handleChange = (input: any) => {
+      input.id === 'name' && input.value !== ''
+        ? (name.value = input.value)
+        : null
+      input.id === 'lastname' && input.value !== ''
+        ? (lastname.value = input.value)
+        : null
+      input.id === 'email' && input.value !== ''
+        ? (email.value = input.value)
+        : null
+      input.id === 'phone_nr' && input.value !== ''
+        ? (phone_nr.value = input.value)
+        : null
+      input.id === 'password' && input.value !== ''
+        ? (password.value = input.value)
+        : null
+      input.id === 'confirm' && input.value !== ''
+        ? (confirmPassword.value = input.value)
+        : null
     }
-
     return {
       handleForm,
-      handleEmpty,
-      name,
-      surname,
-      email,
-      telephone,
-      password,
-      nameError,
-      confirmPassword,
-      surnameError,
-      emailError,
-      telephoneError,
-      passwordError,
-      confirmPasswordError,
       errorMsg,
       animateCircle,
+      handleChange,
     }
   },
+  components: { InputComponent },
 })
 </script>
 
 <template>
   <div class="mb-9 relative">
-    <!-- <img
-      class="
-        absolute
-        hidden
-        md:block
-        w-96
-        lg:w-input
-        pointer-events-none
-        transition-all
-        ease-in
-        duration-300
-        right-0
-        top-1/2
-        transform
-        -translate-y-1/2
-      "
-      src="../assets/images/pizza-bg.png"
-      alt=""
-    /> -->
+    <!-- <div class="bg-white w-96 h-96 absolute z-20">hello</div> -->
     <img
       class="
         absolute
@@ -201,234 +160,106 @@ export default defineComponent({
       </div>
 
       <div class="md:flex justify-between">
-        <div class="mb-7 relative">
-          <label class="block mb-1 font-semibold" for="name">Name</label>
-          <input
-            class="
-              rounded-md
-              outline-none
-              border-gray-200
-              box-border
-              w-full
-              max-w-md
-              md:w-72 md:max-w-xs
-              lg:w-96
-              border-2
-              p-2
-              px-4
-            "
-            required
-            type="text"
-            id="name"
-            placeholder="John"
-            v-model="name"
-            @keyup="handleEmpty('name')"
-          />
-          <div class="text-red-500 absolute mt-1" v-if="nameError">
-            This field is required
-          </div>
-        </div>
-        <div class="mb-7 relative">
-          <label class="block mb-1 font-semibold" for="surname">Surname</label>
-          <input
-            class="
-              rounded-md
-              outline-none
-              border-gray-200
-              box-border
-              w-full
-              max-w-md
-              md:w-72 md:max-w-xs
-              lg:w-96
-              border-2
-              p-2
-              px-4
-            "
-            required
-            type="text"
-            id="surname"
-            placeholder="Doe"
-            v-model="surname"
-            @keyup="handleEmpty('surname')"
-          />
-          <div class="text-red-500 absolute mt-1" v-if="surnameError">
-            This field is required
-          </div>
-        </div>
+        <InputComponent
+          id="name"
+          placeholder="John"
+          type="text"
+          label="Name"
+          @inputTest="handleChange"
+        />
+        <InputComponent
+          id="lastname"
+          placeholder="Doe"
+          type="text"
+          label="lastname"
+          @inputTest="handleChange"
+        />
       </div>
 
       <div class="md:flex justify-between">
-        <div class="mb-7 flex-1 relative">
-          <label class="block mb-1 font-semibold" for="email">Email</label>
-          <input
-            required
-            class="
-              rounded-md
-              outline-none
-              border-gray-200
-              box-border
-              w-full
-              border-2
-              p-2
-              px-4
-              max-w-md
-              md:max-w-sm
-            "
-            type="email"
-            id="email"
-            placeholder="johndoe@gmail.com"
-            v-model="email"
-            @keyup="handleEmpty('email')"
-          />
-          <div class="text-red-500 absolute mt-1" v-if="emailError">
-            This field is required
-          </div>
-        </div>
-
-        <div class="mb-5 md:ml-8">
-          <label class="block mb-1 font-semibold" for="telephone"
-            >Telephone</label
-          >
-          <input
-            required
-            class="
-              rounded-md
-              outline-none
-              border-gray-200
-              box-border
-              w-full
-              max-w-md
-              lg:w-72
-              border-2
-              p-2
-              px-4
-            "
-            type="tel"
-            id="telephone"
-            placeholder="+32 496 05 43 89"
-            v-model="telephone"
-            @keyup="handleEmpty('telephone')"
-          />
-          <div class="text-red-500 absolute mt-1" v-if="telephoneError">
-            This field is required
-          </div>
-        </div>
+        <InputComponent
+          id="email"
+          placeholder="johndoe@gmail.com"
+          type="email"
+          label="Email"
+          @inputTest="handleChange"
+        />
+        <InputComponent
+          id="phone_nr"
+          placeholder="0496 05 43 89"
+          type="text"
+          label="Phone number"
+          @inputTest="handleChange"
+        />
       </div>
 
-      <div class="md:flex justify-between md:mb-44 mb-20">
-        <div class="mb-5 relative">
-          <label class="block mb-1 font-semibold" for="password"
-            >Password</label
-          >
-          <input
-            required
-            class="
-              rounded-md
-              outline-none
-              border-gray-200
-              box-border
-              w-full
-              max-w-md
-              md:w-72 md:max-w-xs
-              lg:w-96
-              border-2
-              p-2
-              px-4
-            "
-            type="password"
-            id="password"
-            placeholder="●●●●●●●●"
-            autocomplete="on"
-            v-model="password"
-            @keyup="handleEmpty('password')"
-          />
-          <div class="text-red-500 absolute mt-2" v-if="passwordError">
-            This field is required
-          </div>
-        </div>
-        <div class="relative">
-          <label class="block mb-1 font-semibold" for="confirm"
-            >Confirm password</label
-          >
-          <input
-            required
-            class="
-              rounded-md
-              outline-none
-              border-gray-200
-              box-border
-              w-full
-              max-w-md
-              md:w-72 md:max-w-xs
-              lg:w-96
-              border-2
-              p-2
-              px-4
-            "
-            type="password"
-            id="confirm"
-            placeholder="●●●●●●●●"
-            autocomplete="on"
-            v-model="confirmPassword"
-            @keyup="handleEmpty('confirmPassword')"
-          />
-          <div
-            class="mb-2 text-red-500 absolute mt-2"
-            v-if="confirmPasswordError"
-          >
-            This field is required
-          </div>
-        </div>
-      </div>
-      <div
-        class="mb-2 text-red-500 flex justify-center -mt-8 text-center"
-        v-if="errorMsg"
-      >
-        {{ errorMsg }}
+      <div class="md:flex justify-between">
+        <InputComponent
+          id="password"
+          placeholder="●●●●●●●●"
+          type="password"
+          label="Password"
+          @inputTest="handleChange"
+        />
+        <InputComponent
+          id="confirm"
+          placeholder="●●●●●●●●"
+          type="password"
+          label="Confirm password"
+          @inputTest="handleChange"
+        />
       </div>
 
-      <div class="flex justify-center">
-        <button
-          class="
-            cursor-pointer
-            max-w-sm
-            w-full
-            text-white
-            bg-p-red
-            hover:bg-red-600
-            p-2
-            font-bold
-            rounded-md
-            flex
-            justify-center
-            items-center
-          "
-          type="submit"
+      <div class="mt-32">
+        <div
+          class="mb-2 text-red-500 flex justify-center -mt-8 text-center"
+          v-if="errorMsg"
         >
-          <svg
-            class="-ml-7 mr-2 h-5 w-5 text-white inline-block animate-spin"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            v-if="animateCircle"
+          {{ errorMsg }}
+        </div>
+
+        <div class="flex justify-center">
+          <button
+            class="
+              cursor-pointer
+              max-w-sm
+              w-full
+              text-white
+              bg-p-red
+              hover:bg-red-600
+              p-2
+              font-bold
+              rounded-md
+              flex
+              justify-center
+              items-center
+            "
+            type="submit"
           >
-            <circle
-              class="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              stroke-width="4"
-            ></circle>
-            <path
-              class="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-            ></path>
-          </svg>
-          <p class="">Register</p>
-          <!-- <div class="w-5 h-5"></div> -->
-        </button>
+            <svg
+              class="-ml-7 mr-2 h-5 w-5 text-white inline-block animate-spin"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              v-if="animateCircle"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+            <p class="">Register</p>
+          </button>
+        </div>
       </div>
     </form>
   </div>
@@ -436,7 +267,6 @@ export default defineComponent({
 
 <style>
 input[type='password']:not(:placeholder-shown) {
-  /* letter-spacing: 0.125rem; */
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: 18px;
   line-height: 24px;
