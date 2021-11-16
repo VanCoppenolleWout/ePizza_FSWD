@@ -6,12 +6,14 @@ import { DatabaseModule } from './database/database.module'
 import { UserModule } from './models/user/user.module'
 import { FirebaseAuthStrategy } from './firebase/firebase-auth.strategy'
 import { ConfigModule } from '@nestjs/config'
+import { PizzaModule } from './models/pizza/pizza.module'
 
 @Module({
   imports: [
     DatabaseModule,
     SeedModule,
     UserModule,
+    PizzaModule,
     FirebaseAuthStrategy,
     // declare this to use dot env files
     ConfigModule.forRoot({

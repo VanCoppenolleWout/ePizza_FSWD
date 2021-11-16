@@ -1,12 +1,5 @@
-import {
-  Column,
-  Entity,
-  OneToMany,
-  PrimaryColumn,
-  PrimaryGeneratedColumn,
-} from 'typeorm'
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm'
 import { Pizza } from '../pizza/pizza.entity'
-import { PizzaSize } from '../pizzasize/pizzasize.entity'
 
 @Entity('Size')
 export class Size {
@@ -17,6 +10,6 @@ export class Size {
   @Column()
   price?: number
 
-  @OneToMany(() => PizzaSize, (pizzasize) => pizzasize.size)
-  pizzaConnection?: Pizza[]
+  @ManyToMany(() => Pizza, (pizza) => pizza.sizes)
+  pizzas?: Pizza[]
 }

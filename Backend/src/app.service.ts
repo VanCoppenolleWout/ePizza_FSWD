@@ -1,7 +1,6 @@
 import { Injectable, OnApplicationBootstrap } from '@nestjs/common'
 import { SeedService } from './database/seed/seed.service'
 import { Pizza } from './models/pizza/pizza.entity'
-import { PizzaSize } from './models/pizzasize/pizzasize.entity'
 import { Size } from './models/size/size.entity'
 import { User } from './models/user/user.entity'
 
@@ -25,9 +24,5 @@ export class AppService implements OnApplicationBootstrap {
     // Seed size if not exists
     const sizes: Size[] = await this.seedService.findSize()
     sizes.length > 0 ? null : await this.seedService.seedSize()
-
-    // Seed pizza_size if not exists
-    const pizzaSizes: PizzaSize[] = await this.seedService.findPizzaSize()
-    pizzaSizes.length > 0 ? null : this.seedService.seedPizzaSize()
   }
 }
