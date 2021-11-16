@@ -15,7 +15,6 @@ export class User {
   email?: string
   @Column()
   phone_nr?: string
-  @Column()
   password?: string
 
   @OneToMany(() => Order, (order) => order.userConnection)

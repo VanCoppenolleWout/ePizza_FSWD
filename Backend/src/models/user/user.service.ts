@@ -7,7 +7,7 @@ import MailService from '@sendgrid/mail'
 @Injectable()
 export class UserService {
   constructor(
-    @Inject('USER_REPOSITORY') private userRepository: Repository<User>,
+    @Inject('UserRepository') private userRepository: Repository<User>,
   ) {}
 
   async findOne(email: string) {
@@ -22,7 +22,7 @@ export class UserService {
           email: user.email,
           password: user.password,
         })
-        .then(async (userRecord) => {
+        .then(async (firebaseUser) => {
           await getAuth()
             .generateEmailVerificationLink(user.email)
             .then(async (link) => {
@@ -38,7 +38,7 @@ export class UserService {
               await MailService.send(msg)
             })
           // Firebase User succesfully created
-          user.user_id = userRecord.uid
+          user.user_id = firebaseUser.uid
           // Save user in database
           await this.userRepository.save(user)
         })
