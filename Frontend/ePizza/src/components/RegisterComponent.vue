@@ -52,12 +52,12 @@ export default defineComponent({
           phone_nr: phone_nr.value,
           password: password.value,
         }
-        let sign = await signUp('user/signup', user)
+        let register = await signUp('user/signup', user)
         //Registered succesfully ? -> back to home
-        sign.created
-          ? ((animateCircle.value = false),
-            router.push({ name: 'home', params: { userCreated: 1 } }))
-          : (errorMsg.value = sign.message)
+        if (register.created) {
+          animateCircle.value = false
+          router.push({ name: 'home', params: { userCreated: 1 } })
+        } else errorMsg.value = register.message
       }
     }
 
@@ -65,6 +65,7 @@ export default defineComponent({
       input.id === 'name' && input.value !== ''
         ? (name.value = input.value)
         : null
+      console.log(name.value)
       input.id === 'lastname' && input.value !== ''
         ? (lastname.value = input.value)
         : null
@@ -165,14 +166,14 @@ export default defineComponent({
           placeholder="John"
           type="text"
           label="Name"
-          @inputTest="handleChange"
+          @handleInput="handleChange"
         />
         <InputComponent
           id="lastname"
           placeholder="Doe"
           type="text"
           label="lastname"
-          @inputTest="handleChange"
+          @handleInput="handleChange"
         />
       </div>
 
@@ -182,14 +183,14 @@ export default defineComponent({
           placeholder="johndoe@gmail.com"
           type="email"
           label="Email"
-          @inputTest="handleChange"
+          @handleInput="handleChange"
         />
         <InputComponent
           id="phone_nr"
           placeholder="0496 05 43 89"
           type="text"
           label="Phone number"
-          @inputTest="handleChange"
+          @handleInput="handleChange"
         />
       </div>
 
@@ -199,14 +200,14 @@ export default defineComponent({
           placeholder="●●●●●●●●"
           type="password"
           label="Password"
-          @inputTest="handleChange"
+          @handleInput="handleChange"
         />
         <InputComponent
           id="confirm"
           placeholder="●●●●●●●●"
           type="password"
           label="Confirm password"
-          @inputTest="handleChange"
+          @handleInput="handleChange"
         />
       </div>
 

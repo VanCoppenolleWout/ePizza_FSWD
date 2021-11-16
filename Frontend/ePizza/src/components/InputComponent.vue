@@ -5,9 +5,9 @@ export default defineComponent({
   setup(props, { emit }) {
     let errorMsg: Ref<string> = ref('')
     const handleInput = (event: any) => {
-      emit('inputTest', event.target)
+      emit('handleInput', event.target)
       event.target.value === ''
-        ? (errorMsg.value = 'error')
+        ? (errorMsg.value = 'This field is required')
         : (errorMsg.value = '')
     }
     return {
