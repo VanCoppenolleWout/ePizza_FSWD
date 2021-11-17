@@ -1,8 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
-import { Order } from '../order/order.entity'
-import { OrderPizza } from '../orderpizza/orderpizza.entity'
-import { PizzaTopping } from '../pizzatopping/pizzatopping.entity'
-import { Topping } from '../topping/topping.entity'
+import {  OrderPizzaSizeTopping } from '../order_pizza/order.pizza.size.entity'
 
 @Entity('Pizza')
 export class Pizza {
@@ -11,13 +8,14 @@ export class Pizza {
   @Column()
   name?: string
   @Column()
-  amount: number
+  description?: string
+  @Column()
+  stock?: number
   @Column()
   price?: number
+  @Column()
+  img_url?: string
 
-  @OneToMany(() => OrderPizza, (orderPizza) => orderPizza.pizza)
-  orderConnection?: Order[]
-
-  @OneToMany(() => PizzaTopping, (pizzaTopping) => pizzaTopping.pizza)
-  toppingConnection?: Topping[]
+  @OneToMany(() => OrderPizzaSizeTopping, (orders) => orders.pizza)
+  pizzaSizeToppings?: OrderPizzaSizeTopping[]
 }

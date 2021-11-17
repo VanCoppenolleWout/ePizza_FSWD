@@ -10,15 +10,14 @@ export class User {
   @Column()
   name?: string
   @Column()
-  surname?: string
+  lastname?: string
   @Column()
   email?: string
   @Column()
   phone_nr?: string
-  @Column()
   password?: string
 
-  @OneToMany(() => Order, (order) => order.userConnection)
+  @OneToMany(() => Order, (order) => order.user)
   orderConnection?: Order[]
 
   @OneToMany(() => UserAddress, (userAddress) => userAddress.user)

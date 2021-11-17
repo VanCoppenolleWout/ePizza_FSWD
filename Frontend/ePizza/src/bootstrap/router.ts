@@ -9,6 +9,8 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/',
     component: import('../screens/Landingpage.vue'),
+    props: true,
+    name: 'home',
   },
   {
     path: '/register',

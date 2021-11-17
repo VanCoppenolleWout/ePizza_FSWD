@@ -7,7 +7,7 @@ import MailService from '@sendgrid/mail'
 @Injectable()
 export class UserService {
   constructor(
-    @Inject('USER_REPOSITORY') private userRepository: Repository<User>,
+    @Inject('UserRepository') private userRepository: Repository<User>,
   ) {}
 
   async findOne(email: string) {
@@ -22,7 +22,7 @@ export class UserService {
           email: user.email,
           password: user.password,
         })
-        .then(async (userRecord) => {
+        .then(async (firebaseUser) => {
           await getAuth()
             .generateEmailVerificationLink(user.email)
             .then(async (link) => {
@@ -30,15 +30,16 @@ export class UserService {
               // using custom SMTP server.
               MailService.setApiKey(process.env.SENDGRID_API_KEY)
               const msg = {
-                to: user.email, // Change to your recipient
-                from: 'glennisslim@gmail.com', // Change to your verified sender
+                to: user.email,
+                from: 'glennisslim@gmail.com',
                 subject: 'Email verification ePizza',
                 html: `<div style="">${link}</div>`,
               }
-              await MailService.send(msg)
+              let test = await MailService.send(msg)
+              console.log(test)
             })
           // Firebase User succesfully created
-          user.user_id = userRecord.uid
+          user.user_id = firebaseUser.uid
           // Save user in database
           await this.userRepository.save(user)
         })

@@ -14,7 +14,6 @@ export class UserController {
   // @UseGuards(FirebaseAuthGuard)
   @Post('signup')
   async signUp(@Body() user: User) {
-    console.log('triggered')
     return await this.userService.registerUser(user)
   }
 

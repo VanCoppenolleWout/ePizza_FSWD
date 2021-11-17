@@ -3,19 +3,32 @@ import { defineComponent } from 'vue'
 import AppHeader from '../components/AppHeader.vue'
 import AppFooter from '../components/AppFooter.vue'
 import LoginComponent from '../components/LoginComponenet.vue'
+import { useRoute, useRouter } from 'vue-router'
+import BannerComponent from '../components/BannerComponent.vue'
 
 export default defineComponent({
-  setup() {},
+  setup(props) {
+    let test = props.userCreated
+    console.log(test)
+    return {
+      test,
+    }
+  },
   components: {
     AppHeader,
     AppFooter,
     LoginComponent,
+    BannerComponent,
+  },
+  props: {
+    userCreated: Number,
   },
 })
 </script>
 
 <template>
   <div class="p-8 lg:py-20 lg:px-40 relative overflow-hidden">
+    <BannerComponent v-if="test" />
       <AppHeader mode='full'/>
       
     <div class="mt-32">

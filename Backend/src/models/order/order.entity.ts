@@ -6,13 +6,12 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm'
-import { OrderPizza } from '../orderpizza/orderpizza.entity'
-import { Pizza } from '../pizza/pizza.entity'
+import { OrderPizzaSizeTopping } from '../order_pizza/order.pizza.size.entity'
 import { User } from '../user/user.entity'
 
 @Entity('Order')
 export class Order {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   order_id?: string
   @Column()
   price?: number
@@ -25,8 +24,8 @@ export class Order {
 
   @ManyToOne(() => User, (user) => user.orderConnection)
   @JoinColumn({ name: 'user_id' })
-  userConnection?: User
+  user?: User
 
-  @OneToMany(() => OrderPizza, (orderPizza) => orderPizza.order)
-  pizzaConnection?: Pizza[]
+  @OneToMany(() => OrderPizzaSizeTopping, (orders) => orders.order)
+  pizzaSizeToppings?: OrderPizzaSizeTopping[]
 }
