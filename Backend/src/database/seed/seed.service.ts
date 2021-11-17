@@ -5,7 +5,7 @@ import { User } from 'src/models/user/user.entity'
 import { Size } from 'src/models/size/size.entity'
 
 import users from '../data/user.json'
-import pizzas from '../data/pizza.json'
+import pizzasjson from '../data/pizza.json'
 import sizes from '../data/size.json'
 
 @Injectable()
@@ -30,12 +30,13 @@ export class SeedService {
 
   //PIZZA
   async seedPizza(): Promise<Pizza[]> {
-    let test: Pizza[] = pizzas
-    let anothertest = test.map((pizza, index) => {
-      pizza.sizes = sizes
-      return pizza
-    })
-    return await this.pizzaRepository.save(anothertest)
+    let pizzas: Pizza[] = pizzasjson
+    // let pizza2 = pizzas.map((pizza) => {
+    //   pizza.sizes = sizes
+    //   return pizza
+    // })
+
+    return await this.pizzaRepository.save(pizzasjson)
   }
 
   async findPizza(): Promise<Pizza[]> {

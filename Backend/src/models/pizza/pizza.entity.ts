@@ -1,16 +1,5 @@
-import {
-  Column,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm'
-import { Order } from '../order/order.entity'
-import { OrderPizza } from '../orderpizza/orderpizza.entity'
-import { PizzaTopping } from '../pizzatopping/pizzatopping.entity'
-import { Size } from '../size/size.entity'
-import { Topping } from '../topping/topping.entity'
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { OrderPizzaSize } from '../order_pizza/order.pizza.size.entity'
 
 @Entity('Pizza')
 export class Pizza {
@@ -27,12 +16,6 @@ export class Pizza {
   @Column()
   img_url?: string
 
-  @OneToMany(() => OrderPizza, (orderPizza) => orderPizza.pizza)
-  orderConnection?: Order[]
-  @OneToMany(() => PizzaTopping, (pizzaTopping) => pizzaTopping.pizza)
-  toppingConnection?: Topping[]
-
-  @ManyToMany(() => Size, (size) => size.pizzas, { cascade: true })
-  @JoinTable({ name: 'PizzaSize' })
-  sizes?: Size[]
+  @OneToMany(() => OrderPizzaSize, (orders) => orders.pizza)
+  pizzaSizeToppings?: OrderPizzaSize[]
 }

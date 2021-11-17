@@ -17,7 +17,7 @@ export class User {
   phone_nr?: string
   password?: string
 
-  @OneToMany(() => Order, (order) => order.userConnection)
+  @OneToMany(() => Order, (order) => order.user)
   orderConnection?: Order[]
 
   @OneToMany(() => UserAddress, (userAddress) => userAddress.user)

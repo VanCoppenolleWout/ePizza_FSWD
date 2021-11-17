@@ -35,7 +35,8 @@ export class UserService {
                 subject: 'Email verification ePizza',
                 html: `<div style="">${link}</div>`,
               }
-              await MailService.send(msg)
+              let test = await MailService.send(msg)
+              console.log(test)
             })
           // Firebase User succesfully created
           user.user_id = firebaseUser.uid

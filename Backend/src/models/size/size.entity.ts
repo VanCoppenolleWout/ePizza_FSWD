@@ -1,4 +1,12 @@
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm'
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm'
+import { OrderPizzaSize } from '../order_pizza/order.pizza.size.entity'
+// import { OrderPizzaSizeTopping } from '../orderpizzasizetopping/OrderPizzaSizeTopping'
 import { Pizza } from '../pizza/pizza.entity'
 
 @Entity('Size')
@@ -10,6 +18,9 @@ export class Size {
   @Column()
   price?: number
 
-  @ManyToMany(() => Pizza, (pizza) => pizza.sizes)
-  pizzas?: Pizza[]
+  // @ManyToMany(() => Pizza, (pizza) => pizza.sizes)
+  // pizzas?: Pizza[]
+
+  @OneToMany(() => OrderPizzaSize, (order) => order.size)
+  pizzaSizeToppings?: OrderPizzaSize[]
 }

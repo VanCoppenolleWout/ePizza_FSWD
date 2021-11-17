@@ -9,12 +9,26 @@ export class PizzaService {
   ) {}
 
   async getAll() {
+    const pizzas = await this.pizzaRepository.find()
+
+    return pizzas
+  }
+
+  async getAllWithSizes() {
     const pizzas = await this.pizzaRepository
       .createQueryBuilder('pizza')
       .innerJoinAndSelect('pizza.sizes', 'size')
       .getMany()
 
-    console.log(pizzas.length)
+    return pizzas
+  }
+
+  async getAllWithToppings() {
+    const pizzas = await this.pizzaRepository
+      .createQueryBuilder('pizza')
+      .innerJoinAndSelect('pizza.sizes', 'size')
+      .getMany()
+
     return pizzas
   }
 }
