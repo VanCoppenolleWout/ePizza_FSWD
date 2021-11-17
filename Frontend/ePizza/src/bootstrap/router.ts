@@ -15,6 +15,10 @@ const routes: RouteRecordRaw[] = [
     component: import('../screens/Register.vue'),
   },
   {
+    path: '/login',
+    component: import('../screens/Login.vue'),
+  },
+  {
     path: '/menu',
     component: import('../screens/Menu.vue'),
   },

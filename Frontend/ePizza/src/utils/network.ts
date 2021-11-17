@@ -10,3 +10,7 @@ export const signUp = async (endpoint: string, body: User) =>
     },
     body: JSON.stringify(body),
   }).then((res) => res.json())
+
+export const signIn = async (endpoint: string, body: User) => {
+
+}

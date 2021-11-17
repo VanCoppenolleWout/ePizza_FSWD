@@ -2,12 +2,14 @@
 import { defineComponent } from 'vue'
 import AppHeader from '../components/AppHeader.vue'
 import AppFooter from '../components/AppFooter.vue'
+import LoginComponent from '../components/LoginComponenet.vue'
 
 export default defineComponent({
   setup() {},
   components: {
     AppHeader,
     AppFooter,
+    LoginComponent,
   },
 })
 </script>
@@ -15,6 +17,7 @@ export default defineComponent({
 <template>
   <div class="p-8 lg:py-20 lg:px-40 relative overflow-hidden">
       <AppHeader mode='full'/>
+      
     <div class="mt-32">
       <img
         class="
