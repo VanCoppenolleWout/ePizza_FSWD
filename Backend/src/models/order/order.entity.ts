@@ -6,7 +6,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm'
-import { OrderPizzaSize } from '../order_pizza/order.pizza.size.entity'
+import { OrderPizzaSizeTopping } from '../order_pizza/order.pizza.size.entity'
 import { User } from '../user/user.entity'
 
 @Entity('Order')
@@ -26,6 +26,6 @@ export class Order {
   @JoinColumn({ name: 'user_id' })
   user?: User
 
-  @OneToMany(() => OrderPizzaSize, (orders) => orders.order)
-  pizzaSizeToppings?: OrderPizzaSize[]
+  @OneToMany(() => OrderPizzaSizeTopping, (orders) => orders.order)
+  pizzaSizeToppings?: OrderPizzaSizeTopping[]
 }

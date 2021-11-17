@@ -1,12 +1,20 @@
-import { Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm'
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  PrimaryColumn,
+} from 'typeorm'
 import { Order } from '../order/order.entity'
 import { Pizza } from '../pizza/pizza.entity'
 import { Size } from '../size/size.entity'
 import { Exclude } from 'class-transformer'
+import { Topping } from '../topping/topping.entity'
 
 @Entity('Order_Pizza_Size')
-export class OrderPizzaSize {
-  
+export class OrderPizzaSizeTopping {
   @PrimaryColumn('uuid')
   order_id?: string
 
@@ -15,6 +23,9 @@ export class OrderPizzaSize {
 
   @PrimaryColumn()
   size_id?: number
+
+  // @Column('simple-array')
+  // public topping_ids?: Array<string>
 
   @ManyToOne(() => Order, (order) => order.pizzaSizeToppings, { primary: true })
   @JoinColumn({ name: 'order_id' })
@@ -31,4 +42,10 @@ export class OrderPizzaSize {
   })
   @JoinColumn({ name: 'size_id' })
   size?: Size
+
+  @ManyToMany(() => Topping, (topping) => topping.orderPizzaSizeToppings, {
+    cascade: true,
+  })
+  @JoinTable({ name: 'Topping_Order' })
+  toppings?: Topping[]
 }

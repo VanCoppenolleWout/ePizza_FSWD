@@ -8,6 +8,8 @@ import { FirebaseAuthStrategy } from './firebase/firebase-auth.strategy'
 import { ConfigModule } from '@nestjs/config'
 import { PizzaModule } from './models/pizza/pizza.module'
 import { OrderModule } from './models/order/order.module'
+import { SizeModule } from './models/size/size.module'
+import { ToppingModule } from './models/topping/topping.module'
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import { OrderModule } from './models/order/order.module'
     UserModule,
     PizzaModule,
     OrderModule,
+    SizeModule,
+    ToppingModule,
     FirebaseAuthStrategy,
     // declare this to use dot env files
     ConfigModule.forRoot({

@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
-import { OrderPizzaSize } from '../order_pizza/order.pizza.size.entity'
+import {  OrderPizzaSizeTopping } from '../order_pizza/order.pizza.size.entity'
 
 @Entity('Pizza')
 export class Pizza {
@@ -16,6 +16,6 @@ export class Pizza {
   @Column()
   img_url?: string
 
-  @OneToMany(() => OrderPizzaSize, (orders) => orders.pizza)
-  pizzaSizeToppings?: OrderPizzaSize[]
+  @OneToMany(() => OrderPizzaSizeTopping, (orders) => orders.pizza)
+  pizzaSizeToppings?: OrderPizzaSizeTopping[]
 }

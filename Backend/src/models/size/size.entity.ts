@@ -5,7 +5,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm'
-import { OrderPizzaSize } from '../order_pizza/order.pizza.size.entity'
+import { OrderPizzaSizeTopping } from '../order_pizza/order.pizza.size.entity'
 // import { OrderPizzaSizeTopping } from '../orderpizzasizetopping/OrderPizzaSizeTopping'
 import { Pizza } from '../pizza/pizza.entity'
 
@@ -21,6 +21,6 @@ export class Size {
   // @ManyToMany(() => Pizza, (pizza) => pizza.sizes)
   // pizzas?: Pizza[]
 
-  @OneToMany(() => OrderPizzaSize, (order) => order.size)
-  pizzaSizeToppings?: OrderPizzaSize[]
+  @OneToMany(() => OrderPizzaSizeTopping, (order) => order.size)
+  pizzaSizeToppings?: OrderPizzaSizeTopping[]
 }
