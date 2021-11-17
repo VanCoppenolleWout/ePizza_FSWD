@@ -4,20 +4,21 @@ import { AppModule } from './app.module'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
+  const port = 3001
+  app.enableCors()
 
   const config = new DocumentBuilder()
     .setTitle('Pizza Backend Routes')
-    .setDescription('Pizza API')
+    // .setDescription('Pizza API')
     .setVersion('1.0')
-    .addTag('pizza')
+    // .addTag('pizza')
     .build()
   const document = SwaggerModule.createDocument(app, config)
   SwaggerModule.setup('api', app, document)
 
-  app.enableCors()
+  await app.listen(port)
 
-  const port = 3001
-  await app.listen(3001)
-  console.log(`👾\nApp listening on port:  http://localhost:${port}`)
+  console.log(`\n👾 Swagger started on port : http://localhost:${port}/api`)
+  console.log(`\n👾 App listening on port:  http://localhost:${port}`)
 }
 bootstrap()
