@@ -8,11 +8,4 @@ import { RolesGuard } from './firebase/roles/roles.guard'
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
-
-  // @Get('firebase')
-  // @Roles(Role.Admin)
-  // @UseGuards(FirebaseAuthGuard, RolesGuard)
-  // get(@Req() req) {
-  //   return req.user
-  // }
 }

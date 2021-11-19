@@ -19,8 +19,7 @@ export class OrderService {
 
   async placeOrder(orderORM: OrderORM[]) {
     //Get the user from request
-    let user: User = new User()
-    user.user_id = '59b1d72f-e34c-482e-ac5f-8e67fb5c7f5a'
+    let user: User = { user_id: '59b1d72f-e34c-482e-ac5f-8e67fb5c7f5a' }
 
     //Get pizzaIds from request
     const pizzaIds = orderORM.map((order) => order.pizza_id)
@@ -32,42 +31,43 @@ export class OrderService {
       .getMany()
 
     //Create the order
-    const order = new Order()
-
-    order.delivery_date = new Date()
-    order.order_date = new Date()
-    order.price = pizzas.reduce(
-      (accumulator, currVal) => accumulator + currVal.price,
-      0,
-    )
+    const order: Order = {
+      delivery_date: new Date(),
+      order_date: new Date(),
+      //Calculate total price from all pizzas
+      price: pizzas.reduce((total, currVal) => total + currVal.price, 0),
+      user: user,
+    }
+    //If price below or equal to 15 -> delivery cost 5
     order.price <= 15 ? (order.delivery_cost = 5) : (order.delivery_cost = 0)
-    order.user = user
 
-    const res = await this.orderRepository.save(order)
+    //Save order + id
+    const result = await this.orderRepository.save(order)
+    const order_id = result.order_id
 
-    let toppings: Topping[]
+    let toppings: Array<Array<Topping>>
 
-    orderORM.forEach((order) => {
-      toppings = order.topping_ids.map((id) => {
-        let topping = new Topping()
-        topping.topping_id = id
+    //Return an arrray of an array with toppings -> Each pizza can have
+    toppings = orderORM.map((order) =>
+      order.topping_ids.map((topping_id) => {
+        let topping: Topping = new Topping()
+        topping.topping_id = topping_id
         return topping
-      })
-    })
+      }),
+    )
 
     //Save into many to many relation
     let orderPizzaSizeTopping: OrderPizzaSizeTopping[] = pizzas.map(
       (pizza, index) => ({
         pizza_id: pizza.pizza_id,
-        order_id: res.order_id,
+        order_id: result.order_id,
         size_id: orderORM[index].size_id,
-        toppings: toppings,
+        toppings: toppings[index],
       }),
     )
 
+    //Save into many to many relation
     await this.orderPizzaSizeRepository.save(orderPizzaSizeTopping)
-
-    const order_id = res.order_id
 
     //Return order from db
     return await this.orderRepository

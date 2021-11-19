@@ -9,10 +9,10 @@ export class ToppingService {
   ) {}
 
   async getAll() {
-    return this.toppingRepository.find()
+    return await this.toppingRepository.find()
   }
 
   async getOne(topping_id: string) {
-    return this.toppingRepository.findOne(topping_id)
+    return await this.toppingRepository.findOne(topping_id)
   }
 }

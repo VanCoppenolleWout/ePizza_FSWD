@@ -2,7 +2,6 @@ import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common'
 import { User } from './user.entity'
 import { Repository } from 'typeorm'
 import { getAuth } from 'firebase-admin/auth'
-import MailService from '@sendgrid/mail'
 
 @Injectable()
 export class UserService {
@@ -11,8 +10,7 @@ export class UserService {
   ) {}
 
   async findOne(email: string) {
-    const user = await this.userRepository.findOne({ where: { email: email } })
-    return user
+    return await this.userRepository.findOne({ where: { email: email } })
   }
 
   async registerUser(user: User): Promise<any> {
@@ -23,28 +21,16 @@ export class UserService {
           password: user.password,
         })
         .then(async (firebaseUser) => {
-          await getAuth()
-            .generateEmailVerificationLink(user.email)
-            .then(async (link) => {
-              // Construct email verification template, embed the link and send
-              // using custom SMTP server.
-              MailService.setApiKey(process.env.SENDGRID_API_KEY)
-              const msg = {
-                to: user.email,
-                from: 'glennisslim@gmail.com',
-                subject: 'Email verification ePizza',
-                html: `<div style="">${link}</div>`,
-              }
-              let test = await MailService.send(msg)
-              console.log(test)
-            })
           // Firebase User succesfully created
           user.user_id = firebaseUser.uid
           // Save user in database
           await this.userRepository.save(user)
+          return {
+            token: await getAuth().createCustomToken(firebaseUser.uid),
+          }
         })
-        .then(() => ({ message: 'user created', created: true }))
     } catch (error) {
+      //Remove user if saved in firebase
       user.user_id ? getAuth().deleteUser(user.user_id) : null
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST)
     }

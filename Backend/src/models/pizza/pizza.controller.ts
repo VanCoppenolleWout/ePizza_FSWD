@@ -20,14 +20,4 @@ export class PizzaController {
   async getAll(): Promise<Pizza[]> {
     return await this.pizzaService.getAll()
   }
-
-  @Get('sizes')
-  async getAllWithSizes(): Promise<any> {
-    return await this.pizzaService.getAllWithSizes()
-  }
-
-  @Get('sizes/:id')
-  async getOneWithSizes(@Param() params): Promise<any> {
-    return await this.pizzaService.getOneWithSizes(params.id)
-  }
 }

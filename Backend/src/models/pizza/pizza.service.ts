@@ -24,26 +24,4 @@ export class PizzaService {
   async getAll() {
     return await this.pizzaRepository.find()
   }
-
-  async getOneWithSizes(pizza_id: string) {
-    const pizzas = await this.pizzaRepository.findOne(pizza_id)
-    const sizes = await this.sizeRepository.find()
-
-    const obj = {
-      pizza: pizzas,
-      sizes: sizes,
-    }
-    return obj
-  }
-
-  async getAllWithSizes() {
-    const pizzas = await this.pizzaRepository.find()
-    const sizes = await this.sizeRepository.find()
-
-    const obj = {
-      pizzas: pizzas,
-      sizes: sizes,
-    }
-    return obj
-  }
 }
