@@ -1,30 +1,84 @@
 <script lang="ts">
 import { defineComponent, ref, Ref } from 'vue'
+import { Router, useRouter } from 'vue-router'
+import { LoginUser } from '../interfaces/login'
+import useFirebase from '../composables/useFirebase'
+import InputComponent from './InputComponent.vue'
 
 export default defineComponent({
   setup() {
+    const { login } = useFirebase()
+
     let email: Ref<string | null> = ref(null)
     let password: Ref<string | null> = ref(null)
 
     let emailError: Ref<string> = ref('')
     let passwordError: Ref<string> = ref('')
 
-    const handleForm = async () => {
+    const router: Router = useRouter()
 
+    let animateCircle: Ref<boolean> = ref(false)
+    let errorMsg: Ref<string> = ref('')
+
+    const handleForm = async () => {
+      animateCircle.value = true
+
+      if (
+        email.value === null ||
+        password.value === null ||
+        email.value === '' ||
+        password.value === ''
+      ) {
+        errorMsg.value = 'Please fill in all fields'
+        animateCircle.value = false
+      } else {
+        //request to backend if fields are filled in
+        errorMsg.value = ''
+        let user: LoginUser = {
+          email: email.value,
+          password: password.value,
+        }
+
+        if (user.email && user.password) {
+          login(user.email, user.password).then((succes: boolean) => {
+            if (succes) 
+            {
+              router.push('/')
+              console.log('login succesful')
+            }
+            else errorMsg.value = 'failed'
+          })
+        }
+
+        // let register = await signUp('user/signup', user)
+        // //Registered succesfully ? -> back to home
+        // if (register.created) {
+        //   animateCircle.value = false
+        //   router.push({ name: 'home', params: { userCreated: 1 } })
+        // } else errorMsg.value = register.message
+      }
     }
 
-    const handleEmpty = async (value: string) => {
-
+    const handleChange = (input: any) => {
+      input.id === 'email' && input.value !== ''
+        ? (email.value = input.value)
+        : null
+      input.id === 'password' && input.value !== ''
+        ? (password.value = input.value)
+        : null
     }
 
     return {
       handleForm,
-      handleEmpty,
+      handleChange,
       email,
       password,
       emailError,
       passwordError,
     }
+  },
+  components: {
+    InputComponent,
   },
 })
 </script>
@@ -33,7 +87,7 @@ export default defineComponent({
   <!-- flex items-center self-center justify-center flex-1 -->
   <div class="h-screen flex items-center self-center justify-center flex-1">
     <div class="bg-white rounded-lg">
-      <section class="p-8">
+      <section class="p-8" style="width: 27rem">
         <h1 class="text-2xl font-semibold text-p-red text-center pb-6">
           Log in
         </h1>
@@ -43,67 +97,52 @@ export default defineComponent({
             >Register here</RouterLink
           >
         </div>
-
-        <div>
-          <label for=""></label>
-          <input type="email" name="" id="" />
-
-          <label for=""></label>
-          <input type="password" name="" id="" />
-        </div>
-
-        <div class="mb-7 flex-1 relative">
-          <label class="block mb-1 font-semibold" for="email">Email</label>
-          <input
-            required
-            class="
-              rounded-md
-              outline-none
-              border-gray-200
-              box-border
-              w-full
-              border-2
-              p-2
-              px-4
-            "
-            type="email"
-            id="email"
-            placeholder="johndoe@gmail.com"
-            v-model="email"
-            @keyup="handleEmpty('email')"
-          />
-          <div class="text-red-500 absolute mt-1" v-if="emailError">
-            This field is required
+        <form @submit.prevent="handleForm" class="mt-10">
+          <div class="mb-7 flex-1 relative">
+            <TestComponent
+              id="name"
+              placeholder="john.doe@mail.com"
+              type="email"
+              label="Email"
+              @handleInput="handleChange"
+              class="w-full"
+            />
+            <InputComponent
+              id="name"
+              placeholder="●●●●●●●●"
+              type="password"
+              label="password"
+              @handleInput="handleChange"
+            />
           </div>
-        </div>
 
-        <div class="mb-5">
-          <label class="block mb-1 font-semibold" for="password"
-            >Password</label
-          >
-          <input
-            required
-            class="
-              rounded-md
-              outline-none
-              border-gray-200
-              box-border
-              w-full
-              max-w-md
-              border-2
-              p-2
-              px-4
-            "
-            type="password"
-            id="password"
-            placeholder="●●●●●●●●"
-            v-model="password"
-            @keyup="handleEmpty('password')"
-          />
-          <div class="text-red-500 absolute mt-1" v-if="passwordError">
-            This field is required
-          </div>
-        </div>
+          <!-- <div class="mb-5">
+            <label class="block mb-1 font-semibold" for="password"
+              >Password</label
+            >
+            <input
+              required
+              class="
+                rounded-md
+                outline-none
+                border-gray-200
+                box-border
+                w-full
+                max-w-md
+                border-2
+                p-2
+                px-4
+              "
+              type="password"
+              id="password"
+              placeholder="●●●●●●●●"
+              v-model="password"
+            />
+            <div class="text-red-500 absolute mt-1" v-if="passwordError">
+              This field is required
+            </div>
+          </div> -->
+        </form>
 
         <div class="flex flex-row justify-between">
           <div></div>
