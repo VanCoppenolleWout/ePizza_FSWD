@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common'
-import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { SeedModule } from './database/seed/seed.module'
 import { DatabaseModule } from './database/database.module'
@@ -10,6 +9,7 @@ import { PizzaModule } from './models/pizza/pizza.module'
 import { OrderModule } from './models/order/order.module'
 import { SizeModule } from './models/size/size.module'
 import { ToppingModule } from './models/topping/topping.module'
+import { GraphQLModule } from '@nestjs/graphql'
 
 @Module({
   imports: [
@@ -25,8 +25,11 @@ import { ToppingModule } from './models/topping/topping.module'
     ConfigModule.forRoot({
       envFilePath: ['ormconfig.env', '.env'],
     }),
+    GraphQLModule.forRoot({
+      installSubscriptionHandlers: true,
+      autoSchemaFile: true,
+    }),
   ],
-  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}

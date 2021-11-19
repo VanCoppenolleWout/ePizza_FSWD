@@ -1,9 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common'
+import { Query, Resolver } from '@nestjs/graphql'
 import { Repository } from 'typeorm'
 import { Size } from '../size/size.entity'
 import { Pizza } from './pizza.entity'
 
 @Injectable()
+@Resolver()
 export class PizzaService {
   constructor(
     @Inject('PizzaRepository') private pizzaRepository: Repository<Pizza>,
@@ -21,6 +23,7 @@ export class PizzaService {
       .getOne()
   }
 
+  @Query(() => [Pizza])
   async getAll() {
     return await this.pizzaRepository.find()
   }
