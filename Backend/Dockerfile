@@ -1,6 +1,6 @@
 FROM node:16.13.0-alpine as build-container
 WORKDIR /usr/src/app
-COPY ["Backend/package.json", "Backend/package-lock.json", "Backend/tsconfig.json", "./"]
+COPY ["package.json", "package-lock.json", "tsconfig.json", "./"]
 RUN npm ci
 COPY . .
 RUN npm run build
@@ -9,7 +9,7 @@ RUN npm run build
 FROM node:16.13.0-alpine as production-container
 WORKDIR /usr/src/app
 
-COPY ["Backend/package.json", "Backend/package-lock.json", "./"]
+COPY ["package.json", "package-lock.json", "./"]
 RUN npm ci --only=production
 # RUN npm install http-server -g
 COPY --from=build-container /usr/src/app/dist ./dist
