@@ -28,6 +28,7 @@ const user: Ref<User | null> = ref(auth.currentUser)
 
 export default () => {
   const login = (email: string, password: string): Promise<boolean> => {
+    console.log('function login started')
     return new Promise((resolve, reject) => {
       signInWithEmailAndPassword(auth, email, password)
         .then(async (userCredential) => {

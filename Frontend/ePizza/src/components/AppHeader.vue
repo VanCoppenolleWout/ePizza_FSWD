@@ -1,8 +1,35 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import useFirebase from '../composables/useFirebase'
 
 export default defineComponent({
-  setup() {},
+  setup() {
+    const auth = getAuth()
+    const { logout } = useFirebase()
+
+    let userbtn = ref<boolean>(false)
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log('user logged in in header')
+        userbtn.value = true
+      } else {
+        console.log('user logged out in header')
+        userbtn.value = false
+      }
+    })
+
+    const handleLogout = () => {
+      logout()
+    }
+
+    return {
+      userbtn,
+      handleLogout,
+    }
+  },
+
   props: {
     mode: String,
   },
@@ -67,6 +94,7 @@ export default defineComponent({
         </div>
       </div>
       <router-link
+        v-if="userbtn === false"
         to="/login"
         class="
           bg-p-red
@@ -79,6 +107,22 @@ export default defineComponent({
         "
       >
         Log in
+      </router-link>
+      <router-link
+        v-else
+        to="/"
+        @click="handleLogout"
+        class="
+          bg-p-red
+          text-white
+          px-6
+          py-2
+          cursor-pointer
+          rounded-xl
+          font-medium
+        "
+      >
+        Log out
       </router-link>
     </div>
 
