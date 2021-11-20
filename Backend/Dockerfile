@@ -11,7 +11,6 @@ WORKDIR /usr/src/app
 
 COPY ["package.json", "package-lock.json", "./"]
 RUN npm ci --only=production
-# RUN npm install http-server -g
 COPY --from=build-container /usr/src/app/dist ./dist
 EXPOSE 80
 

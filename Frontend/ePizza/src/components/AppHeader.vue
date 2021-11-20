@@ -11,7 +11,9 @@ export default defineComponent({
 
 <template>
   <div class="flex flex-row justify-between">
-    <h1 class="cursor-pointer font-bold text-3xl text-p-red">ePizza</h1>
+    <router-link to="/" class="cursor-pointer font-bold text-3xl text-p-red"
+      >ePizza</router-link
+    >
     <div class="hidden md:flex flex-row justify-between space-x-8 font-medium">
       <div v-if="mode === 'full'">
         <div
@@ -64,7 +66,8 @@ export default defineComponent({
           </router-link>
         </div>
       </div>
-      <div
+      <router-link
+        to="/login"
         class="
           bg-p-red
           text-white
@@ -76,7 +79,7 @@ export default defineComponent({
         "
       >
         Log in
-      </div>
+      </router-link>
     </div>
 
     <div class="md:hidden">

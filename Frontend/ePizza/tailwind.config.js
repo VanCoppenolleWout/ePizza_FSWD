@@ -12,7 +12,7 @@ module.exports = {
         montserrat: ['"Montserrat"', 'Helvetica Neue'],
       },
       maxWidth: {
-        // 'input':'3'
+        pizzaComponent: '320px',
       },
       width: {
         input: '500px',
@@ -42,12 +42,15 @@ module.exports = {
             maxWidth: '600px',
           },
           '@screen md': {
-            maxWidth: '700px',
+            //768px
+            maxWidth: '748px',
           },
           '@screen lg': {
-            maxWidth: '984px',
+            //1024px
+            maxWidth: '1000px',
           },
           '@screen xl': {
+            //1280px
             maxWidth: '1220px',
           },
         },
