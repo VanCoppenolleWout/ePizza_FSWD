@@ -19,6 +19,7 @@ async function bootstrap() {
   await app.listen(port)
 
   console.log(`\n👾 Swagger started on port : http://localhost:${port}/api`)
+  console.log(`\n👾 Graphql listening on port:  http://localhost:${port}/graphql`)
   console.log(`\n👾 App listening on port:  http://localhost:${port}`)
 }
 bootstrap()

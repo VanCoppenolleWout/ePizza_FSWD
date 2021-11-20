@@ -34,12 +34,6 @@ export class SeedService {
 
   //PIZZA
   async seedPizza(): Promise<Pizza[]> {
-    let pizzas: Pizza[] = pizzasjson
-    // let pizza2 = pizzas.map((pizza) => {
-    //   pizza.sizes = sizes
-    //   return pizza
-    // })
-
     return await this.pizzaRepository.save(pizzasjson)
   }
 
