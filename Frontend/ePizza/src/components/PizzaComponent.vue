@@ -3,6 +3,12 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   setup() {},
+  props: {
+    name: String,
+    img_url: String,
+    price: { type: Number, required: true },
+    stock: Number,
+  },
 })
 </script>
 
@@ -11,24 +17,25 @@ export default defineComponent({
     class="
       max-w-pizzaComponent
       md:w-56
-      lg:w-64
+      xl:w-64
       rounded-xl
       bg-white
-      h-full
-      mx-1
-      mb-8
+      h-64
+      md:h-64
+      flex flex-col
     "
   >
     <img
-      src="src\assets\images\pizza-placeholder.png"
+      :src="img_url"
       class="w-80 h-40 object-cover rounded-t-xl"
-      alt=""
+      :alt="name"
     />
-    <div class="p-2 md:p-6 h-24 flex flex-col justify-between">
-      <p class="text-lg">{{ 'Margherita' }}</p>
+    <div class="p-2 flex flex-col justify-around h-full">
+      <p class="text-base">{{ name }}</p>
       <div class="flex items-center justify-between">
         <p>
-          <span class="text-gray-400 text-xs mr-1">Vanaf</span> {{ '€6.95' }}
+          <span class="text-gray-400 text-xs mr-1">Vanaf</span>
+          {{ `€${price.toFixed(2)}` }}
         </p>
         <RouterLink :to="'/detail'" class="h-8">
           <svg

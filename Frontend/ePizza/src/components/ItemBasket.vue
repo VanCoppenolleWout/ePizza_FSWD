@@ -63,13 +63,26 @@ export default defineComponent({
     </div>
   </div> -->
 
-  <div class="bg-white rounded-lg basket sticky bottom-0">
+  <div
+    class="
+      bg-white
+      rounded-lg
+      basket
+      fixed
+      bottom-0
+      left-1/2
+      w-full
+      transform
+      -translate-x-1/2
+      lg:relative lg:translate-x-0 lg:left-0 lg:w-64
+    "
+  >
     <div class="p-4 flex flex-col justify-between">
-      <div class="">
-        <div class="flex items-center justify-between mb-5">
-          <h1 class="text-3xl font-bold text-p-gray-300 md:mb-10">Basket</h1>
+      <div>
+        <div class="flex items-center justify-between mb-2 lg:mb-5">
+          <h1 class="text-3xl font-bold text-p-gray-1000">Basket</h1>
           <div
-            class="transition-transform ease-in duration-100"
+            class=""
             :class="active ? 'transform rotate-0' : 'transform rotate-180'"
             @click="active = !active"
           >
@@ -92,7 +105,8 @@ export default defineComponent({
           <p>Place an order.</p>
         </div>
         <div
-          class="md:h-72 h-40 overflow-hidden overflow-y-auto scroll p-2"
+          class="lg:h-72 h-40 overflow-hidden overflow-y-auto scroll p-2"
+          :class="active ? 'block' : 'hidden'"
           v-else
         >
           <BasketItem />
@@ -105,14 +119,23 @@ export default defineComponent({
           <BasketItem />
         </div>
       </div>
-      <footer v-if="items === null" class="mt-10">
-        <div class="flex flex-row justify-between items-center">
+      <footer v-if="items === null" class="lg:mt-10">
+        <div class="lg:flex flex-row justify-between items-center hidden">
           <h2 class="text-xl font-semibold">Total</h2>
           <p class="text-xl font-medium text-p-gray-300">€{{ ' 13,50' }}</p>
         </div>
 
         <button
-          class="bg-p-red w-full rounded-md text-white font-semibold py-3 mt-8"
+          class="
+            bg-p-red
+            w-full
+            rounded-md
+            text-white
+            font-semibold
+            py-3
+            mt-2
+            lg:mt-8
+          "
         >
           Order (€ {{ ' 13,50' }})
         </button>

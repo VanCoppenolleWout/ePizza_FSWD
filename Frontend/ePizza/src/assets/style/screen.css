@@ -3,9 +3,6 @@
 @tailwind utilities;
 
 
-.test {
-}
-
 @layer utilities {
   .m-w-top {
     max-width: 53.25rem;

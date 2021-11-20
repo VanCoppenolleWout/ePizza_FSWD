@@ -1,14 +1,16 @@
 <script lang="ts">
-import { defineComponent, reactive, ref, Ref } from 'vue'
+import { defineComponent, ref, Ref } from 'vue'
 import AppHeader from '../components/AppHeader.vue'
 import ItemBasket from '../components/ItemBasket.vue'
 import PizzaComponent from '../components/PizzaComponent.vue'
+import Pizza from '../components/Pizza.vue'
+import PizzaSkeleton from '../components/PizzaSkeleton.vue'
 
 export default defineComponent({
   setup() {
     const filter: Ref<string> = ref('vegetarian')
   },
-  components: { AppHeader, ItemBasket, PizzaComponent },
+  components: { AppHeader, ItemBasket, PizzaComponent, Pizza, PizzaSkeleton },
 
   methods: {
     filterPizza() {
@@ -19,11 +21,12 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="container mx-auto p-8 md:p-0 md:pt-8 pb-0">
+  <div class="container mx-auto p-8 pb-36 md:px-0 lg:pb-10">
     <AppHeader />
-    <div class="mt-14 lg:flex lg:items-start">
+
+    <div class="lg:mt-14 lg:flex lg:items-start lg:justify-between">
       <div>
-        <div class="flex flex-row text-lg items-center p-2 mb-4 mx-4 lg:mx-8">
+        <div class="flex flex-row text-lg items-center mt-8 mb-4">
           <div class="mr-4">Filter</div>
           <div
             class="
@@ -43,25 +46,32 @@ export default defineComponent({
             Vegetarian
           </div>
         </div>
-        <section class="md:mr-2 mx-2">
-          <div
-            class="
-              grid grid-cols-2
-              justify-items-center
-              md:flex md:flex-wrap md:justify-around
-            "
-          >
-            <PizzaComponent />
-            <PizzaComponent />
-            <PizzaComponent />
-            <PizzaComponent />
-            <PizzaComponent />
-            <PizzaComponent />
-            <PizzaComponent />
-            <PizzaComponent />
-            <PizzaComponent />
-          </div>
-        </section>
+        <Suspense>
+          <template #default>
+            <Pizza />
+          </template>
+          <template #fallback>
+            <div
+              class="
+                grid grid-cols-2
+                gap-2
+                justify-items-center
+                md:grid-cols-3
+                xl:gap-4 xl:gap-y-6
+              "
+            >
+              <PizzaSkeleton />
+              <PizzaSkeleton />
+              <PizzaSkeleton />
+              <PizzaSkeleton />
+              <PizzaSkeleton />
+              <PizzaSkeleton />
+              <PizzaSkeleton />
+              <PizzaSkeleton />
+              <PizzaSkeleton />
+            </div>
+          </template>
+        </Suspense>
       </div>
       <ItemBasket />
     </div>
