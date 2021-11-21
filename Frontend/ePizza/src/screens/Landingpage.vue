@@ -1,17 +1,25 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
 import AppHeader from '../components/AppHeader.vue'
 import AppFooter from '../components/AppFooter.vue'
 import LoginComponent from '../components/LoginComponenet.vue'
 import { useRoute, useRouter } from 'vue-router'
 import BannerComponent from '../components/BannerComponent.vue'
+import { ActionTypes, useStore } from '../store/store'
+import { getAuth, onAuthStateChanged, User } from '@firebase/auth'
 
 export default defineComponent({
   setup(props) {
-    let test = props.userCreated
-    console.log(test)
+    let userRegistered = props.userCreated
+
+    const { store } = useStore()
+
+    const user = computed(() => {
+      return store.getters.getUser
+    })
+
     return {
-      test,
+      userRegistered,
     }
   },
   components: {
@@ -28,9 +36,9 @@ export default defineComponent({
 
 <template>
   <div class="p-8 lg:py-20 lg:px-40 relative overflow-hidden">
-    <BannerComponent v-if="test" />
-      <AppHeader mode='full'/>
-      
+    <BannerComponent v-if="userRegistered" />
+    <AppHeader mode="full" />
+
     <div class="mt-32">
       <img
         class="
