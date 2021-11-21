@@ -33,7 +33,7 @@ const routes: RouteRecordRaw[] = [
     component: import('../screens/Tracker.vue'),
   },
   {
-    path: '/detail',
+    path: '/:id/detail',
     component: import('../screens/MenuItem.vue'),
   },
 ]

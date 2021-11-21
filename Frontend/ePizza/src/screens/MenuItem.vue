@@ -9,6 +9,7 @@ export default defineComponent({
     const { get } = fetchData()
 
     let toppingsAr: any = ref([])
+    let highlightedToppingAr: any = ref([])
 
     const getToppings = async () => {
       toppingsAr.value = await get('/topping')
@@ -16,8 +17,21 @@ export default defineComponent({
     }
     getToppings()
 
+    const highlightTopping = (id: string) => {
+      if (!highlightedToppingAr.value.includes(id)) {
+        highlightedToppingAr.value.push(id)
+      } else if (highlightedToppingAr.value.includes(id)) {
+        highlightedToppingAr.value.splice(
+          highlightedToppingAr.value.indexOf(id),
+          1,
+        )
+      }
+    }
+
     return {
       toppingsAr,
+      highlightTopping,
+      highlightedToppingAr,
     }
   },
   components: {
@@ -34,7 +48,13 @@ export default defineComponent({
       <div>
         <div class="flex flex-row text-lg items-center mt-8 mb-4">
           <section class="flex flex-row space-x-10">
-            <img src="src\assets\images\pizza-placeholder.png" alt="" />
+            <img
+              src="https://cdn-catalog.pizzahut.be/images/be/20191009172846486.jpg"
+              class="rounded-3xl"
+              style="width: 528px; height: 528px"
+              alt=""
+            />
+
             <div>
               <h1 class="text-3xl font-semibold text-p-gray">
                 {{ 'Margherita' }}
@@ -107,20 +127,49 @@ export default defineComponent({
                 <h2 class="font-semibold text-xl">toppings</h2>
                 <ul id="example-1" class="mt-4">
                   <li
-                    v-for="topping in toppingsAr"
-                    :key="topping.id"
-                    class="inline-block cursor-pointer rounded-2xl bg-p-gray-100 mr-4 py-1 px-4 hover:bg-red-300"
+                    v-for="(topping, index) in toppingsAr"
+                    @click="highlightTopping(topping)"
+                    :key="index"
+                    class="
+                      inline-block
+                      cursor-pointer
+                      rounded-2xl
+                      mr-4
+                      py-1
+                      px-4
+                      hover:bg-red-300
+                    "
+                   
                   >
                     {{ topping.name }}
                   </li>
+                   <!-- :class="
+                      
+                      highlightedToppingAr[index].topping_id === topping.topping_id
+                        ? 'bg-red-500'
+                        : 'bg-p-gray-100'
+                    " -->
                 </ul>
               </div>
               <div class="mt-6">
                 <h2 class="font-semibold text-xl">ingredients</h2>
-                <ul id="example-2">
+                <ul id="example-2" class="mt-4">
                   <!-- v-for="item in items" :key="item.message" -->
-                  <li class="inline-block">
-                    {{ 'topping' }}
+                  <li
+                    class="
+                      inline-block
+                      cursor-pointer
+                      rounded-2xl
+                      bg-p-gray-100
+                      mr-4
+                      py-1
+                      px-4
+                      hover:bg-red-300
+                    "
+                    v-for="topping in highlightedToppingAr"
+                    :key="topping.id"
+                  >
+                    {{ topping.name }}
                   </li>
                 </ul>
               </div>

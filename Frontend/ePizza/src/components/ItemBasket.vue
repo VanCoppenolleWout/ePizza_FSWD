@@ -41,7 +41,7 @@ export default defineComponent({
       w-full
       transform
       -translate-x-1/2
-      lg:relative lg:translate-x-0 lg:left-0 lg:w-64
+      lg:relative lg:translate-x-0 lg:left-0 lg:w-80
     "
   >
     <div class="p-4 flex flex-col justify-between">
