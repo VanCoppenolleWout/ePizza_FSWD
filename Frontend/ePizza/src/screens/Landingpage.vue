@@ -208,6 +208,7 @@ export default defineComponent({
               pb-5
               rounded-xl
               items-center
+              mt-4
             "
             style="width: 27rem"
           >

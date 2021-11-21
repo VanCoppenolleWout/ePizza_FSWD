@@ -5,17 +5,13 @@ import BasketItem from './BasketItem.vue'
 export default defineComponent({
   setup() {
     // const items = ref<any>();
-    const active: Ref<boolean> = ref(true)
+    const active: Ref<boolean> = ref(false)
     const items: any = localStorage.getItem('items')
     console.log(items, 'items')
 
-    const showMenu = () => {
-      // active.value = !active.value
-    }
     return {
       items,
       active,
-      showMenu,
     }
   },
   mounted() {
@@ -49,7 +45,7 @@ export default defineComponent({
         <div class="flex items-center justify-between mb-2 lg:mb-5">
           <h1 class="text-3xl font-bold text-p-gray-1000">Basket</h1>
           <div
-            class="lg:hidden"
+            class="lg:hidden cursor-pointer"
             :class="active ? 'transform rotate-0' : 'transform rotate-180'"
             @click="active = !active"
           >
