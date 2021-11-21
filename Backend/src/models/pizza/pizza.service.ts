@@ -9,7 +9,6 @@ import { Pizza } from './pizza.entity'
 export class PizzaService {
   constructor(
     @Inject('PizzaRepository') private pizzaRepository: Repository<Pizza>,
-    @Inject('SizeRepository') private sizeRepository: Repository<Size>,
   ) {}
 
   async getOne(pizza_id: string) {

@@ -1,16 +1,17 @@
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import AppHeader from '../components/AppHeader.vue'
 import AppFooter from '../components/AppFooter.vue'
 import LoginComponent from '../components/LoginComponenet.vue'
-import { useRoute, useRouter } from 'vue-router'
 import BannerComponent from '../components/BannerComponent.vue'
-import { ActionTypes, useStore } from '../store/store'
-import { getAuth, onAuthStateChanged, User } from '@firebase/auth'
+import { useStore } from '../store/store'
 
 export default defineComponent({
   setup(props) {
-    let userRegistered = props.userCreated
+    let userRegistered = ref()
+    userRegistered.value = props.userCreated
+
+    const closeTab = () => (userRegistered.value = 0)
 
     const { store } = useStore()
 
@@ -20,6 +21,7 @@ export default defineComponent({
 
     return {
       userRegistered,
+      closeTab,
     }
   },
   components: {
@@ -35,23 +37,21 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="p-8 lg:py-20 lg:px-40 relative overflow-hidden">
-    <BannerComponent v-if="userRegistered" />
+  <div class="container mx-auto p-8 md:px-0">
+    <BannerComponent v-if="userRegistered" @close="closeTab" />
     <AppHeader mode="full" />
 
     <div class="mt-32">
       <img
         class="
           absolute
-          top-48
           pizza-image
           hidden
           md:block
-          w-96
-          lg:w-input
+          w-input
           pointer-events-none
           transition-all
-          ease-in
+          ease
           duration-300
         "
         src="../assets/images/pizza-bg.png"
@@ -82,14 +82,14 @@ export default defineComponent({
           </button>
         </div>
       </header>
-      <div class="m-w-landing">
+      <div class="m-w-landing" id="services">
         <div
           class="
             grid grid-cols-1
             lg:grid-cols-2
             gap-y-10
             justify-items-stretch
-            mt-24
+            pt-24
           "
         >
           <div
@@ -215,23 +215,25 @@ export default defineComponent({
               <p class="text-p-gray-200 font-medium">SEND US AN EMAIL</p>
               <p class="text-xl font-medium">info@epizza.com</p>
             </div>
-            <svg
-              class="cursor-pointer"
-              xmlns="http://www.w3.org/2000/svg"
-              width="30"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#7A7A7A"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path
-                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
-              ></path>
-              <polyline points="22,6 12,13 2,6"></polyline>
-            </svg>
+            <a href="mailto:info@epizza.com">
+              <svg
+                class="cursor-pointer"
+                xmlns="http://www.w3.org/2000/svg"
+                width="30"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#7A7A7A"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                ></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </a>
           </div>
         </div>
       </div>
@@ -243,10 +245,12 @@ export default defineComponent({
 <style>
 .pizza-image {
   right: -200px;
+  top: 700px;
 }
 @media (min-width: 1024px) {
   .pizza-image {
     right: -280px;
+    top: 12rem;
   }
 }
 </style>

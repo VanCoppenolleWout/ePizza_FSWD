@@ -10,11 +10,11 @@ export default defineComponent({
   <div
     class="
       bg-red-500
-      mt-6
+      mt-14
       max-w-lg
       w-4/5
       flex
-      justify-center
+      justify-between
       absolute
       left-1/2
       transform
@@ -28,8 +28,8 @@ export default defineComponent({
     "
   >
     <div class="w-6"></div>
-    <p>Succesfully registered, confirm your email to finish registration</p>
-    <div>
+    <p>User succesfully registered</p>
+    <div @click="$emit('close')">
       <svg
         class="transform rotate-45 cursor-pointer"
         xmlns="http://www.w3.org/2000/svg"

@@ -44,8 +44,7 @@ export default defineComponent({
             text-p-red
           "
         >
-          <router-link
-            to="/services"
+          <a
             class="
               cursor-pointer
               px-6
@@ -54,9 +53,10 @@ export default defineComponent({
               rounded-xl
               hover:bg-red-100
             "
+            href="#services"
           >
             Services
-          </router-link>
+          </a>
           <router-link
             to="/menu"
             class="
