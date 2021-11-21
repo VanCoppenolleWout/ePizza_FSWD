@@ -31,6 +31,7 @@ export default defineComponent({
   >
     <div v-for="(item, index) in data" :key="index">
       <PizzaComponent
+        :id="item.pizza_id"
         :name="item.name"
         :img_url="item.img_url"
         :price="item.price"
