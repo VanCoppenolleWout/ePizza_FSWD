@@ -105,11 +105,11 @@ export default defineComponent({
               </div>
               <div class="mt-6">
                 <h2 class="font-semibold text-xl">toppings</h2>
-                <ul id="example-1">
+                <ul id="example-1" class="mt-4">
                   <li
                     v-for="topping in toppingsAr"
                     :key="topping.id"
-                    class="inline-block"
+                    class="inline-block cursor-pointer rounded-2xl bg-p-gray-100 mr-4 py-1 px-4 hover:bg-red-300"
                   >
                     {{ topping.name }}
                   </li>
