@@ -194,7 +194,7 @@ export default defineComponent({
           </div>
         </div>
         <div class="mt-20 mb-20 flex flex-row justify-between items-center">
-          <div class="space-y-3">
+          <div class="space-y-3" id="contact">
             <h1 class="text-p-red font-semibold text-3xl">Any Questions?</h1>
             <h2 class="font-medium text-2xl">Contact us anytime.</h2>
           </div>
@@ -249,7 +249,7 @@ export default defineComponent({
 }
 @media (min-width: 1024px) {
   .pizza-image {
-    right: -280px;
+    right: -380px;
     top: 12rem;
   }
 }

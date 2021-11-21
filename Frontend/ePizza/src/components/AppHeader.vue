@@ -70,7 +70,7 @@ export default defineComponent({
           >
             Menu
           </router-link>
-          <router-link
+          <a
             to="/contact"
             class="
               cursor-pointer
@@ -80,9 +80,10 @@ export default defineComponent({
               rounded-xl
               hover:bg-red-100
             "
+            href="#contact"
           >
             Contact
-          </router-link>
+          </a>
         </div>
       </div>
       <router-link

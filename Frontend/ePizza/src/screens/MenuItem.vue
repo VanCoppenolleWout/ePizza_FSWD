@@ -137,6 +137,7 @@ export default defineComponent({
                       mr-4
                       py-1
                       px-4
+                    bg-gray-200
                       hover:bg-red-300
                     "
                    
