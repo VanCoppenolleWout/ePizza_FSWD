@@ -1,9 +1,12 @@
 <script lang="ts">
+import { getAuth } from '@firebase/auth'
 import { defineComponent, Ref, ref } from 'vue'
 import { Router, useRouter } from 'vue-router'
+import useFirebase from '../composables/useFirebase'
 import { User } from '../interfaces/user'
 import { signUp } from '../utils/network'
 import InputComponent from './InputComponent.vue'
+import { signInWithCustomToken } from 'firebase/auth'
 
 export default defineComponent({
   setup() {
@@ -15,7 +18,6 @@ export default defineComponent({
     let confirmPassword: Ref<string | null> = ref(null)
 
     let animateCircle: Ref<boolean> = ref(false)
-    let popUp: Ref<boolean> = ref(false)
     const router: Router = useRouter()
 
     let errorMsg: Ref<string> = ref('')
@@ -41,7 +43,7 @@ export default defineComponent({
         animateCircle.value = false
       } else if (password.value !== confirmPassword.value) {
         animateCircle.value = false
-        errorMsg.value = 'Password value do not match'
+        errorMsg.value = 'Password values do not match'
       } else {
         //request to backend if fields are filled in
         errorMsg.value = ''
@@ -54,10 +56,18 @@ export default defineComponent({
         }
         let register = await signUp('user/signup', user)
         //Registered succesfully ? -> back to home
-        if (register.created) {
+        if (register.token) {
           animateCircle.value = false
+
+          const { loginId } = useFirebase()
+
+          await loginId(register.token)
+
           router.push({ name: 'home', params: { userCreated: 1 } })
-        } else errorMsg.value = register.message
+        } else {
+          errorMsg.value = register.message
+          animateCircle.value = false
+        }
       }
     }
 
@@ -65,7 +75,6 @@ export default defineComponent({
       input.id === 'name' && input.value !== ''
         ? (name.value = input.value)
         : null
-      console.log(name.value)
       input.id === 'lastname' && input.value !== ''
         ? (lastname.value = input.value)
         : null
@@ -95,7 +104,6 @@ export default defineComponent({
 
 <template>
   <div class="mb-9 relative">
-    <!-- <div class="bg-white w-96 h-96 absolute z-20">hello</div> -->
     <img
       class="
         absolute
@@ -107,7 +115,8 @@ export default defineComponent({
         transition-all
         ease-in
         duration-300
-        left-16
+        left-0
+        xl:left-16
         top-1/2
         transform
         -translate-y-1/2

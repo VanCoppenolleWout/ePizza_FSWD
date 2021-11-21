@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer utilities {
   .m-w-top {
     max-width: 53.25rem;
@@ -27,4 +26,8 @@
     color: white;
     border-radius: 0.5rem;
   } */
+}
+
+:root {
+  scroll-behavior: smooth;
 }

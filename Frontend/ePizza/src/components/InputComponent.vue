@@ -20,6 +20,7 @@ export default defineComponent({
     id: String,
     type: String,
     placeholder: String,
+    full: Boolean,
   },
 })
 </script>
@@ -27,7 +28,10 @@ export default defineComponent({
 <template>
   <div
     class="mb-7 relative"
-    :class="{ 'flex-1': id === 'email', 'md:ml-8': id === 'phone_nr' }"
+    :class="{
+      'flex-1': id === 'email',
+      'md:ml-8': id === 'phone_nr',
+    }"
   >
     <label class="block mb-1 font-semibold capitalize" :for="id">{{
       label
@@ -45,14 +49,13 @@ export default defineComponent({
         px-4
       "
       :class="
-        id === 'email'
+        id === 'email' || full
           ? 'md:max-w-sm'
           : id === 'phone_nr'
           ? 'lg:w-72'
           : 'md:w-72 md:max-w-xs lg:w-96'
       "
       autocomplete="on"
-      
       :type="type"
       :id="id"
       :placeholder="placeholder"

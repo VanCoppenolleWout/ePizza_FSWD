@@ -7,6 +7,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
   User,
+  signInWithCustomToken,
 } from 'firebase/auth'
 import { Ref, ref, readonly } from 'vue'
 
@@ -34,6 +35,17 @@ export default () => {
     })
   }
 
+  const loginId = (id: string): Promise<boolean> => {
+    return new Promise((resolve, reject) => {
+      signInWithCustomToken(auth, id)
+        .then((userCredential) => {
+          user.value = userCredential.user
+          resolve(true)
+        })
+        .catch((error) => reject(false))
+    })
+  }
+
   const logout = () => {
     return signOut(auth)
   }
@@ -41,6 +53,7 @@ export default () => {
   return {
     login,
     logout,
+    loginId,
 
     user: readonly(user),
   }
