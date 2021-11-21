@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  ExecutionContext,
+  Get,
+  Post,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common'
+import { FirebaseAuthGuard } from 'src/firebase/firebase-auth.guard'
 import { User } from './user.entity'
 import { UserService } from './user.service'
 
@@ -10,5 +20,12 @@ export class UserController {
   @Post('signup')
   async signUp(@Body() user: User) {
     return await this.userService.registerUser(user)
+  }
+
+  @Get()
+  @UseGuards(FirebaseAuthGuard)
+  async getUser(@Req() req) {
+    console.log(req)
+    return 'ok'
   }
 }

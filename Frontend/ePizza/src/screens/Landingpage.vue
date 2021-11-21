@@ -193,7 +193,16 @@ export default defineComponent({
             </p>
           </div>
         </div>
-        <div class="mt-20 mb-20 flex flex-row justify-between items-center">
+        <div
+          class="
+            mt-20
+            mb-20
+            flex flex-row
+            justify-between
+            items-center
+            flex-wrap
+          "
+        >
           <div class="space-y-3">
             <h1 class="text-p-red font-semibold text-3xl">Any Questions?</h1>
             <h2 class="font-medium text-2xl">Contact us anytime.</h2>
@@ -208,6 +217,7 @@ export default defineComponent({
               pb-5
               rounded-xl
               items-center
+              mt-4
             "
             style="width: 27rem"
           >

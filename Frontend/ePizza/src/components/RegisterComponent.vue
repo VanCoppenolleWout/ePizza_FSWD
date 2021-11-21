@@ -58,7 +58,7 @@ export default defineComponent({
         //Registered succesfully ? -> back to home
         if (register.token) {
           animateCircle.value = false
-
+    
           const { loginId } = useFirebase()
 
           await loginId(register.token)

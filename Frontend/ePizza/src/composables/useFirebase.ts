@@ -25,6 +25,7 @@ export default () => {
           // console.log(await userCredential.user.getIdToken())
 
           user.value = userCredential.user
+          console.log(await user.value.getIdToken())
           resolve(true)
         })
         .catch((error) => {
@@ -40,6 +41,7 @@ export default () => {
       signInWithCustomToken(auth, id)
         .then((userCredential) => {
           user.value = userCredential.user
+
           resolve(true)
         })
         .catch((error) => reject(false))
