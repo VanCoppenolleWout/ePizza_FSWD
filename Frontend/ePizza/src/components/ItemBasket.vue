@@ -30,39 +30,6 @@ export default defineComponent({
 </script>
 
 <template>
-  <!-- <div class="bg-white rounded-lg basket sticky bottom-0 hidden">
-    <div class="p-4 flex flex-col justify-between">
-      <div class="">
-        <h1 class="text-3xl font-bold text-p-gray-300 mb-10">Basket</h1>
-        <div v-if="items !== null">
-          <p>Place an order.</p>
-        </div>
-        <div class="h-72 overflow-hidden overflow-y-auto scroll p-2" v-else>
-          <BasketItem />
-          <BasketItem />
-          <BasketItem />
-          <BasketItem />
-          <BasketItem />
-          <BasketItem />
-          <BasketItem />
-          <BasketItem />
-        </div>
-      </div>
-      <footer v-if="items === null" class="mt-10">
-        <div class="flex flex-row justify-between items-center">
-          <h2 class="text-xl font-semibold">Total</h2>
-          <p class="text-xl font-medium text-p-gray-300">€{{ ' 13,50' }}</p>
-        </div>
-
-        <button
-          class="bg-p-red w-full rounded-md text-white font-semibold py-3 mt-8"
-        >
-          Order (€ {{ ' 13,50' }})
-        </button>
-      </footer>
-    </div>
-  </div> -->
-
   <div
     class="
       bg-white
@@ -82,7 +49,7 @@ export default defineComponent({
         <div class="flex items-center justify-between mb-2 lg:mb-5">
           <h1 class="text-3xl font-bold text-p-gray-1000">Basket</h1>
           <div
-            class=""
+            class="lg:hidden"
             :class="active ? 'transform rotate-0' : 'transform rotate-180'"
             @click="active = !active"
           >
@@ -102,10 +69,17 @@ export default defineComponent({
           </div>
         </div>
         <div v-if="items !== null">
-          <p>Place an order.</p>
+          <p>Add items to the order.</p>
         </div>
         <div
-          class="lg:h-72 h-40 overflow-hidden overflow-y-auto scroll p-2"
+          class="
+            lg:h-72
+            h-40
+            overflow-hidden overflow-y-auto
+            scroll
+            p-2
+            lg:block
+          "
           :class="active ? 'block' : 'hidden'"
           v-else
         >

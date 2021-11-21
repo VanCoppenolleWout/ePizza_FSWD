@@ -12,7 +12,7 @@ export default defineComponent({
     <p class="font-medium">€ 13,50</p>
   </div>
   <p class="pt-1">{{ 'Large pan' }}</p>
-  <div class="flex flex-row justify-between items-center">
+  <div class="flex flex-row justify-between items-center mb-2">
     <div class="flex flex-row items-center space-x-4 pt-2">
       <button class="rounded-full p-1 flex bg-p-gray-100 hover:bg-gray-300">
         <svg
@@ -28,6 +28,7 @@ export default defineComponent({
         </svg>
       </button>
       <p>{{ '1' }}</p>
+
       <button class="rounded-full p-1 flex bg-p-gray-100 hover:bg-gray-300">
         <svg
           class="block m-auto"
@@ -42,7 +43,7 @@ export default defineComponent({
         </svg>
       </button>
     </div>
-    <div class="space-x-6">
+    <div class="flex lg:flex-col space-x-2 lg:space-x-0">
       <button class="hover:underline hover:text-p-red">Change</button>
       <button class="hover:underline hover:text-p-red">Remove</button>
     </div>
