@@ -16,7 +16,7 @@ export class OrderController {
     return await this.orderService.getAll()
   }
 
-  @Get('one/:order_id')
+  @Get('order/:order_id')
   async getOne(@Param() params) {
     return await this.orderService.getOne(params.order_id)
   }

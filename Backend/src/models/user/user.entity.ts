@@ -19,6 +19,9 @@ export class User {
 
   @OneToMany(() => Order, (order) => order.user)
   orderConnection?: Order[]
+  
+  @OneToMany(() => Order, (review) => review.user)
+  reviewConnection?: Order[]
 
   @OneToMany(() => UserAddress, (userAddress) => userAddress.user)
   addressConnection?: Address[]
