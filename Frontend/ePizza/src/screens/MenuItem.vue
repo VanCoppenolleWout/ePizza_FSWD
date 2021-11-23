@@ -142,8 +142,8 @@ export default defineComponent({
                     "
                     :class="
                       highlightedToppingAr.includes(topping)
-                        ? 'bg-red-500'
-                        : 'bg-p-gray-100'
+                        ? 'bg-red-500 text-white'
+                        : 'bg-p-gray-100 text-black'
                     "
                   >
                     {{ topping.name }}
