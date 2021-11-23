@@ -35,11 +35,4 @@ export class UserService {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST)
     }
   }
-
-  async checkAdmin(bearer: string) {
-    const id: string = bearer.replace('Bearer ', '')
-    const test = await getAuth().verifyIdToken(id)
-
-    console.log(test)
-  }
 }

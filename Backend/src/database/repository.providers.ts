@@ -1,6 +1,7 @@
 import { Order } from 'src/models/order/order.entity'
 import { OrderPizzaSizeTopping } from 'src/models/order_pizza/order.pizza.size.entity'
 import { Pizza } from 'src/models/pizza/pizza.entity'
+import { Review } from 'src/models/review/review.entity'
 import { Size } from 'src/models/size/size.entity'
 import { Topping } from 'src/models/topping/topping.entity'
 import { User } from 'src/models/user/user.entity'
@@ -36,6 +37,11 @@ export const repositoryProviders = [
   {
     provide: 'ToppingRepository',
     useFactory: (connection: Connection) => connection.getRepository(Topping),
+    inject: ['DATABASE_CONNECTION'],
+  },
+  {
+    provide: 'ReviewRepository',
+    useFactory: (connection: Connection) => connection.getRepository(Review),
     inject: ['DATABASE_CONNECTION'],
   },
 ]
