@@ -14,32 +14,34 @@ export default defineComponent({
     <div class="flex flex-col justify-between space-y-10">
       <div class="items-start flex flex-row justify-between flex-wrap">
         <div class="text-3xl text-p-gray font-bold mx-2 my-2">ePizza</div>
+        <div class="flex flex-row space-x-20">
+          <div class="mx-2 my-2">
+            <h3 class="text-2xl font-medium">About us</h3>
+            <p>Why ePizza?</p>
+            <p>Services</p>
+            <p>Menu</p>
+          </div>
+          <div class="mx-2 my-2">
+            <h3 class="text-2xl font-medium">Follow us</h3>
+            <p>Why ePizza?</p>
+            <p>Services</p>
+            <p>Menu</p>
+          </div>
 
-        <div class="mx-2 my-2">
-          <h3 class="text-2xl font-medium">About us</h3>
-          <p>Why ePizza?</p>
-          <p>Services</p>
-          <p>Menu</p>
+          <div class="mx-2 my-2">
+            <h3 class="text-2xl font-medium">Legal</h3>
+            <p>Why ePizza?</p>
+            <p>Services</p>
+            <p>Menu</p>
+          </div>
+          <div class="mx-2 my-2">
+            <h3 class="text-2xl font-medium">Contact info</h3>
+            <p>Why ePizza?</p>
+            <p>Services</p>
+            <p>Menu</p>
+          </div>
         </div>
-        <div class="mx-2 my-2">
-          <h3 class="text-2xl font-medium">Follow us</h3>
-          <p>Why ePizza?</p>
-          <p>Services</p>
-          <p>Menu</p>
-        </div>
-
-        <div class="mx-2 my-2">
-          <h3 class="text-2xl font-medium">Legal</h3>
-          <p>Why ePizza?</p>
-          <p>Services</p>
-          <p>Menu</p>
-        </div>
-        <div class="mx-2 my-2">
-          <h3 class="text-2xl font-medium">Contact info</h3>
-          <p>Why ePizza?</p>
-          <p>Services</p>
-          <p>Menu</p>
-        </div>
+        <div></div>
       </div>
 
       <div class="flex flex-row justify-between flex-wrap">

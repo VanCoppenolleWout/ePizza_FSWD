@@ -81,6 +81,7 @@ export default defineComponent({
               rounded-xl
               hover:bg-red-100
             "
+            href="#contact"
           >
             Contact
           </a>
