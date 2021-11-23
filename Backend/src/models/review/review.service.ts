@@ -12,7 +12,7 @@ export class ReviewService {
     private reviewRepository: Repository<Review>,
   ) {}
 
-  async addReview(reviewORM: ReviewORM) {
+  async addReview(reviewORM: ReviewORM): Promise<Review> {
     //get order for the review
     const order: Order = { order_id: reviewORM.order_id }
     //get user for the review
@@ -26,6 +26,31 @@ export class ReviewService {
       stars: reviewORM.stars,
     }
 
-    await this.reviewRepository.save(review)
+    return await this.reviewRepository.save(review)
+  }
+
+  async getUser(user_id: string) {
+    return await this.reviewRepository
+      .createQueryBuilder('review')
+      .innerJoinAndSelect('review.user', 'user')
+      .where('user.user_id = :user_id', { user_id })
+      .getMany()
+  }
+
+  async getOrder(order_id: string) {
+    return await this.reviewRepository
+      .createQueryBuilder('review')
+      .innerJoinAndSelect('review.order', 'order')
+      .innerJoinAndSelect('review.user', 'user')
+      .where('order.order_id = :order_id', { order_id })
+      .getMany()
+  }
+
+  async getAll() {
+    return await this.reviewRepository
+      .createQueryBuilder('review')
+      .innerJoinAndSelect('review.user', 'user')
+      .innerJoinAndSelect('review.order', 'order')
+      .getMany()
   }
 }

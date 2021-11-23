@@ -2,6 +2,7 @@ import {
   Column,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm'
@@ -19,10 +20,12 @@ export class Review {
   @Column()
   stars?: number
 
-  @OneToOne((type) => User)
+  @ManyToOne(() => User, (user) => user.orderConnection)
   @JoinColumn({ name: 'user_id' })
   user?: User
-  @OneToOne((type) => Order)
+
+  @OneToOne(() => Order)
   @JoinColumn({ name: 'order_id' })
   order?: Order
 }
+
