@@ -6,7 +6,6 @@ import { ActionTypes, useStore } from './store/store'
 export default defineComponent({
   setup() {
     const { store } = useStore()
-
     const auth = getAuth()
     onAuthStateChanged(auth, (user) => {
       store.dispatch(ActionTypes.setUser, user)

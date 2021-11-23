@@ -45,7 +45,7 @@ export type Actions = {
 }
 
 export const actions: ActionTree<State, State> & Actions = {
-  [ActionTypes.setUser]({ commit }, user:User) {
+  [ActionTypes.setUser]({ commit }, user: User) {
     commit(MutationTypes.setUser, user)
   },
 }
@@ -69,7 +69,10 @@ export const store = createStore<State>({
 // composable to import store
 export function useStore() {
   const store = baseUseStore(key)
+  const user = store.getters.getUser
+
   return {
     store,
+    user,
   }
 }

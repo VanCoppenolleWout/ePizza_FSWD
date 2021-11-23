@@ -4,7 +4,8 @@ import App from './App.vue'
 import router from './bootstrap/router' // Here, router is inside a folder bootstrap
 import './assets/style/screen.css' // Import the css-file.
 import { key, store } from './store/store'
-import { FirebaseApp, FirebaseOptions, initializeApp } from '@firebase/app'
+import { FirebaseOptions, initializeApp } from '@firebase/app'
+import { getAuth } from '@firebase/auth'
 
 const firebaseConfig: FirebaseOptions = {
   apiKey: 'AIzaSyBuf6CzQHfyORsCLgcYKYFvcSM3YLbxfZU',
@@ -17,12 +18,20 @@ const firebaseConfig: FirebaseOptions = {
 }
 
 initializeApp(firebaseConfig)
+;(async () => {
+  const auth = getAuth()
 
-const app: AppInterface = createApp(App)
+  await new Promise((resolve, reject) => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+      unsubscribe()
+      resolve(user)
+    }, reject)
+  })
 
-app.use(router)
-app.use(store, key)
+  const app: AppInterface = createApp(App)
 
-app.mount('#app')
+  app.use(router)
+  app.use(store, key)
 
-console.log('app mounted')
+  app.mount('#app')
+})()

@@ -18,14 +18,13 @@ const user: Ref<User | null> = ref(auth.currentUser)
 
 export default () => {
   const login = (email: string, password: string): Promise<boolean> => {
-    console.log('function login started')
     return new Promise((resolve, reject) => {
       signInWithEmailAndPassword(auth, email, password)
         .then(async (userCredential) => {
           // console.log(await userCredential.user.getIdToken())
 
           user.value = userCredential.user
-          console.log(await user.value.getIdToken())
+          // console.log(await user.value.getIdToken())
           resolve(true)
         })
         .catch((error) => {

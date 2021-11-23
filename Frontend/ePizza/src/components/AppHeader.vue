@@ -12,6 +12,8 @@ export default defineComponent({
       return store.getters.getUser
     })
 
+    // console.log(user.value)
+
     const handleLogout = () => {
       logout()
     }
@@ -70,8 +72,7 @@ export default defineComponent({
           >
             Menu
           </router-link>
-          <router-link
-            to="/contact"
+          <a
             class="
               cursor-pointer
               px-6
@@ -82,7 +83,7 @@ export default defineComponent({
             "
           >
             Contact
-          </router-link>
+          </a>
         </div>
       </div>
       <router-link
