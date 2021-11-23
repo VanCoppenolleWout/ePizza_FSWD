@@ -245,12 +245,12 @@ export default defineComponent({
 
 <style>
 .pizza-image {
-  right: -200px;
+  right: -250px;
   top: 700px;
 }
 @media (min-width: 1024px) {
   .pizza-image {
-    right: -380px;
+    right: -320px;
     top: 12rem;
   }
 }

@@ -24,6 +24,8 @@ export class ReviewController {
     return await this.reviewService.getUser(params.user_id)
   }
 
+  @Roles(Role.Admin)
+  @UseGuards(FirebaseAuthGuard, RolesGuard)
   @Get('all')
   async getAll() {
     return await this.reviewService.getAll()

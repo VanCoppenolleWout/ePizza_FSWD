@@ -30,9 +30,7 @@ export default defineComponent({
       console.log(tempAr.value, 'tempar')
     }
 
-    const handleReview = () => {
-
-    }
+    const handleReview = () => {}
 
     return {
       ratingAr,
@@ -68,7 +66,6 @@ export default defineComponent({
                     inline-block
                     cursor-pointer
                     rounded-md
-                    bg-p-gray-100
                     ml-4
                     py-1
                     px-4

@@ -15,7 +15,7 @@ module.exports = {
         pizzaComponent: '320px',
       },
       width: {
-        input: '850px',
+        input: '550px',
       },
       colors: {
         'p-red': '#F54749',
