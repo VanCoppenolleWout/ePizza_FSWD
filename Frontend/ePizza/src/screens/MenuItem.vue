@@ -17,12 +17,12 @@ export default defineComponent({
     }
     getToppings()
 
-    const highlightTopping = (id: string) => {
-      if (!highlightedToppingAr.value.includes(id)) {
-        highlightedToppingAr.value.push(id)
-      } else if (highlightedToppingAr.value.includes(id)) {
+    const highlightTopping = (topping: any) => {
+      if (!highlightedToppingAr.value.includes(topping)) {
+        highlightedToppingAr.value.push(topping)
+      } else if (highlightedToppingAr.value.includes(topping)) {
         highlightedToppingAr.value.splice(
-          highlightedToppingAr.value.indexOf(id),
+          highlightedToppingAr.value.indexOf(topping),
           1,
         )
       }
@@ -137,19 +137,17 @@ export default defineComponent({
                       mr-4
                       py-1
                       px-4
-                    bg-gray-200
+                      bg-gray-200
                       hover:bg-red-300
                     "
-                   
+                    :class="
+                      highlightedToppingAr.includes(topping)
+                        ? 'bg-red-500'
+                        : 'bg-p-gray-100'
+                    "
                   >
                     {{ topping.name }}
                   </li>
-                   <!-- :class="
-                      
-                      highlightedToppingAr[index].topping_id === topping.topping_id
-                        ? 'bg-red-500'
-                        : 'bg-p-gray-100'
-                    " -->
                 </ul>
               </div>
               <div class="mt-6">

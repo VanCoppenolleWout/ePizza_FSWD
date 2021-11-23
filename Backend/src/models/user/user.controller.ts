@@ -10,7 +10,9 @@ import {
   UseGuards,
 } from '@nestjs/common'
 import { FirebaseAuthGuard } from 'src/firebase/firebase-auth.guard'
+import { Role } from 'src/firebase/roles/role.enum'
 import { Roles } from 'src/firebase/roles/roles.decorator'
+import { RolesGuard } from 'src/firebase/roles/roles.guard'
 import { User } from './user.entity'
 import { UserService } from './user.service'
 
@@ -31,10 +33,10 @@ export class UserController {
     return 'ok'
   }
 
-  @UseGuards(FirebaseAuthGuard)
-  @Roles()
   @Get('admin')
-  async checkAdmin(@Headers() headers) {
-    return await this.userService.checkAdmin(headers.authorization)
+  @Roles(Role.Admin)
+  @UseGuards(FirebaseAuthGuard, RolesGuard)
+  async checkAdmin(@Res() res) {
+    return { admin: true }
   }
 }

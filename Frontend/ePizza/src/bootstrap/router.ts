@@ -8,6 +8,7 @@ import {
   RouteRecordRaw,
 } from 'vue-router'
 import useFirebase from '../composables/useFirebase'
+import { fetchData } from '../composables/useNetwork'
 import { useStore } from '../store/store'
 
 const routes: RouteRecordRaw[] = [
@@ -46,8 +47,14 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/orders',
     component: import('../screens/Orders.vue'),
-    meta: {
-      requiresAdmin: true,
+    beforeEnter: async (to, from, next) => {
+      const auth = getAuth()
+      const idToken = await auth.currentUser?.getIdToken()
+
+      const { get } = fetchData()
+      const { admin } = await get('/user/admin', idToken)
+
+      admin ? next() : next({ name: 'home' })
     },
   },
 ]
@@ -56,21 +63,5 @@ const router: Router = createRouter({
   history: createWebHistory(),
   routes,
 })
-
-router.beforeEach(
-  (
-    to: RouteLocationNormalized,
-    from: RouteLocationNormalized,
-    next: NavigationGuardNext,
-  ) => {
-    const auth = getAuth()
-    const user = auth.currentUser
-
-    const requiresAdmin = to.matched.some((record) => record.meta.requiresAdmin)
-    if (requiresAdmin) {
-    }
-    next()
-  },
-)
 
 export default router

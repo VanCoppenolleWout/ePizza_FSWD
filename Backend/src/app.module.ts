@@ -10,6 +10,7 @@ import { OrderModule } from './models/order/order.module'
 import { SizeModule } from './models/size/size.module'
 import { ToppingModule } from './models/topping/topping.module'
 import { GraphQLModule } from '@nestjs/graphql'
+import { ReviewModule } from './models/review/review.module'
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { GraphQLModule } from '@nestjs/graphql'
     OrderModule,
     SizeModule,
     ToppingModule,
+    ReviewModule,
     FirebaseAuthStrategy,
     // declare this to use dot env files
     ConfigModule.forRoot({
