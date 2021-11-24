@@ -1,16 +1,19 @@
 <script lang="ts">
 import { defineComponent, ref, Ref } from 'vue'
 import AppHeader from '../components/AppHeader.vue'
-import ItemBasket from '../components/ItemBasket.vue'
-import PizzaComponent from '../components/PizzaComponent.vue'
+import Basket from '../components/Basket.vue'
 import Pizza from '../components/Pizza.vue'
 import PizzaSkeleton from '../components/PizzaSkeleton.vue'
 
 export default defineComponent({
   setup() {
-    const filter: Ref<string> = ref('vegetarian')
+    const vegetarian: Ref<boolean> = ref(false)
+
+    return {
+      vegetarian,
+    }
   },
-  components: { AppHeader, ItemBasket, PizzaComponent, Pizza, PizzaSkeleton },
+  components: { AppHeader, Basket, Pizza, PizzaSkeleton },
 
   methods: {
     filterPizza() {
@@ -36,19 +39,24 @@ export default defineComponent({
               mr-2
               cursor-pointer
               rounded-md
-              bg-p-red
-              text-white
+              hover:bg-red-100
             "
+            :class="{ ' bg-p-red text-white hover:bg-p-red': !vegetarian }"
+            @click="vegetarian = false"
           >
             All
           </div>
-          <div class="px-6 py-0 cursor-pointer rounded-md hover:bg-red-100">
+          <div
+            class="px-6 py-0 cursor-pointer rounded-md hover:bg-red-100"
+            :class="{ ' bg-p-red text-white hover:bg-p-red': vegetarian }"
+            @click="vegetarian = true"
+          >
             Vegetarian
           </div>
         </div>
         <Suspense>
           <template #default>
-            <Pizza />
+            <Pizza :vegetarian="vegetarian" />
           </template>
           <template #fallback>
             <div
@@ -73,7 +81,7 @@ export default defineComponent({
           </template>
         </Suspense>
       </div>
-      <ItemBasket />
+      <Basket />
     </div>
   </div>
 </template>

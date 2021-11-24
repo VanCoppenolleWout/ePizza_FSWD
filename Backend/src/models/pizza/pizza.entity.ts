@@ -23,6 +23,9 @@ export class Pizza {
   @Column()
   @Field()
   img_url?: string
+  @Column()
+  @Field()
+  vegetarian?: boolean
 
   @OneToMany(() => OrderPizzaSizeTopping, (orders) => orders.pizza)
   pizzaSizeToppings?: OrderPizzaSizeTopping[]

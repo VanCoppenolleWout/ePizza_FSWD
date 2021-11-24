@@ -1,13 +1,13 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import AppHeader from '../components/AppHeader.vue'
-import ItemBasket from '../components/ItemBasket.vue'
+import Basket from '../components/Basket.vue'
 
 export default defineComponent({
   setup() {},
   components: {
     AppHeader,
-    ItemBasket,
+    Basket,
   },
 })
 </script>
@@ -81,20 +81,20 @@ export default defineComponent({
               <div>
                 <input type="radio" name="payment" id="option-1" />
                 <label for="option-1" class="cursor-pointer">
-                  <span class=" text-base">At location</span>
+                  <span class="text-base">At location</span>
                 </label>
               </div>
               <div>
                 <input type="radio" name="payment" id="option-2" />
                 <label for="option-1" class="cursor-pointer">
-                  <span class=" text-base">Bancontact (not yet available)</span>
+                  <span class="text-base">Bancontact (not yet available)</span>
                 </label>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <ItemBasket />
+      <Basket />
     </div>
   </div>
 </template>

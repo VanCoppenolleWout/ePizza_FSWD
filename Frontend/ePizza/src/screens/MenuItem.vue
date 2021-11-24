@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import AppHeader from '../components/AppHeader.vue'
-import ItemBasket from '../components/ItemBasket.vue'
+import Basket from '../components/Basket.vue'
 import { fetchData } from '../composables/useNetwork'
 
 export default defineComponent({
@@ -13,19 +13,17 @@ export default defineComponent({
 
     const getToppings = async () => {
       toppingsAr.value = await get('/topping')
-      console.log(toppingsAr.value)
     }
     getToppings()
 
     const highlightTopping = (topping: any) => {
-      if (!highlightedToppingAr.value.includes(topping)) {
+      if (!highlightedToppingAr.value.includes(topping))
         highlightedToppingAr.value.push(topping)
-      } else if (highlightedToppingAr.value.includes(topping)) {
+      else
         highlightedToppingAr.value.splice(
           highlightedToppingAr.value.indexOf(topping),
           1,
         )
-      }
     }
 
     return {
@@ -36,14 +34,18 @@ export default defineComponent({
   },
   components: {
     AppHeader,
-    ItemBasket,
+    Basket,
   },
 })
 </script>
 
 <template>
-  <div class="p-8 lg:py-20 lg:px-40 relative overflow-hidden">
-    <AppHeader />
+  <div class="container mx-auto p-8 md:px-0 pb-36 lg:pb-10">
+    <div>
+      <AppHeader />
+      <router-link to="/menu"> Go back </router-link>
+    </div>
+
     <div class="lg:mt-14 lg:flex lg:items-start lg:justify-between">
       <div>
         <div class="flex flex-row text-lg items-center mt-8 mb-4">
@@ -176,7 +178,7 @@ export default defineComponent({
           </section>
         </div>
       </div>
-      <ItemBasket />
+      <Basket />
     </div>
   </div>
 </template>

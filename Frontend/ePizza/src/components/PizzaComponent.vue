@@ -3,8 +3,7 @@ import { defineComponent } from 'vue'
 import router from '../bootstrap/router'
 
 export default defineComponent({
-  setup() {
-  },
+  setup() {},
   props: {
     id: String,
     name: String,
@@ -40,7 +39,7 @@ export default defineComponent({
           <span class="text-gray-400 text-xs mr-1">Vanaf</span>
           {{ `€${price.toFixed(2)}` }}
         </p>
-        <RouterLink :to="`/${id}/detail`" class="h-8">
+        <RouterLink :to="`/detail`" class="h-8">
           <svg
             class="bg-p-yellow rounded h-8"
             xmlns="http://www.w3.org/2000/svg"

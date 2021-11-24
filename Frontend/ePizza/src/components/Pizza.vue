@@ -1,21 +1,29 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, toRef, toRefs } from 'vue'
 import { fetchData } from '../composables/useNetwork'
 import PizzaComponent from './PizzaComponent.vue'
 import PizzaSkeleton from './PizzaSkeleton.vue'
 
 export default defineComponent({
-  async setup() {
+  async setup(props) {
     const { get } = fetchData()
 
     const data = await get('/pizza')
     console.log(data)
 
+    console.log(props.vegetarian)
+
+    const { vegetarian } = toRefs(props)
+
     return {
       data,
+      vegetarian,
     }
   },
   components: { PizzaComponent, PizzaSkeleton },
+  props: {
+    vegetarian: Boolean,
+  },
 })
 </script>
 
@@ -36,6 +44,15 @@ export default defineComponent({
         :img_url="item.img_url"
         :price="item.price"
         :stock="item.stock"
+        v-if="!vegetarian"
+      />
+      <PizzaComponent
+        :id="item.pizza_id"
+        :name="item.name"
+        :img_url="item.img_url"
+        :price="item.price"
+        :stock="item.stock"
+        v-else-if="item.vegetarian"
       />
     </div>
   </div>

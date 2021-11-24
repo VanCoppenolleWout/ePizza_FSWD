@@ -40,7 +40,7 @@ const routes: RouteRecordRaw[] = [
     component: import('../screens/Tracker.vue'),
   },
   {
-    path: '/:id/detail',
+    path: '/detail',
     component: import('../screens/MenuItem.vue'),
   },
   //admin routes

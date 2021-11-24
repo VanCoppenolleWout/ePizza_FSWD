@@ -5,13 +5,11 @@ import LoginComponenet from '../components/LoginComponenet.vue'
 export default defineComponent({
   setup() {},
   components: {
-      LoginComponenet
-  }
+    LoginComponenet,
+  },
 })
 </script>
 
 <template>
-  <div class="">
-    <LoginComponenet />
-  </div>
+  <LoginComponenet />
 </template>

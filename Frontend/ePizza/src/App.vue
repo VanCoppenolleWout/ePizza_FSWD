@@ -15,7 +15,20 @@ export default defineComponent({
 </script>
 
 <template>
-  <div>
-    <RouterView />
-  </div>
+  <transition name="fade" mode="out-in">
+    <router-view></router-view>
+  </transition>
 </template>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 1s, transform 1s;
+}
+
+.fade-leave-to,
+.fade-enter-from {
+  /* transform: translateX(-30%); */
+  opacity: 0;
+}
+</style>
