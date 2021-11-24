@@ -3,32 +3,34 @@ import {
   Catch,
   ArgumentsHost,
   HttpException,
-  HttpStatus,
 } from '@nestjs/common'
-import { HttpAdapterHost } from '@nestjs/core'
+import { Request, Response } from 'express'
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
-  constructor(private readonly httpAdapterHost: HttpAdapterHost) {}
+  constructor() {}
 
-  catch(exception: unknown, host: ArgumentsHost): void {
-    // In certain situations `httpAdapter` might not be available in the
-    // constructor method, thus we should resolve it here.
-    const { httpAdapter } = this.httpAdapterHost
-
+  catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp()
+    const response = ctx.getResponse<Response>()
+    const request = ctx.getRequest<Request>()
 
-    const httpStatus =
-      exception instanceof HttpException
-        ? exception.getStatus()
-        : HttpStatus.INTERNAL_SERVER_ERROR
+    let status: number
 
-    const responseBody = {
-      statusCode: httpStatus,
-      timestamp: new Date().toISOString(),
-      path: httpAdapter.getRequestUrl(ctx.getRequest()),
+    try {
+      status = exception.getStatus()
+    } catch {
+      status = 500
     }
 
-    httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus)
+    response.status(status).json({
+      statusCode: status,
+      timestamp: new Date().toISOString(),
+      path: request.url,
+      message:
+        status >= 400 && status < 500
+          ? exception.message
+          : 'Oops something went wrong',
+    })
   }
 }

@@ -22,8 +22,9 @@ initializeApp(firebaseConfig)
   const auth = getAuth()
 
   await new Promise((resolve, reject) => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
       unsubscribe()
+      console.log(await user?.getIdToken())
       resolve(user)
     }, reject)
   })

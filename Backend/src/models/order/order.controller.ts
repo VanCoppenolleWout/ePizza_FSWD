@@ -1,5 +1,14 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common'
-import { OrderORM } from './order.orm'
+import {
+  Body,
+  Controller,
+  Get,
+  Headers,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common'
+import { FirebaseAuthGuard } from 'src/firebase/firebase-auth.guard'
+import { OrderGuestORM, OrderORM, UserORM } from './order.orm'
 import { OrderService } from './order.service'
 
 @Controller('order')
@@ -7,8 +16,15 @@ export class OrderController {
   constructor(private orderService: OrderService) {}
 
   @Post('/')
-  async placeOrder(@Body() orderORM: OrderORM[]) {
-    return await this.orderService.placeOrder(orderORM)
+  @UseGuards(FirebaseAuthGuard)
+  async placeOrder(@Body() orderORM: OrderORM[], @Headers() headers) {
+    return await this.orderService.placeOrder(orderORM, headers)
+  }
+
+  @Post('/guest')
+  async placeOrderGuest(@Body() body: OrderGuestORM) {
+    console.log(body.order[0].topping_ids)
+    // return await this.orderService.placeOrder(orderORM, userORM)
   }
 
   @Get('all')

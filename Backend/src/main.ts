@@ -1,13 +1,17 @@
-import { NestFactory } from '@nestjs/core'
+import { HttpAdapterHost, NestFactory } from '@nestjs/core'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 import { AppModule } from './app.module'
-import { HttpExceptionFilter } from './http-exception-filters/http-exception.filter'
+import { AllExceptionsFilter } from './http-exception-filters/all-exceptions.filter'
+import helmet from 'helmet'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
-  app.useGlobalFilters(new HttpExceptionFilter())
+
+  app.useGlobalFilters(new AllExceptionsFilter())
+
   const port = 3001
   app.enableCors()
+  app.use(helmet())
 
   const config = new DocumentBuilder()
     .setTitle('Pizza Backend Routes')

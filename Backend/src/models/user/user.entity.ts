@@ -1,7 +1,13 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm'
 import { Address } from '../address/address.entity'
 import { Order } from '../order/order.entity'
-import { UserAddress } from '../useraddress/useraddress.entity'
 
 @Entity('User')
 export class User {
@@ -19,10 +25,13 @@ export class User {
 
   @OneToMany(() => Order, (order) => order.user)
   orderConnection?: Order[]
-  
+
   @OneToMany(() => Order, (review) => review.user)
   reviewConnection?: Order[]
 
-  @OneToMany(() => UserAddress, (userAddress) => userAddress.user)
-  addressConnection?: Address[]
+  @ManyToMany(() => Address, (address) => address.users, {
+    cascade: true,
+  })
+  @JoinTable({ name: 'User_Address' })
+  addresses?: Address[]
 }

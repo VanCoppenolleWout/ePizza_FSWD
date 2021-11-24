@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common'
-import { AppService } from './app.service'
 import { SeedModule } from './database/seed/seed.module'
 import { DatabaseModule } from './database/database.module'
 import { UserModule } from './models/user/user.module'
@@ -11,8 +10,6 @@ import { SizeModule } from './models/size/size.module'
 import { ToppingModule } from './models/topping/topping.module'
 import { GraphQLModule } from '@nestjs/graphql'
 import { ReviewModule } from './models/review/review.module'
-import { APP_FILTER } from '@nestjs/core'
-import { HttpExceptionFilter } from './http-exception-filters/http-exception.filter'
 
 @Module({
   imports: [
@@ -34,12 +31,6 @@ import { HttpExceptionFilter } from './http-exception-filters/http-exception.fil
       autoSchemaFile: true,
     }),
   ],
-  providers: [
-    AppService,
-    {
-      provide: APP_FILTER,
-      useClass: HttpExceptionFilter,
-    },
-  ],
+  providers: [],
 })
 export class AppModule {}

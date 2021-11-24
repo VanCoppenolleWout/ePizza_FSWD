@@ -1,6 +1,5 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm'
 import { User } from '../user/user.entity'
-import { UserAddress } from '../useraddress/useraddress.entity'
 
 @Entity('Address')
 export class Address {
@@ -19,6 +18,6 @@ export class Address {
   @Column()
   country?: string
 
-  @OneToMany(() => UserAddress, (userAddress) => userAddress.address)
-  userConnection?: User[]
+  @ManyToMany(() => User, (user) => user.addresses)
+  users?: User[]
 }
