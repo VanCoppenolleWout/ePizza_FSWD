@@ -11,6 +11,8 @@ import { SizeModule } from './models/size/size.module'
 import { ToppingModule } from './models/topping/topping.module'
 import { GraphQLModule } from '@nestjs/graphql'
 import { ReviewModule } from './models/review/review.module'
+import { APP_FILTER } from '@nestjs/core'
+import { HttpExceptionFilter } from './http-exception-filters/http-exception.filter'
 
 @Module({
   imports: [
@@ -32,6 +34,12 @@ import { ReviewModule } from './models/review/review.module'
       autoSchemaFile: true,
     }),
   ],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_FILTER,
+      useClass: HttpExceptionFilter,
+    },
+  ],
 })
 export class AppModule {}

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, Ref, ref } from 'vue'
 import AppHeader from '../components/AppHeader.vue'
 import Basket from '../components/Basket.vue'
 import { fetchData } from '../composables/useNetwork'
@@ -26,10 +26,15 @@ export default defineComponent({
         )
     }
 
+    const size: Ref<number> = ref(1)
+    const type: Ref<string> = ref('pan')
+
     return {
       toppingsAr,
       highlightTopping,
       highlightedToppingAr,
+      size,
+      type,
     }
   },
   components: {
@@ -69,7 +74,8 @@ export default defineComponent({
                       type="radio"
                       class="form-radio"
                       name="size"
-                      value="small"
+                      :value="1"
+                      v-model="size"
                     />
                     <span class="ml-4">small</span>
                   </label>
@@ -78,7 +84,8 @@ export default defineComponent({
                       type="radio"
                       class="form-radio"
                       name="size"
-                      value="medium"
+                      :value="2"
+                      v-model="size"
                     />
                     <span class="ml-4">medium</span>
                   </label>
@@ -87,7 +94,8 @@ export default defineComponent({
                       type="radio"
                       class="form-radio"
                       name="size"
-                      value="large"
+                      :value="3"
+                      v-model="size"
                     />
                     <span class="ml-4">large</span>
                   </label>
@@ -102,6 +110,7 @@ export default defineComponent({
                       class="form-radio"
                       name="type"
                       value="pan"
+                      v-model="type"
                     />
                     <span class="ml-4">pan</span>
                   </label>
@@ -111,6 +120,7 @@ export default defineComponent({
                       class="form-radio"
                       name="type"
                       value="stuffed"
+                      v-model="type"
                     />
                     <span class="ml-4">stuffed</span>
                   </label>
@@ -120,6 +130,7 @@ export default defineComponent({
                       class="form-radio"
                       name="type"
                       value="thin"
+                      v-model="type"
                     />
                     <span class="ml-4">thin</span>
                   </label>

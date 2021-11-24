@@ -3,5 +3,3 @@ export interface OrderORM {
   size_id: number
   topping_ids: Array<string>
 }
-
-export interface IPizzaSizeTopping {}
