@@ -59,6 +59,7 @@ export default defineComponent({
       :type="type"
       :id="id"
       :placeholder="placeholder"
+      @keydown="handleInput"
       @blur="handleInput"
     />
     <div class="text-red-500 absolute mt-1" v-if="errorMsg">

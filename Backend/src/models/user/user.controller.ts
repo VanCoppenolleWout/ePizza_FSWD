@@ -1,9 +1,7 @@
 import {
   Body,
   Controller,
-  ExecutionContext,
   Get,
-  Headers,
   Post,
   Req,
   Res,
@@ -20,17 +18,9 @@ import { UserService } from './user.service'
 export class UserController {
   constructor(private userService: UserService) {}
 
-  // @UseGuards(FirebaseAuthGuard)
   @Post('signup')
   async signUp(@Body() user: User) {
     return await this.userService.registerUser(user)
-  }
-
-  @Get()
-  @UseGuards(FirebaseAuthGuard)
-  async getUser(@Req() req) {
-    console.log(req)
-    return 'ok'
   }
 
   @Get('admin')
