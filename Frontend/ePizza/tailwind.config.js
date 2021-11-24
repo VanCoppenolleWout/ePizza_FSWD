@@ -25,6 +25,7 @@ module.exports = {
         'p-gray-200': '#919191',
         'p-gray-300': '#707070',
         'p-yellow': '#E3BB52',
+        'primary': '#faf7fa',
       },
     },
   },
