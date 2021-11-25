@@ -23,8 +23,7 @@ export class OrderController {
 
   @Post('/guest')
   async placeOrderGuest(@Body() body: OrderGuestORM) {
-    console.log(body.order[0].topping_ids)
-    // return await this.orderService.placeOrder(orderORM, userORM)
+    return await this.orderService.placeOrderGuest(body)
   }
 
   @Get('all')

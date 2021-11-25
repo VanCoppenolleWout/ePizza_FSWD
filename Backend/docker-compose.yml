@@ -16,7 +16,7 @@ services:
       - mariadb
 
   pizza-backend:
-    image: glenntroncquo/project-backend:1.0.0
+    image: glenntroncquo/project-backend:1.0.1
     ports:
       - 3001:3001
     env_file:

@@ -8,8 +8,8 @@ import { useStore } from '../store/store'
 
 export default defineComponent({
   setup(props) {
-    let userRegistered = ref()
-    userRegistered.value = props.userCreated
+    const userRegistered = ref(props.userCreated)
+    // userRegistered.value =
 
     const closeTab = () => (userRegistered.value = 0)
 

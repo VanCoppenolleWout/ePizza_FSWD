@@ -21,5 +21,5 @@ export interface AddressORM {
   city: string
   street: string
   number: number
-  zip_code: number
+  zip_code: string
 }

@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "firebase": "^9.4.1",
+    "gsap": "^3.8.0",
     "mailtoui": "^1.0.3",
     "vue": "^3.2.16",
     "vue-router": "^4.0.12",

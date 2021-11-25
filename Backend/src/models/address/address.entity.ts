@@ -11,11 +11,11 @@ export class Address {
   number?: number
   @Column()
   city?: string
-  @Column()
+  @Column({ nullable: true })
   state?: string
   @Column()
   postal_code?: string
-  @Column()
+  @Column({ nullable: true })
   country?: string
 
   @ManyToMany(() => User, (user) => user.addresses)

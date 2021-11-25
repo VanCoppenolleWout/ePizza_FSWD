@@ -1,12 +1,21 @@
 <script lang="ts">
-import { defineComponent, Ref, ref } from 'vue'
+import { defineComponent, onBeforeMount, Ref, ref, toRefs } from 'vue'
+import { Router, useRouter } from 'vue-router'
 import AppHeader from '../components/AppHeader.vue'
 import Basket from '../components/Basket.vue'
 import { fetchData } from '../composables/useNetwork'
+import { Pizza } from '../interfaces/pizza'
 
 export default defineComponent({
-  setup() {
+  setup(context) {
+    const router: Router = useRouter()
+    context.pizzaId ? null : router.push('/menu')
+
     const { get } = fetchData()
+
+    const size: Ref<number> = ref(1)
+    const type: Ref<string> = ref('pan')
+    let { pizzaId, name, price, imgUrl } = context
 
     let toppingsAr: any = ref([])
     let highlightedToppingAr: any = ref([])
@@ -26,8 +35,35 @@ export default defineComponent({
         )
     }
 
-    const size: Ref<number> = ref(1)
-    const type: Ref<string> = ref('pan')
+    const addPizza = (event: EventTarget) => {
+      const pizzas: Array<Pizza> = JSON.parse(
+        localStorage.getItem('pizzas') || '[]',
+      )
+      const toppings: Array<string> = highlightedToppingAr.value.map(
+        (topping: any) => topping.topping_id,
+      )
+      const sizePrice: number = size.value == 1 ? 0 : size.value == 2 ? 5 : 10
+
+      const totalPrice = highlightedToppingAr.value.reduce(
+        (total: any, topping: any) => {
+          console.log(total)
+          return total + topping.price
+        },
+        parseInt(price) + sizePrice,
+      )
+
+      const pizza: Pizza = {
+        pizza_id: pizzaId,
+        size: size.value,
+        toppings: toppings,
+        price: totalPrice,
+        name: name,
+      }
+      pizzas.push(pizza)
+      localStorage.setItem('pizzas', JSON.stringify(pizzas))
+      console.log('this is logged')
+      router.push('menu')
+    }
 
     return {
       toppingsAr,
@@ -35,11 +71,22 @@ export default defineComponent({
       highlightedToppingAr,
       size,
       type,
+      addPizza,
+      name,
+      price,
+      imgUrl,
     }
   },
   components: {
     AppHeader,
     Basket,
+  },
+
+  props: {
+    pizzaId: { type: String, required: true },
+    name: { type: String, required: true },
+    imgUrl: String,
+    price: { type: String, required: true },
   },
 })
 </script>
@@ -51,12 +98,12 @@ export default defineComponent({
       <router-link to="/menu"> Go back </router-link>
     </div>
 
-    <div class="lg:mt-14 lg:flex lg:items-start lg:justify-between">
+    <div class="lg:mt-8 lg:flex lg:items-start lg:justify-between">
       <div>
         <div class="flex flex-row text-lg items-center mt-8 mb-4">
           <section class="flex flex-row space-x-10">
             <img
-              src="https://cdn-catalog.pizzahut.be/images/be/20191009172846486.jpg"
+              :src="imgUrl"
               class="rounded-3xl"
               style="width: 528px; height: 528px"
               alt=""
@@ -64,7 +111,7 @@ export default defineComponent({
 
             <div>
               <h1 class="text-3xl font-semibold text-p-gray">
-                {{ 'Margherita' }}
+                {{ name }}
               </h1>
               <div class="mt-8">
                 <h2 class="font-semibold text-xl">size</h2>
@@ -189,7 +236,7 @@ export default defineComponent({
           </section>
         </div>
       </div>
-      <Basket />
+      <Basket :addOrder="true" @addPizza="addPizza" />
     </div>
   </div>
 </template>

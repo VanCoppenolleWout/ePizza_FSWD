@@ -1,27 +1,36 @@
 <script lang="ts">
-import { defineComponent, Ref, ref } from 'vue'
+import { defineComponent, Ref, ref, toRefs } from 'vue'
 import BasketItem from './BasketItem.vue'
+import { TimelineLite } from 'gsap'
+import { Pizza } from '../interfaces/pizza'
 
 export default defineComponent({
-  setup() {
-    // const items = ref<any>();
+  setup(props, { emit }) {
+    const { addOrder } = toRefs(props)
     const active: Ref<boolean> = ref(false)
-    const items: any = localStorage.getItem('items')
-    console.log(items, 'items')
+
+    const pizzas: Array<Pizza> = JSON.parse(
+      localStorage.getItem('pizzas') || '[]',
+    )
+    const totalPrice = pizzas.reduce((total, pizza) => total + pizza.price, 0)
+
+    const addPizza = () => {
+      emit('addPizza', 'this is logged')
+      console.log('now this is logged')
+    }
 
     return {
-      items,
+      pizzas,
       active,
-    }
-  },
-  mounted() {
-    // const items = ref<any>();
-    const items: any = localStorage.getItem('items')
-    return {
-      items,
+      addOrder,
+      addPizza,
+      totalPrice,
     }
   },
   components: { BasketItem },
+  props: {
+    addOrder: Boolean,
+  },
 })
 </script>
 
@@ -64,7 +73,7 @@ export default defineComponent({
             </svg>
           </div>
         </div>
-        <div v-if="items !== null">
+        <div v-if="pizzas == null">
           <p>Add items to the order.</p>
         </div>
         <div
@@ -79,23 +88,38 @@ export default defineComponent({
           :class="active ? 'block' : 'hidden'"
           v-else
         >
-          <BasketItem />
-          <BasketItem />
-          <BasketItem />
-          <BasketItem />
-          <BasketItem />
-          <BasketItem />
-          <BasketItem />
-          <BasketItem />
+          <div v-for="(pizza, index) in pizzas" :key="index">
+            <BasketItem :name="pizza.name" :price="pizza.price" />
+          </div>
         </div>
       </div>
-      <footer v-if="items === null" class="lg:mt-10">
+      <footer v-if="pizzas !== null" class="lg:mt-10">
         <div class="lg:flex flex-row justify-between items-center hidden">
           <h2 class="text-xl font-semibold">Total</h2>
-          <p class="text-xl font-medium text-p-gray-300">€{{ ' 13,50' }}</p>
+          <p class="text-xl font-medium text-p-gray-300">
+            €{{ totalPrice.toFixed(2) }}
+          </p>
         </div>
 
         <button
+          v-if="addOrder"
+          class="
+            bg-p-red
+            w-full
+            rounded-md
+            text-white
+            font-semibold
+            py-3
+            mt-2
+            lg:mt-8
+          "
+          @click="addPizza"
+        >
+          Add to order
+        </button>
+
+        <button
+          v-else
           class="
             bg-p-red
             w-full
@@ -107,7 +131,7 @@ export default defineComponent({
             lg:mt-8
           "
         >
-          Order (€ {{ ' 13,50' }})
+          Order (€ {{ totalPrice.toFixed(2) }})
         </button>
       </footer>
     </div>

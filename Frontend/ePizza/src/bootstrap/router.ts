@@ -42,6 +42,8 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/detail',
     component: import('../screens/MenuItem.vue'),
+    props: true,
+    name: 'detail',
   },
   //admin routes
   {

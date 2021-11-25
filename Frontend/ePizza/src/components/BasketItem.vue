@@ -1,15 +1,27 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, toRef, toRefs } from 'vue'
 
 export default defineComponent({
-  setup() {},
+  setup(context) {
+    const { price, name } = toRefs(context)
+
+    return {
+      price,
+      name,
+    }
+  },
+
+  props: {
+    price: Number,
+    name: String,
+  },
 })
 </script>
 
 <template>
   <div class="flex flex-row justify-between items-center">
-    <h2 class="font-medium text-xl">{{ 'Margherita' }}</h2>
-    <p class="font-medium">€ 13,50</p>
+    <h2 class="font-medium text-xl">{{ name }}</h2>
+    <p class="font-medium">€ {{ price }}</p>
   </div>
   <p class="pt-1">{{ 'Large pan' }}</p>
   <div class="flex flex-row justify-between items-center mb-2">

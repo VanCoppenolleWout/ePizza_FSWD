@@ -9,9 +9,6 @@ export default defineComponent({
     const { get } = fetchData()
 
     const data = await get('/pizza')
-    console.log(data)
-
-    console.log(props.vegetarian)
 
     const { vegetarian } = toRefs(props)
 
@@ -41,7 +38,7 @@ export default defineComponent({
       <PizzaComponent
         :id="item.pizza_id"
         :name="item.name"
-        :img_url="item.img_url"
+        :imgUrl="item.img_url"
         :price="item.price"
         :stock="item.stock"
         v-if="!vegetarian"
@@ -49,7 +46,7 @@ export default defineComponent({
       <PizzaComponent
         :id="item.pizza_id"
         :name="item.name"
-        :img_url="item.img_url"
+        :imgUrl="item.img_url"
         :price="item.price"
         :stock="item.stock"
         v-else-if="item.vegetarian"
