@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, defineComponent, Ref, ref, toRefs, watch } from 'vue'
+import { defineComponent, Ref, ref, toRefs, watch } from 'vue'
 import BasketItem from './BasketItem.vue'
 import { TimelineLite } from 'gsap'
 import { Pizza } from '../interfaces/pizza'
@@ -13,7 +13,11 @@ export default defineComponent({
       useLocalStorage()
 
     const pizzas: Ref<Array<Pizza>> = ref(getPizzasLocal())
+    pizzas.value.sort((a, b) =>
+      a.name !== b.name ? (a.name < b.name ? -1 : 1) : 0,
+    )
     let pizzaCounts: Ref<Record<string, number>> = ref({})
+    const totalPrice = ref()
 
     watch(pizzas, (pizzas, prevPizzas) => {
       setPizzaCounts()
@@ -27,6 +31,7 @@ export default defineComponent({
           (pizzaCounts.value[JSON.stringify(pizza)] || 0) + 1
       })
     }
+
     const setPizzaPrice = () => {
       totalPrice.value = pizzas.value.reduce(
         (total, pizza) => total + pizza.price,
@@ -34,22 +39,25 @@ export default defineComponent({
       )
     }
 
-    const totalPrice = ref()
-
     setPizzaCounts()
     setPizzaPrice()
 
-    console.log(pizzas.value)
     const addPizza = () => {
       emit('addPizza')
     }
 
     const deleteAPizza = (pizza: Pizza) => {
       pizzas.value = deletePizzaLocal(pizza)
+      pizzas.value.sort((a, b) =>
+        a.name !== b.name ? (a.name < b.name ? -1 : 1) : 0,
+      )
     }
 
     const addAPizza = (pizza: Pizza) => {
       pizzas.value = addPizzaLocal(pizza)
+      pizzas.value.sort((a, b) =>
+        a.name !== b.name ? (a.name < b.name ? -1 : 1) : 0,
+      )
     }
 
     return {
@@ -161,21 +169,23 @@ export default defineComponent({
           Add to order
         </button>
 
-        <button
-          v-else
-          class="
-            bg-p-red
-            w-full
-            rounded-md
-            text-white
-            font-semibold
-            py-3
-            mt-2
-            lg:mt-8
-          "
-        >
-          Order (€ {{ totalPrice.toFixed(2) }})
-        </button>
+        <router-link to="order" v-else>
+          <button
+            to="/order"
+            class="
+              bg-p-red
+              w-full
+              rounded-md
+              text-white
+              font-semibold
+              py-3
+              mt-2
+              lg:mt-8
+            "
+          >
+            Order (€ {{ totalPrice.toFixed(2) }})
+          </button>
+        </router-link>
       </footer>
     </div>
   </div>
