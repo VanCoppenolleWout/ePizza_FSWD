@@ -2,14 +2,10 @@ import { getAuth } from '@firebase/auth'
 import {
   createRouter,
   createWebHistory,
-  NavigationGuardNext,
-  RouteLocationNormalized,
   Router,
   RouteRecordRaw,
 } from 'vue-router'
-import useFirebase from '../composables/useFirebase'
 import { fetchData } from '../composables/useNetwork'
-import { useStore } from '../store/store'
 
 const routes: RouteRecordRaw[] = [
   //global routes

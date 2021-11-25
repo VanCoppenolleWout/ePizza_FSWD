@@ -1,30 +1,66 @@
 <script lang="ts">
-import { defineComponent, Ref, ref, toRefs } from 'vue'
+import { computed, defineComponent, Ref, ref, toRefs, watch } from 'vue'
 import BasketItem from './BasketItem.vue'
 import { TimelineLite } from 'gsap'
 import { Pizza } from '../interfaces/pizza'
+import { useLocalStorage } from '../composables/useLocalStorage'
 
 export default defineComponent({
   setup(props, { emit }) {
     const { addOrder } = toRefs(props)
     const active: Ref<boolean> = ref(false)
+    const { getPizzasLocal, deletePizzaLocal, addPizzaLocal } =
+      useLocalStorage()
 
-    const pizzas: Array<Pizza> = JSON.parse(
-      localStorage.getItem('pizzas') || '[]',
-    )
-    const totalPrice = pizzas.reduce((total, pizza) => total + pizza.price, 0)
+    const pizzas: Ref<Array<Pizza>> = ref(getPizzasLocal())
+    let pizzaCounts: Ref<Record<string, number>> = ref({})
 
+    watch(pizzas, (pizzas, prevPizzas) => {
+      setPizzaCounts()
+      setPizzaPrice()
+    })
+
+    const setPizzaCounts = () => {
+      pizzaCounts.value = {}
+      pizzas.value.forEach((pizza) => {
+        pizzaCounts.value[JSON.stringify(pizza)] =
+          (pizzaCounts.value[JSON.stringify(pizza)] || 0) + 1
+      })
+    }
+    const setPizzaPrice = () => {
+      totalPrice.value = pizzas.value.reduce(
+        (total, pizza) => total + pizza.price,
+        0,
+      )
+    }
+
+    const totalPrice = ref()
+
+    setPizzaCounts()
+    setPizzaPrice()
+
+    console.log(pizzas.value)
     const addPizza = () => {
-      emit('addPizza', 'this is logged')
-      console.log('now this is logged')
+      emit('addPizza')
+    }
+
+    const deleteAPizza = (pizza: Pizza) => {
+      pizzas.value = deletePizzaLocal(pizza)
+    }
+
+    const addAPizza = (pizza: Pizza) => {
+      pizzas.value = addPizzaLocal(pizza)
     }
 
     return {
       pizzas,
       active,
+      pizzaCounts,
       addOrder,
       addPizza,
+      addAPizza,
       totalPrice,
+      deleteAPizza,
     }
   },
   components: { BasketItem },
@@ -73,7 +109,7 @@ export default defineComponent({
             </svg>
           </div>
         </div>
-        <div v-if="pizzas == null">
+        <div v-if="pizzas.length == 0">
           <p>Add items to the order.</p>
         </div>
         <div
@@ -88,8 +124,15 @@ export default defineComponent({
           :class="active ? 'block' : 'hidden'"
           v-else
         >
-          <div v-for="(pizza, index) in pizzas" :key="index">
-            <BasketItem :name="pizza.name" :price="pizza.price" />
+          <div v-for="(pizza, index) of Object.keys(pizzaCounts)" :key="index">
+            <BasketItem
+              :name="JSON.parse(pizza).name"
+              :price="JSON.parse(pizza).price"
+              :sizeIndex="JSON.parse(pizza).size"
+              :amount="pizzaCounts[pizza]"
+              @deletePizza="deleteAPizza(JSON.parse(pizza))"
+              @addPizza="addAPizza(JSON.parse(pizza))"
+            />
           </div>
         </div>
       </div>

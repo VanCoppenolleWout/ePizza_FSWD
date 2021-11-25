@@ -35,7 +35,7 @@ export default defineComponent({
         )
     }
 
-    const addPizza = (event: EventTarget) => {
+    const addPizza = () => {
       const pizzas: Array<Pizza> = JSON.parse(
         localStorage.getItem('pizzas') || '[]',
       )
@@ -61,7 +61,6 @@ export default defineComponent({
       }
       pizzas.push(pizza)
       localStorage.setItem('pizzas', JSON.stringify(pizzas))
-      console.log('this is logged')
       router.push('menu')
     }
 
