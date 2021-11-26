@@ -13,13 +13,11 @@ export default defineComponent({
       useLocalStorage()
 
     const pizzas: Ref<Array<Pizza>> = ref(getPizzasLocal())
-    pizzas.value.sort((a, b) =>
-      a.name !== b.name ? (a.name < b.name ? -1 : 1) : 0,
-    )
+
     let pizzaCounts: Ref<Record<string, number>> = ref({})
     const totalPrice = ref()
 
-    watch(pizzas, (pizzas, prevPizzas) => {
+    watch(pizzas, () => {
       setPizzaCounts()
       setPizzaPrice()
     })
@@ -39,26 +37,28 @@ export default defineComponent({
       )
     }
 
-    setPizzaCounts()
-    setPizzaPrice()
+    const sortPizzas = () =>
+      pizzas.value.sort((a, b) =>
+        a.name !== b.name ? (a.name < b.name ? -1 : 1) : 0,
+      )
 
     const addPizza = () => {
       emit('addPizza')
     }
 
-    const deleteAPizza = (pizza: Pizza) => {
+    const deletePizza = (pizza: Pizza) => {
       pizzas.value = deletePizzaLocal(pizza)
-      pizzas.value.sort((a, b) =>
-        a.name !== b.name ? (a.name < b.name ? -1 : 1) : 0,
-      )
+      sortPizzas()
     }
 
-    const addAPizza = (pizza: Pizza) => {
+    const AddPizza = (pizza: Pizza) => {
       pizzas.value = addPizzaLocal(pizza)
-      pizzas.value.sort((a, b) =>
-        a.name !== b.name ? (a.name < b.name ? -1 : 1) : 0,
-      )
+      sortPizzas()
     }
+
+    sortPizzas()
+    setPizzaPrice()
+    setPizzaCounts()
 
     return {
       pizzas,
@@ -66,9 +66,9 @@ export default defineComponent({
       pizzaCounts,
       addOrder,
       addPizza,
-      addAPizza,
+      AddPizza,
       totalPrice,
-      deleteAPizza,
+      deletePizza,
     }
   },
   components: { BasketItem },
@@ -90,7 +90,7 @@ export default defineComponent({
       w-full
       transform
       -translate-x-1/2
-      lg:relative lg:translate-x-0 lg:left-0 lg:w-80
+      lg:relative lg:translate-x-0 lg:left-0 lg:w-72
     "
   >
     <div class="p-4 flex flex-col justify-between">
@@ -138,8 +138,8 @@ export default defineComponent({
               :price="JSON.parse(pizza).price"
               :sizeIndex="JSON.parse(pizza).size"
               :amount="pizzaCounts[pizza]"
-              @deletePizza="deleteAPizza(JSON.parse(pizza))"
-              @addPizza="addAPizza(JSON.parse(pizza))"
+              @deletePizza="deletePizza(JSON.parse(pizza))"
+              @addPizza="AddPizza(JSON.parse(pizza))"
             />
           </div>
         </div>
@@ -204,6 +204,6 @@ export default defineComponent({
 }
 
 .basket {
-  margin-top: 3.625rem;
+  margin-top: 4.75rem;
 }
 </style>

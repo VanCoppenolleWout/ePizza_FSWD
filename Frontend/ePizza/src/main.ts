@@ -6,6 +6,7 @@ import './assets/style/screen.css' // Import the css-file.
 import { key, store } from './store/store'
 import { FirebaseOptions, initializeApp } from '@firebase/app'
 import { getAuth } from '@firebase/auth'
+import { fetchData } from './composables/useNetwork'
 
 const firebaseConfig: FirebaseOptions = {
   apiKey: 'AIzaSyBuf6CzQHfyORsCLgcYKYFvcSM3YLbxfZU',
