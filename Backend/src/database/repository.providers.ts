@@ -1,4 +1,5 @@
 import { Address } from 'src/models/address/address.entity'
+import { Guest } from 'src/models/guest/guest.entity'
 import { Order } from 'src/models/order/order.entity'
 import { OrderPizzaSizeTopping } from 'src/models/order_pizza/order.pizza.size.entity'
 import { Pizza } from 'src/models/pizza/pizza.entity'
@@ -48,6 +49,11 @@ export const repositoryProviders = [
   {
     provide: 'AddressRepository',
     useFactory: (connection: Connection) => connection.getRepository(Address),
+    inject: ['DATABASE_CONNECTION'],
+  },
+  {
+    provide: 'GuestRepository',
+    useFactory: (connection: Connection) => connection.getRepository(Guest),
     inject: ['DATABASE_CONNECTION'],
   },
 ]

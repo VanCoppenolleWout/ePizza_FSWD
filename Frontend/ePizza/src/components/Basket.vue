@@ -1,9 +1,18 @@
 <script lang="ts">
-import { defineComponent, Ref, ref, toRefs, watch } from 'vue'
+import {
+  defineComponent,
+  onBeforeUnmount,
+  onMounted,
+  Ref,
+  ref,
+  toRefs,
+  watch,
+} from 'vue'
 import BasketItem from './BasketItem.vue'
 import { TimelineLite } from 'gsap'
 import { Pizza } from '../interfaces/pizza'
 import { useLocalStorage } from '../composables/useLocalStorage'
+import { fetchData } from '../composables/useNetwork'
 
 export default defineComponent({
   setup(props, { emit }) {
@@ -56,6 +65,20 @@ export default defineComponent({
       sortPizzas()
     }
 
+    const placeOrder = () => {
+      const { get } = fetchData()
+      get('/')
+    }
+
+    const item = ref(null)
+    onMounted(() => {
+      const timeline = new TimelineLite()
+
+      timeline.from('.item', 1, { x: '33%', opacity: 0, stagger: 0.2 })
+    })
+
+    onBeforeUnmount(() => {})
+
     sortPizzas()
     setPizzaPrice()
     setPizzaCounts()
@@ -69,6 +92,8 @@ export default defineComponent({
       AddPizza,
       totalPrice,
       deletePizza,
+      placeOrder,
+      item,
     }
   },
   components: { BasketItem },
@@ -133,14 +158,16 @@ export default defineComponent({
           v-else
         >
           <div v-for="(pizza, index) of Object.keys(pizzaCounts)" :key="index">
-            <BasketItem
-              :name="JSON.parse(pizza).name"
-              :price="JSON.parse(pizza).price"
-              :sizeIndex="JSON.parse(pizza).size"
-              :amount="pizzaCounts[pizza]"
-              @deletePizza="deletePizza(JSON.parse(pizza))"
-              @addPizza="AddPizza(JSON.parse(pizza))"
-            />
+            <div ref="item" class="item">
+              <BasketItem
+                :name="JSON.parse(pizza).name"
+                :price="JSON.parse(pizza).price"
+                :sizeIndex="JSON.parse(pizza).size"
+                :amount="pizzaCounts[pizza]"
+                @deletePizza="deletePizza(JSON.parse(pizza))"
+                @addPizza="AddPizza(JSON.parse(pizza))"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -172,6 +199,7 @@ export default defineComponent({
         <router-link to="order" v-else>
           <button
             to="/order"
+            :class="{ 'opacity-40 cursor-default': pizzas.length == 0 }"
             class="
               bg-p-red
               w-full
@@ -182,6 +210,8 @@ export default defineComponent({
               mt-2
               lg:mt-8
             "
+            :disabled="pizzas.length == 0"
+            @click="placeOrder"
           >
             Order (€ {{ totalPrice.toFixed(2) }})
           </button>
@@ -201,9 +231,5 @@ export default defineComponent({
 
 .scroll::-webkit-scrollbar-thumb:hover {
   background-color: #a8a8a8;
-}
-
-.basket {
-  margin-top: 4.75rem;
 }
 </style>

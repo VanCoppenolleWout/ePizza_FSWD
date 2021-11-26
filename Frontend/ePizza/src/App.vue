@@ -25,12 +25,10 @@ export default defineComponent({
 </template>
 
 <style scoped>
-.fade-enter-active,
-.fade-leave-active {
+.fade-enter-active {
   transition: opacity 1s, transform 1s;
 }
 
-.fade-leave-to,
 .fade-enter-from {
   /* transform: translateX(-30%); */
   opacity: 0;

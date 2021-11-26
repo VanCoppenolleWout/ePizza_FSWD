@@ -21,6 +21,7 @@ export default defineComponent({
     type: String,
     placeholder: String,
     full: Boolean,
+    disabled: Boolean,
   },
 })
 </script>
@@ -37,6 +38,7 @@ export default defineComponent({
       label
     }}</label>
     <input
+      :disabled="disabled"
       class="
         rounded-md
         outline-none

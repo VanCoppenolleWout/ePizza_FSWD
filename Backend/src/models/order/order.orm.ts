@@ -1,19 +1,20 @@
 export interface OrderORM {
+  user: UserORM | string
+  address: AddressORM | string | undefined
+  pizzas: Pizzas[]
+  time_preference: Date
+}
+
+export interface Pizzas {
   pizza_id: string
   size_id: number
   topping_ids: Array<string>
-}
-
-export interface OrderGuestORM {
-  user: UserORM
-  order: OrderORM[]
 }
 
 export interface UserORM {
   name: string
   lastname: string
   email: string
-  phone_nr: string
   address: AddressORM
 }
 

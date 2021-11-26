@@ -8,7 +8,7 @@ import {
   UseGuards,
 } from '@nestjs/common'
 import { FirebaseAuthGuard } from 'src/firebase/firebase-auth.guard'
-import { OrderGuestORM, OrderORM, UserORM } from './order.orm'
+import { OrderORM } from './order.orm'
 import { OrderService } from './order.service'
 
 @Controller('order')
@@ -16,14 +16,8 @@ export class OrderController {
   constructor(private orderService: OrderService) {}
 
   @Post('/')
-  @UseGuards(FirebaseAuthGuard)
-  async placeOrder(@Body() orderORM: OrderORM[], @Headers() headers) {
-    return await this.orderService.placeOrder(orderORM, headers)
-  }
-
-  @Post('/guest')
-  async placeOrderGuest(@Body() body: OrderGuestORM) {
-    return await this.orderService.placeOrderGuest(body)
+  async placeOrder(@Body() orderORM: OrderORM) {
+    return await this.orderService.placeOrder(orderORM)
   }
 
   @Get('all')
