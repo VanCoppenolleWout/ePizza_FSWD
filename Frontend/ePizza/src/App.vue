@@ -5,23 +5,14 @@ import { fetchData } from './composables/useNetwork'
 import { ActionTypes, MutationTypes, useStore } from './store/store'
 
 export default defineComponent({
-  setup() {
-    const { store } = useStore()
-    const auth = getAuth()
-    onAuthStateChanged(auth, async (user) => {
-      const { get } = fetchData()
-      const admin = await get('/user/admin', await user?.getIdToken())
-      store.dispatch(MutationTypes.setAdmin, admin.admin)
-      store.dispatch(ActionTypes.setUser, user)
-    })
-  },
+  setup() {},
 })
 </script>
 
 <template>
-  <transition name="fade" mode="out-in">
-    <router-view></router-view>
-  </transition>
+  <!-- <transition name="fade" mode="out-in"> -->
+  <router-view></router-view>
+  <!-- </transition> -->
 </template>
 
 <style scoped>
@@ -31,6 +22,6 @@ export default defineComponent({
 
 .fade-enter-from {
   /* transform: translateX(-30%); */
-  opacity: 0;
+  opacity: 0.5;
 }
 </style>

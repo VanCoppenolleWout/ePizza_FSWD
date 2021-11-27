@@ -24,6 +24,8 @@ export default defineComponent({
       const timeline = new TimelineLite()
 
       timeline.from('.animation1', { y: '-50px', opacity: 0, stagger: 0.2 })
+      timeline.from('.animation2', { y: '-50px', opacity: 0 }, '-=0.4')
+      timeline.from('.animation3', { y: '-50px', opacity: 0 }, '-=0.2')
     })
 
     return {
@@ -113,6 +115,7 @@ export default defineComponent({
               text-center
               cursor-default
               lg:justify-self-start
+              animation2
             "
           >
             <h2 class="text-xl font-medium">
@@ -138,6 +141,7 @@ export default defineComponent({
               text-center
               cursor-default
               lg:justify-self-end
+              animation2
             "
           >
             <h2 class="text-xl font-medium">
@@ -163,6 +167,7 @@ export default defineComponent({
               text-center
               cursor-default
               lg:justify-self-start
+              animation3
             "
           >
             <h2 class="text-xl font-medium">
@@ -188,6 +193,7 @@ export default defineComponent({
               text-center
               cursor-default
               lg:justify-self-end
+              animation3
             "
           >
             <h2 class="text-xl font-medium">

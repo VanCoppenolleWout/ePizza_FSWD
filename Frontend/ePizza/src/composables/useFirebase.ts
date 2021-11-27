@@ -10,7 +10,20 @@ import {
   signInWithCustomToken,
 } from 'firebase/auth'
 import { Ref, ref, readonly } from 'vue'
+import { ActionTypes, MutationTypes, store } from '../store/store'
+import { fetchData } from './useNetwork'
 
+export const firebaseConfig: FirebaseOptions = {
+  apiKey: 'AIzaSyBuf6CzQHfyORsCLgcYKYFvcSM3YLbxfZU',
+  authDomain: 'pizza-backend-67c13.firebaseapp.com',
+  projectId: 'pizza-backend-67c13',
+  storageBucket: 'pizza-backend-67c13.appspot.com',
+  messagingSenderId: '426479720985',
+  appId: '1:426479720985:web:919482c8e472d2344c6888',
+  measurementId: 'G-RSNQ9RXHCK',
+}
+
+const app: FirebaseApp = initializeApp(firebaseConfig)
 const auth: Auth = getAuth()
 
 setPersistence(auth, browserLocalPersistence)
@@ -35,6 +48,25 @@ export default () => {
     })
   }
 
+  const restoreAuth = async (): Promise<boolean> => {
+    return new Promise((resolve, reject) => {
+      try {
+        auth.onAuthStateChanged(async (res) => {
+          const { get } = fetchData()
+          const admin = await get('/user/admin', await res?.getIdToken())
+          store.dispatch(MutationTypes.setAdmin, admin.admin)
+          store.dispatch(ActionTypes.setUser, user)
+
+          console.log(await res?.getIdToken())
+          user.value = res
+          resolve(true)
+        })
+      } catch (error) {
+        reject(false)
+      }
+    })
+  }
+
   const loginId = (id: string): Promise<boolean> => {
     return new Promise((resolve, reject) => {
       signInWithCustomToken(auth, id)
@@ -55,6 +87,7 @@ export default () => {
     login,
     logout,
     loginId,
+    restoreAuth,
 
     user: readonly(user),
   }

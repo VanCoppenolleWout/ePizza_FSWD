@@ -35,4 +35,13 @@ export class UserService {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST)
     }
   }
+
+  async getAddress(user_id: string) {
+    return await this.userRepository
+      .createQueryBuilder('user')
+      .select(['user.name', 'user.lastname', 'user.email'])
+      .innerJoinAndSelect('user.addresses', 'address')
+      .where('user_id = :user_id', { user_id })
+      .getOne()
+  }
 }

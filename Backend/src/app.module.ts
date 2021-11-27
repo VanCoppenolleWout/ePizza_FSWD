@@ -11,6 +11,7 @@ import { ToppingModule } from './models/topping/topping.module'
 import { GraphQLModule } from '@nestjs/graphql'
 import { ReviewModule } from './models/review/review.module'
 import { AppService } from './app.service'
+import { AddressModule } from './models/address/address.module'
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { AppService } from './app.service'
     SizeModule,
     ToppingModule,
     ReviewModule,
+    AddressModule,
     FirebaseAuthStrategy,
     // declare this to use dot env files
     ConfigModule.forRoot({

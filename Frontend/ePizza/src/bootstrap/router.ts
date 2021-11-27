@@ -1,3 +1,4 @@
+import { initializeApp } from '@firebase/app'
 import { getAuth } from '@firebase/auth'
 import {
   createRouter,
@@ -5,7 +6,10 @@ import {
   Router,
   RouteRecordRaw,
 } from 'vue-router'
+import useFirebase from '../composables/useFirebase'
 import { fetchData } from '../composables/useNetwork'
+import { useStore } from '../store/store'
+const { get } = fetchData()
 
 const routes: RouteRecordRaw[] = [
   //global routes
@@ -30,6 +34,10 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/order',
     component: import('../screens/Order.vue'),
+    props: true,
+    beforeEnter: async (to, from, next) => {
+      next()
+    },
   },
   {
     path: '/tracker',
@@ -49,7 +57,6 @@ const routes: RouteRecordRaw[] = [
       const auth = getAuth()
       const idToken = await auth.currentUser?.getIdToken()
 
-      const { get } = fetchData()
       const { admin } = await get('/user/admin', idToken)
 
       admin ? next() : next({ name: 'home' })
