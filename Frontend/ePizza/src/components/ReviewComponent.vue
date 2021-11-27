@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent, Ref, ref } from 'vue'
 import InputComponent from '../components/InputComponent.vue'
+import { fetchData } from '../composables/useNetwork'
 import { Review } from '../interfaces/review'
 import { postReview } from '../utils/network'
 
@@ -10,6 +11,9 @@ export default defineComponent({
     let text: Ref<any> = ref(null)
     let finalRating: Ref<string | null> = ref(null)
     let errorMsg: Ref<string> = ref('')
+    let formstate: Ref<boolean> = ref(true)
+
+    const { get } = fetchData()
 
     let ratingAr: any = ref([
       { id: 1 },
@@ -47,24 +51,22 @@ export default defineComponent({
         errorMsg.value = ''
         console.log('submit review')
         let review: Review = {
-          order_id: '',
-          user_id: '',
+          order_id: '11f413ef-8b94-4444-b67b-6f6e048b3eb2',
+          user_id: '59b1d72f-e34c-482e-ac5f-8e67fb5c7f5a',
           title: title.value,
           description: text.value,
           stars: parseInt(finalRating.value),
         }
-        let submitReview = await postReview('/review', review)
-      }
-    }
+        //let submitReview = await postReview('/review', review)
 
-    const handleChange = (input: any) => {
-      //console.log(text.value)
-      input.id === 'text' && input.value !== ''
-        ? (text.value = input.value)
-        : null
-      input.id === 'title' && input.value !== ''
-        ? (title.value = input.value)
-        : null
+        // temp solution
+        formstate.value = false
+        // const reviewCheck = await get(`/review/one/${review.order_id}`)
+        // if (reviewCheck !== undefined)
+        // {
+        //   formstate.value = false
+        // }
+      }
     }
 
     return {
@@ -72,8 +74,8 @@ export default defineComponent({
       tempAr,
       title,
       text,
+      formstate,
       selectRating,
-      handleChange,
       handleReview,
     }
   },
@@ -90,7 +92,7 @@ export default defineComponent({
       class="p-8 flex flex-col justify-between h-full"
       style="width: 40rem"
     >
-      <div>
+      <div :class="formstate === false ? 'pointer-events-none opacity-40' : ''">
         <div class="flex flex-row justify-between">
           <div></div>
           <div>
@@ -108,6 +110,7 @@ export default defineComponent({
                   py-1
                   px-4
                   hover:bg-red-300w hover:bg-yellow-200
+                  transform hover:scale-125 transition ease-out duration-300
                 "
                 :class="
                   tempAr.includes(rating) ? 'bg-yellow-100' : 'bg-primary'
@@ -118,7 +121,7 @@ export default defineComponent({
                   width="24"
                   height="24"
                   viewBox="0 0 24 24"
-                  fill="#FFD700"
+                  fill="#FFC800"
                   stroke="#FFD700"
                   stroke-width="2"
                   stroke-linecap="round"
@@ -155,7 +158,6 @@ export default defineComponent({
               placeholder="Type..."
               id="text"
               v-model="text"
-              @keyup="handleChange"
             ></textarea>
           </label>
         </div>
@@ -180,7 +182,6 @@ export default defineComponent({
                 bg-primary
               "
               v-model="title"
-              @keyup="handleChange"
             />
           </label>
         </div>
@@ -197,9 +198,11 @@ export default defineComponent({
           lg:mt-8
           self-center
         "
+        :class="formstate === false ? 'pointer-events-none opacity-40' : ''"
         type="submit"
       >
-        <p class="text-white">Submit review</p>
+        <p v-if="formstate === true" class="text-white">Submit review</p>
+        <p v-else class="text-white">Submitted</p>
       </button>
     </form>
   </div>
