@@ -81,7 +81,13 @@ export default defineComponent({
           </template>
         </Suspense>
       </div>
-      <Basket />
+      <Basket class="basket" />
     </div>
   </div>
 </template>
+
+<style>
+.basket {
+  margin-top: 4.75rem;
+}
+</style>

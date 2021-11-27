@@ -1,27 +1,105 @@
 <script lang="ts">
-import { defineComponent, Ref, ref } from 'vue'
+import {
+  defineComponent,
+  onBeforeUnmount,
+  onMounted,
+  Ref,
+  ref,
+  toRefs,
+  watch,
+} from 'vue'
 import BasketItem from './BasketItem.vue'
+import { TimelineLite } from 'gsap'
+import { Pizza } from '../interfaces/pizza'
+import { useLocalStorage } from '../composables/useLocalStorage'
+import { fetchData } from '../composables/useNetwork'
 
 export default defineComponent({
-  setup() {
-    // const items = ref<any>();
+  setup(props, { emit }) {
+    const { addOrder } = toRefs(props)
     const active: Ref<boolean> = ref(false)
-    const items: any = localStorage.getItem('items')
-    console.log(items, 'items')
+    const { getPizzasLocal, deletePizzaLocal, addPizzaLocal } =
+      useLocalStorage()
+
+    const pizzas: Ref<Array<Pizza>> = ref(getPizzasLocal())
+
+    let pizzaCounts: Ref<Record<string, number>> = ref({})
+    const totalPrice = ref()
+
+    watch(pizzas, () => {
+      setPizzaCounts()
+      setPizzaPrice()
+    })
+
+    const setPizzaCounts = () => {
+      pizzaCounts.value = {}
+      pizzas.value.forEach((pizza) => {
+        pizzaCounts.value[JSON.stringify(pizza)] =
+          (pizzaCounts.value[JSON.stringify(pizza)] || 0) + 1
+      })
+    }
+
+    const setPizzaPrice = () => {
+      totalPrice.value = pizzas.value.reduce(
+        (total, pizza) => total + pizza.price,
+        0,
+      )
+    }
+
+    const sortPizzas = () =>
+      pizzas.value.sort((a, b) =>
+        a.name !== b.name ? (a.name < b.name ? -1 : 1) : 0,
+      )
+
+    const addPizza = () => {
+      emit('addPizza')
+    }
+
+    const deletePizza = (pizza: Pizza) => {
+      pizzas.value = deletePizzaLocal(pizza)
+      sortPizzas()
+    }
+
+    const AddPizza = (pizza: Pizza) => {
+      pizzas.value = addPizzaLocal(pizza)
+      sortPizzas()
+    }
+
+    const placeOrder = () => {
+      const { get } = fetchData()
+      get('/')
+    }
+
+    const item = ref(null)
+    onMounted(() => {
+      const timeline = new TimelineLite()
+
+      timeline.from('.item', 1, { x: '33%', opacity: 0, stagger: 0.2 })
+    })
+
+    onBeforeUnmount(() => {})
+
+    sortPizzas()
+    setPizzaPrice()
+    setPizzaCounts()
 
     return {
-      items,
+      pizzas,
       active,
-    }
-  },
-  mounted() {
-    // const items = ref<any>();
-    const items: any = localStorage.getItem('items')
-    return {
-      items,
+      pizzaCounts,
+      addOrder,
+      addPizza,
+      AddPizza,
+      totalPrice,
+      deletePizza,
+      placeOrder,
+      item,
     }
   },
   components: { BasketItem },
+  props: {
+    addOrder: Boolean,
+  },
 })
 </script>
 
@@ -37,7 +115,7 @@ export default defineComponent({
       w-full
       transform
       -translate-x-1/2
-      lg:relative lg:translate-x-0 lg:left-0 lg:w-80
+      lg:relative lg:translate-x-0 lg:left-0 lg:w-72
     "
   >
     <div class="p-4 flex flex-col justify-between">
@@ -64,7 +142,7 @@ export default defineComponent({
             </svg>
           </div>
         </div>
-        <div v-if="items !== null">
+        <div v-if="pizzas.length == 0">
           <p>Add items to the order.</p>
         </div>
         <div
@@ -79,23 +157,30 @@ export default defineComponent({
           :class="active ? 'block' : 'hidden'"
           v-else
         >
-          <BasketItem />
-          <BasketItem />
-          <BasketItem />
-          <BasketItem />
-          <BasketItem />
-          <BasketItem />
-          <BasketItem />
-          <BasketItem />
+          <div v-for="(pizza, index) of Object.keys(pizzaCounts)" :key="index">
+            <div ref="item" class="item">
+              <BasketItem
+                :name="JSON.parse(pizza).name"
+                :price="JSON.parse(pizza).price"
+                :sizeIndex="JSON.parse(pizza).size"
+                :amount="pizzaCounts[pizza]"
+                @deletePizza="deletePizza(JSON.parse(pizza))"
+                @addPizza="AddPizza(JSON.parse(pizza))"
+              />
+            </div>
+          </div>
         </div>
       </div>
-      <footer v-if="items === null" class="lg:mt-10">
+      <footer v-if="pizzas !== null" class="lg:mt-10">
         <div class="lg:flex flex-row justify-between items-center hidden">
           <h2 class="text-xl font-semibold">Total</h2>
-          <p class="text-xl font-medium text-p-gray-300">€{{ ' 13,50' }}</p>
+          <p class="text-xl font-medium text-p-gray-300">
+            €{{ totalPrice.toFixed(2) }}
+          </p>
         </div>
 
         <button
+          v-if="addOrder"
           class="
             bg-p-red
             w-full
@@ -106,9 +191,31 @@ export default defineComponent({
             mt-2
             lg:mt-8
           "
+          @click="addPizza"
         >
-          Order (€ {{ ' 13,50' }})
+          Add to order
         </button>
+
+        <router-link to="order" v-else>
+          <button
+            to="/order"
+            :class="{ 'opacity-40 cursor-default': pizzas.length == 0 }"
+            class="
+              bg-p-red
+              w-full
+              rounded-md
+              text-white
+              font-semibold
+              py-3
+              mt-2
+              lg:mt-8
+            "
+            :disabled="pizzas.length == 0"
+            @click="placeOrder"
+          >
+            Order (€ {{ totalPrice.toFixed(2) }})
+          </button>
+        </router-link>
       </footer>
     </div>
   </div>
@@ -124,9 +231,5 @@ export default defineComponent({
 
 .scroll::-webkit-scrollbar-thumb:hover {
   background-color: #a8a8a8;
-}
-
-.basket {
-  margin-top: 3.625rem;
 }
 </style>

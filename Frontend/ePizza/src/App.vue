@@ -1,13 +1,17 @@
 <script lang="ts">
 import { getAuth, onAuthStateChanged, User } from '@firebase/auth'
 import { defineComponent } from 'vue'
-import { ActionTypes, useStore } from './store/store'
+import { fetchData } from './composables/useNetwork'
+import { ActionTypes, MutationTypes, useStore } from './store/store'
 
 export default defineComponent({
   setup() {
     const { store } = useStore()
     const auth = getAuth()
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
+      const { get } = fetchData()
+      const admin = await get('/user/admin', await user?.getIdToken())
+      store.dispatch(MutationTypes.setAdmin, admin.admin)
       store.dispatch(ActionTypes.setUser, user)
     })
   },
@@ -21,12 +25,10 @@ export default defineComponent({
 </template>
 
 <style scoped>
-.fade-enter-active,
-.fade-leave-active {
+.fade-enter-active {
   transition: opacity 1s, transform 1s;
 }
 
-.fade-leave-to,
 .fade-enter-from {
   /* transform: translateX(-30%); */
   opacity: 0;

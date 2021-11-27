@@ -27,6 +27,6 @@ export class UserController {
   @Roles(Role.Admin)
   @UseGuards(FirebaseAuthGuard, RolesGuard)
   async checkAdmin(@Res() res) {
-    return { admin: true }
+    res.send({ admin: true })
   }
 }

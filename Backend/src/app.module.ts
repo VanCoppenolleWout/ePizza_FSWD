@@ -10,6 +10,7 @@ import { SizeModule } from './models/size/size.module'
 import { ToppingModule } from './models/topping/topping.module'
 import { GraphQLModule } from '@nestjs/graphql'
 import { ReviewModule } from './models/review/review.module'
+import { AppService } from './app.service'
 
 @Module({
   imports: [
@@ -31,6 +32,6 @@ import { ReviewModule } from './models/review/review.module'
       autoSchemaFile: true,
     }),
   ],
-  providers: [],
+  providers: [AppService],
 })
 export class AppModule {}

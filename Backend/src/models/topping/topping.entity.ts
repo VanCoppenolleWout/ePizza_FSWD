@@ -8,10 +8,6 @@ export class Topping {
   @Column()
   name?: string
   @Column()
-  img_url?: string
-  @Column()
-  type?: string
-  @Column()
   price?: number
 
   @ManyToMany(() => OrderPizzaSizeTopping, orderPizzaSizeTopping => orderPizzaSizeTopping.toppings)

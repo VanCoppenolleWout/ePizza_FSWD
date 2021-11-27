@@ -21,6 +21,7 @@ export default defineComponent({
     type: String,
     placeholder: String,
     full: Boolean,
+    disabled: Boolean,
   },
 })
 </script>
@@ -37,6 +38,7 @@ export default defineComponent({
       label
     }}</label>
     <input
+      :disabled="disabled"
       class="
         rounded-md
         outline-none
@@ -59,7 +61,7 @@ export default defineComponent({
       :type="type"
       :id="id"
       :placeholder="placeholder"
-      @keydown="handleInput"
+      @keyup="handleInput"
       @blur="handleInput"
     />
     <div class="text-red-500 absolute mt-1" v-if="errorMsg">

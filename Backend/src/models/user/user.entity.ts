@@ -8,6 +8,7 @@ import {
 } from 'typeorm'
 import { Address } from '../address/address.entity'
 import { Order } from '../order/order.entity'
+import { Review } from '../review/review.entity'
 
 @Entity('User')
 export class User {
@@ -19,15 +20,15 @@ export class User {
   lastname?: string
   @Column()
   email?: string
-  @Column()
+  @Column({ nullable: true })
   phone_nr?: string
   password?: string
 
   @OneToMany(() => Order, (order) => order.user)
   orderConnection?: Order[]
 
-  @OneToMany(() => Order, (review) => review.user)
-  reviewConnection?: Order[]
+  @OneToMany(() => Review, (review) => review.user)
+  reviewConnection?: Review[]
 
   @ManyToMany(() => Address, (address) => address.users, {
     cascade: true,

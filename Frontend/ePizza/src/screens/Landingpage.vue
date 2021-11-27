@@ -1,15 +1,16 @@
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent, onMounted, ref } from 'vue'
 import AppHeader from '../components/AppHeader.vue'
 import AppFooter from '../components/AppFooter.vue'
 import LoginComponent from '../components/LoginComponenet.vue'
 import BannerComponent from '../components/BannerComponent.vue'
 import { useStore } from '../store/store'
+import { TimelineLite } from 'gsap'
 
 export default defineComponent({
   setup(props) {
-    let userRegistered = ref()
-    userRegistered.value = props.userCreated
+    const userRegistered = ref(props.userCreated)
+    // userRegistered.value =
 
     const closeTab = () => (userRegistered.value = 0)
 
@@ -17,6 +18,12 @@ export default defineComponent({
 
     const user = computed(() => {
       return store.getters.getUser
+    })
+
+    onMounted(() => {
+      const timeline = new TimelineLite()
+
+      timeline.from('.animation1', { y: '-50px', opacity: 0, stagger: 0.2 })
     })
 
     return {
@@ -53,22 +60,23 @@ export default defineComponent({
           transition-all
           ease
           duration-300
+          img
         "
         src="../assets/images/pizza-bg.png"
         alt=""
       />
 
       <header class="m-w-top">
-        <h1 class="font-semibold text-6xl">
+        <h1 class="font-semibold text-6xl animation1">
           Newest, freshest and best pizza in
           <span class="text-red-500">Kortrijk</span>.
         </h1>
-        <h2 class="font-medium text-2xl pt-10">
+        <h2 class="font-medium text-2xl pt-10 animation1">
           Always wanted to try the freshest pizza in the whole wide world? Wait
           no longer and taste for
           <span class="text-red-500">youself</span>.
         </h2>
-        <div class="flex flex-row items-center space-x-5 mt-6">
+        <div class="flex flex-row items-center space-x-5 mt-6 animation1">
           <button
             class="rounded-xl bg-yellow-300 py-4 w-40 text-white font-semibold"
           >
