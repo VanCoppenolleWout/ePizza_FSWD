@@ -86,7 +86,7 @@ export default defineComponent({
   </div>
 </template>
 
-<style>
+<style scoped>
 .basket {
   margin-top: 4.75rem;
 }

@@ -1,25 +1,19 @@
 <script lang="ts">
-import {
-  defineComponent,
-  onBeforeUnmount,
-  onMounted,
-  Ref,
-  ref,
-  toRefs,
-  watch,
-} from 'vue'
+import { defineComponent, Ref, ref, toRefs, watch } from 'vue'
 import BasketItem from './BasketItem.vue'
 import { TimelineLite } from 'gsap'
 import { Pizza } from '../interfaces/pizza'
 import { useLocalStorage } from '../composables/useLocalStorage'
-import { fetchData } from '../composables/useNetwork'
 
 export default defineComponent({
   setup(props, { emit }) {
-    const { addOrder } = toRefs(props)
     const active: Ref<boolean> = ref(false)
-    const { getPizzasLocal, deletePizzaLocal, addPizzaLocal } =
-      useLocalStorage()
+    const {
+      getPizzasLocal,
+      deletePizzaLocal,
+      addPizzaLocal,
+      deletePizzasLocal,
+    } = useLocalStorage()
 
     const pizzas: Ref<Array<Pizza>> = ref(getPizzasLocal())
 
@@ -55,7 +49,19 @@ export default defineComponent({
       emit('addPizza')
     }
 
-    const deletePizza = (pizza: Pizza) => {
+    const deletePizza = async (
+      pizza: Pizza,
+      element: string,
+      count: number,
+    ) => {
+      const timeline = new TimelineLite()
+
+      if (count === 1)
+        await timeline.to(`.${element}`, 0.5, {
+          x: '33%',
+          opacity: 0,
+        })
+
       pizzas.value = deletePizzaLocal(pizza)
       sortPizzas()
     }
@@ -66,18 +72,10 @@ export default defineComponent({
     }
 
     const placeOrder = () => {
-      const { get } = fetchData()
-      get('/')
+      emit('placeOrder', pizzas.value)
+
+      // pizzas.value = getPizzasLocal()
     }
-
-    const item = ref(null)
-    onMounted(() => {
-      const timeline = new TimelineLite()
-
-      timeline.from('.item', 1, { x: '33%', opacity: 0, stagger: 0.2 })
-    })
-
-    onBeforeUnmount(() => {})
 
     sortPizzas()
     setPizzaPrice()
@@ -87,18 +85,17 @@ export default defineComponent({
       pizzas,
       active,
       pizzaCounts,
-      addOrder,
+      totalPrice,
       addPizza,
       AddPizza,
-      totalPrice,
       deletePizza,
       placeOrder,
-      item,
     }
   },
   components: { BasketItem },
   props: {
     addOrder: Boolean,
+    orderPage: Boolean,
   },
 })
 </script>
@@ -158,16 +155,30 @@ export default defineComponent({
           v-else
         >
           <div v-for="(pizza, index) of Object.keys(pizzaCounts)" :key="index">
-            <div ref="item" class="item">
+            <!-- <div class="item"> -->
+            <transition-group v-bind:css="false">
               <BasketItem
                 :name="JSON.parse(pizza).name"
                 :price="JSON.parse(pizza).price"
                 :sizeIndex="JSON.parse(pizza).size"
                 :amount="pizzaCounts[pizza]"
-                @deletePizza="deletePizza(JSON.parse(pizza))"
+                @deletePizza="
+                  deletePizza(
+                    JSON.parse(pizza),
+                    `${JSON.parse(pizza)
+                      .name.replaceAll(' ', '')
+                      .replace('&', '')}${index}`,
+                    pizzaCounts[pizza],
+                  )
+                "
                 @addPizza="AddPizza(JSON.parse(pizza))"
+                :key="JSON.parse(pizza).name"
+                :class="`${JSON.parse(pizza)
+                  .name.replaceAll(' ', '')
+                  .replace('&', '')}${index}`"
               />
-            </div>
+            </transition-group>
+            <!-- </div> -->
           </div>
         </div>
       </div>
@@ -195,6 +206,25 @@ export default defineComponent({
         >
           Add to order
         </button>
+        <button
+          v-else-if="orderPage"
+          to="/order"
+          :class="{ 'opacity-40 cursor-default': pizzas.length == 0 }"
+          class="
+            bg-p-red
+            w-full
+            rounded-md
+            text-white
+            font-semibold
+            py-3
+            mt-2
+            lg:mt-8
+          "
+          :disabled="pizzas.length == 0"
+          @click="placeOrder"
+        >
+          Order (€ {{ totalPrice.toFixed(2) }})
+        </button>
 
         <router-link to="order" v-else>
           <button
@@ -211,7 +241,6 @@ export default defineComponent({
               lg:mt-8
             "
             :disabled="pizzas.length == 0"
-            @click="placeOrder"
           >
             Order (€ {{ totalPrice.toFixed(2) }})
           </button>

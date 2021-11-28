@@ -9,8 +9,8 @@ export default defineComponent({
   setup() {
     const { login } = useFirebase()
 
-    let email: Ref<string | null> = ref(null)
-    let password: Ref<string | null> = ref(null)
+    let email: Ref<string> = ref('')
+    let password: Ref<string> = ref('')
 
     const router: Router = useRouter()
 
@@ -18,7 +18,18 @@ export default defineComponent({
     let errorMsg: Ref<string> = ref('')
 
     const handleForm = async () => {
+      console.log(email.value, password.value)
       animateCircle.value = true
+
+       login('glenntroncquo1@gmail.com', 'Glenn20062001').then((succes: boolean) => {
+            if (succes) {
+              animateCircle.value = false
+              router.push('/')
+            } else {
+              animateCircle.value = false
+              errorMsg.value = 'failed'
+            }
+          })
 
       if (
         email.value === null ||
@@ -50,20 +61,12 @@ export default defineComponent({
       }
     }
 
-    const handleChange = (input: any) => {
-      input.id === 'email' && input.value !== ''
-        ? (email.value = input.value)
-        : null
-      input.id === 'password' && input.value !== ''
-        ? (password.value = input.value)
-        : null
-    }
-
     return {
       handleForm,
-      handleChange,
       animateCircle,
       errorMsg,
+      email,
+      password,
     }
   },
   components: {
@@ -93,16 +96,16 @@ export default defineComponent({
               placeholder="john.doe@mail.com"
               type="email"
               label="Email"
-              @handleInput="handleChange"
               class="w-full"
+              v-model="email"
             />
             <InputComponent
               id="password"
               placeholder="●●●●●●●●"
               type="password"
               label="password"
-              @handleInput="handleChange"
               :full="true"
+              v-model="password"
             />
           </div>
 

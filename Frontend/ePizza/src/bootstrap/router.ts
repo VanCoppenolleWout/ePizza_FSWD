@@ -36,12 +36,23 @@ const routes: RouteRecordRaw[] = [
     component: import('../screens/Order.vue'),
     props: true,
     beforeEnter: async (to, from, next) => {
-      next()
+      const delivery = localStorage.getItem('delivery')
+
+      if (delivery == null) next({ name: 'home' })
+      if (delivery == 'true') {
+        to.params.delivery = 'true'
+        next()
+      } else {
+        to.params.delivery = 'false'
+        next()
+      }
     },
   },
   {
     path: '/tracker',
     component: import('../screens/Tracker.vue'),
+    name: 'tracker',
+    props: true,
   },
   {
     path: '/detail',

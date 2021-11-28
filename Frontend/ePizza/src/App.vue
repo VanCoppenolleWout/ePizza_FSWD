@@ -10,9 +10,9 @@ export default defineComponent({
 </script>
 
 <template>
-  <!-- <transition name="fade" mode="out-in"> -->
+  <transition name="fade" mode="out-in">
   <router-view></router-view>
-  <!-- </transition> -->
+  </transition>
 </template>
 
 <style scoped>

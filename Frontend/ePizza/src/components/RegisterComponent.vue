@@ -1,21 +1,19 @@
 <script lang="ts">
-import { getAuth } from '@firebase/auth'
 import { defineComponent, Ref, ref } from 'vue'
 import { Router, useRouter } from 'vue-router'
 import useFirebase from '../composables/useFirebase'
 import { User } from '../interfaces/user'
 import { signUp } from '../utils/network'
 import InputComponent from './InputComponent.vue'
-import { signInWithCustomToken } from 'firebase/auth'
 
 export default defineComponent({
   setup() {
-    let name: Ref<string | null> = ref(null)
-    let lastname: Ref<string | null> = ref(null)
-    let email: Ref<string | null> = ref(null)
-    let phone_nr: Ref<string | null> = ref(null)
-    let password: Ref<string | null> = ref(null)
-    let confirmPassword: Ref<string | null> = ref(null)
+    let name: Ref<string> = ref('')
+    let lastname: Ref<string> = ref('')
+    let email: Ref<string> = ref('')
+    let phone_nr: Ref<string> = ref('')
+    let password: Ref<string> = ref('')
+    let confirmPassword: Ref<string> = ref('')
 
     let animateCircle: Ref<boolean> = ref(false)
     const router: Router = useRouter()
@@ -58,7 +56,7 @@ export default defineComponent({
         //Registered succesfully ? -> back to home
         if (register.token) {
           animateCircle.value = false
-    
+
           const { loginId } = useFirebase()
 
           await loginId(register.token)
@@ -71,31 +69,16 @@ export default defineComponent({
       }
     }
 
-    const handleChange = (input: any) => {
-      input.id === 'name' && input.value !== ''
-        ? (name.value = input.value)
-        : null
-      input.id === 'lastname' && input.value !== ''
-        ? (lastname.value = input.value)
-        : null
-      input.id === 'email' && input.value !== ''
-        ? (email.value = input.value)
-        : null
-      input.id === 'phone_nr' && input.value !== ''
-        ? (phone_nr.value = input.value)
-        : null
-      input.id === 'password' && input.value !== ''
-        ? (password.value = input.value)
-        : null
-      input.id === 'confirm' && input.value !== ''
-        ? (confirmPassword.value = input.value)
-        : null
-    }
     return {
       handleForm,
       errorMsg,
       animateCircle,
-      handleChange,
+      name,
+      lastname,
+      email,
+      phone_nr,
+      password,
+      confirmPassword,
     }
   },
   components: { InputComponent },
@@ -175,14 +158,14 @@ export default defineComponent({
           placeholder="John"
           type="text"
           label="Name"
-          @handleInput="handleChange"
+          v-model="name"
         />
         <InputComponent
           id="lastname"
           placeholder="Doe"
           type="text"
           label="lastname"
-          @handleInput="handleChange"
+          v-model="lastname"
         />
       </div>
 
@@ -192,14 +175,14 @@ export default defineComponent({
           placeholder="johndoe@gmail.com"
           type="email"
           label="Email"
-          @handleInput="handleChange"
+          v-model="email"
         />
         <InputComponent
           id="phone_nr"
           placeholder="0496 05 43 89"
           type="text"
           label="Phone number"
-          @handleInput="handleChange"
+          v-model="phone_nr"
         />
       </div>
 
@@ -209,14 +192,14 @@ export default defineComponent({
           placeholder="●●●●●●●●"
           type="password"
           label="Password"
-          @handleInput="handleChange"
+          v-model="password"
         />
         <InputComponent
           id="confirm"
           placeholder="●●●●●●●●"
           type="password"
           label="Confirm password"
-          @handleInput="handleChange"
+          v-model="confirmPassword"
         />
       </div>
 

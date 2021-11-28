@@ -37,11 +37,19 @@ export class UserService {
   }
 
   async getAddress(user_id: string) {
-    return await this.userRepository
+    const userAddress = await this.userRepository
       .createQueryBuilder('user')
       .select(['user.name', 'user.lastname', 'user.email'])
       .innerJoinAndSelect('user.addresses', 'address')
       .where('user_id = :user_id', { user_id })
       .getOne()
+
+    return userAddress == undefined
+      ? await this.userRepository
+          .createQueryBuilder('user')
+          .select(['user.name', 'user.lastname', 'user.email', 'user.user_id'])
+          .where('user_id = :user_id', { user_id })
+          .getOne()
+      : userAddress
   }
 }
