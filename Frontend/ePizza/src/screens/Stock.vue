@@ -15,7 +15,7 @@ export default defineComponent({
     <AppHeader mode="full"/>
 
     <div class="lg:mt-14 lg:flex lg:items-start lg:justify-between">
-      <div>this is the orders page</div>
+      <div>this is the stock page</div>
     </div>
   </div>
 </template>

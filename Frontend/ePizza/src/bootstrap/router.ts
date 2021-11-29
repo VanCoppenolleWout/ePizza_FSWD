@@ -73,6 +73,18 @@ const routes: RouteRecordRaw[] = [
       admin ? next() : next({ name: 'home' })
     },
   },
+  {
+    path: '/stock',
+    component: import('../screens/Stock.vue'),
+    beforeEnter: async (to, from, next) => {
+      const auth = getAuth()
+      const idToken = await auth.currentUser?.getIdToken()
+
+      const { admin } = await get('/user/admin', idToken)
+
+      admin ? next() : next({ name: 'home' })
+    },
+  },
 ]
 
 const router: Router = createRouter({

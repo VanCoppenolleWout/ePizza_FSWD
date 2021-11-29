@@ -51,7 +51,8 @@ export default defineComponent({
             text-p-red
           "
         >
-          <a
+          <router-link
+            to="/stock"
             class="
               cursor-pointer
               px-6
@@ -60,12 +61,11 @@ export default defineComponent({
               rounded-xl
               hover:bg-red-100
             "
-            href="#services"
           >
             Dashboard
-          </a>
+          </router-link>
           <router-link
-            to="/menu"
+            to="/orders"
             class="
               cursor-pointer
               px-6

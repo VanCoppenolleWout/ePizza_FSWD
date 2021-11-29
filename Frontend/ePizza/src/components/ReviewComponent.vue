@@ -51,22 +51,31 @@ export default defineComponent({
         errorMsg.value = ''
         console.log('submit review')
         let review: Review = {
-          order_id: '11f413ef-8b94-4444-b67b-6f6e048b3eb2',
-          user_id: '59b1d72f-e34c-482e-ac5f-8e67fb5c7f5a',
+          order_id: 'e1cf4f2c-f289-4ad7-b15c-a3eb6be7bdab',
+          user_id: 'Fry7xgzP2MQM79iZNhC35oCZDIL2',
           title: title.value,
           description: text.value,
           stars: parseInt(finalRating.value),
         }
-        //let submitReview = await postReview('/review', review)
+        let submitReview = await postReview('review', review)
+        console.log(submitReview, 'log1')
 
-        // temp solution
-        formstate.value = false
-        // const reviewCheck = await get(`/review/one/${review.order_id}`)
-        // if (reviewCheck !== undefined)
-        // {
-        //   formstate.value = false
-        // }
+        const reviewCheck = await get(`/review/order/${review.order_id}`)
+        console.log(reviewCheck, 'log2')
+        if (reviewCheck !== undefined) {
+          formstate.value = false
+        }
       }
+
+      const initialReviewCheck = async () => {
+        const reviewCheck = await get(`/review/order/e1cf4f2c-f289-4ad7-b15c-a3eb6be7bdab`)
+        console.log(reviewCheck, 'log2')
+        if (reviewCheck !== undefined) {
+          formstate.value = false
+        }
+      }
+
+      initialReviewCheck()
     }
 
     return {
@@ -110,7 +119,11 @@ export default defineComponent({
                   py-1
                   px-4
                   hover:bg-red-300w hover:bg-yellow-200
-                  transform hover:scale-125 transition ease-out duration-300
+                  transform
+                  hover:scale-125
+                  transition
+                  ease-out
+                  duration-300
                 "
                 :class="
                   tempAr.includes(rating) ? 'bg-yellow-100' : 'bg-primary'
