@@ -24,6 +24,7 @@ export class ReviewService {
       title: reviewORM.title,
       description: reviewORM.description,
       stars: reviewORM.stars,
+      date: new Date(),
     }
 
     return await this.reviewRepository.save(review)

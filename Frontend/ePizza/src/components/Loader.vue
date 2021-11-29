@@ -13,7 +13,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="h-screen w-full z-10 flex justify-center">
+  <div class="h-screen w-full z-50 flex justify-center bg-yellow-200 fixed">
     <div class="mt-40">
       <img
         class="w-52 ml-12 img animation1 pointer-events-none"

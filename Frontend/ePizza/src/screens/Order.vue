@@ -10,6 +10,7 @@ import { fetchData } from '../composables/useNetwork'
 import { Pizza } from '../interfaces/pizza'
 import { User } from '../interfaces/user'
 import { store } from '../store/store'
+import { TimelineLite } from 'gsap'
 
 export default defineComponent({
   setup() {
@@ -64,7 +65,19 @@ export default defineComponent({
           userInputDisabled.value = true
         }
         setTimeout(async () => {
-          loader.value = false
+          const timeline = new TimelineLite()
+          await timeline.fromTo(
+            '.loader',
+            {
+              clipPath: 'circle(100%)',
+            },
+            {
+              duration: 0.7,
+              clipPath: 'circle(0%)',
+            },
+          )
+
+          // loader.value = false
         }, 1000)
       }
     }
@@ -110,8 +123,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <Loader v-if="loader" />
-  <div v-else class="container mx-auto p-8 md:px-0">
+  <Loader class="loader" />
+  <div class="container mx-auto p-8 md:px-0">
     <AppHeader />
     <div class="md:flex items-start mt-12 pb-32">
       <div class="md:w-1/3 lg:mx-1 hidden md:block">

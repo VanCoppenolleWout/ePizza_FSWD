@@ -19,6 +19,8 @@ export class Review {
   description?: string
   @Column()
   stars?: number
+  @Column()
+  date?: Date
 
   @ManyToOne(() => User, (user) => user.orderConnection)
   @JoinColumn({ name: 'user_id' })
@@ -28,4 +30,3 @@ export class Review {
   @JoinColumn({ name: 'order_id' })
   order?: Order
 }
-
