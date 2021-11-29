@@ -1,21 +1,117 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent, reactive, ref, Ref } from 'vue'
+import { Router, useRouter } from 'vue-router'
 import AppHeader from '../components/AppHeader.vue'
 import Basket from '../components/Basket.vue'
 import InputComponent from '../components/InputComponent.vue'
+import Loader from '../components/Loader.vue'
+import { useLocalStorage } from '../composables/useLocalStorage'
+import { fetchData } from '../composables/useNetwork'
+import { Pizza } from '../interfaces/pizza'
+import { User } from '../interfaces/user'
+import { store } from '../store/store'
 
 export default defineComponent({
-  setup() {},
+  setup() {
+    const { get, post } = fetchData()
+    const { deletePizzasLocal } = useLocalStorage()
+    const loader: Ref<boolean> = ref(false)
+    const userInputDisabled: Ref<boolean> = ref(false)
+    const addressInputDisabled: Ref<boolean> = ref(false)
+    const userId: Ref<string> = ref('')
+    const addressId: Ref<string> = ref('')
+    const router: Router = useRouter()
+
+    const user: User = reactive({
+      name: '',
+      lastname: '',
+      email: '',
+    })
+
+    const address = reactive({
+      city: '',
+      street: '',
+      number: '',
+      zip_code: '',
+    })
+
+    const firebaseUser = computed(() => {
+      return store.getters.getUser
+    })
+
+    const getUserAddress = async () => {
+      if (firebaseUser.value.uid) {
+        loader.value = true
+        const data = await get(`/user/address/${firebaseUser.value.uid}`)
+
+        try {
+          if (data.addresses) {
+            console.log(data.addresses)
+            address.city = data.addresses[0].city
+            address.street = data.addresses[0].street
+            address.zip_code = data.addresses[0].postal_code
+            address.number = data.addresses[0].number.toString()
+            addressId.value = data.addresses[0].address_id
+            addressInputDisabled.value = true
+          }
+          userId.value = firebaseUser.value.uid
+          user.name = data.name
+          user.lastname = data.lastname
+          user.email = data.email
+          userInputDisabled.value = true
+        } catch (error) {
+          addressInputDisabled.value = true
+          userInputDisabled.value = true
+        }
+        setTimeout(async () => {
+          loader.value = false
+        }, 1000)
+      }
+    }
+    const placeOrder = async (pizzas: Pizza[]) => {
+      loader.value = true
+      const body = {
+        user: userId.value,
+        address: addressId.value,
+        pizzas: pizzas,
+      }
+
+      const data = await post('/order', body)
+      deletePizzasLocal()
+      setTimeout(() => {
+        router.push({
+          name: 'tracker',
+          params: { order: JSON.stringify(data) },
+        })
+      }, 1000)
+    }
+
+    getUserAddress()
+
+    return {
+      loader,
+      user,
+      address,
+      userInputDisabled,
+      addressInputDisabled,
+      placeOrder,
+    }
+  },
   components: {
     AppHeader,
     Basket,
     InputComponent,
+    Loader,
+  },
+  props: {
+    delivery: String,
   },
 })
 </script>
 
 <template>
-  <div class="container mx-auto p-8 md:px-0">
+  <Loader v-if="loader" />
+  <div v-else class="container mx-auto p-8 md:px-0">
     <AppHeader />
     <div class="md:flex items-start mt-12 pb-32">
       <div class="md:w-1/3 lg:mx-1 hidden md:block">
@@ -33,7 +129,7 @@ export default defineComponent({
         </div>
       </div>
 
-      <div class="md:w-2/3 lg:w-1/2 mx-1">
+      <form class="md:w-2/3 lg:w-1/2 mx-1">
         <div class="md:h-80">
           <div class="flex items-center mb-2 md:hidden">
             <p class="font-bold text-gray-500 text-lg mr-2">01</p>
@@ -46,23 +142,31 @@ export default defineComponent({
             type="text"
             label="Name"
             :full="true"
+            v-model="user.name"
+            :disabled="userInputDisabled"
           />
           <InputComponent
-            class="md:ml-2 w-full"
+            class="md:ml-0 w-full"
             id="name"
             placeholder="Doe"
             type="text"
-            label="Last Name"
+            label="Lastname"
             :full="true"
+            v-model="user.lastname"
+            :value="user.lastname"
+            :disabled="userInputDisabled"
           />
 
           <InputComponent
-            class="md:ml-2 w-full"
+            class="md:ml-0 w-full"
             id="email"
             placeholder="johndoe@gmail.com"
             type="email"
             label="Email"
             :full="true"
+            v-model="user.email"
+            :value="user.email"
+            :disabled="userInputDisabled"
           />
         </div>
 
@@ -71,40 +175,51 @@ export default defineComponent({
           <h3 class="font-bold text-xl">Shipping Details</h3>
         </div>
 
-        <div class="h-80">
+        <div class="h-80" v-if="delivery === 'true'">
           <InputComponent
-            class="md:ml-2 w-full"
-            id="street"
+            class="md:ml-0 w-full"
+            id="city"
             placeholder="Kortrijk"
             type="text"
             label="City"
             :full="true"
+            :disabled="addressInputDisabled"
+            v-model="address.city"
           />
           <InputComponent
-            class="md:ml-2 w-full"
-            id="street"
+            class="md:ml-0 w-full"
+            id="street address"
             placeholder="Graaf Karel De Goedelaan"
             type="text"
             label="Street Address"
             :full="true"
+            :disabled="addressInputDisabled"
+            v-model="address.street"
           />
           <div class="flex">
             <InputComponent
-              class="md:ml-2 w-full mr-2"
+              class="md:ml-0 w-full mr-2"
               id="number"
               placeholder="32"
               type="text"
               label="Number"
               :full="true"
+              :disabled="addressInputDisabled"
+              v-model="address.number"
             />
             <InputComponent
               class="md:ml-2 w-full ml-2"
-              id="street"
+              id="zip code"
               placeholder="8500"
               type="text"
               label="Zip Code"
               :full="true"
+              :disabled="addressInputDisabled"
+              v-model="address.zip_code"
             />
+          </div>
+          <div class="-mt-5 underline" @click="addressInputDisabled = false">
+            Change details
           </div>
         </div>
 
@@ -180,10 +295,10 @@ export default defineComponent({
             </div>
           </div>
         </div>
-      </div>
+      </form>
 
-      <div class="w-0 lg:w-2/6 mx-1 flex justify-center">
-        <Basket />
+      <div class="w-0 lg:w-2/6 mx-1">
+        <Basket :orderPage="true" @placeOrder="placeOrder" />
       </div>
     </div>
   </div>

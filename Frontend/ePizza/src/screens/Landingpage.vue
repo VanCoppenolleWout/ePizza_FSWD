@@ -6,19 +6,29 @@ import LoginComponent from '../components/LoginComponenet.vue'
 import BannerComponent from '../components/BannerComponent.vue'
 import { useStore } from '../store/store'
 import { TimelineLite } from 'gsap'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   setup(props) {
     const userRegistered = ref(props.userCreated)
-    // userRegistered.value =
+    const router = useRouter()
 
     const closeTab = () => (userRegistered.value = 0)
 
-    const { store } = useStore()
+    const handleDelivery = () => {
+      localStorage.setItem('delivery', 'true')
+      router.push('/menu')
+    }
 
-    const user = computed(() => {
-      return store.getters.getUser
-    })
+    const handleCarryout = () => {
+      localStorage.setItem('delivery', 'false')
+      router.push('/menu')
+    }
+    // const { store } = useStore()
+
+    // const user = computed(() => {
+    //   return store.getters.getUser
+    // })
 
     onMounted(() => {
       const timeline = new TimelineLite()
@@ -31,6 +41,8 @@ export default defineComponent({
     return {
       userRegistered,
       closeTab,
+      handleCarryout,
+      handleDelivery,
     }
   },
   components: {
@@ -81,12 +93,14 @@ export default defineComponent({
         <div class="flex flex-row items-center space-x-5 mt-6 animation1">
           <button
             class="rounded-xl bg-yellow-300 py-4 w-40 text-white font-semibold"
+            @click="handleDelivery"
           >
             DELIVERY
           </button>
           <p class="font-semibold">OR</p>
           <button
             class="rounded-xl bg-yellow-300 py-4 w-40 text-white font-semibold"
+            @click="handleCarryout"
           >
             CARRYOUT
           </button>

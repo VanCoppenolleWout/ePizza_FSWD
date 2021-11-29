@@ -4,9 +4,10 @@ import { defineComponent, ref, Ref } from 'vue'
 export default defineComponent({
   setup(props, { emit }) {
     let errorMsg: Ref<string> = ref('')
-    const handleInput = (event: any) => {
-      emit('handleInput', event.target)
-      event.target.value === ''
+
+    const handleInput = (e: any) => {
+      emit('update:modelValue', e.target.value)
+      e.target.value === ''
         ? (errorMsg.value = 'This field is required')
         : (errorMsg.value = '')
     }
@@ -22,7 +23,9 @@ export default defineComponent({
     placeholder: String,
     full: Boolean,
     disabled: Boolean,
+    modelValue: String,
   },
+  emits: ['update:modelValue'],
 })
 </script>
 
@@ -38,7 +41,6 @@ export default defineComponent({
       label
     }}</label>
     <input
-      :disabled="disabled"
       class="
         rounded-md
         outline-none
@@ -61,8 +63,9 @@ export default defineComponent({
       :type="type"
       :id="id"
       :placeholder="placeholder"
-      @keyup="handleInput"
-      @blur="handleInput"
+      :value="modelValue"
+      @input="handleInput"
+      :disabled="disabled"
     />
     <div class="text-red-500 absolute mt-1" v-if="errorMsg">
       This field is required

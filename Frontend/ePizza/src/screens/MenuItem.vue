@@ -54,8 +54,8 @@ export default defineComponent({
 
       const pizza: Pizza = {
         pizza_id: pizzaId,
-        size: size.value,
-        toppings: toppings,
+        size_id: size.value,
+        topping_ids: toppings,
         price: totalPrice,
         name: name,
       }

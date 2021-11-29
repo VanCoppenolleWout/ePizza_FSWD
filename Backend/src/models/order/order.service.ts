@@ -44,7 +44,8 @@ export class OrderService {
       }
 
       //Get pizzaIds from request
-      const pizzaIds = orderORM.pizzas.map((order) => order.pizza_id)
+
+      const pizzaIds = orderORM.pizzas.map((pizza) => pizza.pizza_id)
 
       //Get pizzas from db to calculate the price and add to order
       const pizzas = await this.pizzaRepository
@@ -133,13 +134,13 @@ export class OrderService {
           .innerJoinAndSelect('pizzaSizeTopping.pizza', 'pizza')
           .addSelect(['size.size_name', 'size.price'])
           .innerJoin('pizzaSizeTopping.size', 'size')
-          .innerJoinAndSelect('pizzaSizeTopping.toppings', 'topping')
+          .leftJoinAndSelect('pizzaSizeTopping.toppings', 'topping')
           .innerJoinAndSelect('order.address', 'adddress')
 
           .where('order.order_id = :order_id', { order_id })
           .getOne()
 
-      if (user !== undefined)
+      if (user !== undefined) {
         return await this.orderRepository
           .createQueryBuilder('order')
           .select('order.order_id')
@@ -150,11 +151,12 @@ export class OrderService {
           .innerJoinAndSelect('pizzaSizeTopping.pizza', 'pizza')
           .addSelect(['size.size_name', 'size.price'])
           .innerJoin('pizzaSizeTopping.size', 'size')
-          .innerJoinAndSelect('pizzaSizeTopping.toppings', 'topping')
+          .leftJoinAndSelect('pizzaSizeTopping.toppings', 'topping')
           .innerJoinAndSelect('order.address', 'adddress')
 
           .where('order.order_id = :order_id', { order_id })
           .getOne()
+      }
     } catch (err) {
       console.log(err)
     }

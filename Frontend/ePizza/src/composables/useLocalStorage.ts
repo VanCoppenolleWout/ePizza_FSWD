@@ -22,6 +22,10 @@ export const useLocalStorage = () => {
     return getPizzasLocal()
   }
 
+  const deletePizzasLocal = () => {
+    localStorage.setItem('pizzas', '')
+  }
+
   const addPizzaLocal = (pizza: Pizza) => {
     const pizzas: Array<Pizza> = JSON.parse(
       localStorage.getItem('pizzas') || '[]',
@@ -35,5 +39,6 @@ export const useLocalStorage = () => {
     getPizzasLocal,
     deletePizzaLocal,
     addPizzaLocal,
+    deletePizzasLocal,
   }
 }
