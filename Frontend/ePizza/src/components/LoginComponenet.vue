@@ -1,14 +1,21 @@
 <script lang="ts">
-import { defineComponent, ref, Ref } from 'vue'
+import { computed, defineComponent, ref, Ref } from 'vue'
 import { Router, useRouter } from 'vue-router'
 import { LoginUser } from '../interfaces/login'
 import useFirebase from '../composables/useFirebase'
 import InputComponent from './InputComponent.vue'
+import { store } from '../store/store'
 
 export default defineComponent({
   setup() {
     const { login } = useFirebase()
 
+    const admin = computed(() => {
+      return store.getters.getAdmin
+    })
+
+    let email: Ref<string | null> = ref(null)
+    let password: Ref<string | null> = ref(null)
     let email: Ref<string> = ref('')
     let password: Ref<string> = ref('')
 
@@ -51,9 +58,12 @@ export default defineComponent({
           login(user.email, user.password).then((succes: boolean) => {
             if (succes) {
               animateCircle.value = false
-              router.push('/')
+              if (admin) {
+                router.push('/orders')
+              } else {
+                router.push('/')
+              }
             } else {
-              animateCircle.value = false
               errorMsg.value = 'failed'
             }
           })
