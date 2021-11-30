@@ -267,8 +267,8 @@ export default defineComponent({
         </div>
       </div>
     </div>
+    <AppFooter />
   </div>
-  <AppFooter />
 </template>
 
 <style>

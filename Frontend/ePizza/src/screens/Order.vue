@@ -13,15 +13,17 @@ import { store } from '../store/store'
 import { TimelineLite } from 'gsap'
 
 export default defineComponent({
-  setup() {
+  setup(context) {
     const { get, post } = fetchData()
     const { deletePizzasLocal } = useLocalStorage()
+    const { delivery } = context
     const loader: Ref<boolean> = ref(false)
     const userInputDisabled: Ref<boolean> = ref(false)
     const addressInputDisabled: Ref<boolean> = ref(false)
     const userId: Ref<string> = ref('')
     const addressId: Ref<string> = ref('')
     const router: Router = useRouter()
+    const error: Ref<boolean> = ref(false)
 
     const user: User = reactive({
       name: '',
@@ -41,13 +43,12 @@ export default defineComponent({
     })
 
     const getUserAddress = async () => {
-      if (firebaseUser.value.uid) {
-        loader.value = true
-        const data = await get(`/user/address/${firebaseUser.value.uid}`)
+      try {
+        if (firebaseUser.value) {
+          // loader.value = true
+          const data = await get(`/user/address/${firebaseUser.value.uid}`)
 
-        try {
           if (data.addresses) {
-            console.log(data.addresses)
             address.city = data.addresses[0].city
             address.street = data.addresses[0].street
             address.zip_code = data.addresses[0].postal_code
@@ -60,36 +61,100 @@ export default defineComponent({
           user.lastname = data.lastname
           user.email = data.email
           userInputDisabled.value = true
-        } catch (error) {
-          addressInputDisabled.value = true
-          userInputDisabled.value = true
-        }
-        setTimeout(async () => {
-          const timeline = new TimelineLite()
-          await timeline.fromTo(
-            '.loader',
-            {
-              clipPath: 'circle(100%)',
-            },
-            {
-              duration: 0.7,
-              clipPath: 'circle(0%)',
-            },
-          )
 
-          // loader.value = false
-        }, 1000)
+          setTimeout(async () => {
+            // const timeline = new TimelineLite()
+            // await timeline.fromTo(
+            //   '.loader',
+            //   {
+            //     clipPath: 'circle(100%)',
+            //   },
+            //   {
+            //     duration: 0.7,
+            //     clipPath: 'circle(0%)',
+            //   },
+            // )
+            // loader.value = false
+          }, 1000)
+        }
+      } catch (error) {
+        addressInputDisabled.value = true
+        userInputDisabled.value = true
       }
     }
-    const placeOrder = async (pizzas: Pizza[]) => {
-      loader.value = true
-      const body = {
-        user: userId.value,
-        address: addressId.value,
-        pizzas: pizzas,
-      }
 
-      const data = await post('/order', body)
+    const placeOrder = async (pizzas: Pizza[]) => {
+      try {
+        let data: any
+        if (userInputDisabled.value && addressInputDisabled.value) {
+          loader.value = true
+          const body = {
+            user: userId.value,
+            address: addressId.value,
+            pizzas: pizzas,
+          }
+          data = await post('/order', body)
+          handleRoute(data)
+        }
+
+        if (userInputDisabled.value && !addressInputDisabled.value) {
+          for (let value of Object.values(address)) {
+            if (value === '' && delivery == 'true') error.value = true
+          }
+          if (error.value !== true) {
+            loader.value = true
+            const body = {
+              user: userId.value,
+              address:
+                delivery === 'true'
+                  ? {
+                      city: address.city,
+                      zip_code: address.zip_code,
+                      street: address.street,
+                      number: address.number,
+                    }
+                  : undefined,
+              pizzas: pizzas,
+            }
+            data = await post('/order', body)
+            handleRoute(data)
+          }
+        } else {
+          for (let value of Object.values(user)) {
+            if (value === '') error.value = true
+          }
+          for (let value of Object.values(address)) {
+            if (value === '' && delivery == 'true') error.value = true
+          }
+
+          if (error.value !== true) {
+            loader.value = true
+            const body = {
+              user: {
+                name: user.name,
+                lastname: user.lastname,
+                email: user.email,
+              },
+              address:
+                delivery === 'true'
+                  ? {
+                      city: address.city,
+                      zip_code: address.zip_code,
+                      street: address.street,
+                      number: address.number,
+                    }
+                  : undefined,
+              pizzas: pizzas,
+            }
+
+            data = await post('/order', body)
+            handleRoute(data)
+          }
+        }
+      } catch (error) {}
+    }
+
+    const handleRoute = (data: any) => {
       deletePizzasLocal()
       setTimeout(() => {
         router.push({
@@ -108,6 +173,7 @@ export default defineComponent({
       userInputDisabled,
       addressInputDisabled,
       placeOrder,
+      error,
     }
   },
   components: {
@@ -123,195 +189,232 @@ export default defineComponent({
 </script>
 
 <template>
-  <Loader class="loader" />
-  <div class="container mx-auto p-8 md:px-0">
-    <AppHeader />
-    <div class="md:flex items-start mt-12 pb-32">
-      <div class="md:w-1/3 lg:mx-1 hidden md:block">
-        <div class="md:h-80">
-          <p class="font-bold text-gray-500 text-xl">01</p>
-          <h3 class="font-bold text-2xl">Personal Details</h3>
-        </div>
-        <div class="md:h-80">
-          <p class="font-bold text-gray-500 text-xl">02</p>
-          <h3 class="font-bold text-2xl">Shipment Details</h3>
-        </div>
-        <div>
-          <p class="font-bold text-gray-500 text-xl">03</p>
-          <h3 class="font-bold text-2xl">Payment Methods</h3>
-        </div>
-      </div>
-
-      <form class="md:w-2/3 lg:w-1/2 mx-1">
-        <div class="md:h-80">
-          <div class="flex items-center mb-2 md:hidden">
-            <p class="font-bold text-gray-500 text-lg mr-2">01</p>
-            <h3 class="font-bold text-xl">Personal Details</h3>
-          </div>
-          <InputComponent
-            class="mr-2 w-full"
-            id="name"
-            placeholder="Johhn"
-            type="text"
-            label="Name"
-            :full="true"
-            v-model="user.name"
-            :disabled="userInputDisabled"
-          />
-          <InputComponent
-            class="md:ml-0 w-full"
-            id="name"
-            placeholder="Doe"
-            type="text"
-            label="Lastname"
-            :full="true"
-            v-model="user.lastname"
-            :value="user.lastname"
-            :disabled="userInputDisabled"
-          />
-
-          <InputComponent
-            class="md:ml-0 w-full"
-            id="email"
-            placeholder="johndoe@gmail.com"
-            type="email"
-            label="Email"
-            :full="true"
-            v-model="user.email"
-            :value="user.email"
-            :disabled="userInputDisabled"
-          />
-        </div>
-
-        <div class="flex items-center mb-2 md:hidden">
-          <p class="font-bold text-gray-500 text-lg mr-2">02</p>
-          <h3 class="font-bold text-xl">Shipping Details</h3>
-        </div>
-
-        <div class="h-80" v-if="delivery === 'true'">
-          <InputComponent
-            class="md:ml-0 w-full"
-            id="city"
-            placeholder="Kortrijk"
-            type="text"
-            label="City"
-            :full="true"
-            :disabled="addressInputDisabled"
-            v-model="address.city"
-          />
-          <InputComponent
-            class="md:ml-0 w-full"
-            id="street address"
-            placeholder="Graaf Karel De Goedelaan"
-            type="text"
-            label="Street Address"
-            :full="true"
-            :disabled="addressInputDisabled"
-            v-model="address.street"
-          />
-          <div class="flex">
-            <InputComponent
-              class="md:ml-0 w-full mr-2"
-              id="number"
-              placeholder="32"
-              type="text"
-              label="Number"
-              :full="true"
-              :disabled="addressInputDisabled"
-              v-model="address.number"
-            />
-            <InputComponent
-              class="md:ml-2 w-full ml-2"
-              id="zip code"
-              placeholder="8500"
-              type="text"
-              label="Zip Code"
-              :full="true"
-              :disabled="addressInputDisabled"
-              v-model="address.zip_code"
-            />
-          </div>
-          <div class="-mt-5 underline" @click="addressInputDisabled = false">
-            Change details
-          </div>
-        </div>
-
-        <div>
-          <div class="flex items-center mb-2 md:hidden">
-            <p class="font-bold text-gray-500 text-lg mr-2">03</p>
-            <h3 class="font-bold text-xl">Payment Method</h3>
-          </div>
-          <div
+  <div>
+    <Loader v-if="loader" />
+    <div class="container mx-auto p-8 md:px-0">
+      <div
+        class="
+          bg-black bg-opacity-50
+          fixed
+          w-screen
+          h-full
+          top-0
+          left-0
+          z-10
+          flex
+          justify-center
+          items-center
+        "
+        v-if="error"
+        @click="error = false"
+      >
+        <div class="w-96 h-48 bg-white rounded-sm p-4 relative">
+          <h3 class="text-xl text-red-600">Oh Snap!</h3>
+          <p>Please fill in all fields!</p>
+          <p
             class="
-              border-2
-              rounded-md
-              flex
-              p-4
-              border-p-red
-              justify-between
-              items-center
-              mb-4
+              absolute
+              bottom-0
+              mr-2
+              mb-2
+              right-0
+              w-8
+              cursor-pointer
+              hover:underline
             "
           >
-            <div class="flex items-center">
-              <img
-                class="h-10 mr-4"
-                src="../assets/images/paypal-logo.svg"
-                alt="paypal logo"
-              />
-              <p class="text-lg font-semibold">PayPal</p>
-            </div>
-
-            <div
-              class="w-6 h-6 border-p-red border-2 rounded-full flex relative"
-            >
-              <div
-                class="
-                  w-3
-                  h-3
-                  bg-p-red
-                  rounded-full
-                  absolute
-                  top-1/2
-                  left-1/2
-                  transform
-                  -translate-x-1/2 -translate-y-1/2
-                "
-              ></div>
-            </div>
+            Ok
+          </p>
+        </div>
+      </div>
+      <AppHeader />
+      <div class="md:flex items-start mt-12 pb-32">
+        <div class="md:w-1/3 lg:mx-1 hidden md:block">
+          <div class="md:h-80">
+            <p class="font-bold text-gray-500 text-xl">01</p>
+            <h3 class="font-bold text-2xl">Personal Details</h3>
           </div>
-          <div
-            class="border-2 rounded-md flex p-4 justify-between items-center"
-          >
-            <div class="flex items-center">
-              <img
-                class="h-10 mr-4"
-                src="../assets/images/mobile-pay.svg"
-                alt="paypal logo"
-              />
-              <p class="text-lg font-semibold">Bancontact App</p>
-            </div>
-
-            <div class="w-6 h-6 border-2 rounded-full flex relative">
-              <div
-                class="
-                  w-3
-                  h-3
-                  rounded-full
-                  absolute
-                  top-1/2
-                  left-1/2
-                  transform
-                  -translate-x-1/2 -translate-y-1/2
-                "
-              ></div>
-            </div>
+          <div class="md:h-80" v-if="delivery === 'true'">
+            <p class="font-bold text-gray-500 text-xl">02</p>
+            <h3 class="font-bold text-2xl">Shipment Details</h3>
+          </div>
+          <div>
+            <p class="font-bold text-gray-500 text-xl">03</p>
+            <h3 class="font-bold text-2xl">Payment Methods</h3>
           </div>
         </div>
-      </form>
 
-      <div class="w-0 lg:w-2/6 mx-1">
-        <Basket :orderPage="true" @placeOrder="placeOrder" />
+        <form class="md:w-2/3 lg:w-1/2 mx-1">
+          <div class="md:h-80">
+            <div class="flex items-center mb-2 md:hidden">
+              <p class="font-bold text-gray-500 text-lg mr-2">01</p>
+              <h3 class="font-bold text-xl">Personal Details</h3>
+            </div>
+            <InputComponent
+              class="mr-2 w-full"
+              id="name"
+              placeholder="Johhn"
+              type="text"
+              label="Name"
+              :full="true"
+              v-model="user.name"
+              :disabled="userInputDisabled"
+            />
+            <InputComponent
+              class="md:ml-0 w-full"
+              id="name"
+              placeholder="Doe"
+              type="text"
+              label="Lastname"
+              :full="true"
+              v-model="user.lastname"
+              :value="user.lastname"
+              :disabled="userInputDisabled"
+            />
+
+            <InputComponent
+              class="md:ml-0 w-full"
+              id="email"
+              placeholder="johndoe@gmail.com"
+              type="email"
+              label="Email"
+              :full="true"
+              v-model="user.email"
+              :value="user.email"
+              :disabled="userInputDisabled"
+            />
+          </div>
+
+          <div class="flex items-center mb-2 md:hidden">
+            <p class="font-bold text-gray-500 text-lg mr-2">02</p>
+            <h3 class="font-bold text-xl">Shipping Details</h3>
+          </div>
+
+          <div class="h-80" v-if="delivery === 'true'">
+            <InputComponent
+              class="md:ml-0 w-full"
+              id="city"
+              placeholder="Kortrijk"
+              type="text"
+              label="City"
+              :full="true"
+              :disabled="addressInputDisabled"
+              v-model="address.city"
+            />
+            <InputComponent
+              class="md:ml-0 w-full"
+              id="street address"
+              placeholder="Graaf Karel De Goedelaan"
+              type="text"
+              label="Street Address"
+              :full="true"
+              :disabled="addressInputDisabled"
+              v-model="address.street"
+            />
+            <div class="flex">
+              <InputComponent
+                class="md:ml-0 w-full mr-2"
+                id="number"
+                placeholder="32"
+                type="text"
+                label="Number"
+                :full="true"
+                :disabled="addressInputDisabled"
+                v-model="address.number"
+              />
+              <InputComponent
+                class="md:ml-2 w-full ml-2"
+                id="zip code"
+                placeholder="8500"
+                type="text"
+                label="Zip Code"
+                :full="true"
+                :disabled="addressInputDisabled"
+                v-model="address.zip_code"
+              />
+            </div>
+            <div class="-mt-5 underline" @click="addressInputDisabled = false">
+              Change details
+            </div>
+          </div>
+
+          <div>
+            <div class="flex items-center mb-2 md:hidden">
+              <p class="font-bold text-gray-500 text-lg mr-2">03</p>
+              <h3 class="font-bold text-xl">Payment Method</h3>
+            </div>
+            <div
+              class="
+                border-2
+                rounded-md
+                flex
+                p-4
+                border-p-red
+                justify-between
+                items-center
+                mb-4
+              "
+            >
+              <div class="flex items-center">
+                <img
+                  class="h-10 mr-4"
+                  src="../assets/images/paypal-logo.svg"
+                  alt="paypal logo"
+                />
+                <p class="text-lg font-semibold">PayPal</p>
+              </div>
+
+              <div
+                class="w-6 h-6 border-p-red border-2 rounded-full flex relative"
+              >
+                <div
+                  class="
+                    w-3
+                    h-3
+                    bg-p-red
+                    rounded-full
+                    absolute
+                    top-1/2
+                    left-1/2
+                    transform
+                    -translate-x-1/2 -translate-y-1/2
+                  "
+                ></div>
+              </div>
+            </div>
+            <div
+              class="border-2 rounded-md flex p-4 justify-between items-center"
+            >
+              <div class="flex items-center">
+                <img
+                  class="h-10 mr-4"
+                  src="../assets/images/mobile-pay.svg"
+                  alt="paypal logo"
+                />
+                <p class="text-lg font-semibold">Bancontact App</p>
+              </div>
+
+              <div class="w-6 h-6 border-2 rounded-full flex relative">
+                <div
+                  class="
+                    w-3
+                    h-3
+                    rounded-full
+                    absolute
+                    top-1/2
+                    left-1/2
+                    transform
+                    -translate-x-1/2 -translate-y-1/2
+                  "
+                ></div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <div class="w-0 lg:w-2/6 mx-1 flex justify-end mt-2">
+          <Basket :orderPage="true" @placeOrder="placeOrder" />
+        </div>
       </div>
     </div>
   </div>

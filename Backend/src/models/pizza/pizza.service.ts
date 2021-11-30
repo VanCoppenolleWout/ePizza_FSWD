@@ -26,4 +26,18 @@ export class PizzaService {
   async getAll() {
     return await this.pizzaRepository.find()
   }
+
+  async updateStock(body: any) {
+    const pizza: Pizza = await this.pizzaRepository.findOne(body.pizza_id)
+    const pizza_id = pizza.pizza_id
+
+    return await this.pizzaRepository
+      .createQueryBuilder('pizza')
+      .update()
+      .set({
+        stock: pizza.stock + body.amount,
+      })
+      .where('pizza_id = :pizza_id', { pizza_id })
+      .execute()
+  }
 }

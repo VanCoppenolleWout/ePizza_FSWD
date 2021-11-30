@@ -1,4 +1,10 @@
-import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm'
 import { Order } from '../order/order.entity'
 import { User } from '../user/user.entity'
 
@@ -9,7 +15,7 @@ export class Address {
   @Column({ length: 250 })
   street?: string
   @Column()
-  number?: number
+  number?: string
   @Column()
   city?: string
   @Column({ nullable: true })

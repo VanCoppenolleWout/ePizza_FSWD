@@ -9,7 +9,7 @@ export default defineComponent({
 <template>
   <div
     class="
-      bg-red-500
+      bg-yellow-400
       mt-14
       max-w-lg
       w-4/5

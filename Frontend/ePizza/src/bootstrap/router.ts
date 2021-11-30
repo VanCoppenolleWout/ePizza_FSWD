@@ -15,25 +15,30 @@ const routes: RouteRecordRaw[] = [
   //global routes
   {
     path: '/',
-    component: import('../screens/Landingpage.vue'),
+    component: () =>
+      import(/* webpackChunkName: "home"*/ '../screens/Landingpage.vue'),
     props: true,
     name: 'home',
   },
   {
     path: '/register',
-    component: import('../screens/Register.vue'),
+    component: () =>
+      import(/* webpackChunkName: "register"*/ '../screens/Register.vue'),
   },
   {
     path: '/login',
-    component: import('../screens/Login.vue'),
+    component: () =>
+      import(/* webpackChunkName: "login"*/ '../screens/Login.vue'),
   },
   {
     path: '/menu',
-    component: import('../screens/Menu.vue'),
+    component: () =>
+      import(/* webpackChunkName: "menu"*/ '../screens/Menu.vue'),
   },
   {
     path: '/order',
-    component: import('../screens/Order.vue'),
+    component: () =>
+      import(/* webpackChunkName: "order"*/ '../screens/Order.vue'),
     props: true,
     beforeEnter: async (to, from, next) => {
       const delivery = localStorage.getItem('delivery')
@@ -50,20 +55,23 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/tracker',
-    component: import('../screens/Tracker.vue'),
+    component: () =>
+      import(/* webpackChunkName: "tracker"*/ '../screens/Tracker.vue'),
     name: 'tracker',
     props: true,
   },
   {
     path: '/detail',
-    component: import('../screens/MenuItem.vue'),
+    component: () =>
+      import(/* webpackChunkName: "detail"*/ '../screens/MenuItem.vue'),
     props: true,
     name: 'detail',
   },
   //admin routes
   {
     path: '/orders',
-    component: import('../screens/Orders.vue'),
+    component: () =>
+      import(/* webpackChunkName: "orders"*/ '../screens/Orders.vue'),
     beforeEnter: async (to, from, next) => {
       const auth = getAuth()
       const idToken = await auth.currentUser?.getIdToken()
@@ -75,7 +83,8 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/stock',
-    component: import('../screens/Stock.vue'),
+    component: () =>
+      import(/* webpackChunkName: "stock"*/ '../screens/Stock.vue'),
     beforeEnter: async (to, from, next) => {
       const auth = getAuth()
       const idToken = await auth.currentUser?.getIdToken()

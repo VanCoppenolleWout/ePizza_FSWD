@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common'
 import { User } from './user.entity'
 import { Repository } from 'typeorm'
 import { getAuth } from 'firebase-admin/auth'
+import firebaseApp from '../../firebase/firebase'
 
 @Injectable()
 export class UserService {
@@ -51,5 +52,16 @@ export class UserService {
           .where('user_id = :user_id', { user_id })
           .getOne()
       : userAddress
+  }
+
+  async getAdmin(headers: any) {
+    try {
+      const bearer = headers.authorization.replace('Bearer ', '')
+      const firebaseUser = await getAuth().verifyIdToken(bearer)
+
+      return firebaseUser.admin ? { admin: true } : { admin: false }
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR)
+    }
   }
 }

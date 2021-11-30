@@ -87,7 +87,7 @@ export class OrderService {
         order.delivery = true
         order.address = address
       }
-      if (typeof orderORM.address === undefined) order.delivery = false
+      if (orderORM.address === undefined) order.delivery = false
 
       //If price below or equal to 15 -> delivery cost 5
       order.price <= 15 && order.delivery
@@ -135,7 +135,7 @@ export class OrderService {
           .addSelect(['size.size_name', 'size.price'])
           .innerJoin('pizzaSizeTopping.size', 'size')
           .leftJoinAndSelect('pizzaSizeTopping.toppings', 'topping')
-          .innerJoinAndSelect('order.address', 'adddress')
+          .leftJoinAndSelect('order.address', 'adddress')
 
           .where('order.order_id = :order_id', { order_id })
           .getOne()
@@ -152,7 +152,7 @@ export class OrderService {
           .addSelect(['size.size_name', 'size.price'])
           .innerJoin('pizzaSizeTopping.size', 'size')
           .leftJoinAndSelect('pizzaSizeTopping.toppings', 'topping')
-          .innerJoinAndSelect('order.address', 'adddress')
+          .leftJoinAndSelect('order.address', 'adddress')
 
           .where('order.order_id = :order_id', { order_id })
           .getOne()

@@ -64,6 +64,11 @@ export default defineComponent({
 
       pizzas.value = deletePizzaLocal(pizza)
       sortPizzas()
+
+      timeline.to(`.${element}`, 0, {
+        x: '0%',
+        opacity: 1,
+      })
     }
 
     const AddPizza = (pizza: Pizza) => {
@@ -155,30 +160,28 @@ export default defineComponent({
           v-else
         >
           <div v-for="(pizza, index) of Object.keys(pizzaCounts)" :key="index">
-            <!-- <div class="item"> -->
-            <transition-group v-bind:css="false">
-              <BasketItem
-                :name="JSON.parse(pizza).name"
-                :price="JSON.parse(pizza).price"
-                :sizeIndex="JSON.parse(pizza).size"
-                :amount="pizzaCounts[pizza]"
-                @deletePizza="
-                  deletePizza(
-                    JSON.parse(pizza),
-                    `${JSON.parse(pizza)
-                      .name.replaceAll(' ', '')
-                      .replace('&', '')}${index}`,
-                    pizzaCounts[pizza],
-                  )
-                "
-                @addPizza="AddPizza(JSON.parse(pizza))"
-                :key="JSON.parse(pizza).name"
-                :class="`${JSON.parse(pizza)
-                  .name.replaceAll(' ', '')
-                  .replace('&', '')}${index}`"
-              />
-            </transition-group>
-            <!-- </div> -->
+            <!-- <transition-group v-bind:css="false"> -->
+            <BasketItem
+              :name="JSON.parse(pizza).name"
+              :price="JSON.parse(pizza).price"
+              :sizeIndex="parseInt(JSON.parse(pizza).size)"
+              :amount="pizzaCounts[pizza]"
+              @deletePizza="
+                deletePizza(
+                  JSON.parse(pizza),
+                  `${JSON.parse(pizza)
+                    .name.replaceAll(' ', '')
+                    .replace('&', '')}${index}`,
+                  pizzaCounts[pizza],
+                )
+              "
+              @addPizza="AddPizza(JSON.parse(pizza))"
+              :key="JSON.parse(pizza).name"
+              :class="`${JSON.parse(pizza)
+                .name.replaceAll(' ', '')
+                .replace('&', '')}${index}`"
+            />
+            <!-- </transition-group> -->
           </div>
         </div>
       </div>

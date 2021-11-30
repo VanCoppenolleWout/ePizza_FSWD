@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Req } from '@nestjs/common'
+import { Body, Controller, Get, Param, Put, Req } from '@nestjs/common'
 import { Pizza } from './pizza.entity'
 import { PizzaService } from './pizza.service'
 
@@ -19,5 +19,10 @@ export class PizzaController {
   @Get()
   async getAll(): Promise<Pizza[]> {
     return await this.pizzaService.getAll()
+  }
+
+  @Put('stock')
+  async updateStock(@Body() body) {
+    return await this.pizzaService.updateStock(body)
   }
 }

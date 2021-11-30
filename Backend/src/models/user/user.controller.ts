@@ -2,6 +2,8 @@ import {
   Body,
   Controller,
   Get,
+  Header,
+  Headers,
   Param,
   Post,
   Req,
@@ -25,10 +27,10 @@ export class UserController {
   }
 
   @Get('admin')
-  @Roles(Role.Admin)
-  @UseGuards(FirebaseAuthGuard, RolesGuard)
-  async checkAdmin(@Res() res) {
-    res.send({ admin: true })
+  // @Roles(Role.Admin)
+  // @UseGuards(FirebaseAuthGuard, RolesGuard)
+  async checkAdmin(@Headers() headers) {
+    return await this.userService.getAdmin(headers)
   }
 
   @Get('address/:user_id')
