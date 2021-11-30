@@ -15,7 +15,7 @@ services:
     depends_on:
       - mariadb
 
-  pizza-backend:
+  api:
     build: .
     ports:
       - 3001:3001

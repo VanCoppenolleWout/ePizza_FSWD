@@ -16,8 +16,6 @@ export default defineComponent({
       return store.getters.getAdmin
     })
 
-    // console.log(user.value)
-
     const handleLogout = () => {
       logout()
     }

@@ -14,8 +14,6 @@ export default defineComponent({
       return store.getters.getAdmin
     })
 
-    let email: Ref<string | null> = ref(null)
-    let password: Ref<string | null> = ref(null)
     let email: Ref<string> = ref('')
     let password: Ref<string> = ref('')
 
@@ -28,15 +26,17 @@ export default defineComponent({
       console.log(email.value, password.value)
       animateCircle.value = true
 
-       login('glenntroncquo1@gmail.com', 'Glenn20062001').then((succes: boolean) => {
-            if (succes) {
-              animateCircle.value = false
-              router.push('/')
-            } else {
-              animateCircle.value = false
-              errorMsg.value = 'failed'
-            }
-          })
+      login('glenntroncquo1@gmail.com', 'Glenn20062001').then(
+        (succes: boolean) => {
+          if (succes) {
+            animateCircle.value = false
+            router.push('/')
+          } else {
+            animateCircle.value = false
+            errorMsg.value = 'failed'
+          }
+        },
+      )
 
       if (
         email.value === null ||
@@ -86,7 +86,6 @@ export default defineComponent({
 </script>
 
 <template>
-  <!-- flex items-center self-center justify-center flex-1 -->
   <div class="h-screen flex items-center self-center justify-center flex-1">
     <div class="bg-white rounded-lg">
       <section class="p-8" style="width: 27rem">

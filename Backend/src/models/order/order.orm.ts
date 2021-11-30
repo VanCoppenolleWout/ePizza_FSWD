@@ -21,6 +21,6 @@ export interface UserORM {
 export interface AddressORM {
   city: string
   street: string
-  number: number
+  number: string
   zip_code: string
 }
