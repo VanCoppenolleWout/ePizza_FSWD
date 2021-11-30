@@ -62,7 +62,7 @@ export default defineComponent({
               hover:bg-red-100
             "
           >
-            Dashboard
+            Stock
           </router-link>
           <router-link
             to="/orders"

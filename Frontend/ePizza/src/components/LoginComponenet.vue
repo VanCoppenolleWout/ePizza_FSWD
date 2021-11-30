@@ -14,8 +14,6 @@ export default defineComponent({
       return store.getters.getAdmin
     })
 
-    let email: Ref<string | null> = ref(null)
-    let password: Ref<string | null> = ref(null)
     let email: Ref<string> = ref('')
     let password: Ref<string> = ref('')
 
