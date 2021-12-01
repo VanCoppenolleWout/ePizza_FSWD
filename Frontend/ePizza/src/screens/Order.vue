@@ -333,7 +333,11 @@ export default defineComponent({
                 v-model="address.zip_code"
               />
             </div>
-            <div class="-mt-5 underline" @click="addressInputDisabled = false">
+            <div
+              v-if="addressInputDisabled"
+              class="-mt-5 underline"
+              @click="addressInputDisabled = false"
+            >
               Change details
             </div>
           </div>

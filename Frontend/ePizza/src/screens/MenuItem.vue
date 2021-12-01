@@ -98,13 +98,13 @@ export default defineComponent({
     </div>
 
     <div class="lg:mt-8 lg:flex lg:items-start lg:justify-between">
-      <div>
-        <div class="flex flex-row text-lg items-center mt-8 mb-4">
+      <div class="w-3/4">
+        <div class="flex flex-row text-lg items-center mb-4">
           <section class="flex flex-row space-x-10">
             <img
               :src="imgUrl"
               class="rounded-3xl"
-              style="width: 528px; height: 528px"
+              style="width: 400px; height: 400px"
               alt=""
             />
 

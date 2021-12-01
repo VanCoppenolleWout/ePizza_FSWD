@@ -68,7 +68,9 @@ export default defineComponent({
       }
 
       const initialReviewCheck = async () => {
-        const reviewCheck = await get(`/review/order/e1cf4f2c-f289-4ad7-b15c-a3eb6be7bdab`)
+        const reviewCheck = await get(
+          `/review/order/e1cf4f2c-f289-4ad7-b15c-a3eb6be7bdab`,
+        )
         console.log(reviewCheck, 'log2')
         if (reviewCheck !== undefined) {
           formstate.value = false

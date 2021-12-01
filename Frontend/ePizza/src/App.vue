@@ -13,7 +13,12 @@ export default defineComponent({
 
 <template>
   <router-view v-slot="{ Component }">
-    <transition name="fade" mode="out-in" appear>
+    <transition
+      :duration="{ enter: 400, leave: 400 }"
+      name="fade"
+      mode="out-in"
+      appear
+    >
       <component :is="Component" />
     </transition>
   </router-view>
@@ -22,7 +27,7 @@ export default defineComponent({
 <style scoped>
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.3s, transform 1s;
+  transition: opacity 0.4s;
 }
 
 .fade-enter-from,

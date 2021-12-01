@@ -4,4 +4,7 @@ export interface Pizza {
   size_id: number
   topping_ids: Array<string>
   price: number
+  stock?: number
+  img_url?: string
+  vegetarian?: boolean
 }

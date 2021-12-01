@@ -14,12 +14,6 @@ export default defineComponent({
     }
   },
   components: { AppHeader, Basket, Pizza, PizzaSkeleton },
-
-  methods: {
-    filterPizza() {
-      console.log('click')
-    },
-  },
 })
 </script>
 
