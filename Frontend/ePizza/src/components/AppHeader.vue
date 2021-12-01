@@ -60,34 +60,8 @@ export default defineComponent({
               hover:bg-red-100
             "
           >
-            Stock
+            Dashboard
           </router-link>
-          <router-link
-            to="/orders"
-            class="
-              cursor-pointer
-              px-6
-              py-2
-              overflow-hidden
-              rounded-xl
-              hover:bg-red-100
-            "
-          >
-            Orders
-          </router-link>
-          <a
-            class="
-              cursor-pointer
-              px-6
-              py-2
-              overflow-hidden
-              rounded-xl
-              hover:bg-red-100
-            "
-            href="#contact"
-          >
-            Reviews
-          </a>
         </div>
       </div>
       <router-link

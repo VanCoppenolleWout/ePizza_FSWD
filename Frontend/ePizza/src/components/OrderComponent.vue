@@ -42,6 +42,10 @@ export default defineComponent({
             <p class="flex items-center">{{ '9' }}€</p>
           </div>
         </div>
+        <div class="flex justify-between font-medium">
+          <p>Total</p>
+          <p>54€</p>
+        </div>
       </div>
     </div>
   </div>

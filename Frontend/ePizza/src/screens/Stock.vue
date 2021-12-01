@@ -15,20 +15,11 @@ export default defineComponent({
 
 <template>
   <div class="container mx-auto p-8 md:px-0 pb-36 lg:pb-10">
-    <AppHeader mode="full" />
-
-    <div
-      class="
-        h-screen
-        flex
-        items-center
-        self-center
-        justify-center
-        flex-1
-        space-x-10
-      "
-    >
-      <StockComponent class=" w-1/2"/>
+    <AppHeader mode="full"/>
+    <div class="md:flex md:flex-row space-x-10 mt-14 mb-10" style="height: 508px">
+      <StockComponent class="md:w-2/5 h-full" />
+      <StockComponent class="md:w-3/5" />
     </div>
+    <StockComponent class="w-full" />
   </div>
 </template>
