@@ -10,13 +10,11 @@ export default defineComponent({
 
     const getAllOrders = async () => {
       orders.value = await get('/order/all')
-      console.log(orders.value)
     }
     getAllOrders()
 
     const filter = async () => {
       console.log('filter by date')
-
     }
 
     return {
@@ -50,10 +48,6 @@ export default defineComponent({
           </svg>
         </button>
       </div>
-    </div>
-
-    <div>
-      <!-- filter -->
     </div>
     <section class="space-y-6">
       <div
