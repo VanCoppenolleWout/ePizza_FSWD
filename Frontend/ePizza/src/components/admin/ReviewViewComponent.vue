@@ -17,16 +17,15 @@ export default defineComponent({
       { id: 5 },
     ])
     let tempAr: any = ref([])
-
+    const token: string =
+      'eyJhbGciOiJSUzI1NiIsImtpZCI6IjgwNTg1Zjk5MjExMmZmODgxMTEzOTlhMzY5NzU2MTc1YWExYjRjZjkiLCJ0eXAiOiJKV1QifQ.eyJhZG1pbiI6dHJ1ZSwiaXNzIjoiaHR0cHM6Ly9zZWN1cmV0b2tlbi5nb29nbGUuY29tL3BpenphLWJhY2tlbmQtNjdjMTMiLCJhdWQiOiJwaXp6YS1iYWNrZW5kLTY3YzEzIiwiYXV0aF90aW1lIjoxNjM4NjQwMDA2LCJ1c2VyX2lkIjoieUxMOHI1QzFpeVdERXFqVVEwb2lBczNhckkzMiIsInN1YiI6InlMTDhyNUMxaXlXREVxalVRMG9pQXMzYXJJMzIiLCJpYXQiOjE2Mzg2NDAwMDYsImV4cCI6MTYzODY0MzYwNiwiZW1haWwiOiJnbGVubnRyb25jcXVvMUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsiZ2xlbm50cm9uY3F1bzFAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.IOiq1oy9_31L1QX1npGrJ_ZTZZ7mSBTLw5WrmloA_bctiwYYMjLqwfLj75xJYQaylL9XMXynTWKf0NaLRQBFJWMChbxQn0K02Lsr-8b3M_jME_3h3JIbBHK46nnNx5Z6mnzFV6Z1_1FiZnqvEPOSdlc6twJMqDfcTxv5FidnnhdAt0XlBOUiJVRgT2AtbJCATk0xpGSzllfpwLnCu0vFgHarGbkI8CjstkahfkVeCsBwIxmgKoI3WCpD7ZF0p2lW05cN3PaX5YnzquFjFv4pMy5uzJqgXFKf3sphsppo_hH3STzyv-mOF1GYZm9TMOlOJg3trQNPtuN579PGShjoNg'
+      
     const getAllReviews = async () => {
-      reviews.value = await get(
-        '/review/all',
-        'eyJhbGciOiJSUzI1NiIsImtpZCI6IjgwNTg1Zjk5MjExMmZmODgxMTEzOTlhMzY5NzU2MTc1YWExYjRjZjkiLCJ0eXAiOiJKV1QifQ.eyJhZG1pbiI6dHJ1ZSwiaXNzIjoiaHR0cHM6Ly9zZWN1cmV0b2tlbi5nb29nbGUuY29tL3BpenphLWJhY2tlbmQtNjdjMTMiLCJhdWQiOiJwaXp6YS1iYWNrZW5kLTY3YzEzIiwiYXV0aF90aW1lIjoxNjM4NjM2NjUxLCJ1c2VyX2lkIjoickRsV2g4Y3FyaE9QdUEwb3lyNlRFM0txaW4wMiIsInN1YiI6InJEbFdoOGNxcmhPUHVBMG95cjZURTNLcWluMDIiLCJpYXQiOjE2Mzg2MzY2NTEsImV4cCI6MTYzODY0MDI1MSwiZW1haWwiOiJkb2NlbnRAaG93ZXN0LmJlIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImRvY2VudEBob3dlc3QuYmUiXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.JQIYL1kDkvLvD5idRVjC1NDEj3swtlFnmp2GC4-Ab1ozSiaiC7KX9YqcAa8dd2KAHcjSrVI-UYQ2UJ_ouMMmY0en7XW2UBnbWl9nx8YOXxgAK_di3LqSBuJ87o4bLBhF35zPsiwETx7eDLn15A1ouH5LDcqqNDhyVDjwT6DowYWOHqcKFk7Zf5Ar2FlhuAcV3MoeeJ-5_QQ5YRjNnnTL5U5kBZ_EdDkylu1_7WAuEEWqzHHLTG-_6X9iYY4JEHGNKPhq-9RD_fEgqUrGAz6WW38-kmfZFJKHHhhxXkRHePH3Nx7wG-pTHrDy3Ff6zIg8iHE4vchEy3IUpiABMn_7uw',
-      )
+      reviews.value = await get('/review/all', token)
+      console.log(reviews.value)
 
       // show correct amount of stars
       for (const [key, value] of Object.entries(reviews.value)) {
-        
         //@ts-ignore
         finalRating.value = value.stars
         var output = ratingAr.value.filter(
@@ -42,6 +41,8 @@ export default defineComponent({
     }
     getAllReviews()
 
+    // console.log(reviews.value)
+    // console.log(tempAr.value)
     return {
       reviews,
       tempAr,
@@ -77,7 +78,7 @@ export default defineComponent({
               {{ item.user.name }} {{ item.user.lastname }}
             </p>
             <ul id="review">
-              <li v-for="item in tempAr" :key="item" class="inline-block" >
+              <li v-for="index in item.stars" :key="index" class="inline-block">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
