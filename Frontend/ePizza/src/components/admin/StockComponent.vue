@@ -1,8 +1,8 @@
 <script lang="ts">
 import { AnySoaRecord } from 'dns'
 import { defineComponent, ref } from 'vue'
-import { fetchData } from '../composables/useNetwork'
-import { Pizza } from '../interfaces/pizza'
+import { fetchData } from '../../composables/useNetwork'
+import { Pizza } from '../../interfaces/pizza'
 
 export default defineComponent({
   setup() {
@@ -35,7 +35,7 @@ export default defineComponent({
     style="height: 508px"
   >
     <section class="h-full overflow-scroll w-2/5">
-      <h1 class="text-p-red text-2xl font-semibold mb-4 text-center">
+      <h1 class="text-p-red text-2xl font-semibold mb-4">
         List of pizzas
       </h1>
       <div
