@@ -1,49 +1,32 @@
 <script lang="ts">
-import { defineComponent, onBeforeMount, Ref, ref, toRefs } from 'vue'
+import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue'
 import { Router, useRouter } from 'vue-router'
 import AppHeader from '../components/AppHeader.vue'
 import Basket from '../components/Basket.vue'
 import { fetchData } from '../composables/useNetwork'
 import { Pizza } from '../interfaces/pizza'
+import { Topping } from '../interfaces/topping'
+import { useStore } from '../store/store'
 
 export default defineComponent({
   setup(context) {
     const router: Router = useRouter()
+    const { store } = useStore()
 
     const pizza: Pizza = JSON.parse(context.pizza)
-    console.log(pizza)
-    console.log(pizza.toppings)
-
-    const { get } = fetchData()
 
     const size: Ref<number> = ref(1)
     const type: Ref<string> = ref('pan')
 
-    let toppingsAr: any = ref([])
-    let highlightedToppingAr: any = ref([])
-
-    const getToppings = async () => {
-      toppingsAr.value = await get('/topping')
-      console.log(toppingsAr.value)
-
-      toppingsAr.value.map((item: Pizza) => {
-        pizza.toppings?.forEach((pizza) => {
-          //@ts-ignore
-          item.name === pizza.name ? (item.stock -= 1) : null
-        })
-        return item
-      })
-
-      console.log(toppingsAr.value)
-    }
-    getToppings()
+    const toppingsAr: any = computed(() => store.getters.getToppingsArr)
+    const highlightedToppingArr: any = ref([])
 
     const highlightTopping = (topping: any) => {
-      if (!highlightedToppingAr.value.includes(topping) && topping.stock !== 0)
-        highlightedToppingAr.value.push(topping)
+      if (!highlightedToppingArr.value.includes(topping) && topping.stock !== 0)
+        highlightedToppingArr.value.push(topping)
       else
-        highlightedToppingAr.value.splice(
-          highlightedToppingAr.value.indexOf(topping),
+        highlightedToppingArr.value.splice(
+          highlightedToppingArr.value.indexOf(topping),
           1,
         )
     }
@@ -53,13 +36,13 @@ export default defineComponent({
         localStorage.getItem('pizzas') || '[]',
       )
 
-      const toppings: Array<string> = highlightedToppingAr.value.map(
+      const toppings: Array<string> = highlightedToppingArr.value.map(
         (topping: any) => topping.topping_id,
       )
 
       const sizePrice: number = size.value == 1 ? 0 : size.value == 2 ? 5 : 10
 
-      const totalPrice = highlightedToppingAr.value.reduce(
+      const totalPrice = highlightedToppingArr.value.reduce(
         (total: number, topping: any) => {
           return total + topping.price
         },
@@ -82,7 +65,7 @@ export default defineComponent({
     return {
       toppingsAr,
       highlightTopping,
-      highlightedToppingAr,
+      highlightedToppingArr,
       size,
       type,
       addPizza,
@@ -203,8 +186,8 @@ export default defineComponent({
                     class="text-black inline-block rounded-2xl mr-4 py-1 px-4"
                     :class="{
                       'text-white bg-red-500':
-                        highlightedToppingAr.includes(topping),
-                      'bg-p-gray-100': !highlightedToppingAr.includes(topping),
+                        highlightedToppingArr.includes(topping),
+                      'bg-p-gray-100': !highlightedToppingArr.includes(topping),
                       'opacity-50 cursor-default': topping.stock === 0,
                       'hover:bg-red-300': topping.stock !== 0,
                     }"
@@ -228,7 +211,7 @@ export default defineComponent({
                       px-4
                       hover:bg-red-300
                     "
-                    v-for="topping in highlightedToppingAr"
+                    v-for="topping in highlightedToppingArr"
                     :key="topping.id"
                   >
                     {{ topping.name }}

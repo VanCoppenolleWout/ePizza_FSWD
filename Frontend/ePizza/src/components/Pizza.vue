@@ -47,7 +47,6 @@ export default defineComponent({
       }
 
       store.commit(MutationTypes.setToppingsArr, toppingsArr.value)
-      
     }
 
     adjustStockToppings()

@@ -26,7 +26,7 @@ export class PizzaService {
   async getAll() {
     return await this.pizzaRepository
       .createQueryBuilder('pizza')
-      .innerJoinAndSelect('pizza.toppings', 'topping')
+      .leftJoinAndSelect('pizza.toppings', 'topping')
       .getMany()
   }
 

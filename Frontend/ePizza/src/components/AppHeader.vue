@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref, watch } from 'vue'
 import useFirebase from '../composables/useFirebase'
 import { useStore } from '../store/store'
 
@@ -14,6 +14,10 @@ export default defineComponent({
 
     const admin = computed(() => {
       return store.getters.getAdmin
+    })
+
+    watch(admin, () => {
+      console.log(admin.value)
     })
 
     const handleLogout = () => {
