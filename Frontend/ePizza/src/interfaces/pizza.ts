@@ -1,4 +1,4 @@
-export interface Pizza {
+export type Pizza ={
   pizza_id: string
   name: string
   size_id: number
@@ -7,4 +7,5 @@ export interface Pizza {
   stock?: number
   img_url?: string
   vegetarian?: boolean
+  toppings: Array<any>
 }

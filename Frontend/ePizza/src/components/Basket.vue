@@ -1,21 +1,38 @@
 <script lang="ts">
-import { defineComponent, Ref, ref, toRefs, watch } from 'vue'
+import { computed, defineComponent, Ref, ref, toRefs, watch } from 'vue'
 import BasketItem from './BasketItem.vue'
 import { TimelineLite } from 'gsap'
 import { Pizza } from '../interfaces/pizza'
 import { useLocalStorage } from '../composables/useLocalStorage'
+import { MutationTypes, useStore } from '../store/store'
+import { Topping } from '../interfaces/topping'
 
 export default defineComponent({
   setup(props, { emit }) {
     const active: Ref<boolean> = ref(false)
-    const {
-      getPizzasLocal,
-      deletePizzaLocal,
-      addPizzaLocal,
-      deletePizzasLocal,
-    } = useLocalStorage()
-
+    const { getPizzasLocal, deletePizzaLocal, addPizzaLocal } =
+      useLocalStorage()
+    const { store } = useStore()
+    const filteredToppings: Ref<Array<Topping>> = ref([])
     const pizzas: Ref<Array<Pizza>> = ref(getPizzasLocal())
+    // const disableAdd: Ref<Array<string>> = ref([])
+    const toppingsArr = computed(() => {
+      return store.getters.getToppingsArr
+    })
+
+    const filterToppings = (pizza: Pizza) => {
+      filteredToppings.value = []
+      for (const toppingPizza of pizza.toppings) {
+        for (const topping of toppingsArr.value) {
+          if (toppingPizza.name === topping.name)
+            filteredToppings.value.push(topping)
+        }
+      }
+    }
+
+    // watch(toppingsArr, () => {
+    //   console.log(toppingsArr.value)
+    // })
 
     let pizzaCounts: Ref<Record<string, number>> = ref({})
     const totalPrice = ref()
@@ -31,6 +48,8 @@ export default defineComponent({
         pizzaCounts.value[JSON.stringify(pizza)] =
           (pizzaCounts.value[JSON.stringify(pizza)] || 0) + 1
       })
+
+      store.commit(MutationTypes.setPizzaCounts, pizzaCounts.value)
     }
 
     const setPizzaPrice = () => {
@@ -72,14 +91,18 @@ export default defineComponent({
     }
 
     const AddPizza = (pizza: Pizza) => {
-      pizzas.value = addPizzaLocal(pizza)
+      filterToppings(pizza)
+
+      filteredToppings.value.find((topping: Topping) => topping.stock < 1) !==
+      undefined
+        ? null
+        : (pizzas.value = addPizzaLocal(pizza))
+
       sortPizzas()
     }
 
     const placeOrder = () => {
       emit('placeOrder', pizzas.value)
-
-      // pizzas.value = getPizzasLocal()
     }
 
     sortPizzas()
@@ -95,6 +118,7 @@ export default defineComponent({
       AddPizza,
       deletePizza,
       placeOrder,
+      toppingsArr,
     }
   },
   components: { BasketItem },
@@ -160,7 +184,6 @@ export default defineComponent({
           v-else
         >
           <div v-for="(pizza, index) of Object.keys(pizzaCounts)" :key="index">
-            <!-- <transition-group v-bind:css="false"> -->
             <BasketItem
               :name="JSON.parse(pizza).name"
               :price="JSON.parse(pizza).price"
@@ -181,7 +204,6 @@ export default defineComponent({
                 .name.replaceAll(' ', '')
                 .replace('&', '')}${index}`"
             />
-            <!-- </transition-group> -->
           </div>
         </div>
       </div>

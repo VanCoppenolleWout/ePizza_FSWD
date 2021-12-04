@@ -21,7 +21,7 @@ export class PizzaController {
     return await this.pizzaService.getAll()
   }
 
-  @Put('stock')
+  @Get('stock')
   async updateStock(@Body() body) {
     return await this.pizzaService.updateStock(body)
   }

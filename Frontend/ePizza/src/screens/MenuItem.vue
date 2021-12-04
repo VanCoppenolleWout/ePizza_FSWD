@@ -9,24 +9,37 @@ import { Pizza } from '../interfaces/pizza'
 export default defineComponent({
   setup(context) {
     const router: Router = useRouter()
-    context.pizzaId ? null : router.push('/menu')
+
+    const pizza: Pizza = JSON.parse(context.pizza)
+    console.log(pizza)
+    console.log(pizza.toppings)
 
     const { get } = fetchData()
 
     const size: Ref<number> = ref(1)
     const type: Ref<string> = ref('pan')
-    let { pizzaId, name, price, imgUrl } = context
 
     let toppingsAr: any = ref([])
     let highlightedToppingAr: any = ref([])
 
     const getToppings = async () => {
       toppingsAr.value = await get('/topping')
+      console.log(toppingsAr.value)
+
+      toppingsAr.value.map((item: Pizza) => {
+        pizza.toppings?.forEach((pizza) => {
+          //@ts-ignore
+          item.name === pizza.name ? (item.stock -= 1) : null
+        })
+        return item
+      })
+
+      console.log(toppingsAr.value)
     }
     getToppings()
 
     const highlightTopping = (topping: any) => {
-      if (!highlightedToppingAr.value.includes(topping))
+      if (!highlightedToppingAr.value.includes(topping) && topping.stock !== 0)
         highlightedToppingAr.value.push(topping)
       else
         highlightedToppingAr.value.splice(
@@ -39,27 +52,29 @@ export default defineComponent({
       const pizzas: Array<Pizza> = JSON.parse(
         localStorage.getItem('pizzas') || '[]',
       )
+
       const toppings: Array<string> = highlightedToppingAr.value.map(
         (topping: any) => topping.topping_id,
       )
+
       const sizePrice: number = size.value == 1 ? 0 : size.value == 2 ? 5 : 10
 
       const totalPrice = highlightedToppingAr.value.reduce(
-        (total: any, topping: any) => {
-          console.log(total)
+        (total: number, topping: any) => {
           return total + topping.price
         },
-        parseInt(price) + sizePrice,
+        pizza.price + sizePrice,
       )
 
-      const pizza: Pizza = {
-        pizza_id: pizzaId,
+      const pizzaOrder: Pizza = {
+        pizza_id: pizza.pizza_id,
         size_id: size.value,
         topping_ids: toppings,
         price: totalPrice,
-        name: name,
+        name: pizza.name,
+        toppings: pizza.toppings,
       }
-      pizzas.push(pizza)
+      pizzas.push(pizzaOrder)
       localStorage.setItem('pizzas', JSON.stringify(pizzas))
       router.push('menu')
     }
@@ -71,9 +86,7 @@ export default defineComponent({
       size,
       type,
       addPizza,
-      name,
-      price,
-      imgUrl,
+      pizza,
     }
   },
   components: {
@@ -82,10 +95,7 @@ export default defineComponent({
   },
 
   props: {
-    pizzaId: { type: String, required: true },
-    name: { type: String, required: true },
-    imgUrl: String,
-    price: { type: String, required: true },
+    pizza: { type: String, required: true },
   },
 })
 </script>
@@ -102,7 +112,7 @@ export default defineComponent({
         <div class="flex flex-row text-lg items-center mb-4">
           <section class="flex flex-row space-x-10">
             <img
-              :src="imgUrl"
+              :src="pizza.img_url"
               class="rounded-3xl"
               style="width: 400px; height: 400px"
               alt=""
@@ -110,7 +120,7 @@ export default defineComponent({
 
             <div>
               <h1 class="text-3xl font-semibold text-p-gray">
-                {{ name }}
+                {{ pizza.name }}
               </h1>
               <div class="mt-8">
                 <h2 class="font-semibold text-xl">size</h2>
@@ -185,28 +195,22 @@ export default defineComponent({
               <div class="mt-6">
                 <h2 class="font-semibold text-xl">toppings</h2>
                 <ul id="example-1" class="mt-4">
-                  <li
+                  <button
                     v-for="(topping, index) in toppingsAr"
                     @click="highlightTopping(topping)"
                     :key="index"
-                    class="
-                      inline-block
-                      cursor-pointer
-                      rounded-2xl
-                      mr-4
-                      py-1
-                      px-4
-                      bg-gray-200
-                      hover:bg-red-300
-                    "
-                    :class="
-                      highlightedToppingAr.includes(topping)
-                        ? 'bg-red-500 text-white'
-                        : 'bg-p-gray-100 text-black'
-                    "
+                    :disabled="topping.stock === 0"
+                    class="text-black inline-block rounded-2xl mr-4 py-1 px-4"
+                    :class="{
+                      'text-white bg-red-500':
+                        highlightedToppingAr.includes(topping),
+                      'bg-p-gray-100': !highlightedToppingAr.includes(topping),
+                      'opacity-50 cursor-default': topping.stock === 0,
+                      'hover:bg-red-300': topping.stock !== 0,
+                    }"
                   >
                     {{ topping.name }}
-                  </li>
+                  </button>
                 </ul>
               </div>
               <div class="mt-6">

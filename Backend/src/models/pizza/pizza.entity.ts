@@ -1,6 +1,14 @@
 import { Field, ObjectType } from '@nestjs/graphql'
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm'
 import { OrderPizzaSizeTopping } from '../order_pizza/order.pizza.size.entity'
+import { Topping } from '../topping/topping.entity'
 
 @Entity('Pizza')
 @ObjectType()
@@ -27,6 +35,9 @@ export class Pizza {
   @Field()
   vegetarian?: boolean
 
+  @ManyToMany(() => Topping, (toppings) => toppings.pizzas, { cascade: true })
+  @JoinTable({ name: 'Pizza_Topping' })
+  toppings?: Topping[]
   @OneToMany(() => OrderPizzaSizeTopping, (orders) => orders.pizza)
   pizzaSizeToppings?: OrderPizzaSizeTopping[]
 }

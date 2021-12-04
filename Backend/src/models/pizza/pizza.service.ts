@@ -24,7 +24,10 @@ export class PizzaService {
 
   @Query(() => [Pizza])
   async getAll() {
-    return await this.pizzaRepository.find()
+    return await this.pizzaRepository
+      .createQueryBuilder('pizza')
+      .innerJoinAndSelect('pizza.toppings', 'topping')
+      .getMany()
   }
 
   async updateStock(body: any) {

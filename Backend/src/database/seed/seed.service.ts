@@ -32,11 +32,6 @@ export class SeedService {
     return await this.userRepository.find()
   }
 
-  //PIZZA
-  async seedPizza(): Promise<Pizza[]> {
-    return await this.pizzaRepository.save(pizzasjson)
-  }
-
   async findPizza(): Promise<Pizza[]> {
     return await this.pizzaRepository.find()
   }
@@ -57,5 +52,136 @@ export class SeedService {
 
   async findTopping(): Promise<Topping[]> {
     return await this.toppingRepository.find()
+  }
+
+  //PIZZA
+  async seedPizza(): Promise<Pizza[]> {
+    const pizzas: Pizza[] = pizzasjson
+    pizzas.forEach((pizza) => {
+      if (pizza.name == 'Margerita') {
+        let mozzarella: Topping = {
+          topping_id: '8c751f9f-8717-4315-ac01-144d40731d76',
+        }
+
+        pizza.toppings = [mozzarella]
+      }
+      if (pizza.name == 'Pepperoni') {
+        let mozzarella: Topping = {
+          topping_id: '8c751f9f-8717-4315-ac01-144d40731d76',
+        }
+        let pepperoni: Topping = {
+          topping_id: '8c751f9f-8717-4315-ac01-144d40731d56',
+        }
+
+        pizza.toppings = [mozzarella, pepperoni]
+      }
+
+      if (pizza.name == 'Cheese & Ham') {
+        const mozzarella: Topping = {
+          topping_id: '8c751f9f-8717-4315-ac01-144d40731d76',
+        }
+        const cheese: Topping = {
+          topping_id: '8c751f9f-8717-4315-ac01-144d40731d86',
+        }
+        const ham: Topping = {
+          topping_id: '8c751f9f-8717-4315-ac01-144d40731d46',
+        }
+
+        pizza.toppings = [mozzarella, cheese, ham]
+      }
+
+      if (pizza.name == 'Forestiere') {
+        const mozzarella: Topping = {
+          topping_id: '8c751f9f-8717-4315-ac01-144d40731d76',
+        }
+        const mushrooms: Topping = {
+          topping_id: '8c751f9f-8717-4315-ac01-144d40731d99',
+        }
+        const tomatoes: Topping = {
+          topping_id: '8c751f9f-8717-4315-ac01-144d40731d66',
+        }
+        const ham: Topping = {
+          topping_id: '8c751f9f-8717-4315-ac01-144d40731d46',
+        }
+
+        pizza.toppings = [mozzarella, ham, mushrooms, tomatoes]
+      }
+
+      if (pizza.name == 'Hawai') {
+        const mozzarella: Topping = {
+          topping_id: '8c751f9f-8717-4315-ac01-144d40731d76',
+        }
+        const mushrooms: Topping = {
+          topping_id: '8c751f9f-8717-4315-ac01-144d40731d99',
+        }
+        const pineapple: Topping = {
+          topping_id: '8c751f9f-8717-4315-ac01-144d40731d98',
+        }
+        const ham: Topping = {
+          topping_id: '8c751f9f-8717-4315-ac01-144d40731d46',
+        }
+
+        pizza.toppings = [mozzarella, ham, mushrooms, pineapple]
+      }
+
+      if (pizza.name == 'Hot & Spicy') {
+        const mozzarella: Topping = {
+          topping_id: '8c751f9f-8717-4315-ac01-144d40731d76',
+        }
+        const tomatoes: Topping = {
+          topping_id: '8c751f9f-8717-4315-ac01-144d40731d66',
+        }
+        const chilipeppers: Topping = {
+          topping_id: '8c751f9f-8717-4315-ac01-144d40731d97',
+        }
+
+        pizza.toppings = [mozzarella, tomatoes, chilipeppers]
+      }
+
+      if (pizza.name == 'Barbecue Chicken') {
+        const mozzarella: Topping = {
+          topping_id: '8c751f9f-8717-4315-ac01-144d40731d76',
+        }
+        const mushrooms: Topping = {
+          topping_id: '8c751f9f-8717-4315-ac01-144d40731d99',
+        }
+        const chicken: Topping = {
+          topping_id: '8c751f9f-8717-4315-ac01-144d40731d16',
+        }
+
+        pizza.toppings = [mozzarella, mushrooms, chicken]
+      }
+
+      if (pizza.name == 'Barbecue') {
+        const mozzarella: Topping = {
+          topping_id: '8c751f9f-8717-4315-ac01-144d40731d76',
+        }
+        const mushrooms: Topping = {
+          topping_id: '8c751f9f-8717-4315-ac01-144d40731d99',
+        }
+        const bacon: Topping = {
+          topping_id: '8c751f9f-8717-4315-ac01-144d40731d36',
+        }
+
+        pizza.toppings = [mozzarella, mushrooms, bacon]
+      }
+
+      if (pizza.name == 'Pepperoni Supreme') {
+        let mozzarella: Topping = {
+          topping_id: '8c751f9f-8717-4315-ac01-144d40731d76',
+        }
+        let pepperoni: Topping = {
+          topping_id: '8c751f9f-8717-4315-ac01-144d40731d56',
+        }
+        const mushrooms: Topping = {
+          topping_id: '8c751f9f-8717-4315-ac01-144d40731d99',
+        }
+        const tomatoes: Topping = {
+          topping_id: '8c751f9f-8717-4315-ac01-144d40731d66',
+        }
+        pizza.toppings = [mozzarella, pepperoni, mushrooms, tomatoes]
+      }
+    })
+    return await this.pizzaRepository.save(pizzasjson)
   }
 }

@@ -18,10 +18,6 @@ export class AppService implements OnApplicationBootstrap {
     const users: User[] = await this.seedService.findUser()
     users.length > 0 ? null : this.seedService.seedUser()
 
-    // Seed pizza if not exists
-    const pizzas: Pizza[] = await this.seedService.findPizza()
-    pizzas.length > 0 ? null : await this.seedService.seedPizza()
-
     // Seed size if not exists
     const sizes: Size[] = await this.seedService.findSize()
     sizes.length > 0 ? null : await this.seedService.seedSize()
@@ -29,5 +25,9 @@ export class AppService implements OnApplicationBootstrap {
     // Seed toppings if not exists
     const toppings: Topping[] = await this.seedService.findTopping()
     toppings.length > 0 ? null : await this.seedService.seedTopping()
+
+    // Seed pizza if not exists
+    const pizzas: Pizza[] = await this.seedService.findPizza()
+    pizzas.length > 0 ? null : await this.seedService.seedPizza()
   }
 }

@@ -32,6 +32,8 @@ import { AddressModule } from './models/address/address.module'
     GraphQLModule.forRoot({
       installSubscriptionHandlers: true,
       autoSchemaFile: true,
+      playground: true,
+      debug: true,
     }),
   ],
   providers: [AppService],

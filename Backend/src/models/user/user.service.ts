@@ -14,7 +14,7 @@ export class UserService {
     return await this.userRepository.findOne({ where: { email: email } })
   }
 
-  async registerUser(user: User): Promise<any> {
+  async registerUser(user: User): Promise<Record<string, string>> {
     try {
       return await getAuth()
         .createUser({

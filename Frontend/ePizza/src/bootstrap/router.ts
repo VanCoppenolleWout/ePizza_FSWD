@@ -66,6 +66,9 @@ const routes: RouteRecordRaw[] = [
       import(/* webpackChunkName: "detail"*/ '../screens/MenuItem.vue'),
     props: true,
     name: 'detail',
+    beforeEnter: async (to, from, next) => {
+      to.params.pizza ? next() : next('menu')
+    },
   },
   //admin routes
   {
