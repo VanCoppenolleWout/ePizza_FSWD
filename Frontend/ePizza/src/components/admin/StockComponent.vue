@@ -1,8 +1,8 @@
 <script lang="ts">
 import { AnySoaRecord } from 'dns'
 import { defineComponent, ref } from 'vue'
-import { fetchData } from '../composables/useNetwork'
-import { Pizza } from '../interfaces/pizza'
+import { fetchData } from '../../composables/useNetwork'
+import { Pizza } from '../../interfaces/pizza'
 
 export default defineComponent({
   setup() {
@@ -35,7 +35,9 @@ export default defineComponent({
     style="height: 508px"
   >
     <section class="h-full overflow-scroll w-2/5">
-      <h1 class="text-p-red text-2xl font-semibold mb-4 text-center">List of pizzas</h1>
+      <h1 class="text-p-red text-2xl font-semibold mb-4">
+        List of pizzas
+      </h1>
       <div
         v-for="(item, index) in stock"
         :key="index"
@@ -47,6 +49,11 @@ export default defineComponent({
           active:bg-p-gray-100
           px-4
           py-2
+          transform
+          hover:scale-105
+          transition
+          ease-out
+          duration-300
         "
       >
         <div class="flex flex-row justify-between h-full">
@@ -60,7 +67,11 @@ export default defineComponent({
     </section>
     <section v-else class="w-3/5 flex flex-row justify-center">
       <div>
-        <img :src="selectedItem.img_url" alt="" class="rounded-lg w-2/3 mb-6 mx-auto" />
+        <img
+          :src="selectedItem.img_url"
+          alt=""
+          class="rounded-lg w-2/3 mb-6 mx-auto"
+        />
         <h1 class="text-center text-xl font-semibold">
           {{ selectedItem.name }}
         </h1>
@@ -70,23 +81,23 @@ export default defineComponent({
         </p>
         <div class="flex flex-row justify-between h-10 mt-8">
           <input
-              type="number"
-              name="title"
-              id="title"
-              min="1"
-              max="100"
-              class="
-                rounded-md
-                font-medium
-                outline-none
-                box-border
-                w-1/2
-                h-full
-                p-2
-                px-4
-                bg-primary
-              "
-            />
+            type="number"
+            name="title"
+            id="title"
+            min="1"
+            max="100"
+            class="
+              rounded-md
+              font-medium
+              outline-none
+              box-border
+              w-1/2
+              h-full
+              p-2
+              px-4
+              bg-primary
+            "
+          />
           <button class="bg-p-red rounded-md text-white font-medium py-2 px-4">
             Raise stock
           </button>

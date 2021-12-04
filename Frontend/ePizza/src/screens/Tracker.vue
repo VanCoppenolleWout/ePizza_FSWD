@@ -27,19 +27,9 @@ export default defineComponent({
 <template>
   <div class="container mx-auto p-8 md:px-0 pb-36 lg:pb-10">
     <AppHeader />
-    <div
-      class="
-        md:flex
-        justify-center
-        flex-wrap
-        lg:justify-between
-        flex-1
-        mt-14
-        mb-14
-      "
-    >
-      <OrderComponent class="md:w-1/2 md:mx-2" />
-      <TrackerComponent class="md:w-2/5 md:mx-2" />
+    <div class="md:flex md:flex-row space-x-10 mt-14 mb-10" style="height: 508px">
+      <OrderComponent class="md:w-3/5 h-full" />
+      <TrackerComponent class="md:w-2/5" />
     </div>
     <ReviewComponent class="w-full" />
   </div>
