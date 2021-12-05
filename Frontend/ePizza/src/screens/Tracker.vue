@@ -33,10 +33,27 @@ export default defineComponent({
 <template>
   <div class="container mx-auto p-8 md:px-0 pb-36 lg:pb-10">
     <AppHeader />
-    <div class="md:flex md:flex-row space-x-10 mt-14 mb-10">
+    <div
+      class="
+        flex flex-col
+        space-y-10
+        md:flex-row md:space-x-10
+        mt-14
+        mb-10
+        order-tracker
+      "
+    >
       <OrderComponent :order="order" class="md:w-3/5" />
       <TrackerComponent class="md:w-2/5" />
     </div>
     <ReviewComponent class="w-full" />
   </div>
 </template>
+
+<style>
+@media (min-width: 768px) {
+  .order-tracker {
+    max-height: 586px;
+  }
+}
+</style>

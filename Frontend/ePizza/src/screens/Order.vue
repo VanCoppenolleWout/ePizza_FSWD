@@ -238,7 +238,7 @@ export default defineComponent({
           </div>
           <div class="md:h-80" v-if="delivery === 'true'">
             <p class="font-bold text-gray-500 text-xl">02</p>
-            <h3 class="font-bold text-2xl">Shipment Details</h3>
+            <h3 class="font-bold text-2xl">Shipping Details</h3>
           </div>
           <div>
             <p class="font-bold text-gray-500 text-xl">03</p>
@@ -287,9 +287,14 @@ export default defineComponent({
             />
           </div>
 
-          <div class="flex items-center mb-2 md:hidden">
+          <div
+            class="flex items-center mb-2 md:hidden"
+            v-if="delivery === 'true'"
+          >
             <p class="font-bold text-gray-500 text-lg mr-2">02</p>
-            <h3 class="font-bold text-xl">Shipping Details</h3>
+            <h3 class="font-bold text-xl" v-if="delivery === 'true'">
+              Shipping Details
+            </h3>
           </div>
 
           <div class="h-80" v-if="delivery === 'true'">

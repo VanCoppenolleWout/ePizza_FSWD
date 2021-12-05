@@ -23,7 +23,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="bg-white rounded-lg h-full">
+  <div class="bg-white rounded-lg">
     <div class="p-8 h-full overflow-y-auto">
       <div class="flex flex-wrap justify-between mb-6">
         <div class="w-32 lg:w-auto mb-6">
