@@ -31,8 +31,7 @@ export default defineComponent({
 
 <template>
   <div
-    class="bg-white rounded-lg p-8 flex flex-row justify-between space-x-6"
-    style="height: 508px"
+    class="bg-white rounded-lg p-8 flex flex-col md:flex-row justify-between space-x-6 md:h-order"
   >
     <section class="h-full overflow-scroll w-2/5">
       <h1 class="text-p-red text-2xl font-semibold mb-4">

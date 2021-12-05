@@ -18,11 +18,11 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="container mx-auto p-8 md:px-0 pb-36 lg:pb-10">
+  <div class="container mx-auto p-8 md:px-0 md:pb-36 lg:pb-10">
     <AppHeader mode="full"/>
-    <div class="md:flex md:flex-row space-x-10 mt-14 mb-10" style="height: 508px">
-      <OrderViewComponent class="md:w-2/5 h-full" />
-      <StockComponent class="md:w-3/5" />
+    <div class="md:flex md:flex-row md:space-x-10 space-y-10 md:space-y-0 mt-14 mb-10">
+      <OrderViewComponent class="md:w-2/5 h-full" style="height: 31.75rem" />
+      <StockComponent class="md:w-3/5" style="height: 31.75rem"/>
     </div>
     <ReviewViewComponent class="w-full" />
   </div>
