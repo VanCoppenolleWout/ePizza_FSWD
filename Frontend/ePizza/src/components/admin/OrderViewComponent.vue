@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { fetchData } from '../../composables/useNetwork'
+import moment from 'moment'
 
 export default defineComponent({
   setup() {
@@ -20,17 +21,18 @@ export default defineComponent({
     return {
       orders,
       filter,
+      moment,
     }
   },
 })
 </script>
 
 <template>
-  <div class="bg-white rounded-lg p-8 overflow-scroll" style="height: 508px">
+  <div class="bg-white rounded-lg p-8 overflow-scroll md:h-order">
     <div class="flex flex-row justify-between items-center">
       <h1 class="text-p-red text-2xl font-semibold mb-4">Orders</h1>
       <div class="flex flex-row items-center space-x-2">
-        <p>Datum</p>
+        <p>Date</p>
         <button @click="filter()">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -66,7 +68,7 @@ export default defineComponent({
       >
         <div class="flex flex-row justify-between items-center">
           <p class="font-medium">{{ '#1' }}</p>
-          <p class="text-sm font-light">{{ item.order_date }}</p>
+          <p class="text-sm font-medium">{{ moment(item.order_date).format('DD/MM - hh:mm a') }}</p>
         </div>
         <p class="mt-4 mb-2 font-semibold text-lg">
           {{ item.user.name }} {{ item.user.lastname }}

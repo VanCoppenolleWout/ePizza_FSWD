@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent, Ref, ref } from 'vue'
 import { fetchData } from '../../composables/useNetwork'
+import moment from 'moment'
 
 export default defineComponent({
   setup() {
@@ -18,8 +19,8 @@ export default defineComponent({
     ])
     let tempAr: any = ref([])
     const token: string =
-      'eyJhbGciOiJSUzI1NiIsImtpZCI6IjgwNTg1Zjk5MjExMmZmODgxMTEzOTlhMzY5NzU2MTc1YWExYjRjZjkiLCJ0eXAiOiJKV1QifQ.eyJhZG1pbiI6dHJ1ZSwiaXNzIjoiaHR0cHM6Ly9zZWN1cmV0b2tlbi5nb29nbGUuY29tL3BpenphLWJhY2tlbmQtNjdjMTMiLCJhdWQiOiJwaXp6YS1iYWNrZW5kLTY3YzEzIiwiYXV0aF90aW1lIjoxNjM4NjQwMDA2LCJ1c2VyX2lkIjoieUxMOHI1QzFpeVdERXFqVVEwb2lBczNhckkzMiIsInN1YiI6InlMTDhyNUMxaXlXREVxalVRMG9pQXMzYXJJMzIiLCJpYXQiOjE2Mzg2NDAwMDYsImV4cCI6MTYzODY0MzYwNiwiZW1haWwiOiJnbGVubnRyb25jcXVvMUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsiZ2xlbm50cm9uY3F1bzFAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.IOiq1oy9_31L1QX1npGrJ_ZTZZ7mSBTLw5WrmloA_bctiwYYMjLqwfLj75xJYQaylL9XMXynTWKf0NaLRQBFJWMChbxQn0K02Lsr-8b3M_jME_3h3JIbBHK46nnNx5Z6mnzFV6Z1_1FiZnqvEPOSdlc6twJMqDfcTxv5FidnnhdAt0XlBOUiJVRgT2AtbJCATk0xpGSzllfpwLnCu0vFgHarGbkI8CjstkahfkVeCsBwIxmgKoI3WCpD7ZF0p2lW05cN3PaX5YnzquFjFv4pMy5uzJqgXFKf3sphsppo_hH3STzyv-mOF1GYZm9TMOlOJg3trQNPtuN579PGShjoNg'
-      
+      'eyJhbGciOiJSUzI1NiIsImtpZCI6IjQ3OTg5ZTU4ZWU1ODM4OTgzZDhhNDQwNWRlOTVkYTllZTZmNWVlYjgiLCJ0eXAiOiJKV1QifQ.eyJhZG1pbiI6dHJ1ZSwiaXNzIjoiaHR0cHM6Ly9zZWN1cmV0b2tlbi5nb29nbGUuY29tL3BpenphLWJhY2tlbmQtNjdjMTMiLCJhdWQiOiJwaXp6YS1iYWNrZW5kLTY3YzEzIiwiYXV0aF90aW1lIjoxNjM4NjM2NjUxLCJ1c2VyX2lkIjoickRsV2g4Y3FyaE9QdUEwb3lyNlRFM0txaW4wMiIsInN1YiI6InJEbFdoOGNxcmhPUHVBMG95cjZURTNLcWluMDIiLCJpYXQiOjE2Mzg3MTA4MTQsImV4cCI6MTYzODcxNDQxNCwiZW1haWwiOiJkb2NlbnRAaG93ZXN0LmJlIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImRvY2VudEBob3dlc3QuYmUiXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.aYxwWs7nQH22OQZJkvVzUC3VZ0jmcRX2o2nRaR2f0XBNGCV9IOU2EJk57KXqJGrmJK2HCK6MzSZrVC05S7hk9ELaYIkTitv0_ngJvQHPZ0L7jcHuVLwyYC-GmbWTY1giHYqJnGT8aE3XHSyEJNg6MLBA31EVU5e25dKlbGCo5TQcf_mJcAf0ZE50X88HHA8swqysFq5XlMhIKi4pAwCgKA5b1_D-pmRzk_MlowzhPTo0pm4_RxMj5Q4QX5BKAX-QBjBZnXhRKgIK6W-QVGR3oCL1X-WRxpDVeCFvTbHFh8pxHq7p-Wpgl1sIdXBFQSZykUXicnT5AqruULK9kAsIXw'
+
     const getAllReviews = async () => {
       reviews.value = await get('/review/all', token)
       console.log(reviews.value)
@@ -28,24 +29,21 @@ export default defineComponent({
       for (const [key, value] of Object.entries(reviews.value)) {
         //@ts-ignore
         finalRating.value = value.stars
+        //@ts-ignore
+        console.log(value.date)
         var output = ratingAr.value.filter(
           //@ts-ignore
           (ratingAr: { id: string }) => ratingAr.id <= value.stars,
         )
         tempAr.value = output
-        console.log(tempAr.value, 'tempAr.value')
-        //console.log(tempAr, 'getoonde sterren')
       }
-
-      //console.log(reviews.value, 'incoming reviews')
     }
     getAllReviews()
 
-    // console.log(reviews.value)
-    // console.log(tempAr.value)
     return {
       reviews,
       tempAr,
+      moment,
     }
   },
 })
@@ -81,8 +79,8 @@ export default defineComponent({
               <li v-for="index in item.stars" :key="index" class="inline-block">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
+                  width="16"
+                  height="16"
                   viewBox="0 0 24 24"
                   fill="#FFC800"
                   stroke="#FFD700"
@@ -98,11 +96,16 @@ export default defineComponent({
             </ul>
           </div>
         </div>
-        <p>{{ item.date }}</p>
+        <p class="hidden md:visible">
+          {{ moment(item.date).format('DD/MM - hh:mm a') }}
+        </p>
       </div>
       <div class="mt-4">
         <p class="text-sm font-medium mb-2">{{ item.title }}</p>
         <p class="w-2/3">{{ item.description }}</p>
+        <p class="md:hidden text-xs">
+          {{ moment(item.date).format('DD/MM - hh:mm a') }}
+        </p>
       </div>
     </div>
   </div>
