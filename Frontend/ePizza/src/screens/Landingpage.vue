@@ -13,7 +13,7 @@ export default defineComponent({
     const userRegistered = ref(props.userCreated)
     const router = useRouter()
 
-    const closeTab = () => (userRegistered.value = 0)
+    const closeTab = () => (userRegistered.value = '0')
 
     const handleDelivery = () => {
       localStorage.setItem('delivery', 'true')
@@ -52,7 +52,7 @@ export default defineComponent({
     BannerComponent,
   },
   props: {
-    userCreated: Number,
+    userCreated: String,
   },
 })
 </script>
@@ -60,7 +60,7 @@ export default defineComponent({
 <template>
   <div>
     <div class="container mx-auto p-8 md:px-0">
-      <BannerComponent v-if="userRegistered" @close="closeTab" />
+      <BannerComponent v-if="userRegistered === '1'" @close="closeTab" />
       <AppHeader mode="full" />
 
       <div class="md:mt-32 mt-16">

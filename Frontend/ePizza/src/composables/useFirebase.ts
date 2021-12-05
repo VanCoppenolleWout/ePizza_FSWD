@@ -52,13 +52,15 @@ export default () => {
     return new Promise((resolve, reject) => {
       try {
         auth.onAuthStateChanged(async (res) => {
-          const { get } = fetchData()
-          const admin = await get('/user/admin', await res?.getIdToken())
-          store.dispatch(MutationTypes.setAdmin, admin.admin)
-          store.dispatch(ActionTypes.setUser, user)
+          if (res !== null) {
+            const { get } = fetchData()
+            const admin = await get('/user/admin', await res?.getIdToken())
+            store.dispatch(MutationTypes.setAdmin, admin.admin)
+            store.dispatch(ActionTypes.setUser, user)
 
-          console.log(await res?.getIdToken())
-          user.value = res
+            console.log(await res?.getIdToken())
+            user.value = res
+          }
           resolve(true)
         })
       } catch (error) {

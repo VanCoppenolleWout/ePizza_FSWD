@@ -37,7 +37,7 @@ export default defineComponent({
       class="
         flex flex-col
         space-y-10
-        md:flex-row md:space-x-10
+        md:space-y-0 md:flex-row md:space-x-10
         mt-14
         mb-10
         order-tracker

@@ -12,6 +12,7 @@ export default defineComponent({
     const user = computed(() => {
       return store.getters.getUser
     })
+    console.log()
     const admin = computed(() => {
       return store.getters.getAdmin
     })
@@ -212,7 +213,7 @@ export default defineComponent({
         </router-link>
       </div>
 
-      <div class="md:hidden" @click="menuActive = !menuActive">
+      <div class="md:hidden cursor-pointer" @click="menuActive = !menuActive">
         <svg
           class="w-11 rounded-md bg-p-red"
           xmlns="http://www.w3.org/2000/svg"

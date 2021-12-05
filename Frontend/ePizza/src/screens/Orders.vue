@@ -22,8 +22,8 @@ export default defineComponent({
       <div>this is the orders page</div>
 
       <div class="flex flex-row space-x-10">
-        <OrderComponent class="w-3/5 h-full" />
-        <TrackerComponent class="md:w-2/5" />
+        <!-- <OrderComponent class="w-3/5 h-full" /> -->
+        <!-- <TrackerComponent class="md:w-2/5" /> -->
       </div>
     </div>
   </div>

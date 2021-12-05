@@ -6,19 +6,19 @@ import ViteFonts from 'vite-plugin-fonts'
 export default defineConfig({
   plugins: [
     vue(),
-    ViteFonts({
-      google: {
-        families: [
-          'Montserrat',
-          {
-            name: 'Montserrat',
-            styles: 'ital,wght@0,400;1,500;2,600;3,700;4,800',
-          },
-        ],
-        display: 'swap',
-        preconnect: true,
-      },
-    }),
+    // ViteFonts({
+    //   google: {
+    //     families: [
+    //       'Montserrat',
+    //       {
+    //         name: 'Montserrat',
+    //         styles: 'ital,wght@0,400;1,500;2,600;3,700;4,800',
+    //       },
+    //     ],
+    //     display: 'swap',
+    //     preconnect: true,
+    //   },
+    // }),
   ],
 
   server: {

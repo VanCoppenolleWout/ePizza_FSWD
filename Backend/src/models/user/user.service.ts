@@ -55,13 +55,9 @@ export class UserService {
   }
 
   async getAdmin(headers: any) {
-    try {
-      const bearer = headers.authorization.replace('Bearer ', '')
-      const firebaseUser = await getAuth().verifyIdToken(bearer)
+    const bearer = headers.authorization.replace('Bearer ', '')
+    const firebaseUser = await getAuth().verifyIdToken(bearer)
 
-      return firebaseUser.admin ? { admin: true } : { admin: false }
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR)
-    }
+    return firebaseUser.admin ? { admin: true } : { admin: false }
   }
 }

@@ -26,18 +26,6 @@ export default defineComponent({
       console.log(email.value, password.value)
       animateCircle.value = true
 
-      login('glenntroncquo1@gmail.com', 'Glenn20062001').then(
-        (succes: boolean) => {
-          if (succes) {
-            animateCircle.value = false
-            router.push('/')
-          } else {
-            animateCircle.value = false
-            errorMsg.value = 'failed'
-          }
-        },
-      )
-
       if (
         email.value === null ||
         password.value === null ||
@@ -59,7 +47,7 @@ export default defineComponent({
             if (succes) {
               animateCircle.value = false
               if (admin) {
-                router.push('/orders')
+                router.push('/stock')
               } else {
                 router.push('/')
               }

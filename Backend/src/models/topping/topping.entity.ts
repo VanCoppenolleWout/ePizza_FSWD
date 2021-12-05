@@ -12,6 +12,7 @@ export class Topping {
   price?: number
   @Column()
   stock?: number
+  img_url?: string
 
   @ManyToMany(() => Pizza, (pizza) => pizza.toppings)
   pizzas?: Pizza[]
