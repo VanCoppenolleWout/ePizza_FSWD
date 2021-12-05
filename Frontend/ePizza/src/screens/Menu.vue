@@ -21,7 +21,7 @@ export default defineComponent({
   <div class="container mx-auto p-8 md:px-0 pb-36 lg:pb-10">
     <AppHeader />
 
-    <div class="lg:mt-14 lg:flex lg:items-start lg:justify-between">
+    <div class="lg:mt-6 lg:flex lg:items-start lg:justify-between">
       <div>
         <div class="flex flex-row text-lg items-center mt-8 mb-4">
           <div class="mr-4">Filter</div>

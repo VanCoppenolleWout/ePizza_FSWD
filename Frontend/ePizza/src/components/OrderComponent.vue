@@ -1,28 +1,44 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
+import { Order } from '../interfaces/order'
 
 export default defineComponent({
-  setup() {
+  setup(context) {
     const pizzaArr: Array<string> = ['f', 'f', 'f', '', '', '']
+
+    const { order } = context
+    const totalPrice = computed(() => {})
+    // console.log(order)
 
     return {
       pizzaArr,
+      order,
     }
+  },
+
+  props: {
+    order: { required: true, type: Object as () => Order },
   },
 })
 </script>
 
 <template>
-  <div class="bg-white rounded-lg mb-6">
+  <div class="bg-white rounded-lg h-full">
     <div class="p-8 h-full overflow-y-auto">
       <div class="flex flex-wrap justify-between mb-6">
         <div class="w-32 lg:w-auto mb-6">
           <h3 class="text-gray-700 text-xl font-semibold mb-2">
-            Take out address
+            {{ order.address ? 'Delivery to' : 'Take out address' }}
           </h3>
-          <p>Graaf Karel de Goedelaan 32</p>
-          <p>8500, Kortrijk</p>
-          <p>055 80 84 20</p>
+          <div v-if="order.address">
+            <p>{{ order.address.street }}, {{ order.address.number }}</p>
+            <p>{{ order.address.postal_code }}, {{ order.address.city }}</p>
+          </div>
+          <div v-else>
+            <p>Graaf Karel de Goedelaan 32</p>
+            <p>8500, Kortrijk</p>
+            <p>055 80 84 20</p>
+          </div>
         </div>
         <div class="w-28 lg:w-auto">
           <h3 class="text-gray-700 text-xl font-semibold mb-2 text-right">
@@ -33,18 +49,18 @@ export default defineComponent({
       </div>
       <div class="">
         <h3 class="text-gray-700 text-xl font-semibold mb-2">Your order</h3>
-        <div v-for="(pizza, index) in pizzaArr" :key="index">
+        <div v-for="(item, index) in order.pizzaSizeToppings" :key="index">
           <div class="flex justify-between mb-2">
             <div class="flex mr-2">
-              <p class="mr-2">{{ '1' }} x</p>
-              <p>Pizza Pepperoni</p>
+              <!-- <p class="mr-2">{{ '1' }} x</p> -->
+              <p>{{ item.size.size_name }} {{ item.pizza.name }}</p>
             </div>
-            <p class="flex items-center">{{ '9' }}€</p>
+            <p class="flex items-center">{{ item.pizza.price }}€</p>
           </div>
         </div>
         <div class="flex justify-between font-medium">
           <p>Total</p>
-          <p>54€</p>
+          <p>{{ order.price }}€</p>
         </div>
       </div>
     </div>

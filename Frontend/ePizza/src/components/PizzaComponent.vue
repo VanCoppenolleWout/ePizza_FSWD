@@ -8,7 +8,7 @@ export default defineComponent({
   setup(context) {
     const router: Router = useRouter()
     const { pizza } = context
-    const currPizza: Ref<any> = ref(pizza)
+    const currPizza: Ref<Pizza> = ref(pizza)
     const disableAdd: Ref<boolean> = ref(false)
 
     const { toppingsArr } = toRefs(context)
@@ -51,7 +51,7 @@ export default defineComponent({
     }
   },
   props: {
-    pizza: { type: Object, required: true },
+    pizza: { type: Object as () => Pizza, required: true },
     toppingsArr: { type: Array as () => Array<Topping>, required: true },
   },
 })

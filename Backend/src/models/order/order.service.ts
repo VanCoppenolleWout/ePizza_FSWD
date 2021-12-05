@@ -126,7 +126,6 @@ export class OrderService {
       if (user === undefined)
         return await this.orderRepository
           .createQueryBuilder('order')
-          .select('order.order_id')
           .addSelect(['guest.guest_id', 'guest.name', 'guest.lastname'])
           .innerJoin('order.guest', 'guest')
           .addSelect('pizzaSizeTopping.order_id')
@@ -143,7 +142,6 @@ export class OrderService {
       if (user !== undefined) {
         return await this.orderRepository
           .createQueryBuilder('order')
-          .select('order.order_id')
           .addSelect(['user.user_id', 'user.name', 'user.lastname'])
           .innerJoin('order.user', 'user')
           .addSelect('pizzaSizeTopping.order_id')

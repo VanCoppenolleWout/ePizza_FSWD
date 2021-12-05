@@ -32,7 +32,6 @@ export default defineComponent({
 
 .fade-enter-from,
 .fade-leave-to {
-  /* transform: translateX(-30%); */
   opacity: 0;
 }
 </style>

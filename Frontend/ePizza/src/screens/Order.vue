@@ -24,6 +24,7 @@ export default defineComponent({
     const addressId: Ref<string> = ref('')
     const router: Router = useRouter()
     const error: Ref<boolean> = ref(false)
+    const paymentOption: Ref<string> = ref('Paypal')
 
     const user: User = reactive({
       name: '',
@@ -174,6 +175,7 @@ export default defineComponent({
       addressInputDisabled,
       placeOrder,
       error,
+      paymentOption,
     }
   },
   components: {
@@ -353,11 +355,12 @@ export default defineComponent({
                 rounded-md
                 flex
                 p-4
-                border-p-red
                 justify-between
                 items-center
                 mb-4
               "
+              :class="paymentOption === 'Paypal' ? 'border-p-red' : ''"
+              @click="paymentOption = 'Paypal'"
             >
               <div class="flex items-center">
                 <img
@@ -369,13 +372,13 @@ export default defineComponent({
               </div>
 
               <div
-                class="w-6 h-6 border-p-red border-2 rounded-full flex relative"
+                class="w-6 h-6 border-2 rounded-full flex relative"
+                :class="paymentOption === 'Paypal' ? 'border-p-red' : ''"
               >
                 <div
                   class="
                     w-3
                     h-3
-                    bg-p-red
                     rounded-full
                     absolute
                     top-1/2
@@ -383,22 +386,30 @@ export default defineComponent({
                     transform
                     -translate-x-1/2 -translate-y-1/2
                   "
+                  :class="paymentOption === 'Paypal' ? 'bg-p-red' : ''"
                 ></div>
               </div>
             </div>
             <div
               class="border-2 rounded-md flex p-4 justify-between items-center"
+              :class="paymentOption === 'Bancontact App' ? 'border-p-red' : ''"
+              @click="paymentOption = 'Bancontact App'"
             >
               <div class="flex items-center">
                 <img
                   class="h-10 mr-4"
                   src="../assets/images/mobile-pay.svg"
-                  alt="paypal logo"
+                  alt="bancontact logo"
                 />
                 <p class="text-lg font-semibold">Bancontact App</p>
               </div>
 
-              <div class="w-6 h-6 border-2 rounded-full flex relative">
+              <div
+                class="w-6 h-6 border-2 rounded-full flex relative"
+                :class="
+                  paymentOption === 'Bancontact App' ? 'border-p-red' : ''
+                "
+              >
                 <div
                   class="
                     w-3
@@ -410,6 +421,7 @@ export default defineComponent({
                     transform
                     -translate-x-1/2 -translate-y-1/2
                   "
+                  :class="paymentOption === 'Bancontact App' ? 'bg-p-red' : ''"
                 ></div>
               </div>
             </div>

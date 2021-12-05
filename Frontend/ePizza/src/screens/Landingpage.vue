@@ -63,7 +63,7 @@ export default defineComponent({
       <BannerComponent v-if="userRegistered" @close="closeTab" />
       <AppHeader mode="full" />
 
-      <div class="mt-32">
+      <div class="md:mt-32 mt-16">
         <img
           class="
             absolute
@@ -82,7 +82,7 @@ export default defineComponent({
         />
 
         <header id="header" class="m-w-top">
-          <h1 class="font-semibold text-6xl animation1">
+          <h1 class="font-semibold text-5xl md:text-6xl animation1">
             Newest, freshest and best pizza in
             <span class="text-red-500">Kortrijk</span>.
           </h1>

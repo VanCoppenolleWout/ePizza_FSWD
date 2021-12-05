@@ -87,17 +87,16 @@ export default defineComponent({
   <div class="container mx-auto p-8 md:px-0 pb-36 lg:pb-10">
     <div>
       <AppHeader />
-      <router-link to="/menu"> Go back </router-link>
+      <router-link to="/menu" class="hover:underline"> Go back </router-link>
     </div>
 
     <div class="lg:mt-8 lg:flex lg:items-start lg:justify-between">
-      <div class="w-3/4">
+      <div class="">
         <div class="flex flex-row text-lg items-center mb-4">
-          <section class="flex flex-row space-x-10">
+          <section class="flex flex-col items-center md:flex-row">
             <img
               :src="pizza.img_url"
-              class="rounded-3xl"
-              style="width: 400px; height: 400px"
+              class="rounded-3xl max-w-sm w-full"
               alt=""
             />
 
@@ -140,7 +139,7 @@ export default defineComponent({
                   </label>
                 </div>
               </div>
-              <div class="mt-6">
+              <!-- <div class="mt-6">
                 <h2 class="font-semibold text-xl">type</h2>
                 <div class="mt-2 flex flex-col">
                   <label class="inline-flex items-center">
@@ -174,7 +173,7 @@ export default defineComponent({
                     <span class="ml-4">thin</span>
                   </label>
                 </div>
-              </div>
+              </div> -->
               <div class="mt-6">
                 <h2 class="font-semibold text-xl">toppings</h2>
                 <ul id="example-1" class="mt-4">
@@ -196,10 +195,9 @@ export default defineComponent({
                   </button>
                 </ul>
               </div>
-              <div class="mt-6">
+              <!-- <div class="mt-6">
                 <h2 class="font-semibold text-xl">ingredients</h2>
                 <ul id="example-2" class="mt-4">
-                  <!-- v-for="item in items" :key="item.message" -->
                   <li
                     class="
                       inline-block
@@ -217,7 +215,7 @@ export default defineComponent({
                     {{ topping.name }}
                   </li>
                 </ul>
-              </div>
+              </div> -->
             </div>
           </section>
         </div>

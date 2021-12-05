@@ -1,4 +1,6 @@
-export type Pizza ={
+import { Topping } from './topping'
+
+export type Pizza = {
   pizza_id: string
   name: string
   size_id: number
@@ -7,5 +9,5 @@ export type Pizza ={
   stock?: number
   img_url?: string
   vegetarian?: boolean
-  toppings: Array<any>
+  toppings: Array<Topping>
 }

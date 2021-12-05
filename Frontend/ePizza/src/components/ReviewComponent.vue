@@ -101,23 +101,21 @@ export default defineComponent({
     <form
       @submit.prevent="handleReview"
       class="p-8 flex flex-col justify-between h-full"
-      style="width: 40rem"
     >
       <div :class="formstate === false ? 'pointer-events-none opacity-40' : ''">
-        <div class="flex flex-row justify-between">
+        <div>
           <div></div>
           <div>
-            <ul id="review" class="mt-4">
+            <ul id="review" class="mt-4 flex space-x-4">
               <li
                 v-for="(rating, index) in ratingAr"
                 :key="index"
                 @click="selectRating(rating)"
                 @mouseover="selectRating(rating)"
                 class="
-                  inline-block
+                  block
                   cursor-pointer
                   rounded-md
-                  ml-4
                   py-1
                   px-4
                   hover:bg-red-300w hover:bg-yellow-200
