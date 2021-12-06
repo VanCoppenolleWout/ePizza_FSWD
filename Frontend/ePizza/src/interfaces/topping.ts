@@ -3,4 +3,5 @@ export interface Topping {
   price: number
   stock: number
   topping_id: string
+  img_url: string
 }
