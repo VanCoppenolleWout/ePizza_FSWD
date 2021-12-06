@@ -230,11 +230,11 @@ export default defineComponent({
     </div>
     <!-- <ul class="bg-p-red text-white absolute w-full z-10" > -->
     <transition-group
-      class="absolute w-full z-10 md:hidden text-white left-0"
+      class="absolute w-full z-10 md:hidden"
       name="list"
       tag="ul"
       ><li
-        class="bg-p-red p-2 rounded-t-md"
+        class="p-2 rounded-t-md bg-white left-0 shadow-lg"
         :style="menuActive === true ? '' : 'transition-delay: 0.3s'"
         :key="1"
         v-show="menuActive"
@@ -242,7 +242,7 @@ export default defineComponent({
         Menu
       </li>
       <li
-        class="bg-p-red p-2"
+        class="p-2 bg-white left-0 shadow-lg"
         :style="
           menuActive === true
             ? 'transition-delay: 0.1s'
@@ -254,7 +254,7 @@ export default defineComponent({
         Delivery
       </li>
       <li
-        class="bg-p-red p-2"
+        class="p-2 bg-white left-0 shadow-lg"
         :style="
           menuActive === true
             ? 'transition-delay: 0.2s'
@@ -266,7 +266,7 @@ export default defineComponent({
         Carryout
       </li>
       <li
-        class="bg-p-red p-2 rounded-b-md"
+        class="p-2 rounded-b-md bg-white left-0 shadow-lg"
         :style="menuActive === true ? 'transition-delay: 0.3s' : ''"
         :key="4"
         v-show="menuActive"

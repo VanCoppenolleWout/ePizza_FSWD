@@ -1,7 +1,7 @@
 <script lang="ts">
 import { computed, defineComponent, ref, watch } from 'vue'
 import AppHeader from '../components/AppHeader.vue'
-import { TimelineLite } from 'gsap'
+import { TimelineLite, TweenMax } from 'gsap'
 
 export default defineComponent({
   setup() {
@@ -9,26 +9,73 @@ export default defineComponent({
     const right = ref(true)
 
     const testArr = [
-      'src/assets/images/forestiere-nobg.png',
-      'src/assets/images/pepperoni-nobg.png',
-      'src/assets/images/supreme-nobg.png',
-      'src/assets/images/forestiere-nobg.png',
-      'src/assets/images/pepperoni-nobg.png',
-      'src/assets/images/supreme-nobg.png',
+      {
+        name: 'Cheese',
+        img: 'src/assets/images/forestiere-nobg.png',
+      },
+      {
+        name: 'Pepperoni',
+        img: 'src/assets/images/pepperoni-nobg.png',
+      },
+      {
+        name: 'Salami',
+        img: 'src/assets/images/supreme-nobg.png',
+      },
+      {
+        name: 'Cheesee',
+        img: 'src/assets/images/forestiere-nobg.png',
+      },
+      {
+        name: 'Pepperonie',
+        img: 'src/assets/images/pepperoni-nobg.png',
+      },
+      {
+        name: 'Salamie',
+        img: 'src/assets/images/supreme-nobg.png',
+      },
     ]
 
     const forward = async () => {
+      // TweenMax.set('.pizza2', { clearProps: 'all' })
       const timeline = new TimelineLite()
-      await timeline.to(`.pizza2`, 0.5, {
-        css: { css: { right: '-50px' }, bottom: '-200px', rotate: 360 },
-      })
+      await timeline
+        .to(`.middle`, 0.5, {
+          css: {
+            css: {
+              right: '-50px',
+              bottom: '-200px',
+              left: 'auto',
+              top: 'auto',
+            },
+            rotate: 360,
+          },
+        })
+        .to(
+          '.left',
+          0.5,
+          {
+            css: {
+              css: {
+                right: '0',
+                bottom: '0',
+                left: '0',
+                top: '0',
+              },
+              rotate: 360,
+            },
+          },
+          '-=0.5',
+        )
+
+      // count.value += 1
     }
     //  css: { css: { left: '-30px' }, bottom: '-200px' },
     const backward = async () => {
-      const timeline = new TimelineLite()
-      await timeline.to(`.pizza2`, 0.5, {
-        css: { css: { left: '-50px' }, bottom: '-200px', rotate: 360 },
-      })
+      // const timeline = new TimelineLite()
+      // await timeline.to(`.pizza2`, 0.5, {
+      //   css: { css: { left: '-50px' }, bottom: '-200px', rotate: -360 },
+      // })
+      // TweenMax.set('.pizza2', { clearProps: 'all' })
     }
 
     return {
@@ -45,7 +92,7 @@ export default defineComponent({
 
 <template>
   <div>
-    <div class="container mx-auto p-8 md:px-0 pb-36 lg:pb-10">
+    <div class="container mx-auto p-8 md:px-0 pb-36 lg:pb-10 h-screen">
       <div>
         <AppHeader />
       </div>
@@ -55,53 +102,24 @@ export default defineComponent({
       </div>
       <div class="flex justify-between items-center">
         <img
-          class="pizza-img pizza1"
-          :src="count === 0 ? testArr[5] : testArr[count - 1]"
+          v-for="(pizza, index) in testArr"
+          :key="index"
+          class="absolute mx-auto my-auto"
+          :src="pizza.img"
           alt=""
-        />
-
-        <img
-          @click="forward"
-          class="pizza-img pizza2 absolute"
-          :class="right ? 'right' : 'left'"
-          :src="testArr[count]"
-          alt=""
-        />
-
-        <img
-          class="pizza-img pizza3"
-          :src="count === 5 ? testArr[0] : testArr[count + 1]"
-          alt=""
+          :class="
+            count === index
+              ? `absolute middle left-0 right-0 top-0 bottom-0  `
+              : count + 1 === index
+              ? '-left-40 -bottom-40 left'
+              : count - 1 === index
+              ? '-right-40 -bottom-40 right'
+              : 'hidden'
+          "
         />
       </div>
     </div>
   </div>
 </template>
 
-<style>
-.pizza-img {
-  width: 280px;
-}
-.pizza1 {
-  width: 100px;
-  height: 100px;
-}
-.pizza2 {
-}
-.right {
-  top: 50%;
-  right: 50%;
-  /* bring your own prefixes */
-  transform: translate(50%, -50%);
-}
-.left {
-  top: 50%;
-  left: 50%;
-  /* bring your own prefixes */
-  transform: translate(-50%, -50%);
-}
-.pizza3 {
-  width: 100px;
-  height: 100px;
-}
-</style>
+<style></style>
