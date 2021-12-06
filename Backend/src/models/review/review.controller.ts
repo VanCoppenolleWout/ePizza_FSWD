@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common'
 import { FirebaseAuthGuard } from 'src/firebase/firebase-auth.guard'
 import { Role } from 'src/firebase/roles/role.enum'
 import { Roles } from 'src/firebase/roles/roles.decorator'
@@ -27,7 +35,7 @@ export class ReviewController {
   @Roles(Role.Admin)
   @UseGuards(FirebaseAuthGuard, RolesGuard)
   @Get('all')
-  async getAll() {
-    return await this.reviewService.getAll()
+  async getAll(@Req() req) {
+    return await this.reviewService.getAll(req.query)
   }
 }

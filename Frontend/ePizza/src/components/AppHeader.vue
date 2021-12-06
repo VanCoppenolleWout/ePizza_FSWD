@@ -17,10 +17,6 @@ export default defineComponent({
       return store.getters.getAdmin
     })
 
-    watch(admin, () => {
-      console.log(admin.value)
-    })
-
     const handleLogout = () => {
       logout()
     }

@@ -47,11 +47,27 @@ export class ReviewService {
       .getMany()
   }
 
-  async getAll() {
-    return await this.reviewRepository
-      .createQueryBuilder('review')
-      .innerJoinAndSelect('review.user', 'user')
-      .innerJoinAndSelect('review.order', 'order')
-      .getMany()
+  async getAll(req) {
+    console.log(req.date)
+    if (req.date === 'asc') {
+      return await this.reviewRepository
+        .createQueryBuilder('review')
+        .innerJoinAndSelect('review.user', 'user')
+        .innerJoinAndSelect('review.order', 'order')
+        .orderBy('review.date', 'ASC')
+        .getMany()
+    } else if (req.date === 'desc') {
+      return await this.reviewRepository
+        .createQueryBuilder('review')
+        .innerJoinAndSelect('review.user', 'user')
+        .innerJoinAndSelect('review.order', 'order')
+        .orderBy('review.date', 'DESC')
+        .getMany()
+    } else
+      return await this.reviewRepository
+        .createQueryBuilder('review')
+        .innerJoinAndSelect('review.user', 'user')
+        .innerJoinAndSelect('review.order', 'order')
+        .getMany()
   }
 }

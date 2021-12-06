@@ -43,18 +43,23 @@ export default defineComponent({
         }
 
         if (user.email && user.password) {
-          login(user.email, user.password).then((succes: boolean) => {
-            if (succes) {
-              animateCircle.value = false
-              if (admin) {
-                router.push('/stock')
+          try {
+            login(user.email, user.password).then((succes: boolean) => {
+              if (succes) {
+                animateCircle.value = false
+                if (admin) {
+                  router.push('/stock')
+                } else {
+                  router.push('/')
+                }
               } else {
-                router.push('/')
+                animateCircle.value = false
+                errorMsg.value = 'failed'
               }
-            } else {
-              errorMsg.value = 'failed'
-            }
-          })
+            })
+          } catch (error) {
+            console.log(error)
+          }
         }
       }
     }

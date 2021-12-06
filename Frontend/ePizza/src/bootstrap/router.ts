@@ -61,6 +61,13 @@ const routes: RouteRecordRaw[] = [
     props: true,
   },
   {
+    path: '/test',
+    component: () =>
+      import(/* webpackChunkName: "tracker"*/ '../screens/Test.vue'),
+    props: true,
+  },
+
+  {
     path: '/detail',
     component: () =>
       import(/* webpackChunkName: "detail"*/ '../screens/MenuItem.vue'),

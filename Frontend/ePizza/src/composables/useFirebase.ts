@@ -34,15 +34,11 @@ export default () => {
     return new Promise((resolve, reject) => {
       signInWithEmailAndPassword(auth, email, password)
         .then(async (userCredential) => {
-          // console.log(await userCredential.user.getIdToken())
-
+          console.log(userCredential)
           user.value = userCredential.user
-          // console.log(await user.value.getIdToken())
           resolve(true)
         })
         .catch((error) => {
-          // const errorCode = error.code
-          // const errorMessage = error.message
           reject(false)
         })
     })
@@ -52,14 +48,16 @@ export default () => {
     return new Promise((resolve, reject) => {
       try {
         auth.onAuthStateChanged(async (res) => {
+          const { get } = fetchData()
           if (res !== null) {
-            const { get } = fetchData()
             const admin = await get('/user/admin', await res?.getIdToken())
             store.dispatch(MutationTypes.setAdmin, admin.admin)
             store.dispatch(ActionTypes.setUser, user)
 
-            console.log(await res?.getIdToken())
             user.value = res
+          } else {
+            store.dispatch(ActionTypes.setUser, user)
+            store.dispatch(MutationTypes.setAdmin, undefined)
           }
           resolve(true)
         })
