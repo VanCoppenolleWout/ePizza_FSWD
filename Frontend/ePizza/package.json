@@ -7,10 +7,14 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "@fawmi/vue-google-maps": "^0.9.4",
+    "@googlemaps/js-api-loader": "^1.12.11",
     "firebase": "^9.4.1",
     "gsap": "^3.8.0",
     "mailtoui": "^1.0.3",
+    "mapbox-gl": "^2.6.1",
     "vue": "^3.2.16",
+    "vue-mapbox": "^0.4.1",
     "vue-moment": "^4.1.0",
     "vue-router": "^4.0.12",
     "vuex": "^4.0.2"

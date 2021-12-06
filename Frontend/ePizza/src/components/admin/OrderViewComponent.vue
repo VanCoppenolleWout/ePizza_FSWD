@@ -4,7 +4,7 @@ import { fetchData } from '../../composables/useNetwork'
 import moment from 'moment'
 
 export default defineComponent({
-  setup() {
+  setup(  ) {
     const { get } = fetchData()
 
     const orders: any = ref([])

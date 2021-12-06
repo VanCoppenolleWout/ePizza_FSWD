@@ -2,6 +2,7 @@
 import { computed, defineComponent, onMounted, ref } from 'vue'
 import AppHeader from '../components/AppHeader.vue'
 import AppFooter from '../components/AppFooter.vue'
+import Map from '../components/Map.vue'
 import LoginComponent from '../components/LoginComponenet.vue'
 import BannerComponent from '../components/BannerComponent.vue'
 import { useStore } from '../store/store'
@@ -50,6 +51,7 @@ export default defineComponent({
     AppFooter,
     LoginComponent,
     BannerComponent,
+    Map,
   },
   props: {
     userCreated: String,
@@ -283,6 +285,7 @@ export default defineComponent({
         </div>
       </div>
     </div>
+    <Map/>
     <AppFooter />
   </div>
 </template>
