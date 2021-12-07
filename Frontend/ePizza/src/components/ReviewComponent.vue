@@ -58,10 +58,8 @@ export default defineComponent({
           stars: parseInt(finalRating.value),
         }
         let submitReview = await postReview('review', review)
-        console.log(submitReview, 'log1')
 
         const reviewCheck = await get(`/review/order/${review.order_id}`)
-        console.log(reviewCheck, 'log2')
         if (reviewCheck !== undefined) {
           formstate.value = false
         }
