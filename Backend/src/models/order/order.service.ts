@@ -43,7 +43,6 @@ export class OrderService {
     }
 
     //Get pizzaIds from request
-
     const pizzaIds = orderORM.pizzas.map((pizza) => pizza.pizza_id)
 
     //Get pizzas from db to calculate the price and add to order
@@ -52,6 +51,7 @@ export class OrderService {
       .where('pizza.pizza_id IN (:pizzaIds)', { pizzaIds })
       .getMany()
 
+    console.log(orderORM.time_preference)
     //Create the order
     const order: Order = {
       delivery_date: orderORM.time_preference
@@ -99,7 +99,7 @@ export class OrderService {
 
     let toppings: Array<Array<Topping>>
 
-    //Return an arrray of an array with toppings -> Each pizza can have
+    //Return an arrray of an array with toppings
     toppings = orderORM.pizzas.map((pizza) =>
       pizza.topping_ids.map((topping_id) => {
         let topping: Topping = new Topping()
@@ -109,9 +109,9 @@ export class OrderService {
     )
 
     //Save into many to many relation
-    let orderPizzaSizeTopping: OrderPizzaSizeTopping[] = pizzas.map(
-      (pizza, index) => ({
-        pizza_id: pizza.pizza_id,
+    let orderPizzaSizeTopping: OrderPizzaSizeTopping[] = pizzaIds.map(
+      (pizzaId, index) => ({
+        pizza_id: pizzaId,
         order_id: result.order_id,
         size_id: orderORM.pizzas[index].size_id,
         toppings: toppings[index],
@@ -119,6 +119,7 @@ export class OrderService {
     )
 
     // //Save into many to many relation
+
     await this.orderPizzaSizeRepository.save(orderPizzaSizeTopping)
 
     // //Return order from db

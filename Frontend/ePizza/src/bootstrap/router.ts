@@ -54,11 +54,16 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
-    path: '/tracker',
+    path: '/tracker/',
     component: () =>
       import(/* webpackChunkName: "tracker"*/ '../screens/Tracker.vue'),
     name: 'tracker',
     props: true,
+    beforeEnter: (to, from, next) => {
+      if (to.query.id === undefined && to.params.order === undefined)
+        next({ name: 'home' })
+      else next()
+    },
   },
   {
     path: '/test',

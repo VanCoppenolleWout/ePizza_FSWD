@@ -5,6 +5,7 @@ import {
   ManyToMany,
   ManyToOne,
   PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm'
 import { Order } from '../order/order.entity'
 import { Pizza } from '../pizza/pizza.entity'
@@ -13,6 +14,9 @@ import { Topping } from '../topping/topping.entity'
 
 @Entity('Order_Pizza_Size')
 export class OrderPizzaSizeTopping {
+  @PrimaryGeneratedColumn('uuid')
+  id?: string
+
   @PrimaryColumn('uuid')
   order_id?: string
 

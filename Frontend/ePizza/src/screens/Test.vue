@@ -39,17 +39,29 @@ export default defineComponent({
       // TweenMax.set('.pizza2', { clearProps: 'all' })
       const timeline = new TimelineLite()
       await timeline
-        .to(`.middle`, 0.5, {
+        .to(`.middle`, 0.5, {ease: "power2.out",
           css: {
             css: {
-              right: '-50px',
-              bottom: '-200px',
               left: 'auto',
               top: 'auto',
             },
             rotate: 360,
           },
         })
+        .to(
+          `.middle`,
+          0.5,
+          {
+            css: {
+              css: {
+                right: '-160px',
+                bottom: '-160px',
+              },
+              rotate: 360,
+            },
+          },
+          '-=0.5',
+        )
         .to(
           '.left',
           0.5,

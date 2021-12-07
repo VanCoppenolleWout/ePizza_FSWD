@@ -46,7 +46,6 @@ export default defineComponent({
     const getUserAddress = async () => {
       try {
         if (firebaseUser.value) {
-          // loader.value = true
           const data = await get(`/user/address/${firebaseUser.value.uid}`)
 
           if (data.addresses) {
@@ -62,21 +61,6 @@ export default defineComponent({
           user.lastname = data.lastname
           user.email = data.email
           userInputDisabled.value = true
-
-          setTimeout(async () => {
-            // const timeline = new TimelineLite()
-            // await timeline.fromTo(
-            //   '.loader',
-            //   {
-            //     clipPath: 'circle(100%)',
-            //   },
-            //   {
-            //     duration: 0.7,
-            //     clipPath: 'circle(0%)',
-            //   },
-            // )
-            // loader.value = false
-          }, 1000)
         }
       } catch (error) {
         addressInputDisabled.value = true
@@ -87,18 +71,23 @@ export default defineComponent({
     const placeOrder = async (pizzas: Pizza[]) => {
       try {
         let data: any
+        let date = new Date()
+        date.setMinutes(new Date().getMinutes() + 5)
         if (userInputDisabled.value && addressInputDisabled.value) {
           loader.value = true
           const body = {
             user: userId.value,
             address: addressId.value,
             pizzas: pizzas,
+            time_preference: date,
           }
           data = await post('/order', body)
           handleRoute(data)
         }
 
         if (userInputDisabled.value && !addressInputDisabled.value) {
+          let date = new Date()
+          date.setMinutes(new Date().getMinutes() + 5)
           for (let value of Object.values(address)) {
             if (value === '' && delivery == 'true') error.value = true
           }
@@ -116,6 +105,7 @@ export default defineComponent({
                     }
                   : undefined,
               pizzas: pizzas,
+              time_preference: date,
             }
             data = await post('/order', body)
             handleRoute(data)
@@ -146,6 +136,7 @@ export default defineComponent({
                     }
                   : undefined,
               pizzas: pizzas,
+              time_preference: date,
             }
 
             data = await post('/order', body)

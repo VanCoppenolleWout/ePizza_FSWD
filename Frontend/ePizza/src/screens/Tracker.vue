@@ -12,7 +12,6 @@ export default defineComponent({
     const route = useRoute()
 
     const order: Order = JSON.parse(context.order)
-    console.log(order)
 
     return {
       order,
@@ -44,7 +43,10 @@ export default defineComponent({
       "
     >
       <OrderComponent :order="order" class="md:w-3/5" />
-      <TrackerComponent class="md:w-2/5" />
+      <TrackerComponent
+      :order="order"
+        class="md:w-2/5"
+      />
     </div>
     <ReviewComponent class="w-full" />
   </div>

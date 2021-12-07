@@ -285,7 +285,7 @@ export default defineComponent({
         </div>
       </div>
     </div>
-    <Map/>
+    <Map />
     <AppFooter />
   </div>
 </template>

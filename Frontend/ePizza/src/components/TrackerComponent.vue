@@ -1,13 +1,77 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, Ref, ref, toRefs } from 'vue'
+import { Order } from '../interfaces/order'
 
 export default defineComponent({
-  setup() {
+  setup(context) {
     let delivery = false
+    const width1: Ref<number> = ref(0)
+    const width2: Ref<number> = ref(0)
+    const width3: Ref<number> = ref(0)
+    const width4: Ref<number> = ref(0)
+    const { order } = toRefs(context)
+
+    const deliveryDate = new Date(
+      Date.parse(order.value.delivery_date.toString()),
+    )
+    const orderDate = new Date(Date.parse(order.value.order_date.toString()))
+
+    const totalTime = deliveryDate.getTime() - orderDate.getTime()
+    const currTime = ref(deliveryDate.getTime() - new Date().getTime())
+
+    const progressBar = () => {
+      currTime.value = deliveryDate.getTime() - new Date().getTime()
+
+      if (currTime.value <= 0) {
+        width1.value = 100
+        width2.value = 100
+        width3.value = 100
+        width4.value = 100
+        clearInterval(id)
+      } else {
+        if (totalTime - currTime.value < totalTime / 4) {
+          console.log('first bar')
+          width1.value = ((totalTime - currTime.value) / (totalTime / 4)) * 100
+          console.log(width1.value)
+        } else if (totalTime - currTime.value < (totalTime / 4) * 2) {
+          console.log('second bar')
+          console.log(width2.value)
+          width1.value = 100
+          width2.value =
+            ((totalTime - currTime.value - totalTime / 4) / (totalTime / 4)) *
+            100
+        } else if (totalTime - currTime.value < totalTime - totalTime / 4) {
+          console.log('third bar')
+          width1.value = 100
+          width2.value = 100
+          width3.value =
+            ((totalTime - currTime.value - (totalTime / 4) * 2) /
+              (totalTime / 4)) *
+            100
+          console.log(width3.value)
+        } else {
+          width1.value = 100
+          width2.value = 100
+          width3.value = 100
+          width4.value =
+            ((totalTime / 4 - currTime.value) / (totalTime / 4)) * 100
+
+          console.log(width4.value)
+        }
+      }
+    }
+    const id = setInterval(progressBar, currTime.value / 100)
 
     return {
       delivery,
+      width1,
+      width2,
+      width3,
+      width4,
     }
+  },
+  props: {
+    order: { type: Object as () => Order, required: true },
   },
 })
 </script>
@@ -24,102 +88,213 @@ export default defineComponent({
       <div class="space-y-4">
         <div
           class="
-            px-8
-            py-6
             bg-p-gray-100
             rounded-xl
-            font-semibold
             transform
             hover:scale-105
             transition
             ease-out
             duration-300
+            px-8
+            py-6
+            relative
+            z-50
           "
         >
-          <h2>Preparing pizza</h2>
+          <h2 class="font-semibold relative text-white z-50">
+            Preparing pizza
+          </h2>
+          <div
+            class="
+              bg-red-500
+              absolute
+              top-0
+              left-0
+              rounded-xl
+              h-full
+              animate-pulse
+              transition-all
+              duration-300
+              ease-in
+              w-5
+            "
+            :style="{ width: width1 + '%' }"
+          ></div>
         </div>
         <div
           class="
-            px-8
-            py-6
             bg-p-gray-100
             rounded-xl
-            font-semibold
             transform
             hover:scale-105
             transition
             ease-out
             duration-300
+            px-8
+            py-6
+            relative
+            z-50
           "
         >
-          <h2>Pizza is in the oven</h2>
+          <h2 class="font-semibold relative text-white z-50">
+            Pizza is in the oven
+          </h2>
+          <div
+            class="
+              bg-red-500
+              absolute
+              top-0
+              left-0
+              rounded-xl
+              h-full
+              animate-pulse
+              transition-all
+              duration-300
+              ease-in
+              w-5
+            "
+            :style="{ width: width2 + '%' }"
+          ></div>
         </div>
         <div
           class="
-            px-8
-            py-6
             bg-p-gray-100
             rounded-xl
-            font-semibold
             transform
             hover:scale-105
             transition
             ease-out
             duration-300
+            px-8
+            py-6
+            relative
+            z-50
           "
         >
-          <h2>Pizza is baked</h2>
+          <h2 class="font-semibold relative text-white z-50">Pizza is baked</h2>
+          <div
+            class="
+              bg-red-500
+              absolute
+              top-0
+              left-0
+              rounded-xl
+              h-full
+              animate-pulse
+              transition-all
+              duration-300
+              ease-in
+              w-5
+            "
+            :style="{ width: width3 + '%' }"
+          ></div>
         </div>
+
         <div
           class="
-            px-8
-            py-6
             bg-p-gray-100
             rounded-xl
-            font-semibold
             transform
             hover:scale-105
             transition
             ease-out
             duration-300
+            px-8
+            py-6
+            relative
+            z-50
           "
           v-if="delivery"
         >
-          <h2>Order is underway</h2>
+          <h2 class="font-semibold relative text-white z-50">
+            Order is underway
+          </h2>
+          <div
+            class="
+              bg-red-500
+              absolute
+              top-0
+              left-0
+              rounded-xl
+              h-full
+              animate-pulse
+              transition-all
+              duration-300
+              ease-in
+              w-5
+            "
+            :style="{ width: width4 + '%' }"
+          ></div>
         </div>
         <div
           class="
-            px-8
-            py-6
             bg-p-gray-100
             rounded-xl
-            font-semibold
             transform
             hover:scale-105
             transition
             ease-out
             duration-300
+            px-8
+            py-6
+            relative
+            z-50
           "
           v-else
         >
-          <h2>Ready at our shop</h2>
+          <h2 class="font-semibold relative text-white z-50">
+            Ready at our shop
+          </h2>
+          <div
+            class="
+              bg-red-500
+              absolute
+              top-0
+              left-0
+              rounded-xl
+              h-full
+              animate-pulse
+              transition-all
+              duration-300
+              ease-in
+              w-5
+            "
+            :style="{ width: width4 + '%' }"
+          ></div>
         </div>
         <div
           class="
-            px-8
-            py-6
             bg-p-gray-100
             rounded-xl
-            font-semibold
             transform
             hover:scale-105
             transition
             ease-out
             duration-300
+            px-8
+            py-6
+            relative
+            z-50
           "
           v-if="delivery"
         >
-          <h2>At your door</h2>
+          <h2 class="font-semibold relative text-white z-50">At your door</h2>
+          <div
+            class="
+              bg-red-500
+              absolute
+              top-0
+              left-0
+              rounded-xl
+              h-full
+              animate-pulse
+              transition-all
+              duration-300
+              ease-in
+              w-5
+            "
+            :style="{ width: width4 + '%' }"
+          ></div>
         </div>
       </div>
     </section>
