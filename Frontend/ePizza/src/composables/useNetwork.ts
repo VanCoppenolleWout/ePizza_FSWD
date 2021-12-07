@@ -29,8 +29,24 @@ export const fetchData = () => {
     }
   }
 
+  const put = async (endpoint: string, body: any) => {
+    try {
+      return await fetch(`${url}${endpoint}`, {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      }).then((res) => res.json())
+    } catch (error: any) {
+      return error.message
+    }
+  }
+
   return {
     get,
     post,
+    put,
   }
 }
