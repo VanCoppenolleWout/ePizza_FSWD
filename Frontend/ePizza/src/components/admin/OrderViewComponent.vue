@@ -4,7 +4,7 @@ import { fetchData } from '../../composables/useNetwork'
 import moment from 'moment'
 
 export default defineComponent({
-  setup(  ) {
+  setup() {
     const { get } = fetchData()
 
     const orders: any = ref([])
@@ -31,7 +31,7 @@ export default defineComponent({
   <div class="bg-white rounded-lg p-8 overflow-scroll md:h-order">
     <div class="flex flex-row justify-between items-center">
       <h1 class="text-p-red text-2xl font-semibold mb-4">Orders</h1>
-      <div class="flex flex-row items-center space-x-2">
+      <div v-if="orders.length > 0" class="flex flex-row items-center space-x-2">
         <p>Date</p>
         <button @click="filter()">
           <svg
@@ -42,7 +42,7 @@ export default defineComponent({
             fill="none"
             stroke="#000000"
             stroke-width="2"
-            stroke-linecap="round" 
+            stroke-linecap="round"
             stroke-linejoin="round"
             class="transform active:rotate-180"
           >
@@ -51,7 +51,7 @@ export default defineComponent({
         </button>
       </div>
     </div>
-    <section class="space-y-6">
+    <section v-if="orders.length > 0" class="space-y-6">
       <div
         v-for="(item, index) in orders"
         :key="index"
@@ -68,7 +68,9 @@ export default defineComponent({
       >
         <div class="flex flex-row justify-between items-center">
           <p class="font-medium">{{ '#1' }}</p>
-          <p class="text-sm font-medium">{{ moment(item.order_date).format('DD/MM - hh:mm a') }}</p>
+          <p class="text-sm font-medium">
+            {{ moment(item.order_date).format('DD/MM - hh:mm a') }}
+          </p>
         </div>
         <p class="mt-4 mb-2 font-semibold text-lg">
           {{ item.user.name }} {{ item.user.lastname }}
@@ -81,6 +83,9 @@ export default defineComponent({
           <p class="text-sm">{{ i.size.size_name }}</p>
         </div>
       </div>
+    </section>
+    <section v-else class="flex items-center self-center justify-center flex-1 mt-12">
+      <p class="font-medium text-sm">No orders yet.</p>
     </section>
   </div>
 </template>

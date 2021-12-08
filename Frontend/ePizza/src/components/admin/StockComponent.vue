@@ -2,14 +2,32 @@
 import { AnySoaRecord } from 'dns'
 import { defineComponent, Ref, ref } from 'vue'
 import { fetchData } from '../../composables/useNetwork'
-import { Pizza } from '../../interfaces/pizza'
+import DoughnutChartComponent from '../DoughnutChartComponent.vue'
 import { Topping } from '../../interfaces/topping'
 
 export default defineComponent({
   setup() {
+    const testData = {
+      labels: ['Paris', 'Nîmes', 'Toulon', 'Perpignan', 'Autre'],
+      datasets: [
+        {
+          data: [30, 40, 60, 70, 5],
+          backgroundColor: [
+            '#77CEFF',
+            '#0079AF',
+            '#123E6B',
+            '#97B0C4',
+            '#A5C8ED',
+          ],
+        },
+      ],
+    }
+
     const { get, put } = fetchData()
 
     const stock: any = ref([])
+    const stockData: any = ref([])
+    const stockName: any = ref([])
     const selectedItem: any = ref([])
 
     const stockAmount = ref<number>(0)
@@ -20,6 +38,11 @@ export default defineComponent({
 
     const getStock = async () => {
       stock.value = await get('/topping')
+
+      stock.value.forEach((element: any) => {
+        stockData.value.push(element.stock)
+        stockName.value.push(element.name)
+      })
     }
     getStock()
 
@@ -79,6 +102,8 @@ export default defineComponent({
       graphScreen,
       stockAmount,
       price,
+      stockData,
+      stockName,
       showDetail,
       showGraph,
       removeStock,
@@ -88,6 +113,8 @@ export default defineComponent({
       updateStock,
     }
   },
+
+  components: { DoughnutChartComponent },
 })
 </script>
 
@@ -95,9 +122,11 @@ export default defineComponent({
   <div class="bg-white rounded-lg p-8 overflow-scroll md:h-order">
     <div class="flex flex-row justify-between items-center">
       <h1 class="text-p-red text-2xl font-semibold mb-4">Stock</h1>
-      <button v-if="!graphScreen" @click="showGraph()">Graph</button>
+      <button v-if="!detailScreen && !graphScreen" @click="showGraph()">
+        Graph
+      </button>
     </div>
-    <section v-if="!detailScreen" class="space-y-6">
+    <section v-if="!detailScreen && !graphScreen" class="space-y-6">
       <div v-for="(item, index) in stock" :key="index" class="">
         <div
           class="
@@ -110,10 +139,10 @@ export default defineComponent({
             py-4
           "
         >
-          <div class="flex flex-row space-x-8 items-center">
-            <img :src="item.img_url" alt="item.img_url" class="w-10 h-10" />
+          <div class="flex flex-row md:space-x-8 items-center">
+            <img :src="item.img_url" alt="item.img_url" class="w-10 h-10h hidden md:block " />
             <p class="font-medium text-lg">{{ item.name }}</p>
-          </div>
+          </div>  
           <div
             class="
               bg-p-red
@@ -135,7 +164,7 @@ export default defineComponent({
       </div>
     </section>
     <section v-if="detailScreen">
-      <div class="flex flex-row space-x-6 items-center">
+      <div class="flex flex-row space-x-4 items-center">
         <button @click="detailScreen = false">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -249,15 +278,45 @@ export default defineComponent({
           </div>
         </div>
         <button
-          class="bg-p-red text-white px-4 py-2 rounded-xl w-1/3 m-auto"
+          class="
+            bg-p-red
+            text-white
+            px-4
+            py-2
+            rounded-xl
+            w-1/3
+            m-auto
+            font-medium
+            text-lg
+          "
           @click="updateStock(selectedItem.topping_id, stockAmount, price)"
         >
           Update
         </button>
       </div>
     </section>
-    <section v-if="graphScreen === true">
-      <div>Graph</div>
+    <section v-if="graphScreen === true" class="">
+      <div class="flex flex-row space-x-4 items-center mb-8">
+        <button @click="graphScreen = false">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#000000"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M19 12H6M12 5l-7 7 7 7" />
+          </svg>
+        </button>
+        <p class="font-medium text-xl">Graph</p>
+      </div>
+      <div class="flex flex-row justify-center">
+        <DoughnutChartComponent :stockData="stockData" :stockName="stockName" />
+      </div>
     </section>
   </div>
 </template>

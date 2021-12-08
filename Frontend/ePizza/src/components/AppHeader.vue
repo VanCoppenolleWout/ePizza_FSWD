@@ -9,13 +9,22 @@ export default defineComponent({
     const { store } = useStore()
     const menuActive: Ref<boolean> = ref(false)
 
+    const username = ref<string>('')
+
     const user = computed(() => {
       return store.getters.getUser
     })
-    console.log()
+
     const admin = computed(() => {
       return store.getters.getAdmin
     })
+
+    const decideName = () => {
+      if (user.value !== null && !admin.value) {
+        username.value = user.value.email
+      } else username.value = 'Administrator'
+    }
+    decideName()
 
     const handleLogout = () => {
       logout()
@@ -25,6 +34,7 @@ export default defineComponent({
       handleLogout,
       user,
       admin,
+      username,
       menuActive,
     }
   },
@@ -86,16 +96,34 @@ export default defineComponent({
         to="/"
         @click="handleLogout"
         class="
-          bg-p-red
           text-white
           px-6
           py-2
           cursor-pointer
           rounded-xl
           font-medium
+          flex flex-row
+          items-center
+          space-x-3
         "
+        style="background-color: #0071ff"
       >
-        Log out
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#FFFFFF"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            d="M10 3H6a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h4M16 17l5-5-5-5M19.8 12H9"
+          />
+        </svg>
+        <p>{{ username }}</p>
       </router-link>
     </div>
 
@@ -196,16 +224,34 @@ export default defineComponent({
           to="/"
           @click="handleLogout"
           class="
-            bg-p-red
             text-white
             px-6
             py-2
             cursor-pointer
             rounded-xl
             font-medium
+            flex flex-row
+            items-center
+            space-x-3
           "
+          style="background-color: #0071ff"
         >
-          Log out
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#FFFFFF"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M10 3H6a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h4M16 17l5-5-5-5M19.8 12H9"
+            />
+          </svg>
+          <p>{{ username }}</p>
         </router-link>
       </div>
 

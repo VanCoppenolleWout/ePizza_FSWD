@@ -109,6 +109,13 @@ const routes: RouteRecordRaw[] = [
       admin ? next() : next({ name: 'home' })
     },
   },
+  {
+    path: '/:pathMatch(.*)*',
+    component: () =>
+      import(/* webpackChunkName: "notFound"*/ '../screens/NotFound.vue'),
+    props: true,
+    name: 'notFound',
+  },
 ]
 
 const router: Router = createRouter({

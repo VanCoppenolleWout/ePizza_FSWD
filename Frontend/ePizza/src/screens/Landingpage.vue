@@ -137,7 +137,6 @@ export default defineComponent({
               class="
                 m-w-card
                 flex flex-col
-                justify-between
                 items-center
                 bg-white
                 rounded-2xl
@@ -147,23 +146,22 @@ export default defineComponent({
                 cursor-default
                 lg:justify-self-start
                 animation2
+                h-52
               "
             >
               <h2 class="text-xl font-medium">
-                New but <span class="text-p-red">improved</span>
+                New and <span class="text-p-red">improved</span>
               </h2>
               <p class="font-light">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi
+                As a new company we strive to make the user experience a better
+                experience with ePizza. We do this by placing the customer in
+                the first place.
               </p>
             </div>
             <div
               class="
                 m-w-card
                 flex flex-col
-                justify-between
                 items-center
                 bg-white
                 rounded-2xl
@@ -173,23 +171,22 @@ export default defineComponent({
                 cursor-default
                 lg:justify-self-end
                 animation2
+                h-52
               "
             >
               <h2 class="text-xl font-medium">
                 Always <span class="text-p-red">fresh</span>
               </h2>
               <p class="font-light">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi
+                We keep a promise to always use the freshest products for our
+                artisanal pizza's. Our goal is to be the freshest in Kortrijk
+                and surrounding cities.
               </p>
             </div>
             <div
               class="
                 m-w-card
                 flex flex-col
-                justify-between
                 items-center
                 bg-white
                 rounded-2xl
@@ -205,17 +202,15 @@ export default defineComponent({
                 <span class="text-p-red">Fastest</span> in Kortrijk
               </h2>
               <p class="font-light">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi
+                To compete with other companies we have hired a highly skilled workforce
+                on the workfloor as well as on the streets so that you don't have to endlessly
+                wait for your fresh pizza. 
               </p>
             </div>
             <div
               class="
                 m-w-card
                 flex flex-col
-                justify-between
                 items-center
                 bg-white
                 rounded-2xl
@@ -228,13 +223,11 @@ export default defineComponent({
               "
             >
               <h2 class="text-xl font-medium">
-                <span class="text-p-red">Fastest</span> in Kortrijk
+                Ready for the<span class="text-p-red"> Future</span>
               </h2>
               <p class="font-light">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi
+                Our business relies on the web. Therefore we use the latest and 
+                greatest web technologies like Vue 3.
               </p>
             </div>
           </div>

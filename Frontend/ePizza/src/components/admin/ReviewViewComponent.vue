@@ -50,63 +50,74 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="bg-white rounded-lg p-8" style="min-height: 508px">
+  <div class="bg-white rounded-lg p-8" style="min-height: 240px">
     <h1 class="text-p-red text-2xl font-semibold mb-4">Reviews</h1>
-    <div v-for="(item, index) in reviews" :key="index" class="my-8">
-      <div class="flex flex-row justify-between">
-        <div class="flex flex-row space-x-4 items-center">
-          <button class="rounded-full p-3 flex bg-gray-300 pointer-events-none">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#FFFFFF"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+    <section v-if="reviews.length > 0">
+      <div v-for="(item, index) in reviews" :key="index" class="my-8">
+        <div class="flex flex-row justify-between">
+          <div class="flex flex-row space-x-4 items-center">
+            <button
+              class="rounded-full p-3 flex bg-gray-300 pointer-events-none"
             >
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-              <circle cx="12" cy="7" r="4"></circle>
-            </svg>
-          </button>
-          <div>
-            <p class="font-semibold">
-              {{ item.user.name }} {{ item.user.lastname }}
-            </p>
-            <ul id="review">
-              <li v-for="index in item.stars" :key="index" class="inline-block">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="#FFC800"
-                  stroke="#FFD700"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#FFFFFF"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </button>
+            <div>
+              <p class="font-semibold">
+                {{ item.user.name }} {{ item.user.lastname }}
+              </p>
+              <ul id="review">
+                <li
+                  v-for="index in item.stars"
+                  :key="index"
+                  class="inline-block"
                 >
-                  <polygon
-                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                  ></polygon>
-                </svg>
-              </li>
-            </ul>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="#FFC800"
+                    stroke="#FFD700"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polygon
+                      points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                    ></polygon>
+                  </svg>
+                </li>
+              </ul>
+            </div>
           </div>
+          <p class="hidden md:visible">
+            {{ moment(item.date).format('DD/MM - hh:mm a') }}
+          </p>
         </div>
-        <p class="hidden md:visible">
-          {{ moment(item.date).format('DD/MM - hh:mm a') }}
-        </p>
+        <div class="mt-4">
+          <p class="text-sm font-medium mb-2">{{ item.title }}</p>
+          <p class="w-2/3">{{ item.description }}</p>
+          <p class="md:hidden text-xs">
+            {{ moment(item.date).format('DD/MM - hh:mm a') }}
+          </p>
+        </div>
       </div>
-      <div class="mt-4">
-        <p class="text-sm font-medium mb-2">{{ item.title }}</p>
-        <p class="w-2/3">{{ item.description }}</p>
-        <p class="md:hidden text-xs">
-          {{ moment(item.date).format('DD/MM - hh:mm a') }}
-        </p>
-      </div>
-    </div>
+    </section>
+    <section v-else class="flex items-center self-center justify-center flex-1 mt-12">
+      <p class="font-medium text-sm">No reviews yet.</p>
+    </section>
   </div>
 </template>
