@@ -34,7 +34,7 @@ export class ToppingService {
       .createQueryBuilder('topping')
       .update()
       .set({
-        stock: topping.stock + body.amount,
+        stock: body.amount,
       })
       .where('topping_id = :topping_id', { topping_id })
       .execute()
@@ -50,7 +50,7 @@ export class ToppingService {
 
     const toppingsUpdated: Topping[] = toppings.map((topping, index) => {
       console.log(topping)
-      topping.stock = topping.stock + body.amounts[index]
+      topping.stock = body.amounts[index]
       return topping
     })
 

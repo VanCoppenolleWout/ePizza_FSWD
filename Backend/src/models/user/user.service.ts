@@ -3,11 +3,14 @@ import { User } from './user.entity'
 import { Repository } from 'typeorm'
 import { getAuth } from 'firebase-admin/auth'
 import firebaseApp from '../../firebase/firebase'
+import { Address } from '../address/address.entity'
 
 @Injectable()
 export class UserService {
   constructor(
     @Inject('UserRepository') private userRepository: Repository<User>,
+    @Inject('AddressRepository')
+    private addressRepository: Repository<Address>,
   ) {}
 
   async findOne(email: string) {
@@ -59,5 +62,34 @@ export class UserService {
     const firebaseUser = await getAuth().verifyIdToken(bearer)
 
     return firebaseUser.admin ? { admin: true } : { admin: false }
+  }
+
+  async getUser(user_id: string) {
+    return await this.userRepository
+      .createQueryBuilder('user')
+      .where('user_id = :user_id', { user_id })
+      .leftJoinAndSelect('user.addresses', 'address')
+      .getOne()
+  }
+
+  async addAddress(user_id: string, body: any) {
+    let addressORM: Address = new Address()
+    addressORM.city = body.city
+    addressORM.street = body.street
+    addressORM.number = body.number
+    addressORM.postal_code = body.zip_code
+
+    const address = await this.addressRepository.save(addressORM)
+
+    const user: User = await this.userRepository
+      .createQueryBuilder('user')
+      .innerJoinAndSelect('user.addresses', 'address')
+      .where('user_id = :user_id', { user_id })
+      .getOne()
+
+    user.addresses ? user.addresses.push(address) : (user.addresses = [address])
+
+    console.log(user)
+    return await this.userRepository.save(user)
   }
 }

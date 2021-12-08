@@ -24,6 +24,7 @@ export class OrderService {
     private addressRepository: Repository<Address>,
     @Inject('GuestRepository')
     private guestRepository: Repository<Guest>,
+    @Inject('ToppingRepository') private toppingRepository: Repository<Topping>,
   ) {}
 
   async placeOrder(orderORM: OrderORM) {
@@ -48,10 +49,11 @@ export class OrderService {
     //Get pizzas from db to calculate the price and add to order
     const pizzas = await this.pizzaRepository
       .createQueryBuilder('pizza')
-      .where('pizza.pizza_id IN (:pizzaIds)', { pizzaIds })
+      .where('pizza_id IN (:pizzaIds)', { pizzaIds })
+      .addSelect('topping.topping_id')
+      .leftJoin('pizza.toppings', 'topping')
       .getMany()
 
-    console.log(orderORM.time_preference)
     //Create the order
     const order: Order = {
       delivery_date: orderORM.time_preference
@@ -118,8 +120,50 @@ export class OrderService {
       }),
     )
 
-    // //Save into many to many relation
+    //Adjust the stock
+    let stockToppingsArr: Array<Topping> = []
+    const stockToppings = {}
 
+    for (let i = 0; i < toppings.length; i++) {
+      stockToppingsArr.push(...toppings[i])
+    }
+    const pizzasAmount: Record<string, number> = {}
+    for (let i = 0; i < pizzaIds.length; i++) {
+      pizzasAmount[pizzaIds[i]] = (pizzasAmount[pizzaIds[i]] || 0) + 1
+    }
+
+    for (let i = 0; i < pizzas.length; i++) {
+      if (pizzasAmount[pizzas[i].pizza_id] > 1) {
+        const index = pizzasAmount[pizzas[i].pizza_id]
+        for (let a = 0; a < index; a++) {
+          stockToppingsArr.push(...pizzas[i].toppings)
+        }
+      } else stockToppingsArr.push(...pizzas[i].toppings)
+    }
+
+    console.log(stockToppingsArr)
+
+    for (let i = 0; i < stockToppingsArr.length; i++) {
+      stockToppings[stockToppingsArr[i].topping_id] =
+        (stockToppings[stockToppingsArr[i].topping_id] || 0) + 1
+    }
+
+    const arr = Object.keys(stockToppings)
+
+    const stock = await this.toppingRepository
+      .createQueryBuilder('topping')
+      .where('topping_id IN (:arr)', { arr })
+      .getMany()
+
+    //Update the stock
+    const toppingStockUpdated: Array<Topping> = stock.map((topping, index) => {
+      topping.stock = topping.stock - stockToppings[topping.topping_id]
+      return topping
+    })
+
+    await this.toppingRepository.save(toppingStockUpdated)
+
+    //Save into many to many relation
     await this.orderPizzaSizeRepository.save(orderPizzaSizeTopping)
 
     // //Return order from db

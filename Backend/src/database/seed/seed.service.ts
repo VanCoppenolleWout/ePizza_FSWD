@@ -58,7 +58,7 @@ export class SeedService {
   async seedPizza(): Promise<Pizza[]> {
     const pizzas: Pizza[] = pizzasjson
     pizzas.forEach((pizza) => {
-      if (pizza.name == 'Margerita') {
+      if (pizza.name == 'Margherita') {
         let mozzarella: Topping = {
           topping_id: '8c751f9f-8717-4315-ac01-144d40731d76',
         }
