@@ -110,6 +110,16 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
+    path: '/account',
+    component: () =>
+      import(/* webpackChunkName: "stock"*/ '../screens/Account.vue'),
+    beforeEnter: async (to, from, next) => {
+      const auth = getAuth()
+      const idToken = await auth.currentUser?.getIdToken()
+      idToken ? next() : next({ name: 'home' })
+    },
+  },
+  {
     path: '/:pathMatch(.*)*',
     component: () =>
       import(/* webpackChunkName: "notFound"*/ '../screens/NotFound.vue'),

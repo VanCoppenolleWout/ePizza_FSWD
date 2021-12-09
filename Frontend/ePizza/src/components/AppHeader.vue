@@ -15,6 +15,8 @@ export default defineComponent({
       return store.getters.getUser
     })
 
+    console.log(user.value)
+
     const admin = computed(() => {
       return store.getters.getAdmin
     })
@@ -26,12 +28,7 @@ export default defineComponent({
     }
     decideName()
 
-    const handleLogout = () => {
-      logout()
-    }
-
     return {
-      handleLogout,
       user,
       admin,
       username,
@@ -93,8 +90,7 @@ export default defineComponent({
       </router-link>
       <router-link
         v-else
-        to="/"
-        @click="handleLogout"
+        to="/account"
         class="
           text-white
           px-6
@@ -119,9 +115,8 @@ export default defineComponent({
           stroke-linecap="round"
           stroke-linejoin="round"
         >
-          <path
-            d="M10 3H6a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h4M16 17l5-5-5-5M19.8 12H9"
-          />
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
         </svg>
         <p>{{ username }}</p>
       </router-link>
@@ -221,8 +216,7 @@ export default defineComponent({
         </router-link>
         <router-link
           v-else
-          to="/"
-          @click="handleLogout"
+          to="/account"
           class="
             text-white
             px-6
@@ -247,9 +241,8 @@ export default defineComponent({
             stroke-linecap="round"
             stroke-linejoin="round"
           >
-            <path
-              d="M10 3H6a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h4M16 17l5-5-5-5M19.8 12H9"
-            />
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
           </svg>
           <p>{{ username }}</p>
         </router-link>
