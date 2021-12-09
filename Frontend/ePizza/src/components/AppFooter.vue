@@ -38,15 +38,21 @@ export default defineComponent({
           <div class="mx-2 my-2">
             <h3 class="text-2xl font-medium">Follow us</h3>
             <a
-              href="#"
+              href="https://www.instagram.com/howest_mct/"
               class="hover:underline cursor-pointer flex items-center"
             >
               Instagram
             </a>
-            <a href="#" class="hover:underline cursor-pointer block"
+            <a
+              href="https://www.facebook.com/mct.howest"
+              class="hover:underline cursor-pointer block"
               >Facebook</a
             >
-            <a href="#" class="hover:underline cursor-pointer block">Twitter</a>
+            <a
+              href="https://twitter.com/MCT_howest"
+              class="hover:underline cursor-pointer block"
+              >Twitter</a
+            >
           </div>
 
           <div class="mx-2 my-2">
@@ -73,6 +79,7 @@ export default defineComponent({
             <!-- <a href="#" class="hover:underline cursor-pointer block">Menu</a> -->
           </div>
         </div>
+        <div style="width: 100px"></div>
       </div>
 
       <div class="flex flex-row justify-between flex-wrap">
