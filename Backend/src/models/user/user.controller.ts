@@ -37,4 +37,14 @@ export class UserController {
   async getAddress(@Param() params) {
     return await this.userService.getAddress(params.user_id)
   }
+
+  @Get(':user_id')
+  async getUser(@Param() params) {
+    return await this.userService.getUser(params.user_id)
+  }
+
+  @Post(':user_id')
+  async addAddress(@Param() params, @Body() body) {
+    return await this.userService.addAddress(params.user_id, body)
+  }
 }

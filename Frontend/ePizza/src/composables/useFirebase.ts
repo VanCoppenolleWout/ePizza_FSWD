@@ -30,7 +30,10 @@ setPersistence(auth, browserLocalPersistence)
 const user: Ref<User | null> = ref(auth.currentUser)
 
 export default () => {
-  const login = (email: string, password: string): Promise<boolean> => {
+  const login = (
+    email: string,
+    password: string,
+  ): Promise<boolean | string> => {
     return new Promise((resolve, reject) => {
       signInWithEmailAndPassword(auth, email, password)
         .then(async (userCredential) => {
@@ -39,7 +42,7 @@ export default () => {
           resolve(true)
         })
         .catch((error) => {
-          reject(false)
+          reject('falsee')
         })
     })
   }

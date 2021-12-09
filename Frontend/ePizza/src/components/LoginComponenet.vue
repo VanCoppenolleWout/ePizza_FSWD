@@ -44,7 +44,8 @@ export default defineComponent({
 
         if (user.email && user.password) {
           try {
-            login(user.email, user.password).then((succes: boolean) => {
+            login(user.email, user.password).then((succes: any) => {
+              console.log(succes)
               if (succes) {
                 animateCircle.value = false
                 if (admin) {
@@ -80,11 +81,36 @@ export default defineComponent({
 
 <template>
   <div class="h-screen flex items-center self-center justify-center flex-1">
-    <div class="bg-white rounded-lg">
-      <section class="p-8" style="width: 27rem">
-        <h1 class="text-2xl font-semibold text-p-red text-center pb-6">
-          Log in
-        </h1>
+    <div class="bg-white rounded-lg max-w-md w-full">
+      <section class="p-8">
+        <div class="flex justify-between items-center mb-6">
+          <div class="w-6"></div>
+          <h1 class="text-2xl font-semibold text-p-red">Log in</h1>
+          <router-link
+            to="/"
+            class="transform rotate-45 border-2 rounded-full p-1"
+          >
+            <svg
+              class="
+                stroke-current
+                text-gray-400
+                cursor-pointer
+                hover:text-gray-700
+              "
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </router-link>
+        </div>
         <div class="flex justify-center space-x-2">
           <p class="text-p-red">No account yet?</p>
           <RouterLink to="/register" class="underline"

@@ -22,6 +22,22 @@
 
 :root {
   scroll-behavior: smooth;
+
+   {
+    /* Code for Firefox */
+    color: red;
+    background: yellow;
+  }
+}
+::-moz-selection {
+  /* Code for Firefox */
+  color: white;
+  background: lightblue;
+}
+
+::selection {
+  color: white;
+  background: lightblue;
 }
 
 .moving-bg {
