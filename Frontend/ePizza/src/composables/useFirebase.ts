@@ -97,3 +97,5 @@ export default () => {
     user: readonly(user),
   }
 }
+
+export { app }

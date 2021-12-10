@@ -5,12 +5,19 @@ import {
   updatePassword,
   updateProfile,
 } from 'firebase/auth'
-
+import {
+  getDownloadURL,
+  getStorage,
+  ref as stRef,
+  uploadBytes,
+} from 'firebase/storage'
+import { getDatabase, ref as dbRef, push, set } from 'firebase/database'
 import { computed, defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import AppHeader from '../components/AppHeader.vue'
 import useFirebase from '../composables/useFirebase'
 import { store } from '../store/store'
+import { app } from '../composables/useFirebase'
 
 export default defineComponent({
   setup() {
@@ -26,6 +33,7 @@ export default defineComponent({
     let passwordInput = ref<boolean>(false)
     let addressInput = ref<boolean>(false)
 
+    let profileImg = ref<string>(user.value.photoURL)
     let displayName = ref<string>(user.value.displayName)
     let email = ref<string>(user.value.email)
     let password = ref<string>('●●●●●●●●')
@@ -77,13 +85,31 @@ export default defineComponent({
     }
 
     const file: any = ref(null)
+    const storage = getStorage(app)
 
     const handleFileUpload = async () => {
+      const auth: any = getAuth()
       // debugger;
-      console.log('selected file', file.value.files)
+      console.log('selected file', file.value.files[0])
       //Upload to server
-      var storageRef = firebase.storage().ref(user + '/profilePicture/' + file.name);
-      var task = storageRef.put(file.value.files);
+      const uploadImage = stRef(
+        storage,
+        `profilePicture/${user.value.uid}/${file.value.files[0].name}`,
+      )
+      await uploadBytes(uploadImage, file.value.files[0]).then((snapshot) => {
+        console.log('Uploaded a blob or file!')
+      })
+      await getDownloadURL(
+        stRef(
+          storage,
+          `profilePicture/${user.value.uid}/${file.value.files[0].name}`,
+        ),
+      ).then((url) => {
+        console.log(url)
+        updateProfile(auth.currentUser, {
+          photoURL: url,
+        })
+      })
     }
 
     const editAddress = () => {}
@@ -97,7 +123,7 @@ export default defineComponent({
       displayName,
       email,
       password,
-
+      profileImg,
       editName,
       editEmail,
       editPassword,
@@ -127,7 +153,6 @@ export default defineComponent({
       <div class="flex flex-row items-center space-x-6">
         <label v-if="user.photoURL === null">
           <div
-            
             class="
               rounded-full
               p-6
@@ -153,43 +178,31 @@ export default defineComponent({
             </svg>
             <input
               ref="file"
-              accept="image/*"
-              type="file"
+              v-on:change="handleFileUpload()"
               style="display: none"
+              type="file"
             />
           </div>
-          <input
-            type="file"
-            ref="file"
-            style="display: none"
-            v-on:change="handleFileUpload()"
-          />
         </label>
         <label v-else>
           <div
-            
             class="
               rounded-full
               flex
               bg-gray-300
               hover:bg-gray-400
               cursor-pointer
-              w-16 md:w-24
+              w-16
+              md:w-24
             "
           >
-            <img src="src\assets\images\pepperoni-nobg.png" alt="" class="w-full">
-            <input
-              ref="file"
-              accept="image/*"
-              type="file"
-              style="display: none"
-            />
+            <img :src="profileImg" alt="" class="rounded-full w-16 h-16 md:w-24 md:h-24" />
           </div>
           <input
-            type="file"
             ref="file"
-            style="display: none"
             v-on:change="handleFileUpload()"
+            style="display: none"
+            type="file"
           />
         </label>
 
