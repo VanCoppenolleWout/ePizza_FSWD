@@ -10,4 +10,5 @@ export type Pizza = {
   img_url?: string
   vegetarian?: boolean
   toppings: Array<Topping>
+  description?: string
 }

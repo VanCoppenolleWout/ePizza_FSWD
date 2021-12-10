@@ -1,6 +1,6 @@
 // tailwind.config.js
 module.exports = {
-  // mode: 'jit',
+  mode: 'jit',
 
   purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
 
@@ -25,7 +25,7 @@ module.exports = {
         'p-gray-200': '#919191',
         'p-gray-300': '#707070',
         'p-yellow': '#E3BB52',
-        'primary': '#faf7fa',
+        primary: '#faf7fa',
       },
     },
   },

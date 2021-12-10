@@ -81,7 +81,7 @@ export default defineComponent({
       const timeline = new TimelineLite()
 
       if (count === 1)
-        await timeline.to(`.${element}`, 0.5, {
+        await timeline.to(`#${element}`, 0.5, {
           x: '33%',
           opacity: 0,
         })
@@ -115,8 +115,6 @@ export default defineComponent({
     }
 
     const adjustStockToppings = () => {
-      console.log('toppings adjusted')
-      console.log(toppingsArr.value)
       toppingsArr.value = []
       toppingsArr.value = JSON.parse(backUpArr)
       //loop through toppings from backend
@@ -217,8 +215,10 @@ export default defineComponent({
             scroll
             p-2
             lg:block
+            transition-all
+            duration-300
           "
-          :class="active ? 'block' : 'hidden'"
+          :class="active ? 'h-40' : 'h-0'"
           v-else
         >
           <div v-for="(pizza, index) of Object.keys(pizzaCounts)" :key="index">
@@ -238,14 +238,16 @@ export default defineComponent({
               "
               @addPizza="AddPizza(JSON.parse(pizza))"
               :key="JSON.parse(pizza).name"
-              :class="`${JSON.parse(pizza)
+              :class="active ? ` block` : 'hidden'"
+              :id="`${JSON.parse(pizza)
                 .name.replaceAll(' ', '')
                 .replace('&', '')}${index}`"
+              class="lg:block"
             />
           </div>
         </div>
       </div>
-      <footer v-if="pizzas !== null" class="lg:mt-10">
+      <div v-if="pizzas !== null" class="lg:mt-10">
         <div class="lg:flex flex-row justify-between items-center hidden">
           <h2 class="text-xl font-semibold">Total</h2>
           <p class="text-xl font-medium text-p-gray-300">
@@ -308,7 +310,7 @@ export default defineComponent({
             Order (€ {{ totalPrice.toFixed(2) }})
           </button>
         </router-link>
-      </footer>
+      </div>
     </div>
   </div>
 </template>

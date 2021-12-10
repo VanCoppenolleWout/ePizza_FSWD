@@ -19,9 +19,11 @@ export default defineComponent({
     const type: Ref<string> = ref('pan')
 
     const toppingsAr: any = computed(() => store.getters.getToppingsArr)
+    console.log(toppingsAr)
     const highlightedToppingArr: any = ref([])
 
     const highlightTopping = (topping: any) => {
+      console.log(topping.name)
       if (!highlightedToppingArr.value.includes(topping) && topping.stock !== 0)
         highlightedToppingArr.value.push(topping)
       else
@@ -90,136 +92,160 @@ export default defineComponent({
       <router-link to="/menu" class="hover:underline"> Go back </router-link>
     </div>
 
-    <div class="lg:mt-8 lg:flex lg:items-start lg:justify-between">
-      <div class="">
-        <div class="flex flex-row text-lg items-center mb-4">
-          <section class="flex flex-col items-center md:flex-row">
-            <img
-              :src="pizza.img_url"
-              class="rounded-3xl max-w-sm w-full"
-              alt=""
-            />
+    <div
+      class="
+        lg:mt-8 lg:flex lg:items-start lg:justify-between
+        gap-4
+        md:flex-row
+        flex flex-col-reverse
+      "
+    >
+      <div
+        class="
+          mt-6
+          w-full
+          md:mt-0
+          bg-white
+          shadow-lg
+          p-4
+          rounded-lg
+          md:max-w-xs
+        "
+      >
+        <h1 class="p-2 text-xl font-bold text-p-gray-1000">Select size</h1>
+        <div class="flex justify-between p-2">
+          <div class="flex gap-4">
+            <p>Small</p>
+          </div>
+          <div class="flex gap-3">
+            <p>€2</p>
 
-            <div>
-              <h1 class="text-3xl font-semibold text-p-gray">
-                {{ pizza.name }}
-              </h1>
-              <div class="mt-8">
-                <h2 class="font-semibold text-xl">size</h2>
-                <div class="mt-2 flex flex-col">
-                  <label class="inline-flex items-center">
-                    <input
-                      type="radio"
-                      class="form-radio"
-                      name="size"
-                      :value="1"
-                      v-model="size"
-                    />
-                    <span class="ml-4">small</span>
-                  </label>
-                  <label class="inline-flex items-center">
-                    <input
-                      type="radio"
-                      class="form-radio"
-                      name="size"
-                      :value="2"
-                      v-model="size"
-                    />
-                    <span class="ml-4">medium</span>
-                  </label>
-                  <label class="inline-flex items-center">
-                    <input
-                      type="radio"
-                      class="form-radio"
-                      name="size"
-                      :value="3"
-                      v-model="size"
-                    />
-                    <span class="ml-4">large</span>
-                  </label>
-                </div>
-              </div>
-              <!-- <div class="mt-6">
-                <h2 class="font-semibold text-xl">type</h2>
-                <div class="mt-2 flex flex-col">
-                  <label class="inline-flex items-center">
-                    <input
-                      type="radio"
-                      class="form-radio"
-                      name="type"
-                      value="pan"
-                      v-model="type"
-                    />
-                    <span class="ml-4">pan</span>
-                  </label>
-                  <label class="inline-flex items-center">
-                    <input
-                      type="radio"
-                      class="form-radio"
-                      name="type"
-                      value="stuffed"
-                      v-model="type"
-                    />
-                    <span class="ml-4">stuffed</span>
-                  </label>
-                  <label class="inline-flex items-center">
-                    <input
-                      type="radio"
-                      class="form-radio"
-                      name="type"
-                      value="thin"
-                      v-model="type"
-                    />
-                    <span class="ml-4">thin</span>
-                  </label>
-                </div>
-              </div> -->
-              <div class="mt-6">
-                <h2 class="font-semibold text-xl">toppings</h2>
-                <ul id="example-1" class="mt-4">
-                  <button
-                    v-for="(topping, index) in toppingsAr"
-                    @click="highlightTopping(topping)"
-                    :key="index"
-                    :disabled="topping.stock === 0"
-                    class="text-black inline-block rounded-2xl mr-4 py-1 px-4"
-                    :class="{
-                      'text-white bg-red-500':
-                        highlightedToppingArr.includes(topping),
-                      'bg-p-gray-100': !highlightedToppingArr.includes(topping),
-                      'opacity-50 cursor-default': topping.stock === 0,
-                      'hover:bg-red-300': topping.stock !== 0,
-                    }"
-                  >
-                    {{ topping.name }}
-                  </button>
-                </ul>
-              </div>
-              <!-- <div class="mt-6">
-                <h2 class="font-semibold text-xl">ingredients</h2>
-                <ul id="example-2" class="mt-4">
-                  <li
-                    class="
-                      inline-block
-                      cursor-pointer
-                      rounded-2xl
-                      bg-p-gray-100
-                      mr-4
-                      py-1
-                      px-4
-                      hover:bg-red-300
-                    "
-                    v-for="topping in highlightedToppingArr"
-                    :key="topping.id"
-                  >
-                    {{ topping.name }}
-                  </li>
-                </ul>
-              </div> -->
+            <div class="w-6 h-6 bg-p-red rounded-md">
+              <svg
+                class=""
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#fff"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
             </div>
+          </div>
+        </div>
+        <div class="flex justify-between p-2">
+          <div class="flex gap-4">
+            <p>Medium</p>
+          </div>
+          <div class="flex gap-3">
+            <p>€2</p>
+
+            <div class="w-6 h-6 bg-gray-100 rounded-md">
+              <svg
+                class=""
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#fff"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-between p-2">
+          <div class="flex gap-4">
+            <p>Large</p>
+          </div>
+          <div class="flex gap-3">
+            <p>€2</p>
+
+            <div class="w-6 h-6 bg-gray-100 rounded-md">
+              <svg
+                class=""
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#fff"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <h1 class="p-2 text-xl font-bold text-p-gray-1000">Add toppings</h1>
+        <div
+          class="flex justify-between p-2"
+          v-for="(topping, index) in toppingsAr"
+          @click="topping.stock === 0 ? null : highlightTopping(topping)"
+          :key="index"
+        >
+          <div class="flex gap-4">
+            <img class="w-6 h-6" :src="topping.img_url" alt="" />
+            <p>{{ topping.name }}</p>
+          </div>
+          <div class="flex gap-3">
+            <p>€{{ topping.price }}</p>
+
+            <div
+              class="w-6 h-6 bg-p-red rounded-md"
+              :class="{
+                'text-white bg-red-500':
+                  highlightedToppingArr.includes(topping),
+                'bg-p-gray-100': !highlightedToppingArr.includes(topping),
+                'opacity-50 cursor-default': topping.stock === 0,
+                'hover:bg-red-300': topping.stock !== 0,
+              }"
+            >
+              <svg
+                class=""
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#fff"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="flex flex-row text-lg items-center mb-4">
+          <section class="">
+            <h1 class="text-3xl font-semibold text-p-gray">
+              {{ pizza.name }}
+            </h1>
+            <p>{{ pizza.description }}</p>
+            <div class="flex justify-center mt-16">
+              <img class="w-96" src="../assets/images/forestiere-nobg.png" />
+            </div>
+            <div></div>
           </section>
         </div>
       </div>
+
       <Basket :addOrder="true" @addPizza="addPizza" />
     </div>
   </div>
