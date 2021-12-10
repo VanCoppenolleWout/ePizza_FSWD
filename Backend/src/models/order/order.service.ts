@@ -141,8 +141,6 @@ export class OrderService {
       } else stockToppingsArr.push(...pizzas[i].toppings)
     }
 
-    console.log(stockToppingsArr)
-
     for (let i = 0; i < stockToppingsArr.length; i++) {
       stockToppings[stockToppingsArr[i].topping_id] =
         (stockToppings[stockToppingsArr[i].topping_id] || 0) + 1
