@@ -1,6 +1,5 @@
 <script lang="ts">
-import { defineComponent, toRef, toRefs } from 'vue'
-import { useLocalStorage } from '../composables/useLocalStorage'
+import { defineComponent, toRefs } from 'vue'
 
 export default defineComponent({
   setup(context, { emit }) {
@@ -80,7 +79,6 @@ export default defineComponent({
         </button>
       </div>
       <div class="flex lg:flex-col space-x-2 lg:space-x-0">
-        <!-- <button class="hover:underline hover:text-p-red">Change</button> -->
         <button class="hover:underline hover:text-p-red" @click="deletePizza">
           Remove
         </button>

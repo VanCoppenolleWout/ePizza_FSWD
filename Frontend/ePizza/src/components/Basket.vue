@@ -6,6 +6,7 @@ import { Pizza } from '../interfaces/pizza'
 import { useLocalStorage } from '../composables/useLocalStorage'
 import { MutationTypes, useStore } from '../store/store'
 import { Topping } from '../interfaces/topping'
+import { fetchData } from '../composables/useNetwork'
 
 export default defineComponent({
   setup(props, { emit }) {
@@ -13,36 +14,44 @@ export default defineComponent({
     const { getPizzasLocal, deletePizzaLocal, addPizzaLocal } =
       useLocalStorage()
     const { store } = useStore()
+    const { get } = fetchData()
     const filteredToppings: Ref<Array<Topping>> = ref([])
     const pizzas: Ref<Array<Pizza>> = ref(getPizzasLocal())
-    // const disableAdd: Ref<Array<string>> = ref([])
-    const toppingsArr = computed(() => {
+    const toppingsArrStore = computed(() => {
       return store.getters.getToppingsArr
     })
+    let pizzaCounts: Ref<Record<string, number>> = ref({})
+    const totalPrice = ref()
+    let toppingsArr: Ref<Array<Topping>> = ref([])
+    let backUpArr: any
+    const pizzaArrLocal: Ref<Array<Pizza>> = ref(getPizzasLocal())
+
+    const getToppings = async () => {
+      toppingsArr.value = await get('/topping')
+      backUpArr = JSON.stringify(toppingsArr.value)
+      adjustStockToppings()
+      setPizzaCounts()
+    }
 
     const filterToppings = (pizza: Pizza) => {
+      //get the toppings for the current pizza from the store
       filteredToppings.value = []
       for (const toppingPizza of pizza.toppings) {
-        for (const topping of toppingsArr.value) {
+        for (const topping of toppingsArrStore.value) {
           if (toppingPizza.name === topping.name)
             filteredToppings.value.push(topping)
         }
       }
     }
 
-    // watch(toppingsArr, () => {
-    //   console.log(toppingsArr.value)
-    // })
-
-    let pizzaCounts: Ref<Record<string, number>> = ref({})
-    const totalPrice = ref()
-
     watch(pizzas, () => {
+      //update the pizza amounts and price
       setPizzaCounts()
       setPizzaPrice()
     })
 
     const setPizzaCounts = () => {
+      //if pizza with same toppings? -> add the count + 1
       pizzaCounts.value = {}
       pizzas.value.forEach((pizza) => {
         pizzaCounts.value[JSON.stringify(pizza)] =
@@ -63,10 +72,6 @@ export default defineComponent({
       pizzas.value.sort((a, b) =>
         a.name !== b.name ? (a.name < b.name ? -1 : 1) : 0,
       )
-
-    const addPizza = () => {
-      emit('addPizza')
-    }
 
     const deletePizza = async (
       pizza: Pizza,
@@ -101,13 +106,46 @@ export default defineComponent({
       sortPizzas()
     }
 
+    const addPizza = () => {
+      emit('addPizza')
+    }
+
     const placeOrder = () => {
       emit('placeOrder', pizzas.value)
     }
 
+    const adjustStockToppings = () => {
+      console.log('toppings adjusted')
+      console.log(toppingsArr.value)
+      toppingsArr.value = []
+      toppingsArr.value = JSON.parse(backUpArr)
+      //loop through toppings from backend
+      for (const topping of toppingsArr.value) {
+        //loop through localstorage to see if we need to reduce stock of toppings
+        for (const pizza of pizzaArrLocal.value) {
+          //by default a pizza has a fixed toppings
+          for (const toppingLocal of pizza.toppings) {
+            if (toppingLocal.name === topping.name) topping.stock -= 1
+          }
+
+          //user can add more toppings to a pizza
+          for (const toppingId of pizza.topping_ids) {
+            if (toppingId === topping.topping_id) topping.stock -= 1
+          }
+        }
+      }
+
+      store.commit(MutationTypes.setToppingsArr, toppingsArr.value)
+    }
+
+    watch(pizzaCounts, () => {
+      pizzaArrLocal.value = getPizzasLocal()
+      adjustStockToppings()
+    })
+
+    getToppings()
     sortPizzas()
     setPizzaPrice()
-    setPizzaCounts()
 
     return {
       pizzas,
@@ -118,7 +156,7 @@ export default defineComponent({
       AddPizza,
       deletePizza,
       placeOrder,
-      toppingsArr,
+      toppingsArrStore,
     }
   },
   components: { BasketItem },
