@@ -11,7 +11,6 @@ import {
   ref as stRef,
   uploadBytes,
 } from 'firebase/storage'
-import { getDatabase, ref as dbRef, push, set } from 'firebase/database'
 import { computed, defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import AppHeader from '../components/AppHeader.vue'
@@ -37,7 +36,6 @@ export default defineComponent({
     let displayName = ref<string>(user.value.displayName)
     let email = ref<string>(user.value.email)
     let password = ref<string>('●●●●●●●●')
-    let address = ref<any>([])
 
     const { logout } = useFirebase()
     const { push } = useRouter()
@@ -196,7 +194,11 @@ export default defineComponent({
               md:w-24
             "
           >
-            <img :src="profileImg" alt="" class="rounded-full w-16 h-16 md:w-24 md:h-24" />
+            <img
+              :src="profileImg"
+              alt=""
+              class="rounded-full w-16 h-16 md:w-24 md:h-24"
+            />
           </div>
           <input
             ref="file"

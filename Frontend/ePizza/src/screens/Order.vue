@@ -10,7 +10,6 @@ import { fetchData } from '../composables/useNetwork'
 import { Pizza } from '../interfaces/pizza'
 import { User } from '../interfaces/user'
 import { store } from '../store/store'
-import { TimelineLite } from 'gsap'
 
 export default defineComponent({
   setup(context) {

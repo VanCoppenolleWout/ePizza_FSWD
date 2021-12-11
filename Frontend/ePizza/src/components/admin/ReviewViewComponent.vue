@@ -42,7 +42,6 @@ export default defineComponent({
 
     return {
       reviews,
-      tempAr,
       moment,
     }
   },
@@ -116,7 +115,10 @@ export default defineComponent({
         </div>
       </div>
     </section>
-    <section v-else class="flex items-center self-center justify-center flex-1 mt-12">
+    <section
+      v-else
+      class="flex items-center self-center justify-center flex-1 mt-12"
+    >
       <p class="font-medium text-sm">No reviews yet.</p>
     </section>
   </div>

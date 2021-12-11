@@ -1,7 +1,5 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { User } from '../interfaces/user'
-import { signUp } from '../utils/network'
 import RegisterComponent from '../components/RegisterComponent.vue'
 import AppHeader from '../components/AppHeader.vue'
 import AppFooter from '../components/AppFooter.vue'

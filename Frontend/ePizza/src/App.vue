@@ -1,8 +1,5 @@
 <script lang="ts">
-import { getAuth, onAuthStateChanged, User } from '@firebase/auth'
-import { defineComponent, onMounted, Ref, ref } from 'vue'
-import { fetchData } from './composables/useNetwork'
-import { ActionTypes, MutationTypes, useStore } from './store/store'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   setup() {

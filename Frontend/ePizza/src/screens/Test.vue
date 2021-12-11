@@ -1,7 +1,7 @@
 <script lang="ts">
-import { computed, defineComponent, ref, watch } from 'vue'
+import { defineComponent, ref } from 'vue'
 import AppHeader from '../components/AppHeader.vue'
-import { TimelineLite, TweenMax } from 'gsap'
+import { TimelineLite } from 'gsap'
 
 export default defineComponent({
   setup() {
@@ -39,7 +39,8 @@ export default defineComponent({
       // TweenMax.set('.pizza2', { clearProps: 'all' })
       const timeline = new TimelineLite()
       await timeline
-        .to(`.middle`, 0.5, {ease: "power2.out",
+        .to(`.middle`, 0.5, {
+          ease: 'power2.out',
           css: {
             css: {
               left: 'auto',

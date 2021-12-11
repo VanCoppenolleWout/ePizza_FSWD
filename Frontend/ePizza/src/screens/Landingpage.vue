@@ -1,11 +1,10 @@
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 import AppHeader from '../components/AppHeader.vue'
 import AppFooter from '../components/AppFooter.vue'
-import Map from '../components/Map.vue'
+// import Map from '../components/Map.vue'
 import LoginComponent from '../components/LoginComponenet.vue'
 import BannerComponent from '../components/BannerComponent.vue'
-import { useStore } from '../store/store'
 import { TimelineLite } from 'gsap'
 import { useRouter } from 'vue-router'
 
@@ -25,19 +24,14 @@ export default defineComponent({
       localStorage.setItem('delivery', 'false')
       router.push('/menu')
     }
-    // const { store } = useStore()
 
-    // const user = computed(() => {
-    //   return store.getters.getUser
+    // onMounted(() => {
+    //   const timeline = new TimelineLite()
+
+    //   timeline.from('.animation1', { y: '-50px', opacity: 0, stagger: 0.2 })
+    //   timeline.from('.animation2', { y: '-50px', opacity: 0 }, '-=0.4')
+    //   timeline.from('.animation3', { y: '-50px', opacity: 0 }, '-=0.2')
     // })
-
-    onMounted(() => {
-      const timeline = new TimelineLite()
-
-      timeline.from('.animation1', { y: '-50px', opacity: 0, stagger: 0.2 })
-      timeline.from('.animation2', { y: '-50px', opacity: 0 }, '-=0.4')
-      timeline.from('.animation3', { y: '-50px', opacity: 0 }, '-=0.2')
-    })
 
     return {
       userRegistered,
@@ -202,9 +196,9 @@ export default defineComponent({
                 <span class="text-p-red">Fastest</span> in Kortrijk
               </h2>
               <p class="font-light">
-                To compete with other companies we have hired a highly skilled workforce
-                on the workfloor as well as on the streets so that you don't have to endlessly
-                wait for your fresh pizza. 
+                To compete with other companies we have hired a highly skilled
+                workforce on the workfloor as well as on the streets so that you
+                don't have to endlessly wait for your fresh pizza.
               </p>
             </div>
             <div
@@ -226,7 +220,7 @@ export default defineComponent({
                 Ready for the<span class="text-p-red"> Future</span>
               </h2>
               <p class="font-light">
-                Our business relies on the web. Therefore we use the latest and 
+                Our business relies on the web. Therefore we use the latest and
                 greatest web technologies like Vue 3.
               </p>
             </div>
@@ -286,7 +280,7 @@ export default defineComponent({
         </div>
       </div>
     </div>
-    <Map />
+    <!-- <Map /> -->
     <AppFooter />
   </div>
 </template>

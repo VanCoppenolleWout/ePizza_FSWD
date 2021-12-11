@@ -1,7 +1,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import AppHeader from '../components/AppHeader.vue'
-import { fetchData } from '../composables/useNetwork'
 import StockComponent from '../components/admin/StockComponent.vue'
 import OrderViewComponent from '../components/admin/OrderViewComponent.vue'
 import ReviewViewComponent from '../components/admin/ReviewViewComponent.vue'

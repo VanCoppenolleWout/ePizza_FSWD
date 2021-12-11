@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, defineComponent, Ref, ref, toRefs, watch } from 'vue'
+import { computed, defineComponent, Ref, ref, watch } from 'vue'
 import BasketItem from './BasketItem.vue'
 import { TimelineLite } from 'gsap'
 import { Pizza } from '../interfaces/pizza'

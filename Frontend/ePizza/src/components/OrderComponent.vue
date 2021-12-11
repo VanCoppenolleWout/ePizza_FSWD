@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
+import { defineComponent } from 'vue'
 import { Order } from '../interfaces/order'
 
 export default defineComponent({
@@ -7,8 +7,6 @@ export default defineComponent({
     const pizzaArr: Array<string> = ['f', 'f', 'f', '', '', '']
 
     const { order } = context
-    const totalPrice = computed(() => {})
-    // console.log(order)
 
     return {
       pizzaArr,

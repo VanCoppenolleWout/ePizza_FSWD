@@ -1,11 +1,9 @@
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue'
+import { computed, defineComponent, Ref, ref } from 'vue'
 import { Router, useRouter } from 'vue-router'
 import AppHeader from '../components/AppHeader.vue'
 import Basket from '../components/Basket.vue'
-import { fetchData } from '../composables/useNetwork'
 import { Pizza } from '../interfaces/pizza'
-import { Topping } from '../interfaces/topping'
 import { useStore } from '../store/store'
 
 export default defineComponent({
@@ -19,7 +17,7 @@ export default defineComponent({
     const type: Ref<string> = ref('pan')
 
     const toppingsAr: any = computed(() => store.getters.getToppingsArr)
-    console.log(toppingsAr)
+
     const highlightedToppingArr: any = ref([])
 
     const highlightTopping = (topping: any) => {

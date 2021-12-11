@@ -7,21 +7,21 @@ import { Topping } from '../../interfaces/topping'
 
 export default defineComponent({
   setup() {
-    const testData = {
-      labels: ['Paris', 'Nîmes', 'Toulon', 'Perpignan', 'Autre'],
-      datasets: [
-        {
-          data: [30, 40, 60, 70, 5],
-          backgroundColor: [
-            '#77CEFF',
-            '#0079AF',
-            '#123E6B',
-            '#97B0C4',
-            '#A5C8ED',
-          ],
-        },
-      ],
-    }
+    // const testData = {
+    //   labels: ['Paris', 'Nîmes', 'Toulon', 'Perpignan', 'Autre'],
+    //   datasets: [
+    //     {
+    //       data: [30, 40, 60, 70, 5],
+    //       backgroundColor: [
+    //         '#77CEFF',
+    //         '#0079AF',
+    //         '#123E6B',
+    //         '#97B0C4',
+    //         '#A5C8ED',
+    //       ],
+    //     },
+    //   ],
+    // }
 
     const { get, put } = fetchData()
 

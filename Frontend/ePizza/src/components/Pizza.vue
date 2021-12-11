@@ -1,10 +1,9 @@
 <script lang="ts">
-import { computed, defineComponent, ref, Ref, toRefs, watch } from 'vue'
-import { useLocalStorage } from '../composables/useLocalStorage'
+import { computed, defineComponent, Ref, toRefs } from 'vue'
 import { fetchData } from '../composables/useNetwork'
 import { Pizza } from '../interfaces/pizza'
 import { Topping } from '../interfaces/topping'
-import { MutationTypes, useStore } from '../store/store'
+import { useStore } from '../store/store'
 import PizzaComponent from './PizzaComponent.vue'
 import PizzaSkeleton from './PizzaSkeleton.vue'
 
@@ -13,15 +12,15 @@ export default defineComponent({
     const { vegetarian } = toRefs(props)
     const { get } = fetchData()
     const { store } = useStore()
-    const { getPizzasLocal } = useLocalStorage()
+    // const { getPizzasLocal } = useLocalStorage()
 
-    const pizzaCounts = computed(() => store.getters.getPizzaCounts)
-    const pizzaArrLocal: Ref<Array<Pizza>> = ref(getPizzasLocal())
+    // const pizzaCounts = computed(() => store.getters.getPizzaCounts)
+    // const pizzaArrLocal: Ref<Array<Pizza>> = ref(getPizzasLocal())
 
     let toppingsArr: Ref<Array<Topping>> = computed(() => {
       return store.getters.getToppingsArr
     })
-    const backUpArr = JSON.stringify(toppingsArr.value)
+    // const backUpArr = JSON.stringify(toppingsArr.value)
 
     const pizzaArr: Array<Pizza> = await get('/pizza')
 

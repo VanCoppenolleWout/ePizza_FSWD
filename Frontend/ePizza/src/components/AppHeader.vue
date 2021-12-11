@@ -1,11 +1,9 @@
 <script lang="ts">
-import { computed, defineComponent, Ref, ref, watch } from 'vue'
-import useFirebase from '../composables/useFirebase'
+import { computed, defineComponent, Ref, ref } from 'vue'
 import { useStore } from '../store/store'
 
 export default defineComponent({
   setup() {
-    const { logout } = useFirebase()
     const { store } = useStore()
     const menuActive: Ref<boolean> = ref(false)
 
