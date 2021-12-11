@@ -17,7 +17,7 @@ export default defineComponent({
     <div class="mt-40">
       <img
         class="w-52 ml-12 img animation1 pointer-events-none"
-        src="../assets/images/12-04 [Converted].svg"
+        src="../assets/images/pizza-loader.svg"
         alt=""
       />
       <p class="mt-8 animate-pulse mx-auto">
