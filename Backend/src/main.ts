@@ -9,7 +9,7 @@ async function bootstrap() {
 
   app.useGlobalFilters(new AllExceptionsFilter())
 
-  const port = 3001
+  const port = 80
   app.enableCors()
   app.use(helmet())
 
