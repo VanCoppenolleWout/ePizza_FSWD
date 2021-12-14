@@ -13,66 +13,76 @@ export class UserService {
     private addressRepository: Repository<Address>,
   ) {}
 
-  async findOne(email: string) {
-    return await this.userRepository.findOne({ where: { email: email } })
-  }
-
   async registerUser(user: User): Promise<Record<string, string>> {
-    try {
-      return await getAuth()
-        .createUser({
-          email: user.email,
-          password: user.password,
-        })
-        .then(async (firebaseUser) => {
-          // Firebase User succesfully created
-          user.user_id = firebaseUser.uid
-          // Save user in database
-          await this.userRepository.save(user)
+    const { name, lastname, email, password, phone_nr } = user
+    if (!name || !lastname || !email || !password || !phone_nr)
+      throw new HttpException(
+        'Not all fields are filled in',
+        HttpStatus.BAD_REQUEST,
+      )
+
+    return await getAuth()
+      .createUser({
+        email: user.email,
+        password: user.password,
+      })
+      .then(async (firebaseUser) => {
+        // Firebase User succesfully created
+        user.user_id = firebaseUser.uid
+        // Save user in database
+        const res = await this.userRepository.save(user)
+        if (res)
           return {
             token: await getAuth().createCustomToken(firebaseUser.uid),
           }
-        })
-    } catch (error) {
-      //Remove user if saved in firebase
-      user.user_id ? getAuth().deleteUser(user.user_id) : null
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST)
-    }
+        else
+          throw new HttpException(
+            'Not all fields are filled in',
+            HttpStatus.BAD_REQUEST,
+          )
+      })
   }
 
-  async getAddress(user_id: string) {
-    const userAddress = await this.userRepository
-      .createQueryBuilder('user')
-      .select(['user.name', 'user.lastname', 'user.email'])
-      .innerJoinAndSelect('user.addresses', 'address')
-      .where('user_id = :user_id', { user_id })
-      .getOne()
+  async getAdmin(headers: any): Promise<Object> {
+    if (!headers.authorization)
+      throw new HttpException(
+        'Oops something went wrong',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      )
 
-    return userAddress == undefined
-      ? await this.userRepository
-          .createQueryBuilder('user')
-          .select(['user.name', 'user.lastname', 'user.email', 'user.user_id'])
-          .where('user_id = :user_id', { user_id })
-          .getOne()
-      : userAddress
-  }
-
-  async getAdmin(headers: any) {
     const bearer = headers.authorization.replace('Bearer ', '')
     const firebaseUser = await getAuth().verifyIdToken(bearer)
+
+    if (!firebaseUser)
+      throw new HttpException('User not found ..', HttpStatus.BAD_REQUEST)
 
     return firebaseUser.admin ? { admin: true } : { admin: false }
   }
 
-  async getUser(user_id: string) {
-    return await this.userRepository
+  async getUser(user_id: string): Promise<User> {
+    if (!user_id)
+      throw new HttpException('No user id provided ..', HttpStatus.BAD_REQUEST)
+    const user: User = await this.userRepository
       .createQueryBuilder('user')
-      .where('user_id = :user_id', { user_id })
       .leftJoinAndSelect('user.addresses', 'address')
+      .where('user_id = :user_id', { user_id })
       .getOne()
+
+    if (!user)
+      throw new HttpException(
+        'Oops user not found, did you provide the right user id ?',
+        HttpStatus.BAD_REQUEST,
+      )
+    return user
   }
 
   async addAddress(user_id: string, body: any) {
+    const { city, street, number, zip_code } = body
+    if (!city || !street || !number || !zip_code)
+      throw new HttpException(
+        'Not all fields are filled in ..',
+        HttpStatus.BAD_REQUEST,
+      )
     let addressORM: Address = new Address()
     addressORM.city = body.city
     addressORM.street = body.street
@@ -80,16 +90,25 @@ export class UserService {
     addressORM.postal_code = body.zip_code
 
     const address = await this.addressRepository.save(addressORM)
+    if (!address)
+      throw new HttpException(
+        'Something went wrong saving your address ..',
+        HttpStatus.BAD_REQUEST,
+      )
 
     const user: User = await this.userRepository
       .createQueryBuilder('user')
       .innerJoinAndSelect('user.addresses', 'address')
       .where('user_id = :user_id', { user_id })
       .getOne()
+    if (!user)
+      throw new HttpException(
+        `Oops we couldn't find that user ..`,
+        HttpStatus.BAD_REQUEST,
+      )
 
     user.addresses ? user.addresses.push(address) : (user.addresses = [address])
 
-    console.log(user)
     return await this.userRepository.save(user)
   }
 }

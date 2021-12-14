@@ -9,8 +9,4 @@ export class SizeController {
   async getSizes(): Promise<Size[]> {
     return await this.sizeService.getSizes()
   }
-  @Get(':id')
-  async getOneSize(@Param() params) {
-    return await this.sizeService.getOneSize(params.id)
-  }
 }

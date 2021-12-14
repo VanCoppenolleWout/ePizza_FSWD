@@ -11,18 +11,8 @@ export class PizzaController {
     return await this.pizzaService.getOne(params.id)
   }
 
-  @Get('name/:name')
-  async findOne(@Param() params): Promise<Pizza> {
-    return await this.pizzaService.findOne(params.name)
-  }
-
   @Get()
   async getAll(): Promise<Pizza[]> {
     return await this.pizzaService.getAll()
-  }
-
-  @Get('stock')
-  async updateStock(@Body() body) {
-    return await this.pizzaService.updateStock(body)
   }
 }

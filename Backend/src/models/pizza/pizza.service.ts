@@ -1,6 +1,6 @@
-import { Inject, Injectable } from '@nestjs/common'
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common'
 import { Query, Resolver } from '@nestjs/graphql'
-import { Repository } from 'typeorm'
+import { Repository, UpdateResult } from 'typeorm'
 import { Size } from '../size/size.entity'
 import { Pizza } from './pizza.entity'
 
@@ -11,36 +11,24 @@ export class PizzaService {
     @Inject('PizzaRepository') private pizzaRepository: Repository<Pizza>,
   ) {}
 
-  async getOne(pizza_id: string) {
-    return await this.pizzaRepository.findOne(pizza_id)
-  }
+  async getOne(pizza_id: string): Promise<Pizza> {
+    if (!pizza_id)
+      throw new HttpException(
+        'Please provide a pizza id',
+        HttpStatus.BAD_REQUEST,
+      )
+    const pizza = await this.pizzaRepository.findOne(pizza_id)
+    if (!pizza)
+      throw new HttpException('No pizza found', HttpStatus.BAD_REQUEST)
 
-  async findOne(name: string) {
-    return await this.pizzaRepository
-      .createQueryBuilder('pizza')
-      .where('pizza.name = :name', { name })
-      .getOne()
+    return pizza
   }
 
   @Query(() => [Pizza])
-  async getAll() {
+  async getAll(): Promise<Array<Pizza>> {
     return await this.pizzaRepository
       .createQueryBuilder('pizza')
       .leftJoinAndSelect('pizza.toppings', 'topping')
       .getMany()
-  }
-
-  async updateStock(body: any) {
-    const pizza: Pizza = await this.pizzaRepository.findOne(body.pizza_id)
-    const pizza_id = pizza.pizza_id
-
-    return await this.pizzaRepository
-      .createQueryBuilder('pizza')
-      .update()
-      .set({
-        stock: pizza.stock + body.amount,
-      })
-      .where('pizza_id = :pizza_id', { pizza_id })
-      .execute()
   }
 }

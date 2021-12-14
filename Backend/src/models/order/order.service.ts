@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common'
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common'
 import { Repository } from 'typeorm'
 import { Pizza } from '../pizza/pizza.entity'
 import { User } from '../user/user.entity'
@@ -28,7 +28,7 @@ export class OrderService {
     @Inject('ToppingRepository') private toppingRepository: Repository<Topping>,
   ) {}
 
-  async placeOrder(orderORM: OrderORM) {
+  async placeOrder(orderORM: OrderORM): Promise<Order> {
     //Get the user from request
     let user: User
     let guest: Guest
@@ -204,7 +204,7 @@ export class OrderService {
     }
   }
 
-  async getAll() {
+  async getAll(): Promise<Array<Order>> {
     return await this.orderRepository
       .createQueryBuilder('order')
       .select(['order.order_id', 'order.order_date'])
@@ -219,8 +219,13 @@ export class OrderService {
       .getMany()
   }
 
-  async getOne(order_id: string) {
-    return await this.orderRepository
+  async getOne(order_id: string): Promise<Order> {
+    if (!order_id)
+      throw new HttpException(
+        'Please provide a order id',
+        HttpStatus.BAD_REQUEST,
+      )
+    const order: Order = await this.orderRepository
       .createQueryBuilder('order')
       .select(['order.order_id', 'order.order_date', 'order.delivery_date'])
       .addSelect(['user.user_id', 'user.name', 'user.lastname'])
@@ -234,10 +239,23 @@ export class OrderService {
       .innerJoin('pizzaSizeTopping.size', 'size')
       .where('order.order_id = :order_id', { order_id })
       .getOne()
+
+    if (!order)
+      throw new HttpException(
+        'No order found with that order id ',
+        HttpStatus.BAD_REQUEST,
+      )
+
+    return order
   }
 
-  async getAllUser(user_id: string) {
-    return await this.orderRepository
+  async getAllUser(user_id: string): Promise<Array<Order>> {
+    if (!user_id)
+      throw new HttpException(
+        'Please provide a user id',
+        HttpStatus.BAD_REQUEST,
+      )
+    const orders: Array<Order> = await this.orderRepository
       .createQueryBuilder('order')
       .select(['order.order_id', 'order.order_date'])
       .addSelect(['user.user_id', 'user.name', 'user.lastname'])
@@ -250,5 +268,11 @@ export class OrderService {
       .orderBy('order.order_date', 'DESC')
       .where('order.user_id = :user_id', { user_id })
       .getMany()
+    if (!orders)
+      throw new HttpException(
+        'No order found with that user id',
+        HttpStatus.BAD_REQUEST,
+      )
+    return orders
   }
 }

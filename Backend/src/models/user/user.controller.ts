@@ -22,29 +22,24 @@ export class UserController {
   constructor(private userService: UserService) {}
 
   @Post('signup')
-  async signUp(@Body() user: User) {
+  async signUp(@Body() user: User): Promise<User> {
     return await this.userService.registerUser(user)
   }
 
   @Get('admin')
-  // @Roles(Role.Admin)
-  // @UseGuards(FirebaseAuthGuard, RolesGuard)
+  @Roles(Role.Admin)
+  @UseGuards(FirebaseAuthGuard, RolesGuard)
   async checkAdmin(@Headers() headers) {
     return await this.userService.getAdmin(headers)
   }
 
-  @Get('address/:user_id')
-  async getAddress(@Param() params) {
-    return await this.userService.getAddress(params.user_id)
-  }
-
   @Get(':user_id')
-  async getUser(@Param() params) {
+  async getUser(@Param() params): Promise<User> {
     return await this.userService.getUser(params.user_id)
   }
 
   @Post(':user_id')
-  async addAddress(@Param() params, @Body() body) {
+  async addAddress(@Param() params, @Body() body): Promise<User> {
     return await this.userService.addAddress(params.user_id, body)
   }
 }

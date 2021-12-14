@@ -1,4 +1,10 @@
-import { HttpCode, HttpException, Inject, Injectable } from '@nestjs/common'
+import {
+  HttpCode,
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+} from '@nestjs/common'
 import { Repository } from 'typeorm'
 import { User } from '../user/user.entity'
 import { Address } from './address.entity'
@@ -10,29 +16,29 @@ export class AddressService {
     private addressRepository: Repository<Address>,
   ) {}
 
-  async newAddress(body) {
-    try {
-      let user: User = { user_id: body.user_id }
-      let address: Address = {
-        city: body.city,
-        street: body.street,
-        number: body.number,
-        postal_code: body.zip_code,
-        users: [user],
-      }
-      return await this.addressRepository.save(address)
-    } catch (error) {
-      throw new HttpException('Oops something went wrong', 500)
+  async newAddress(body): Promise<Address> {
+    const { user_id, city, street, number, zip_code } = body
+    if (!user_id || !city || !street || !number || !zip_code)
+      throw new HttpException(
+        'Pleasse fill in all fields ..',
+        HttpStatus.BAD_REQUEST,
+      )
+    let user: User = { user_id: user_id }
+    let address: Address = {
+      city,
+      street,
+      number,
+      postal_code: zip_code,
+      users: [user],
     }
+    return await this.addressRepository.save(address)
   }
 
-  async getAddress(user_id: string) {
-    console.log(user_id)
-    const address = await this.addressRepository
-      .createQueryBuilder('address')
+  // async getAddress(): Promise<Array<Address>> {
+  //   const address = await this.addressRepository
+  //     .createQueryBuilder('address')
+  //     .getMany()
 
-      .getMany()
-
-    console.log(address)
-  }
+  //   return address
+  // }
 }

@@ -12,7 +12,5 @@ export class SizeService {
     return await this.sizeRepository.find()
   }
 
-  async getOneSize(id: number) {
-    return await this.sizeRepository.findOne()
-  }
+  
 }

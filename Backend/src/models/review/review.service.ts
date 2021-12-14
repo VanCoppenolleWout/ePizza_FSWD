@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common'
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common'
 import { Repository } from 'typeorm'
 import { Guest } from '../guest/guest.entity'
 import { Order } from '../order/order.entity'
@@ -14,50 +14,79 @@ export class ReviewService {
   ) {}
 
   async addReview(reviewORM: ReviewORM): Promise<Review> {
+    const { order_id, user_id, guest_id } = reviewORM
+    if (!order_id)
+      throw new HttpException('No order id provided ..', HttpStatus.BAD_REQUEST)
+    if (user_id && !guest_id)
+      throw new HttpException(
+        'Please prvoide a user or guest id ..',
+        HttpStatus.BAD_REQUEST,
+      )
+
     //get order for the review
-    const order: Order = { order_id: reviewORM.order_id }
+    const order: Order = { order_id }
     //get user/guest for the review
-    const user: User = { user_id: reviewORM.user_id }
-    const guest: Guest = { guest_id: reviewORM.guest_id }
+    const user: User = { user_id }
+    const guest: Guest = { guest_id }
     //review
-    const review: Review = {
+    let review: Review = {
       order: order,
       title: reviewORM.title,
       description: reviewORM.description,
       stars: reviewORM.stars,
       date: new Date(),
     }
-    console.log(reviewORM.guest_id)
     if (reviewORM.user_id) review.user = user
     if (reviewORM.guest_id) review.guest = guest
-    console.log(review)
 
-    try {
-      return await this.reviewRepository.save(review)
-    } catch (error) {
-      console.log(error)
-    }
+    review = await this.reviewRepository.save(review)
+
+    if (!review)
+      throw new HttpException(
+        'Oops, something went wrong saving your review',
+        HttpStatus.BAD_REQUEST,
+      )
+    return review
   }
 
-  async getUser(user_id: string) {
-    return await this.reviewRepository
+  async getUser(user_id: string): Promise<Array<Review>> {
+    if (!user_id)
+      throw new HttpException('No user id provided ..', HttpStatus.BAD_REQUEST)
+
+    const review: Array<Review> = await this.reviewRepository
       .createQueryBuilder('review')
       .innerJoinAndSelect('review.user', 'user')
       .where('user.user_id = :user_id', { user_id })
       .getMany()
+
+    if (!review)
+      throw new HttpException(
+        `Oops, we couldn't find that review, did you provide the correct user id ?`,
+        HttpStatus.BAD_REQUEST,
+      )
+    return review
   }
 
-  async getOrder(order_id: string) {
-    return await this.reviewRepository
+  async getOrder(order_id: string): Promise<Review> {
+    if (!order_id)
+      throw new HttpException('No order id provided ..', HttpStatus.BAD_REQUEST)
+    const order = await this.reviewRepository
       .createQueryBuilder('review')
       .innerJoinAndSelect('review.order', 'order')
       .innerJoinAndSelect('review.user', 'user')
       .where('order.order_id = :order_id', { order_id })
-      .getMany()
+      .getOne()
+
+    if (!order)
+      throw new HttpException(
+        `Oops we couldn't find that review, did you provide the correct order id ?`,
+        HttpStatus.BAD_REQUEST,
+      )
+
+    return order
   }
 
-  async getAll(req) {
-    console.log(req.date)
+  async getAll(req: any): Promise<Array<Review>> {
     if (req.date === 'asc') {
       return await this.reviewRepository
         .createQueryBuilder('review')

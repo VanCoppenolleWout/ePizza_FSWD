@@ -23,8 +23,6 @@ export class AllExceptionsFilter implements ExceptionFilter {
       status = 500
     }
 
-    console.log(exception)
-
     response.status(status).json({
       statusCode: status,
       timestamp: new Date().toISOString(),

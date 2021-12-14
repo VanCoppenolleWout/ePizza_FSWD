@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Param, Put, Req } from '@nestjs/common'
+import { UpdateResult } from 'typeorm'
 import { Topping } from './topping.entity'
 import { ToppingService } from './topping.service'
 
@@ -26,12 +27,12 @@ export class ToppingController {
   }
 
   @Put('/stock/multiple')
-  async updateStockMultiple(@Body() body): Promise<any> {
+  async updateStockMultiple(@Body() body): Promise<Array<Topping>> {
     return await this.toppingService.updateStockMultiple(body)
   }
 
-  // @Put('/topping/price')
-  // async updateStockMultiple(@Body() body): Promise<any> {
-  //   return await this.toppingService.updateStockMultiple(body)
-  // }
+  @Put('/price')
+  async updateToppingPrice(@Body() body): Promise<UpdateResult> {
+    return await this.toppingService.updateStockPrice(body)
+  }
 }
