@@ -15,15 +15,13 @@ export default defineComponent({
       return store.getters.getUser
     })
 
-    console.log(user.value)
-
     const admin = computed(() => {
       return store.getters.getAdmin
     })
 
     const decideName = () => {
       if (user.value !== null && !admin.value) {
-        username.value = user.value.email
+        username.value = user.value.displayName
       } else username.value = 'Administrator'
     }
 

@@ -84,18 +84,34 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="container mx-auto p-8 md:px-0 pb-36 lg:pb-10">
+  <div class="container mx-auto p-8 md:px-0 pb-40 lg:pb-10">
     <div>
       <AppHeader />
-      <router-link to="/menu" class="hover:underline"> Go back </router-link>
+      <router-link to="/menu" class="hover:underline flex">
+        <svg
+          class="text-gray-700 stroke-current"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M15 18l-6-6 6-6" />
+        </svg>
+        <p>Go back</p>
+      </router-link>
     </div>
 
     <div
       class="
         lg:mt-8 lg:flex lg:items-start lg:justify-between
-        gap-4
         md:flex-row
         flex flex-col-reverse
+        mt-7
+        gap-8
       "
     >
       <div
@@ -111,14 +127,17 @@ export default defineComponent({
         "
       >
         <h1 class="p-2 text-xl font-bold text-p-gray-1000">Select size</h1>
-        <div class="flex justify-between p-2">
+        <div class="flex justify-between p-2" @click="size = 1">
           <div class="flex gap-4">
-            <p>Small</p>
+            <p class="cursor-default">Small</p>
           </div>
           <div class="flex gap-3">
-            <p>€2</p>
+            <p class="cursor-default">€0</p>
 
-            <div class="w-6 h-6 bg-p-red rounded-md">
+            <div
+              class="w-6 h-6 rounded-md cursor-pointer"
+              :class="size === 1 ? 'bg-p-red' : 'bg-gray-100'"
+            >
               <svg
                 class=""
                 xmlns="http://www.w3.org/2000/svg"
@@ -136,14 +155,17 @@ export default defineComponent({
             </div>
           </div>
         </div>
-        <div class="flex justify-between p-2">
+        <div class="flex justify-between p-2" @click="size = 2">
           <div class="flex gap-4">
-            <p>Medium</p>
+            <p class="cursor-default">Medium</p>
           </div>
           <div class="flex gap-3">
-            <p>€2</p>
+            <p class="cursor-default">€5</p>
 
-            <div class="w-6 h-6 bg-gray-100 rounded-md">
+            <div
+              class="w-6 h-6 rounded-md cursor-pointer"
+              :class="size === 2 ? 'bg-p-red' : 'bg-gray-100'"
+            >
               <svg
                 class=""
                 xmlns="http://www.w3.org/2000/svg"
@@ -161,14 +183,18 @@ export default defineComponent({
             </div>
           </div>
         </div>
-        <div class="flex justify-between p-2">
+        <div class="flex justify-between p-2" @click="size = 3">
           <div class="flex gap-4">
-            <p>Large</p>
+            <p class="cursor-default">Large</p>
           </div>
           <div class="flex gap-3">
-            <p>€2</p>
+            <p class="cursor-default">€10</p>
 
-            <div class="w-6 h-6 bg-gray-100 rounded-md">
+            <div
+              class="w-6 h-6 rounded-md cursor-pointer"
+              :class="size === 3 ? 'bg-p-red' : 'bg-gray-100'"
+              @click="size = 3"
+            >
               <svg
                 class=""
                 xmlns="http://www.w3.org/2000/svg"
@@ -193,15 +219,15 @@ export default defineComponent({
           @click="topping.stock === 0 ? null : highlightTopping(topping)"
           :key="index"
         >
-          <div class="flex gap-4">
+          <div class="flex gap-4 cursor-default">
             <img class="w-6 h-6" :src="topping.img_url" alt="" />
             <p>{{ topping.name }}</p>
           </div>
-          <div class="flex gap-3">
+          <div class="flex gap-3 cursor-default">
             <p>€{{ topping.price }}</p>
 
             <div
-              class="w-6 h-6 bg-p-red rounded-md"
+              class="w-6 h-6 bg-p-red rounded-md cursor-pointer"
               :class="{
                 'text-white bg-red-500':
                   highlightedToppingArr.includes(topping),
@@ -236,8 +262,8 @@ export default defineComponent({
               {{ pizza.name }}
             </h1>
             <p>{{ pizza.description }}</p>
-            <div class="flex justify-center mt-16">
-              <img class="w-96" src="../assets/images/forestiere-nobg.png" />
+            <div class="flex justify-center mt-10 lg:mt-16">
+              <img class="w-96" :src="pizza.img_url_nobg" />
             </div>
             <div></div>
           </section>

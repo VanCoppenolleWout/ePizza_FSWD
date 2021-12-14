@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, Ref, ref, toRefs } from 'vue'
+import { defineComponent, onBeforeUnmount, Ref, ref, toRefs } from 'vue'
 import { Order } from '../interfaces/order'
 
 export default defineComponent({
@@ -30,38 +30,33 @@ export default defineComponent({
         clearInterval(intervalId)
       } else {
         if (totalTime - currTime.value < totalTime / 4) {
-          console.log('first bar')
           width1.value = ((totalTime - currTime.value) / (totalTime / 4)) * 100
-          console.log(width1.value)
         } else if (totalTime - currTime.value < (totalTime / 4) * 2) {
-          console.log('second bar')
-          console.log(width2.value)
           width1.value = 100
           width2.value =
             ((totalTime - currTime.value - totalTime / 4) / (totalTime / 4)) *
             100
         } else if (totalTime - currTime.value < totalTime - totalTime / 4) {
-          console.log('third bar')
           width1.value = 100
           width2.value = 100
           width3.value =
             ((totalTime - currTime.value - (totalTime / 4) * 2) /
               (totalTime / 4)) *
             100
-          console.log(width3.value)
         } else {
           width1.value = 100
           width2.value = 100
           width3.value = 100
           width4.value =
             ((totalTime / 4 - currTime.value) / (totalTime / 4)) * 100
-
-          console.log(width4.value)
         }
       }
     }
     const intervalId = setInterval(progressBar, currTime.value / 100)
 
+    onBeforeUnmount(() => {
+      clearInterval(intervalId)
+    })
     return {
       delivery,
       width1,

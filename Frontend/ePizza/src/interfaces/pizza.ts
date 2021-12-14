@@ -8,6 +8,7 @@ export type Pizza = {
   price: number
   stock?: number
   img_url?: string
+  img_url_nobg?: string
   vegetarian?: boolean
   toppings: Array<Topping>
   description?: string

@@ -27,8 +27,8 @@ export class UserController {
   }
 
   @Get('admin')
-  @Roles(Role.Admin)
-  @UseGuards(FirebaseAuthGuard, RolesGuard)
+  // @Roles(Role.Admin)
+  // @UseGuards(FirebaseAuthGuard, RolesGuard)
   async checkAdmin(@Headers() headers) {
     return await this.userService.getAdmin(headers)
   }
@@ -38,7 +38,7 @@ export class UserController {
     return await this.userService.getUser(params.user_id)
   }
 
-  @Post(':user_id')
+  @Post('address/:user_id')
   async addAddress(@Param() params, @Body() body): Promise<User> {
     return await this.userService.addAddress(params.user_id, body)
   }

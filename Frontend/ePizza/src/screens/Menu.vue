@@ -18,7 +18,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="container mx-auto p-8 md:px-0 pb-36 lg:pb-10">
+  <div class="container mx-auto p-8 md:px-0 pb-40 lg:pb-10">
     <AppHeader />
 
     <div class="lg:mt-6 lg:flex lg:items-start lg:justify-between">

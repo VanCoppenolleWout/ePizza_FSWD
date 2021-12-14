@@ -45,9 +45,15 @@ export default defineComponent({
     const getUserAddress = async () => {
       try {
         if (firebaseUser.value) {
-          const data = await get(`/user/address/${firebaseUser.value.uid}`)
+          const data = await get(`/user/${firebaseUser.value.uid}`)
 
-          if (data.addresses) {
+          userId.value = firebaseUser.value.uid
+          user.name = data.name
+          user.lastname = data.lastname
+          user.email = data.email
+          userInputDisabled.value = true
+
+          if (data.addresses.length > 0) {
             address.city = data.addresses[0].city
             address.street = data.addresses[0].street
             address.zip_code = data.addresses[0].postal_code
@@ -55,11 +61,6 @@ export default defineComponent({
             addressId.value = data.addresses[0].address_id
             addressInputDisabled.value = true
           }
-          userId.value = firebaseUser.value.uid
-          user.name = data.name
-          user.lastname = data.lastname
-          user.email = data.email
-          userInputDisabled.value = true
         }
       } catch (error) {
         addressInputDisabled.value = true
@@ -220,7 +221,25 @@ export default defineComponent({
           </p>
         </div>
       </div>
-      <AppHeader />
+      <div>
+        <AppHeader />
+        <router-link to="/menu" class="hover:underline flex">
+          <svg
+            class="text-gray-700 stroke-current"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+          <p>Go back</p>
+        </router-link>
+      </div>
       <div class="md:flex items-start mt-12 pb-32">
         <div class="md:w-1/3 lg:mx-1 hidden md:block">
           <div class="md:h-80">

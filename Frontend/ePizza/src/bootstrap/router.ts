@@ -60,7 +60,6 @@ const routes: RouteRecordRaw[] = [
         /* webpackChunkName: "tracker/order_id"*/ '../screens/Tracker.vue'
       ),
     beforeEnter: (to, from, next) => {
-      console.log('here')
       if (to.params.order_id === undefined)
         next({
           name: 'notFound',
@@ -79,7 +78,6 @@ const routes: RouteRecordRaw[] = [
     name: 'tracker',
     props: true,
     beforeEnter: async (to, from, next) => {
-      console.log('wihotu id')
       if (to.params.order === undefined) next({ name: 'home' })
       else next()
     },

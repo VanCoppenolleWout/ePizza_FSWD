@@ -37,7 +37,6 @@ export default () => {
     return new Promise((resolve, reject) => {
       signInWithEmailAndPassword(auth, email, password)
         .then(async (userCredential) => {
-          console.log(userCredential)
           user.value = userCredential.user
           resolve(true)
         })
@@ -52,7 +51,6 @@ export default () => {
       try {
         auth.onAuthStateChanged(async (res) => {
           const { get } = fetchData()
-          console.log('auth restored')
           if (res !== null) {
             const admin = await get('/user/admin', await res?.getIdToken())
             store.dispatch(MutationTypes.setAdmin, admin.admin)

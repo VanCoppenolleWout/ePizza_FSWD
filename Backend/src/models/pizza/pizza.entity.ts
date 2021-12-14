@@ -33,6 +33,9 @@ export class Pizza {
   img_url?: string
   @Column()
   @Field()
+  img_url_nobg?: string
+  @Column()
+  @Field()
   vegetarian?: boolean
 
   @ManyToMany(() => Topping, (toppings) => toppings.pizzas, { cascade: true })

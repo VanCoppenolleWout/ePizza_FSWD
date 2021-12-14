@@ -14,33 +14,40 @@ export class UserService {
   ) {}
 
   async registerUser(user: User): Promise<Record<string, string>> {
-    const { name, lastname, email, password, phone_nr } = user
-    if (!name || !lastname || !email || !password || !phone_nr)
-      throw new HttpException(
-        'Not all fields are filled in',
-        HttpStatus.BAD_REQUEST,
-      )
+    try {
+      const { name, lastname, email, password, phone_nr } = user
+      if (!name || !lastname || !email || !password || !phone_nr)
+        throw new HttpException(
+          'Not all fields are filled in',
+          HttpStatus.BAD_REQUEST,
+        )
 
-    return await getAuth()
-      .createUser({
-        email: user.email,
-        password: user.password,
-      })
-      .then(async (firebaseUser) => {
-        // Firebase User succesfully created
-        user.user_id = firebaseUser.uid
-        // Save user in database
-        const res = await this.userRepository.save(user)
-        if (res)
-          return {
-            token: await getAuth().createCustomToken(firebaseUser.uid),
-          }
-        else
-          throw new HttpException(
-            'Not all fields are filled in',
-            HttpStatus.BAD_REQUEST,
-          )
-      })
+      return await getAuth()
+        .createUser({
+          email,
+          password,
+          displayName: name,
+        })
+        .then(async (firebaseUser) => {
+          // Firebase User succesfully created
+          user.user_id = firebaseUser.uid
+          // Save user in database
+          const res = await this.userRepository.save(user)
+          if (res)
+            return {
+              token: await getAuth().createCustomToken(firebaseUser.uid),
+            }
+          else
+            throw new HttpException(
+              'Not all fields are filled in',
+              HttpStatus.BAD_REQUEST,
+            )
+        })
+    } catch (error) {
+      //Remove user if saved in firebase
+      user.user_id ? getAuth().deleteUser(user.user_id) : null
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST)
+    }
   }
 
   async getAdmin(headers: any): Promise<Object> {
@@ -98,9 +105,11 @@ export class UserService {
 
     const user: User = await this.userRepository
       .createQueryBuilder('user')
-      .innerJoinAndSelect('user.addresses', 'address')
+      .leftJoinAndSelect('user.addresses', 'address')
       .where('user_id = :user_id', { user_id })
       .getOne()
+
+    console.log(user)
     if (!user)
       throw new HttpException(
         `Oops we couldn't find that user ..`,

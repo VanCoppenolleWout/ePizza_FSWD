@@ -5,6 +5,7 @@
     "price": 7,
     "stock": 10,
     "img_url": "https://cdn-catalog.pizzahut.be/images/be/20191009172830338.jpg",
+    "img_url_nobg": "https://firebasestorage.googleapis.com/v0/b/pizza-backend-67c13.appspot.com/o/Pizzas%2Fmargherita-nobg-min.png?alt=media&token=b4bd65ae-65b6-4edd-ba0a-61e4fafe9b17",
     "description": "With lots of mozzarella, fine slices of ham and tomato sauce",
     "vegetarian": true
   },
@@ -14,6 +15,7 @@
     "price": 8,
     "stock": 27,
     "img_url": "https://cdn-catalog.pizzahut.be/images/be/20191009172846486.jpg",
+    "img_url_nobg": "https://firebasestorage.googleapis.com/v0/b/pizza-backend-67c13.appspot.com/o/Pizzas%2Fpepperoni-nobg-min.png?alt=media&token=a1f5881f-a5a1-4dd5-9839-86a3142f2bf4",
     "description": "Lots of pepperoni sausage, mozzarella and tomato sauce",
     "vegetarian": false
   },
@@ -24,6 +26,7 @@
     "price": 8,
     "stock": 5,
     "img_url": "https://cdn-catalog.pizzahut.be/images/be/20191009172630262.jpg",
+    "img_url_nobg": "https://firebasestorage.googleapis.com/v0/b/pizza-backend-67c13.appspot.com/o/Pizzas%2Fcheeseham-nobg-min.png?alt=media&token=9140d2c1-2bf7-4a7c-bcf4-1baab821b0bb",
     "description": "With lots of mozzarella, fine slices of ham and tomato sauce",
     "vegetarian": false
   },
@@ -33,6 +36,7 @@
     "price": 9,
     "stock": 1,
     "img_url": "https://cdn-catalog.pizzahut.be/images/be/20191009172706434.jpg",
+    "img_url_nobg": "https://firebasestorage.googleapis.com/v0/b/pizza-backend-67c13.appspot.com/o/Pizzas%2Fforestiere-nobg-min.png?alt=media&token=a253d7ee-f89d-4262-b498-ba08ed06ec4f",
     "description": "Slices of ham, mushrooms, diced tomatoes, tomato sauce and mozzarella",
     "vegetarian": false
   },
@@ -42,6 +46,7 @@
     "price": 8,
     "stock": 3,
     "img_url": "https://cdn-catalog.pizzahut.be/images/be/20191009172748706.jpg",
+    "img_url_nobg": "https://firebasestorage.googleapis.com/v0/b/pizza-backend-67c13.appspot.com/o/Pizzas%2Fhawai-nobg-min.png?alt=media&token=10d4437f-6312-4da4-996a-f32ed845352c",
     "description": "Pineapple, slices of ham, mushrooms, mozzarella and tomato sauce",
     "vegetarian": false
   },
@@ -51,6 +56,7 @@
     "price": 8,
     "stock": 23,
     "img_url": "https://cdn-catalog.pizzahut.be/images/be/20191009172800331.jpg",
+    "img_url_nobg": "https://firebasestorage.googleapis.com/v0/b/pizza-backend-67c13.appspot.com/o/Pizzas%2Fhot%26spicy-nobg-min.png?alt=media&token=9c2c28aa-ea5f-465e-9a6a-c7fbe61f341d",
     "description": "Spicy beef, chili peppers, red onion, diced tomatoes, mozzarella and tomato sauce",
     "vegetarian": false
   },
@@ -60,6 +66,7 @@
     "price": 8.5,
     "stock": 25,
     "img_url": "https://cdn-catalog.pizzahut.be/images/be/20191009172607703.jpg",
+    "img_url_nobg": "https://firebasestorage.googleapis.com/v0/b/pizza-backend-67c13.appspot.com/o/Pizzas%2Fbarbecuechicken-nobg-min.png?alt=media&token=d2013ea4-ed31-4fad-a9ae-278102bc3b9a",
     "description": "Pieces of grilled chicken, mushrooms, green bell pepper, red onion, mozzarella and barbecue sauce",
     "vegetarian": false
   },
@@ -70,6 +77,7 @@
     "price": 8,
     "stock": 9,
     "img_url": "https://cdn-catalog.pizzahut.be/images/be/20191009172553904.jpg",
+    "img_url_nobg": "https://firebasestorage.googleapis.com/v0/b/pizza-backend-67c13.appspot.com/o/Pizzas%2Fbarbecue-nobg-min.png?alt=media&token=c8ec30c4-4d1d-4379-aac6-d8156896e4dc",
     "description": "Double portion of spicy beef, smoked bacon strips, red onion, mozzarella and barbecue sauce",
     "vegetarian": false
   },
@@ -79,7 +87,8 @@
     "price": 9,
     "stock": 7,
     "img_url": "https://cdn-catalog.pizzahut.be/images/be/20191009172911735.jpg",
-    "description": "Beef, pork, ham, pepperoni, mushrooms, green bell pepper, red onion, black olives, mozzarella and tomato sauceuce",
+    "img_url_nobg": "https://firebasestorage.googleapis.com/v0/b/pizza-backend-67c13.appspot.com/o/Pizzas%2Fpepperonisupreme-nobg-min.png?alt=media&token=2746bb94-c006-47d2-a78a-38054ef6ec32",
+    "description": "Beef, pork, ham, pepperoni, mushrooms, green bell pepper, red onion, black olives, mozzarella and tomato sauce",
     "vegetarian": false
   }
 ]

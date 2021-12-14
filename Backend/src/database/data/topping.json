@@ -4,14 +4,14 @@
     "name": "Pineapple",
     "price": 0.7,
     "stock": 20,
-    "img_url": "https://www.svgrepo.com/svg/122557/pineapple"
+    "img_url": "https://www.svgrepo.com/show/159683/pineapple.svg"
   },
   {
     "topping_id": "8c751f9f-8717-4315-ac01-144d40731d99",
     "name": "Mushrooms",
     "price": 1,
     "stock": 10,
-    "img_url": "https://www.svgrepo.com/svg/51726/mushroom"
+    "img_url": "https://www.svgrepo.com/show/43568/mushroom.svg"
   },
   {
     "topping_id": "8c751f9f-8717-4315-ac01-144d40731d97",

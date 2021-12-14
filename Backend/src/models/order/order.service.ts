@@ -74,6 +74,13 @@ export class OrderService {
       guest: guest,
     }
 
+    const price = pizzas.reduce((total, currentValue) => {
+      console.log(currentValue)
+      return total + currentValue.price
+    }, 0)
+
+    console.log(orderORM.pizzas)
+
     //Delivery or takeout ?
     let address: Address = new Address()
     if (typeof orderORM.address === 'string') {
