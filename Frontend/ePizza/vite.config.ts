@@ -1,10 +1,9 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import ViteFonts from 'vite-plugin-fonts'
 import { VitePWA, VitePWAOptions } from 'vite-plugin-pwa'
 
 const pwaOptions: Partial<VitePWAOptions> = {
-  registerType: 'autoUpdate',
+  registerType: 'prompt',
   includeAssets: [
     'favicon.png',
     'favicon.ico',
@@ -29,12 +28,6 @@ const pwaOptions: Partial<VitePWAOptions> = {
         sizes: '512x512',
         type: 'image/png',
       },
-      // {
-      //   src: 'pwa-512x512.png',
-      //   sizes: '512x512',
-      //   type: 'image/png',
-      //   purpose: 'any maskable',
-      // },
     ],
   },
   workbox: {
@@ -45,11 +38,10 @@ const pwaOptions: Partial<VitePWAOptions> = {
   outDir: 'dist',
   filename: 'sw.ts',
   strategies: 'injectManifest',
-
 }
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), VitePWA(pwaOptions)],
+  plugins: [vue()],
 
   server: {
     port: 8888,

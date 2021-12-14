@@ -1,5 +1,6 @@
 import { User } from '@firebase/auth'
 import { Address } from './address'
+import { Guest } from './guest'
 import { Pizza } from './pizza'
 import { pizzaSizeTopping } from './pizzasizetopping'
 
@@ -11,7 +12,7 @@ export interface Order {
   delivery_cost: number
 
   address: Address | null
-  guest?: string
+  guest?: Guest
   user?: User
   pizzaSizeToppings: Array<pizzaSizeTopping>
 }

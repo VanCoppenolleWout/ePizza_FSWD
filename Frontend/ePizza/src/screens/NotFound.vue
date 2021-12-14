@@ -1,10 +1,16 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, Ref, ref } from 'vue'
+import { useRoute } from 'vue-router'
 import AppHeader from '../components/AppHeader.vue'
 
 export default defineComponent({
-  setup() {},
+  setup(context) {
+    // const error: Ref<string | undefined> = ref(context.error)
+  },
   components: { AppHeader },
+  props: {
+    error: String,
+  },
 })
 </script>
 
@@ -27,7 +33,10 @@ export default defineComponent({
         src="../assets/images/pizza-bg.png"
         alt=""
       />
-      <div class="flex flex-col justify-center items-start" style="height: 60vh">
+      <div
+        class="flex flex-col justify-center items-start"
+        style="height: 60vh"
+      >
         <section
           class="flex flex-col justify-center items-start"
           style="max-width: 40rem"
@@ -51,7 +60,10 @@ export default defineComponent({
           <h1 class="font-semibold text-5xl md:text-7xl text-red-700 mt-8">
             Oh no, Error 404!
           </h1>
-          <p class="text-2xl mt-6">
+          <p v-if="error" class="text-2xl mt-6">
+            {{ error }}
+          </p>
+          <p v-else class="text-2xl mt-6">
             You came across our secret page... Maybe you are in the wrong spot?
           </p>
           <div

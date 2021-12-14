@@ -6,6 +6,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm'
+import { Guest } from '../guest/guest.entity'
 import { Order } from '../order/order.entity'
 import { User } from '../user/user.entity'
 
@@ -29,4 +30,8 @@ export class Review {
   @OneToOne(() => Order)
   @JoinColumn({ name: 'order_id' })
   order?: Order
+
+  @OneToOne(() => Guest)
+  @JoinColumn({ name: 'guest_id' })
+  guest?: Guest
 }

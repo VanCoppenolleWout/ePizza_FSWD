@@ -20,6 +20,7 @@
     "vue-mapbox": "^0.4.1",
     "vue-moment": "^4.1.0",
     "vue-router": "^4.0.12",
+    "vue3-lazy": "^1.0.0-alpha.1",
     "vuex": "^4.0.2"
   },
   "devDependencies": {

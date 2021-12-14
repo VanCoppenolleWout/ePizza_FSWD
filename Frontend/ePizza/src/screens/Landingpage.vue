@@ -7,6 +7,7 @@ import LoginComponent from '../components/LoginComponenet.vue'
 import BannerComponent from '../components/BannerComponent.vue'
 import { TimelineLite } from 'gsap'
 import { useRouter } from 'vue-router'
+import Image from '../components/Image.vue'
 
 export default defineComponent({
   setup(props) {
@@ -33,11 +34,14 @@ export default defineComponent({
     //   timeline.from('.animation3', { y: '-50px', opacity: 0 }, '-=0.2')
     // })
 
+    const link = 'src/assets/images/pizza-bg.png'
+
     return {
       userRegistered,
       closeTab,
       handleCarryout,
       handleDelivery,
+      link,
     }
   },
   components: {
@@ -46,6 +50,7 @@ export default defineComponent({
     LoginComponent,
     BannerComponent,
     Map,
+    Image,
   },
   props: {
     userCreated: String,
@@ -62,6 +67,7 @@ export default defineComponent({
       <div class="md:mt-32 mt-16">
         <img
           class="
+            lazyload
             absolute
             pizza-image
             hidden
@@ -73,9 +79,10 @@ export default defineComponent({
             duration-300
             img
           "
-          src="../assets/images/pizza-bg.png"
+          v-lazy="link"
           alt=""
         />
+        <!-- <Image source="src/assets/images/pizza-bg.png" /> -->
 
         <header id="header" class="m-w-top">
           <h1 class="font-semibold text-5xl md:text-6xl animation1">
@@ -140,7 +147,6 @@ export default defineComponent({
                 cursor-default
                 lg:justify-self-start
                 animation2
-                h-52
               "
             >
               <h2 class="text-xl font-medium">
@@ -165,7 +171,6 @@ export default defineComponent({
                 cursor-default
                 lg:justify-self-end
                 animation2
-                h-52
               "
             >
               <h2 class="text-xl font-medium">

@@ -52,6 +52,7 @@ export default () => {
       try {
         auth.onAuthStateChanged(async (res) => {
           const { get } = fetchData()
+          console.log('auth restored')
           if (res !== null) {
             const admin = await get('/user/admin', await res?.getIdToken())
             store.dispatch(MutationTypes.setAdmin, admin.admin)

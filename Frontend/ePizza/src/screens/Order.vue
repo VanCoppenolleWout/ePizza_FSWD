@@ -79,6 +79,7 @@ export default defineComponent({
             address: addressId.value,
             pizzas: pizzas,
             time_preference: date,
+            payment_method: paymentOption.value,
           }
           data = await post('/order', body)
           handleRoute(data)
@@ -105,6 +106,7 @@ export default defineComponent({
                   : undefined,
               pizzas: pizzas,
               time_preference: date,
+              payment_method: paymentOption.value,
             }
             data = await post('/order', body)
             handleRoute(data)
@@ -136,6 +138,7 @@ export default defineComponent({
                   : undefined,
               pizzas: pizzas,
               time_preference: date,
+              payment_method: paymentOption.value,
             }
 
             data = await post('/order', body)
@@ -147,12 +150,10 @@ export default defineComponent({
 
     const handleRoute = (data: any) => {
       deletePizzasLocal()
-      setTimeout(() => {
-        router.push({
-          name: 'tracker',
-          params: { order: JSON.stringify(data) },
-        })
-      }, 1000)
+      router.push({
+        name: 'tracker',
+        params: { order: JSON.stringify(data) },
+      })
     }
 
     getUserAddress()

@@ -39,10 +39,10 @@ export default defineComponent({
           </div>
         </div>
         <div class="w-28 lg:w-auto">
-          <h3 class="text-gray-700 text-xl font-semibold mb-2 text-right">
+          <h3 class="text-gray-700 text-xl font-semibold mb-2 sm:text-right">
             Payment method
           </h3>
-          <p class="text-right">Bancontact App</p>
+          <p class="sm:text-right">Bancontact App</p>
         </div>
       </div>
       <div class="">

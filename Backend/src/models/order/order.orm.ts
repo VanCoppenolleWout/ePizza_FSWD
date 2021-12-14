@@ -3,6 +3,7 @@ export interface OrderORM {
   address: AddressORM | string | undefined
   pizzas: Pizzas[]
   time_preference: Date
+  payment_method: string
 }
 
 export interface Pizzas {

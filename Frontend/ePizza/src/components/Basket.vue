@@ -204,7 +204,7 @@ export default defineComponent({
             </svg>
           </div>
         </div>
-        <div v-if="pizzas.length == 0">
+        <div class="lg:h-72" v-if="pizzas.length == 0">
           <p>Add items to the order.</p>
         </div>
         <div

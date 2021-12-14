@@ -1,11 +1,13 @@
 <script lang="ts">
 import { computed, defineComponent, Ref, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { useStore } from '../store/store'
 
 export default defineComponent({
   setup() {
     const { store } = useStore()
     const menuActive: Ref<boolean> = ref(false)
+    const router = useRouter()
 
     const username = ref<string>('')
 
@@ -24,6 +26,16 @@ export default defineComponent({
         username.value = user.value.email
       } else username.value = 'Administrator'
     }
+
+    const handleDelivery = () => {
+      localStorage.setItem('delivery', 'true')
+      router.push('/menu')
+    }
+
+    const handleCarryout = () => {
+      localStorage.setItem('delivery', 'false')
+      router.push('/menu')
+    }
     decideName()
 
     return {
@@ -31,6 +43,8 @@ export default defineComponent({
       admin,
       username,
       menuActive,
+      handleDelivery,
+      handleCarryout,
     }
   },
 
@@ -138,7 +152,7 @@ export default defineComponent({
       </svg>
     </div>
   </div>
-  <div class="relative" v-else>
+  <div class="" v-else>
     <div class="flex flex-row justify-between items-center">
       <router-link to="/" class="cursor-pointer font-bold text-3xl text-p-red"
         >ePizza</router-link
@@ -265,53 +279,113 @@ export default defineComponent({
         </svg>
       </div>
     </div>
-    <!-- <ul class="bg-p-red text-white absolute w-full z-10" > -->
     <transition-group
-      class="absolute w-full z-10 md:hidden"
+      class="absolute left-0 right-0 w-full z-10 md:hidden"
       name="list"
       tag="ul"
-      ><li
-        class="p-2 rounded-t-md bg-white left-0 shadow-lg"
+    >
+      <div
+        to="/"
+        class="p-4 bg-red-400 text-lg text-white left-0 shadow-lg h-16"
         :style="menuActive === true ? '' : 'transition-delay: 0.3s'"
         :key="1"
         v-show="menuActive"
       >
-        Menu
-      </li>
+        <router-link
+          to="/"
+          class="flex items-center justify-center gap-2"
+          @click="menuActive = !menuActive"
+        >
+          <div>
+            <img
+              class="w-8"
+              src="../assets/images/pizza-bg.png"
+              alt="pizza logo"
+            />
+          </div>
+          <p class="text-lg font-bold">ePizza</p>
+        </router-link>
+      </div>
+
       <li
-        class="p-2 bg-white left-0 shadow-lg"
+        class="
+          items-center
+          h-16
+          p-4
+          bg-red-400
+          font-bold
+          text-white
+          left-0
+          shadow-lg
+          flex
+          justify-center
+        "
         :style="
           menuActive === true
             ? 'transition-delay: 0.1s'
             : 'transition-delay: 0.2s'
         "
-        :key="2"
+        :key="3"
         v-show="menuActive"
+        @click="
+          () => {
+            handleDelivery()
+            menuActive = !menuActive
+          }
+        "
       >
         Delivery
       </li>
       <li
-        class="p-2 bg-white left-0 shadow-lg"
+        class="
+          items-center
+          p-4
+          h-16
+          bg-red-400
+          font-bold
+          text-white
+          left-0
+          shadow-lg
+          flex
+          justify-center
+        "
         :style="
           menuActive === true
             ? 'transition-delay: 0.2s'
             : 'transition-delay: 0.1s'
         "
-        :key="3"
+        :key="4"
         v-show="menuActive"
+        @click="
+          () => {
+            handleCarryout()
+            menuActive = !menuActive
+          }
+        "
       >
         Carryout
       </li>
       <li
-        class="p-2 rounded-b-md bg-white left-0 shadow-lg"
+        class="
+          p-4
+          h-16
+          bg-red-400
+          font-bold
+          text-white
+          left-0
+          shadow-lg
+          flex
+          justify-center
+          items-center
+        "
         :style="menuActive === true ? 'transition-delay: 0.3s' : ''"
-        :key="4"
+        :key="5"
         v-show="menuActive"
+        @click="menuActive = !menuActive"
       >
-        Menu
+        <router-link to="/menu"> Menu </router-link>
       </li></transition-group
     >
-    <!-- </ul> -->
   </div>
 </template>
 

@@ -27,7 +27,7 @@ export default defineComponent({
         width2.value = 100
         width3.value = 100
         width4.value = 100
-        clearInterval(id)
+        clearInterval(intervalId)
       } else {
         if (totalTime - currTime.value < totalTime / 4) {
           console.log('first bar')
@@ -60,7 +60,7 @@ export default defineComponent({
         }
       }
     }
-    const id = setInterval(progressBar, currTime.value / 100)
+    const intervalId = setInterval(progressBar, currTime.value / 100)
 
     return {
       delivery,

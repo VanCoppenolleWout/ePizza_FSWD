@@ -2,94 +2,58 @@
 import { defineComponent, Ref, ref } from 'vue'
 import InputComponent from '../components/InputComponent.vue'
 import { fetchData } from '../composables/useNetwork'
+import { Order } from '../interfaces/order'
 import { Review } from '../interfaces/review'
 import { postReview } from '../utils/network'
 
 export default defineComponent({
-  setup() {
-    let title: Ref<string | null> = ref(null)
-    let text: Ref<any> = ref(null)
-    let finalRating: Ref<string | null> = ref(null)
-    let errorMsg: Ref<string> = ref('')
-    let formstate: Ref<boolean> = ref(true)
+  setup(context) {
+    const title: Ref<string | null> = ref(null)
+    const text: Ref<any> = ref(null)
+    const errorMsg: Ref<string> = ref('')
+    const formstate: Ref<boolean> = ref(true)
+    const stars: Ref<number> = ref(0)
 
-    const { get } = fetchData()
+    const { post } = fetchData()
 
-    let ratingAr: any = ref([
-      { id: 1 },
-      { id: 2 },
-      { id: 3 },
-      { id: 4 },
-      { id: 5 },
-    ])
-
-    let highlightedRatingAr: any = []
-    let tempAr: any = ref([])
-
-    const selectRating = (rating: any) => {
-      finalRating.value = rating.id
-      var output = ratingAr.value.filter(
-        (ratingAr: { id: string }) => ratingAr.id <= rating.id,
-      )
-
-      highlightedRatingAr = []
-      highlightedRatingAr.push(output)
-
-      tempAr.value = highlightedRatingAr[0]
-    }
+    const { order }: { order: Order } = context
 
     const handleReview = async () => {
-      console.log(finalRating.value, text.value, title.value)
-      if (
-        title.value === null ||
-        text.value === null ||
-        finalRating.value === null
-      ) {
+      if (title.value === null || text.value === null || stars.value === 0) {
         errorMsg.value = 'Please fill in all fields'
         console.log('iets is leeg')
       } else {
         errorMsg.value = ''
-        console.log('submit review')
-        let review: Review = {
-          order_id: 'e1cf4f2c-f289-4ad7-b15c-a3eb6be7bdab',
-          user_id: 'Fry7xgzP2MQM79iZNhC35oCZDIL2',
+        const review: Review = {
+          order_id: order.order_id,
+          user_id: undefined,
+          guest_id: order.guest?.guest_id,
           title: title.value,
           description: text.value,
-          stars: parseInt(finalRating.value),
+          stars: stars.value,
         }
-        let submitReview = await postReview('review', review)
+        const submitReview = await postReview('review', review)
 
-        const reviewCheck = await get(`/review/order/${review.order_id}`)
-        if (reviewCheck !== undefined) {
-          formstate.value = false
-        }
+        console.log(submitReview)
       }
-
-      const initialReviewCheck = async () => {
-        const reviewCheck = await get(
-          `/review/order/e1cf4f2c-f289-4ad7-b15c-a3eb6be7bdab`,
-        )
-        console.log(reviewCheck, 'log2')
-        if (reviewCheck !== undefined) {
-          formstate.value = false
-        }
-      }
-
-      initialReviewCheck()
     }
 
     return {
-      ratingAr,
-      tempAr,
+      stars,
       title,
       text,
       formstate,
-      selectRating,
       handleReview,
     }
   },
   components: {
     InputComponent,
+  },
+  props: {
+    order: {
+      type: Object as () => Order,
+      required: true,
+    },
   },
 })
 </script>
@@ -104,12 +68,12 @@ export default defineComponent({
         <div>
           <div></div>
           <div>
-            <ul id="review" class="mt-4 flex space-x-4">
+            <ul id="review" class="mt-4 flex sm:gap-4 gap-2 flex-wrap">
               <li
-                v-for="(rating, index) in ratingAr"
+                v-for="index in 5"
                 :key="index"
-                @click="selectRating(rating)"
-                @mouseover="selectRating(rating)"
+                @click="stars = index"
+                @mouseover="stars = index"
                 class="
                   block
                   cursor-pointer
@@ -123,9 +87,7 @@ export default defineComponent({
                   ease-out
                   duration-300
                 "
-                :class="
-                  tempAr.includes(rating) ? 'bg-yellow-100' : 'bg-primary'
-                "
+                :class="index <= stars ? 'bg-yellow-100' : 'bg-primary'"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -200,7 +162,7 @@ export default defineComponent({
       <button
         class="
           bg-p-red
-          w-1/2
+          w-full
           rounded-md
           text-white
           font-semibold

@@ -9,6 +9,7 @@ import { Topping } from '../topping/topping.entity'
 import { getAuth } from 'firebase-admin/auth'
 import { Address } from '../address/address.entity'
 import { Guest } from '../guest/guest.entity'
+import crypto from 'crypto'
 
 @Injectable()
 export class OrderService {
@@ -54,8 +55,11 @@ export class OrderService {
       .leftJoin('pizza.toppings', 'topping')
       .getMany()
 
+    //order_id
+    const order_id = crypto.randomBytes(8).toString('base64')
     //Create the order
     const order: Order = {
+      order_id,
       delivery_date: orderORM.time_preference
         ? orderORM.time_preference
         : new Date(),
@@ -65,6 +69,7 @@ export class OrderService {
         (total, currentValue) => total + currentValue.price,
         0,
       ),
+      payment_method: orderORM.payment_method,
       user: user,
       guest: guest,
     }
@@ -97,7 +102,7 @@ export class OrderService {
 
     //Save order
     const result = await this.orderRepository.save(order)
-    const order_id = result.order_id
+    // const order_id = result.order_id
 
     let toppings: Array<Array<Topping>>
 
@@ -217,9 +222,11 @@ export class OrderService {
   async getOne(order_id: string) {
     return await this.orderRepository
       .createQueryBuilder('order')
-      .select(['order.order_id', 'order.order_date'])
+      .select(['order.order_id', 'order.order_date', 'order.delivery_date'])
       .addSelect(['user.user_id', 'user.name', 'user.lastname'])
-      .innerJoin('order.user', 'user')
+      .leftJoinAndSelect('order.user', 'user')
+      .addSelect(['guest.guest_id', 'guest.name', 'guest.lastname'])
+      .leftJoinAndSelect('order.guest', 'guest')
       .addSelect('pizzaSizeTopping.order_id')
       .innerJoin('order.pizzaSizeToppings', 'pizzaSizeTopping')
       .innerJoinAndSelect('pizzaSizeTopping.pizza', 'pizza')

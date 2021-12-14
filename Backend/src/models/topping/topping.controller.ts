@@ -29,4 +29,9 @@ export class ToppingController {
   async updateStockMultiple(@Body() body): Promise<any> {
     return await this.toppingService.updateStockMultiple(body)
   }
+
+  // @Put('/topping/price')
+  // async updateStockMultiple(@Body() body): Promise<any> {
+  //   return await this.toppingService.updateStockMultiple(body)
+  // }
 }

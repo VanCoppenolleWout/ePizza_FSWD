@@ -54,14 +54,33 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
-    path: '/tracker/',
+    path: '/tracker/:order_id',
+    component: () =>
+      import(
+        /* webpackChunkName: "tracker/order_id"*/ '../screens/Tracker.vue'
+      ),
+    beforeEnter: (to, from, next) => {
+      console.log('here')
+      if (to.params.order_id === undefined)
+        next({
+          name: 'notFound',
+          params: {
+            error: `Oops we couldn't find your order, are you sure you put in the right order id?`,
+          },
+        })
+
+      next()
+    },
+  },
+  {
+    path: '/tracker',
     component: () =>
       import(/* webpackChunkName: "tracker"*/ '../screens/Tracker.vue'),
     name: 'tracker',
     props: true,
-    beforeEnter: (to, from, next) => {
-      if (to.query.id === undefined && to.params.order === undefined)
-        next({ name: 'home' })
+    beforeEnter: async (to, from, next) => {
+      console.log('wihotu id')
+      if (to.params.order === undefined) next({ name: 'home' })
       else next()
     },
   },
