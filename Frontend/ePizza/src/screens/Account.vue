@@ -11,7 +11,7 @@ import {
   ref as stRef,
   uploadBytes,
 } from 'firebase/storage'
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref, watch, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
 import AppHeader from '../components/AppHeader.vue'
 import useFirebase from '../composables/useFirebase'
@@ -26,6 +26,18 @@ export default defineComponent({
     const user = computed(() => {
       return store.getters.getUser
     })
+
+    watchEffect(() => {
+      console.log(user)
+    })
+
+    // watch(
+    //   () => user.value,
+    //   (count, prevCount) => {
+    //     /* ... */
+    //     console.log(user.value, count, prevCount)
+    //   },
+    // )
 
     let nameInput = ref<boolean>(false)
     let emailInput = ref<boolean>(false)
@@ -208,7 +220,7 @@ export default defineComponent({
           />
         </label>
 
-        <p class="text-2xl md:text-3xl font-medium">{{ user.displayName }}</p>
+        <p class="text-2xl md:text-3xl font-semibold">{{ user.displayName }}</p>
       </div>
       <section class="mt-6 md:mt-10 bg-white rounded-2xl p-8">
         <h1 class="font-semibold text-2xl">Account details</h1>
@@ -224,19 +236,26 @@ export default defineComponent({
               name=""
               valua=""
               id=""
-              placeholder="Wout Vancoppenolle"
+              :placeholder="user.displayName"
               v-model="displayName"
-              class=" outline-none border border-gray-300 py-1 px-4 rounded-lg md:w-96"
+              class="
+                outline-none
+                border border-gray-300
+                py-1
+                px-4
+                rounded-lg
+                md:w-96
+              "
             />
             <div class="flex flex-row space-x-4">
               <button
                 v-if="nameInput"
-                @click="nameInput = false"
+                @click=";(nameInput = false), (displayName = user.displayName)"
                 class="px-5 py-2 rounded-lg text-white font-medium"
                 style="background-color: #d2222d"
               >
                 <svg
-                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns="http://www.w3.org/2000/svg" 
                   width="24"
                   height="24"
                   viewBox="0 0 24 24"
@@ -293,12 +312,19 @@ export default defineComponent({
               id=""
               placeholder="Wout Vancoppenolle"
               v-model="email"
-              class=" outline-none border border-gray-300 py-1 px-4 rounded-lg md:w-96"
+              class="
+                outline-none
+                border border-gray-300
+                py-1
+                px-4
+                rounded-lg
+                md:w-96
+              "
             />
             <div class="flex flex-row space-x-4">
               <button
                 v-if="emailInput"
-                @click="emailInput = false"
+                @click=";(emailInput = false), (email = user.email)"
                 class="px-5 py-2 rounded-lg text-white font-medium"
                 style="background-color: #d2222d"
               >
@@ -358,7 +384,14 @@ export default defineComponent({
               id=""
               placeholder="●●●●●●●●"
               v-model="password"
-              class=" outline-none border border-gray-300 py-1 px-4 rounded-lg md:w-96"
+              class="
+                outline-none
+                border border-gray-300
+                py-1
+                px-4
+                rounded-lg
+                md:w-96
+              "
             />
             <div class="flex flex-row space-x-4">
               <button
