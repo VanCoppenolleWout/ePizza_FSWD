@@ -188,7 +188,7 @@ export default defineComponent({
               rounded-full
               flex
               bg-gray-300
-              hover:bg-gray-400
+              hover:opacity-70
               cursor-pointer
               w-16
               md:w-24
@@ -222,9 +222,11 @@ export default defineComponent({
               v-if="nameInput"
               type="text"
               name=""
+              valua=""
               id=""
               placeholder="Wout Vancoppenolle"
               v-model="displayName"
+              class=" outline-none border border-gray-300 py-1 px-4 rounded-lg md:w-96"
             />
             <div class="flex flex-row space-x-4">
               <button
@@ -291,6 +293,7 @@ export default defineComponent({
               id=""
               placeholder="Wout Vancoppenolle"
               v-model="email"
+              class=" outline-none border border-gray-300 py-1 px-4 rounded-lg md:w-96"
             />
             <div class="flex flex-row space-x-4">
               <button
@@ -355,6 +358,7 @@ export default defineComponent({
               id=""
               placeholder="●●●●●●●●"
               v-model="password"
+              class=" outline-none border border-gray-300 py-1 px-4 rounded-lg md:w-96"
             />
             <div class="flex flex-row space-x-4">
               <button
