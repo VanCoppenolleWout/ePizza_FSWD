@@ -8,6 +8,7 @@ import BannerComponent from '../components/BannerComponent.vue'
 import { TimelineLite } from 'gsap'
 import { useRouter } from 'vue-router'
 import Image from '../components/Image.vue'
+// import t from 'vue-i18n';
 
 export default defineComponent({
   setup(props) {
@@ -86,13 +87,14 @@ export default defineComponent({
 
         <header id="header" class="m-w-top">
           <h1 class="font-semibold text-5xl md:text-6xl animation1">
-            Newest, freshest and best pizza in
-            <span class="text-red-500">Kortrijk</span>.
+            {{ $t('landing_title') }}
+            <span class="text-red-500">{{ $t('landing_title2') }}</span
+            >.
           </h1>
           <h2 class="font-medium text-2xl pt-10 animation1">
-            Always wanted to try the freshest pizza in the whole wide world?
-            Wait no longer and taste for
-            <span class="text-red-500">youself</span>.
+            {{ $t('landing_subtitle') }}
+            <span class="text-red-500">{{ $t('landing_subtitle2') }}</span
+            >.
           </h2>
           <div class="flex flex-row items-center space-x-5 mt-6 animation1">
             <button
@@ -106,9 +108,9 @@ export default defineComponent({
               "
               @click="handleDelivery"
             >
-              DELIVERY
+              {{ $t('btn_delivery') }}
             </button>
-            <p class="font-semibold">OR</p>
+            <p class="font-semibold">{{ $t('landing_or') }}</p>
             <button
               class="
                 rounded-xl
@@ -120,7 +122,7 @@ export default defineComponent({
               "
               @click="handleCarryout"
             >
-              CARRYOUT
+              {{ $t('btn_carryout') }}
             </button>
           </div>
         </header>
@@ -150,12 +152,11 @@ export default defineComponent({
               "
             >
               <h2 class="text-xl font-medium">
-                New and <span class="text-p-red">improved</span>
+                {{ $t('services_title1-1') }}
+                <span class="text-p-red">{{ $t('services_title1-2') }}</span>
               </h2>
               <p class="font-light">
-                As a new company we strive to make the user experience a better
-                experience with ePizza. We do this by placing the customer in
-                the first place.
+                {{ $t('services_text1') }}
               </p>
             </div>
             <div
@@ -174,12 +175,11 @@ export default defineComponent({
               "
             >
               <h2 class="text-xl font-medium">
-                Always <span class="text-p-red">fresh</span>
+                {{ $t('services_title2-1') }}
+                <span class="text-p-red">{{ $t('services_title2-2') }}</span>
               </h2>
               <p class="font-light">
-                We keep a promise to always use the freshest products for our
-                artisanal pizza's. Our goal is to be the freshest in Kortrijk
-                and surrounding cities.
+                {{ $t('services_text2') }}
               </p>
             </div>
             <div
@@ -198,12 +198,11 @@ export default defineComponent({
               "
             >
               <h2 class="text-xl font-medium">
-                <span class="text-p-red">Fastest</span> in Kortrijk
+                <span class="text-p-red">{{ $t('services_title3-1') }}</span>
+                {{ $t('services_title3-2') }}
               </h2>
               <p class="font-light">
-                To compete with other companies we have hired a highly skilled
-                workforce on the workfloor as well as on the streets so that you
-                don't have to endlessly wait for your fresh pizza.
+                {{ $t('services_text3') }}
               </p>
             </div>
             <div
@@ -222,11 +221,11 @@ export default defineComponent({
               "
             >
               <h2 class="text-xl font-medium">
-                Ready for the<span class="text-p-red"> Future</span>
+                {{ $t('services_title4-1')
+                }}<span class="text-p-red"> {{ $t('services_title4-2') }}</span>
               </h2>
               <p class="font-light">
-                Our business relies on the web. Therefore we use the latest and
-                greatest web technologies like Vue 3.
+                {{ $t('services_text4') }}
               </p>
             </div>
           </div>
@@ -240,8 +239,8 @@ export default defineComponent({
             "
           >
             <div class="space-y-3" id="contact">
-              <h1 class="text-p-red font-semibold text-3xl">Any Questions?</h1>
-              <h2 class="font-medium text-2xl">Contact us anytime.</h2>
+              <h1 class="text-p-red font-semibold text-3xl">{{ $t('landing_questions') }}</h1>
+              <h2 class="font-medium text-2xl">{{ $t('landing_contact') }}</h2>
             </div>
             <div
               class="
@@ -258,7 +257,7 @@ export default defineComponent({
               style="width: 27rem"
             >
               <div>
-                <p class="text-p-gray-200 font-medium">SEND US AN EMAIL</p>
+                <p class="text-p-gray-200 font-medium">{{ $t('landing_mail') }}</p>
                 <p class="text-xl font-medium">info@epizza.com</p>
               </div>
               <a href="mailto:info@epizza.com">

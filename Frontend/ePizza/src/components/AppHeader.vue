@@ -179,7 +179,7 @@ export default defineComponent({
               "
               href="#services"
             >
-              Services
+              {{ $t('header_services') }}
             </a>
             <router-link
               to="/menu"
@@ -205,7 +205,7 @@ export default defineComponent({
               "
               href="#contact"
             >
-              Contact
+              {{ $t('header_contact') }}
             </a>
           </div>
         </div>
@@ -332,7 +332,7 @@ export default defineComponent({
           }
         "
       >
-        Delivery
+        {{ $t('header_delivery') }}
       </li>
       <li
         class="
@@ -361,7 +361,7 @@ export default defineComponent({
           }
         "
       >
-        Carryout
+        {{ $t('header_carryout') }}
       </li>
       <li
         class="

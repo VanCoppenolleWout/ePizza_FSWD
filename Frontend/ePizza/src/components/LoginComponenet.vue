@@ -129,7 +129,7 @@ export default defineComponent({
             />
             <InputComponent
               id="password"
-              placeholder="●●●●●●●●"
+              placeholder="●●●●●●●"
               type="password"
               label="password"
               :full="true"
