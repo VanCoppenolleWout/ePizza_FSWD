@@ -7,7 +7,7 @@ import { signUp } from '../utils/network'
 import InputComponent from './InputComponent.vue'
 
 export default defineComponent({
-  setup() {
+  setup(context) {
     let name: Ref<string> = ref('')
     let lastname: Ref<string> = ref('')
     let email: Ref<string> = ref('')
@@ -82,6 +82,11 @@ export default defineComponent({
     }
   },
   components: { InputComponent },
+  props: {
+    callMe: {
+      type: Function,
+    },
+  },
 })
 </script>
 
@@ -205,7 +210,7 @@ export default defineComponent({
 
       <div class="mt-32">
         <div
-          class="mb-2 text-red-500 flex justify-center -mt-8 text-center"
+          class="mb-2 text-red-500 flex justify-center -mt-8 text-center error"
           v-if="errorMsg"
         >
           {{ errorMsg }}
@@ -214,6 +219,7 @@ export default defineComponent({
         <div class="flex justify-center">
           <button
             class="
+              button
               cursor-pointer
               max-w-sm
               w-full

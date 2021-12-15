@@ -67,7 +67,7 @@ export default defineComponent({
       @input="handleInput"
       :disabled="disabled"
     />
-    <div class="text-red-500 absolute mt-1" v-if="errorMsg">
+    <div class="text-red-500 absolute mt-1 input-error" v-if="errorMsg">
       This field is required
     </div>
   </div>
