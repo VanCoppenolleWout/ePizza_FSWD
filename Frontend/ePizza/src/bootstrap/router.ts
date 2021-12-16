@@ -26,6 +26,11 @@ const routes: RouteRecordRaw[] = [
       import(/* webpackChunkName: "register"*/ '../screens/Register.vue'),
   },
   {
+    path: '/forgotpassword',
+    component: () =>
+      import(/* webpackChunkName: "register"*/ '../screens/ForgotPassword.vue'),
+  },
+  {
     path: '/login',
     component: () =>
       import(/* webpackChunkName: "login"*/ '../screens/Login.vue'),

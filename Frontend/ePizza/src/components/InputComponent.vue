@@ -51,6 +51,9 @@ export default defineComponent({
         border-2
         p-2
         px-4
+        hover:border-red-200
+        active:border-red-200
+        focus:border-red-200
       "
       :class="
         id === 'email' || full

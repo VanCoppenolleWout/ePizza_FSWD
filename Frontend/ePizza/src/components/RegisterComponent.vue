@@ -126,9 +126,8 @@ export default defineComponent({
       "
     >
       <div class="flex items-center mb-10">
-        <routerLink to="/">
+        <routerLink to="/login">
           <svg
-            class="inline-block cursor-pointer"
             xmlns="http://www.w3.org/2000/svg"
             width="32"
             height="32"
@@ -139,8 +138,9 @@ export default defineComponent({
             stroke-linecap="round"
             stroke-linejoin="round"
           >
-            <path d="M19 12H6M12 5l-7 7 7 7" /></svg
-        ></routerLink>
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+        </routerLink>
 
         <h3
           class="

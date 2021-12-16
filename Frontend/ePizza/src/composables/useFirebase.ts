@@ -8,6 +8,7 @@ import {
   signOut,
   User,
   signInWithCustomToken,
+  sendPasswordResetEmail,
 } from 'firebase/auth'
 import { Ref, ref, readonly } from 'vue'
 import { ActionTypes, MutationTypes, store } from '../store/store'
@@ -88,11 +89,22 @@ export default () => {
     return signOut(auth)
   }
 
+  const resetPassword = (email: string) => {
+    return new Promise((resolve, reject) => {
+      sendPasswordResetEmail(auth, email)
+        .then(() => {
+          resolve(true)
+        })
+        .catch((error) => resolve(false))
+    })
+  }
+
   return {
     login,
     logout,
     loginId,
     restoreAuth,
+    resetPassword,
 
     user: readonly(user),
   }

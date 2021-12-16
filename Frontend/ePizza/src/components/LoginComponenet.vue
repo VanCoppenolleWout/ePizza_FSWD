@@ -139,7 +139,9 @@ export default defineComponent({
 
           <div class="flex flex-row justify-between">
             <div></div>
-            <button class="underline">Forgot password?</button>
+            <router-link to="/forgotpassword" class="underline"
+              >Forgot password?</router-link
+            >
           </div>
 
           <div class="mt-20 mb-7">
