@@ -50,6 +50,7 @@ export default () => {
     return new Promise((resolve, reject) => {
       try {
         auth.onAuthStateChanged(async (res) => {
+          console.log(await res?.getIdToken())
           const { get } = fetchData()
           if (res !== null) {
             const admin = await get('/user/admin', await res?.getIdToken())

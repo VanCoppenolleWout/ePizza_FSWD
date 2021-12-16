@@ -1,13 +1,16 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common'
+import { Query, Resolver } from '@nestjs/graphql'
 import { Repository, UpdateResult } from 'typeorm'
 import { Topping } from './topping.entity'
 
 @Injectable()
+@Resolver()
 export class ToppingService {
   constructor(
     @Inject('ToppingRepository') private toppingRepository: Repository<Topping>,
   ) {}
 
+  @Query(() => [Topping])
   async getAll() {
     return await this.toppingRepository.find()
   }

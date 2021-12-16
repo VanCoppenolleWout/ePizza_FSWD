@@ -4,6 +4,7 @@ import { defineComponent, Ref, ref } from 'vue'
 import { fetchData } from '../../composables/useNetwork'
 import DoughnutChartComponent from '../DoughnutChartComponent.vue'
 import { Topping } from '../../interfaces/topping'
+import useGraphql from '../../composables/useGraphql'
 
 export default defineComponent({
   setup() {
@@ -24,6 +25,7 @@ export default defineComponent({
     // }
 
     const { get, put } = fetchData()
+    const { query } = useGraphql()
 
     const stock: any = ref([])
     const stockData: any = ref([])
@@ -37,7 +39,18 @@ export default defineComponent({
     let graphScreen = ref<boolean>(false)
 
     const getStock = async () => {
-      stock.value = await get('/topping')
+      stock.value = await query(
+        `getAll`,
+        `query getAll {
+            getAll{
+            topping_id
+            name
+            price
+            stock
+            img_url
+            }
+          }`,
+      )
 
       stock.value.forEach((element: any) => {
         stockData.value.push(element.stock)
@@ -140,9 +153,13 @@ export default defineComponent({
           "
         >
           <div class="flex flex-row md:space-x-8 items-center">
-            <img :src="item.img_url" alt="item.img_url" class="w-10 h-10h hidden md:block " />
+            <img
+              :src="item.img_url"
+              alt="item.img_url"
+              class="w-10 h-10h hidden md:block"
+            />
             <p class="font-medium text-lg">{{ item.name }}</p>
-          </div>  
+          </div>
           <div
             class="
               bg-p-red

@@ -11,7 +11,12 @@ async function bootstrap() {
 
   const port = 3001
   app.enableCors()
-  app.use(helmet())
+  app.use(
+    helmet({
+      contentSecurityPolicy:
+        process.env.NODE_ENV === 'production' ? undefined : false,
+    }),
+  )
 
   const config = new DocumentBuilder()
     .setTitle('Pizza Backend Routes')
