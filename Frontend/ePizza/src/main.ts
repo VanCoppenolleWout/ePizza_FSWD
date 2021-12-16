@@ -17,8 +17,8 @@ import useFirebase from './composables/useFirebase'
   app.use(store, key)
   app.use(router)
   app.use(lazyPlugin, {
-    loading: 'loading.png',
-    error: 'error.png',
+    // loading: 'loading.png',
+    // error: 'error.png',
   })
 
   const messages = {
