@@ -9,7 +9,6 @@ import {
 } from 'vue-router'
 import useFirebase from '../composables/useFirebase'
 import { fetchData } from '../composables/useNetwork'
-import { useStore } from '../store/store'
 const { get } = fetchData()
 
 const routes: RouteRecordRaw[] = [

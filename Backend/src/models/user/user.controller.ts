@@ -6,6 +6,7 @@ import {
   Headers,
   Param,
   Post,
+  Put,
   Req,
   Res,
   UseGuards,
@@ -28,7 +29,7 @@ export class UserController {
 
   @Get('admin')
   // @Roles(Role.Admin)
-  // @UseGuards(FirebaseAuthGuard, RolesGuard)
+  // @UseGuards(FirebaseAuthGuard)
   async checkAdmin(@Headers() headers) {
     return await this.userService.getAdmin(headers)
   }
@@ -41,5 +42,11 @@ export class UserController {
   @Post('address/:user_id')
   async addAddress(@Param() params, @Body() body): Promise<User> {
     return await this.userService.addAddress(params.user_id, body)
+  }
+
+  @Put('change/address/')
+  @UseGuards(FirebaseAuthGuard)
+  async changeAddress(@Headers() headers, @Body() body){
+    return await this.userService.changeAddress(headers, body)
   }
 }
