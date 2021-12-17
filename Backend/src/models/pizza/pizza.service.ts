@@ -5,7 +5,7 @@ import { Size } from '../size/size.entity'
 import { Pizza } from './pizza.entity'
 
 @Injectable()
-@Resolver()
+// @Resolver()
 export class PizzaService {
   constructor(
     @Inject('PizzaRepository') private pizzaRepository: Repository<Pizza>,
@@ -24,7 +24,7 @@ export class PizzaService {
     return pizza
   }
 
-  @Query(() => [Pizza])
+  // @Query(() => [Pizza])
   async getAll(): Promise<Array<Pizza>> {
     return await this.pizzaRepository
       .createQueryBuilder('pizza')

@@ -7,7 +7,7 @@ import { signUp } from '../utils/network'
 import InputComponent from './InputComponent.vue'
 
 export default defineComponent({
-  setup() {
+  setup(context) {
     let name: Ref<string> = ref('')
     let lastname: Ref<string> = ref('')
     let email: Ref<string> = ref('')
@@ -82,6 +82,11 @@ export default defineComponent({
     }
   },
   components: { InputComponent },
+  props: {
+    callMe: {
+      type: Function,
+    },
+  },
 })
 </script>
 
@@ -121,9 +126,8 @@ export default defineComponent({
       "
     >
       <div class="flex items-center mb-10">
-        <routerLink to="/">
+        <routerLink to="/login">
           <svg
-            class="inline-block cursor-pointer"
             xmlns="http://www.w3.org/2000/svg"
             width="32"
             height="32"
@@ -134,8 +138,9 @@ export default defineComponent({
             stroke-linecap="round"
             stroke-linejoin="round"
           >
-            <path d="M19 12H6M12 5l-7 7 7 7" /></svg
-        ></routerLink>
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+        </routerLink>
 
         <h3
           class="
@@ -205,7 +210,7 @@ export default defineComponent({
 
       <div class="mt-32">
         <div
-          class="mb-2 text-red-500 flex justify-center -mt-8 text-center"
+          class="mb-2 text-red-500 flex justify-center -mt-8 text-center error"
           v-if="errorMsg"
         >
           {{ errorMsg }}
@@ -214,6 +219,7 @@ export default defineComponent({
         <div class="flex justify-center">
           <button
             class="
+              button
               cursor-pointer
               max-w-sm
               w-full

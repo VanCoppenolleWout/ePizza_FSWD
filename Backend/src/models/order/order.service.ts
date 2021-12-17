@@ -19,8 +19,6 @@ export class OrderService {
     private orderPizzaSizeRepository: Repository<OrderPizzaSizeTopping>,
     @Inject('PizzaRepository')
     private pizzaRepository: Repository<Pizza>,
-    @Inject('UserRepository')
-    private userRepository: Repository<User>,
     @Inject('AddressRepository')
     private addressRepository: Repository<Address>,
     @Inject('GuestRepository')
@@ -74,13 +72,6 @@ export class OrderService {
       guest: guest,
     }
 
-    const price = pizzas.reduce((total, currentValue) => {
-      console.log(currentValue)
-      return total + currentValue.price
-    }, 0)
-
-    console.log(orderORM.pizzas)
-
     //Delivery or takeout ?
     let address: Address = new Address()
     if (typeof orderORM.address === 'string') {
@@ -107,8 +98,6 @@ export class OrderService {
       ? (order.delivery_cost = 5)
       : (order.delivery_cost = 0)
 
-    //Save order
-    const result = await this.orderRepository.save(order)
     // const order_id = result.order_id
 
     let toppings: Array<Array<Topping>>
@@ -122,22 +111,14 @@ export class OrderService {
       }),
     )
 
-    //Save into many to many relation
-    let orderPizzaSizeTopping: OrderPizzaSizeTopping[] = pizzaIds.map(
-      (pizzaId, index) => ({
-        pizza_id: pizzaId,
-        order_id: result.order_id,
-        size_id: orderORM.pizzas[index].size_id,
-        toppings: toppings[index],
-      }),
-    )
-
     //Adjust the stock
     let stockToppingsArr: Array<Topping> = []
+    let addedToppings: Array<Topping> = []
     const stockToppings = {}
 
     for (let i = 0; i < toppings.length; i++) {
       stockToppingsArr.push(...toppings[i])
+      addedToppings.push(...toppings[i])
     }
     const pizzasAmount: Record<string, number> = {}
     for (let i = 0; i < pizzaIds.length; i++) {
@@ -165,11 +146,51 @@ export class OrderService {
       .where('topping_id IN (:arr)', { arr })
       .getMany()
 
+    //Add price from added toppings to total price
+    for (let i = 0; i < addedToppings.length; i++) {
+      for (let j = 0; j < stock.length; j++) {
+        if (stock[j].topping_id === addedToppings[i].topping_id)
+          order.price += stock[j].price
+      }
+    }
+
+    for (let i = 0; i < orderORM.pizzas.length; i++) {
+      const sizePrice =
+        orderORM.pizzas[i].size_id === 1
+          ? 0
+          : orderORM.pizzas[i].size_id === 1
+          ? 5
+          : 10
+
+      order.price += sizePrice
+    }
+
     //Update the stock
-    const toppingStockUpdated: Array<Topping> = stock.map((topping, index) => {
+    const toppingStockUpdated: Array<Topping> = stock.map((topping) => {
       topping.stock = topping.stock - stockToppings[topping.topping_id]
       return topping
     })
+
+    for (let i = 0; i < toppingStockUpdated.length; i++) {
+      if (toppingStockUpdated[i].stock < 0)
+        throw new HttpException(
+          'Oops toppings are out of stock ...',
+          HttpStatus.BAD_REQUEST,
+        )
+    }
+
+    //Save order
+    const result = await this.orderRepository.save(order)
+
+    //Save into many to many relation
+    let orderPizzaSizeTopping: OrderPizzaSizeTopping[] = pizzaIds.map(
+      (pizzaId, index) => ({
+        pizza_id: pizzaId,
+        order_id: result.order_id,
+        size_id: orderORM.pizzas[index].size_id,
+        toppings: toppings[index],
+      }),
+    )
 
     await this.toppingRepository.save(toppingStockUpdated)
 

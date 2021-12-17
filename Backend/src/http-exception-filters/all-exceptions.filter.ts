@@ -3,6 +3,7 @@ import {
   Catch,
   ArgumentsHost,
   HttpException,
+  Logger,
 } from '@nestjs/common'
 import { Request, Response } from 'express'
 
@@ -23,7 +24,16 @@ export class AllExceptionsFilter implements ExceptionFilter {
       status = 500
     }
 
-    console.log(exception)
+    Logger.log(
+      `
+      {
+        statusCode: ${status}
+        path: ${request.url}
+        message: ${exception.message}
+      }
+      `,
+      'Http Exception Error',
+    )
 
     response.status(status).json({
       statusCode: status,

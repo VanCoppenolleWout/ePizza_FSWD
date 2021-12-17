@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Param, Put, Req } from '@nestjs/common'
+import { ObjectType } from '@nestjs/graphql'
 import { UpdateResult } from 'typeorm'
 import { Topping } from './topping.entity'
 import { ToppingService } from './topping.service'

@@ -51,6 +51,9 @@ export default defineComponent({
         border-2
         p-2
         px-4
+        hover:border-red-200
+        active:border-red-200
+        focus:border-red-200
       "
       :class="
         id === 'email' || full
@@ -67,7 +70,7 @@ export default defineComponent({
       @input="handleInput"
       :disabled="disabled"
     />
-    <div class="text-red-500 absolute mt-1" v-if="errorMsg">
+    <div class="text-red-500 absolute mt-1 input-error" v-if="errorMsg">
       This field is required
     </div>
   </div>

@@ -5,7 +5,12 @@ import { StaleWhileRevalidate, CacheFirst } from 'workbox-strategies'
 declare let self: ServiceWorkerGlobalScope
 
 self.addEventListener('message', (event) => {
+  console.log('skip waiting')
   if (event.data && event.data.type === 'SKIP_WAITING') self.skipWaiting()
+})
+
+self.addEventListener('updatefound', () => {
+  console.log('hello world')
 })
 
 registerRoute(
@@ -13,7 +18,6 @@ registerRoute(
     request.destination === 'script' || request.destination === 'style',
   new StaleWhileRevalidate(),
 )
-
 
 cleanupOutdatedCaches()
 // self.__WB_MANIFEST is default injection point
