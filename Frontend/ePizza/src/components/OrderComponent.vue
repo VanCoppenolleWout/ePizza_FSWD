@@ -1,15 +1,18 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
 import { Order } from '../interfaces/order'
 
 export default defineComponent({
   setup(context) {
-    const pizzaArr: Array<string> = ['f', 'f', 'f', '', '', '']
-
     const { order } = context
 
+    const toppingPrice = order.pizzaSizeToppings.reduce(
+      (totalValue, currValue) => totalValue,
+      0,
+    )
+    console.log(order)
+
     return {
-      pizzaArr,
       order,
     }
   },
@@ -22,7 +25,7 @@ export default defineComponent({
 
 <template>
   <div class="bg-white rounded-lg">
-    <div class="p-8 h-full overflow-y-auto">
+    <div class="p-8 h-full overflow-y-auto scrollbar">
       <div class="flex flex-wrap justify-between mb-6">
         <div class="w-32 lg:w-auto mb-6">
           <h3 class="text-gray-700 text-xl font-semibold mb-2">
@@ -47,16 +50,37 @@ export default defineComponent({
       </div>
       <div class="">
         <h3 class="text-gray-700 text-xl font-semibold mb-2">Your order</h3>
-        <div v-for="(item, index) in order.pizzaSizeToppings" :key="index">
-          <div class="flex justify-between mb-2">
-            <div class="flex mr-2">
-              <!-- <p class="mr-2">{{ '1' }} x</p> -->
-              <p>{{ item.size.size_name }} {{ item.pizza.name }}</p>
+        <div
+          v-for="(item, index) in order.pizzaSizeToppings"
+          :key="index"
+          class="mb-4"
+        >
+          <div class="flex justify-between">
+            <div class="flex mr-2 items-center">
+              <div class="hidden sm:block">
+                <img
+                  class="w-4 transform -rotate-12"
+                  src="../assets/images/pizza.svg"
+                  alt="pizza"
+                />
+              </div>
+              <div class="sm:flex sm:gap-2">
+                <p class="font-bold">{{ item.size.size_name }}</p>
+                <p class="font-bold">{{ item.pizza.name }}</p>
+              </div>
             </div>
-            <p class="flex items-center">{{ item.pizza.price }}€</p>
+            <p class="flex items-center">
+              {{ item.pizza.price + item.size.price }}€
+            </p>
+          </div>
+          <div v-for="(topping, index) in item.toppings" :key="index">
+            <div class="ml-6 flex justify-between">
+              <p>{{ topping.name }}</p>
+              <p>{{ topping.price }}€</p>
+            </div>
           </div>
         </div>
-        <div class="flex justify-between font-medium">
+        <div class="flex justify-between font-medium mt-4">
           <p>Total</p>
           <p>{{ order.price }}€</p>
         </div>
@@ -64,3 +88,26 @@ export default defineComponent({
     </div>
   </div>
 </template>
+
+<style>
+.scrollbar::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #f5f5f5;
+}
+
+.scrollbar::-webkit-scrollbar {
+  width: 0.25rem;
+  background-color: #f5f5f5;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #cacaca;
+}
+
+.scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #a8a8a8;
+}
+</style>

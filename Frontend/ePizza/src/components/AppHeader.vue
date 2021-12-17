@@ -1,11 +1,14 @@
 <script lang="ts">
 import { computed, defineComponent, Ref, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import useFirebase from '../composables/useFirebase'
 import { useStore } from '../store/store'
 
 export default defineComponent({
   setup() {
     const { store } = useStore()
+    const userFirebase = useFirebase().user.value
+    // console.log(userFirebase)
     const menuActive: Ref<boolean> = ref(false)
     const router = useRouter()
 
@@ -18,6 +21,8 @@ export default defineComponent({
     const admin = computed(() => {
       return store.getters.getAdmin
     })
+
+    console.log()
 
     const decideName = () => {
       if (user.value !== null && !admin.value) {

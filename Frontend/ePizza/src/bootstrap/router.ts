@@ -1,5 +1,6 @@
 import { initializeApp } from '@firebase/app'
 import { getAuth } from '@firebase/auth'
+import { toRefs } from 'vue'
 import {
   createRouter,
   createWebHistory,
@@ -8,7 +9,6 @@ import {
 } from 'vue-router'
 import useFirebase from '../composables/useFirebase'
 import { fetchData } from '../composables/useNetwork'
-import { useStore } from '../store/store'
 const { get } = fetchData()
 
 const routes: RouteRecordRaw[] = [
@@ -136,9 +136,9 @@ const routes: RouteRecordRaw[] = [
     component: () =>
       import(/* webpackChunkName: "stock"*/ '../screens/Account.vue'),
     beforeEnter: async (to, from, next) => {
-      const auth = getAuth()
-      const idToken = await auth.currentUser?.getIdToken()
-      idToken ? next() : next({ name: 'home' })
+      const { user } = toRefs(useFirebase())
+
+      ;(await user.value?.getIdToken()) ? next() : next({ name: 'home' })
     },
   },
   {

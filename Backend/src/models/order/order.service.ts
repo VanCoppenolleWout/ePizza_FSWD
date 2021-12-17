@@ -62,15 +62,19 @@ export class OrderService {
         ? orderORM.time_preference
         : new Date(),
       order_date: new Date(),
-      //Calculate total price from all pizzas
-      price: pizzas.reduce(
-        (total, currentValue) => total + currentValue.price,
-        0,
-      ),
       payment_method: orderORM.payment_method,
       user: user,
       guest: guest,
     }
+    let totalPizzaPrice = 0
+    for (let i = 0; i < pizzaIds.length; i++) {
+      for (let j = 0; j < pizzas.length; j++) {
+        if (pizzas[j].pizza_id === pizzaIds[i])
+          totalPizzaPrice += pizzas[j].price
+      }
+    }
+
+    order.price = totalPizzaPrice
 
     //Delivery or takeout ?
     let address: Address = new Address()
@@ -158,7 +162,7 @@ export class OrderService {
       const sizePrice =
         orderORM.pizzas[i].size_id === 1
           ? 0
-          : orderORM.pizzas[i].size_id === 1
+          : orderORM.pizzas[i].size_id === 2
           ? 5
           : 10
 

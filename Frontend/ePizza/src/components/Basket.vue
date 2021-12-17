@@ -33,13 +33,25 @@ export default defineComponent({
       setPizzaCounts()
     }
 
-    const filterToppings = (pizza: Pizza) => {
+    const filterToppings = (toppings: any) => {
+      console.log(typeof toppings[0])
       //get the toppings for the current pizza from the store
-      filteredToppings.value = []
-      for (const toppingPizza of pizza.toppings) {
-        for (const topping of toppingsArrStore.value) {
-          if (toppingPizza.name === topping.name)
-            filteredToppings.value.push(topping)
+      if (typeof toppings[0] !== 'undefined') {
+        if (toppings[0].topping_id) {
+          filteredToppings.value = []
+          for (const toppingPizza of toppings) {
+            for (const topping of toppingsArrStore.value) {
+              if (toppingPizza.topping_id === topping.topping_id)
+                filteredToppings.value.push(topping)
+            }
+          }
+        } else {
+          for (const toppingPizzaId of toppings) {
+            for (const topping of toppingsArrStore.value) {
+              if (toppingPizzaId === topping.topping_id)
+                filteredToppings.value.push(topping)
+            }
+          }
         }
       }
     }
@@ -96,12 +108,20 @@ export default defineComponent({
     }
 
     const AddPizza = (pizza: Pizza) => {
-      filterToppings(pizza)
+      filterToppings(pizza.toppings)
 
-      filteredToppings.value.find((topping: Topping) => topping.stock < 1) !==
-      undefined
-        ? null
-        : (pizzas.value = addPizzaLocal(pizza))
+      if (
+        filteredToppings.value.find((topping: Topping) => topping.stock < 1) ===
+        undefined
+      ) {
+        filterToppings(pizza.topping_ids)
+        if (
+          filteredToppings.value.find(
+            (topping: Topping) => topping.stock < 1,
+          ) === undefined
+        )
+          pizzas.value = addPizzaLocal(pizza)
+      }
 
       sortPizzas()
     }
@@ -317,7 +337,7 @@ export default defineComponent({
 
 <style>
 .scroll::-webkit-scrollbar {
-  width: 12px;
+  width: 0.5rem;
 }
 .scroll::-webkit-scrollbar-thumb {
   background-color: #cacaca;
