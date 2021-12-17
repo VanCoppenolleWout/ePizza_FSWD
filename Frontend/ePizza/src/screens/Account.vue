@@ -11,15 +11,18 @@ import {
   ref as stRef,
   uploadBytes,
 } from 'firebase/storage'
-import { computed, defineComponent, ref, watch, watchEffect } from 'vue'
+import { computed, defineComponent, reactive, Ref, ref, watch, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
 import AppHeader from '../components/AppHeader.vue'
 import useFirebase from '../composables/useFirebase'
 import { store } from '../store/store'
 import { app } from '../composables/useFirebase'
+import InputComponent from '../components/InputComponent.vue'
+import { fetchData } from '../composables/useNetwork'
 
 export default defineComponent({
   setup() {
+    const { get, post } = fetchData()
     const auth = getAuth()
     const firebaseUser: any = auth.currentUser
 
@@ -43,6 +46,7 @@ export default defineComponent({
     let emailInput = ref<boolean>(false)
     let passwordInput = ref<boolean>(false)
     let addressInput = ref<boolean>(false)
+    const addressInputDisabled: Ref<boolean> = ref(false)
 
     let profileImg = ref<string>(user.value.photoURL)
     let displayName = ref<string>(user.value.displayName)
@@ -122,6 +126,37 @@ export default defineComponent({
       })
     }
 
+    const address = reactive({
+      city: '',
+      street: '',
+      number: '',
+      zip_code: '',
+    })
+
+    const getUserAddress = async () => {
+      try {
+        if (user.value) {
+          const data = await get(`/user/${user.value.uid}`)
+
+          user.value.name = data.name
+          user.value.lastname = data.lastname
+          user.value.email = data.email
+
+          if (data.addresses.length > 0) {
+            address.city = data.addresses[0].city
+            address.street = data.addresses[0].street
+            address.zip_code = data.addresses[0].postal_code
+            address.number = data.addresses[0].number.toString()
+            addressInputDisabled.value = true
+          }
+        }
+      } catch (error) {
+        addressInputDisabled.value = true
+      }
+    }
+
+    getUserAddress()
+
     const editAddress = () => {}
 
     return {
@@ -130,6 +165,8 @@ export default defineComponent({
       emailInput,
       passwordInput,
       addressInput,
+      address,
+      addressInputDisabled,
       displayName,
       email,
       password,
@@ -143,7 +180,7 @@ export default defineComponent({
       file,
     }
   },
-  components: { AppHeader },
+  components: { AppHeader, InputComponent },
 })
 </script>
 
@@ -223,9 +260,9 @@ export default defineComponent({
         <p class="text-2xl md:text-3xl font-semibold">{{ user.displayName }}</p>
       </div>
       <section class="mt-6 md:mt-10 bg-white rounded-2xl p-8">
-        <h1 class="font-semibold text-2xl">Account details</h1>
+        <h1 class="font-semibold text-2xl">{{ $t('account_title') }}</h1>
         <div class="mt-6">
-          <p class="text-sm text-gray-600">Display name</p>
+          <p class="text-sm text-gray-600">{{ $t('account_name') }}</p>
           <div class="flex flex-row justify-between items-center">
             <p v-if="!nameInput" class="text-lg font-medium">
               {{ displayName }}
@@ -295,7 +332,7 @@ export default defineComponent({
               @click="nameInput = true"
               class="px-5 py-2 bg-gray-400 rounded-lg text-white font-medium"
             >
-              Edit
+              {{ $t('btn_edit') }}
             </button>
           </div>
         </div>
@@ -305,7 +342,7 @@ export default defineComponent({
             <p v-if="!emailInput" class="text-lg font-medium">
               {{ email }}
             </p>
-            <input
+            <!-- <input
               v-if="emailInput"
               type="text"
               name=""
@@ -363,18 +400,18 @@ export default defineComponent({
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
               </button>
-            </div>
-            <button
+            </div> -->
+            <!-- <button
               v-if="!emailInput"
               @click="emailInput = true"
               class="px-5 py-2 bg-gray-400 rounded-lg text-white font-medium"
             >
-              Edit
-            </button>
+              {{ $t('btn_edit') }}
+            </button> -->
           </div>
         </div>
         <div class="mt-6">
-          <p class="text-sm text-gray-600">Password</p>
+          <p class="text-sm text-gray-600">{{ $t('account_password') }}</p>
           <div class="flex flex-row justify-between items-center">
             <p v-if="!passwordInput" class="text-lg font-medium">●●●●●●●●</p>
             <input
@@ -441,14 +478,14 @@ export default defineComponent({
               @click="passwordInput = true"
               class="px-5 py-2 bg-gray-400 rounded-lg text-white font-medium"
             >
-              Edit
+              {{ $t('btn_edit') }}
             </button>
           </div>
         </div>
         <div class="mt-6">
-          <p class="text-sm text-gray-600">Address</p>
+          <!-- <p class="text-sm text-gray-600">{{ $t('account_address') }}</p> -->
           <div class="flex flex-row justify-between items-center">
-            <p v-if="!addressInput" class="text-lg font-medium">
+            <!-- <p v-if="!addressInput" class="text-lg font-medium">
               {{ 'Oudenaarde, Neerstraat 10, 9700, België' }}
             </p>
             <input
@@ -457,7 +494,58 @@ export default defineComponent({
               name=""
               id=""
               placeholder="Oudenaarde, Neerstraat 10, 9700, België"
+            /> -->
+            <div class="h-80">
+            <InputComponent
+              class="md:ml-0 w-full"
+              id="city"
+              placeholder="Kortrijk"
+              type="text"
+              :label="$t('order_city')"
+              :full="true"
+              :disabled="addressInputDisabled"
+              v-model="address.city"
             />
+            <InputComponent
+              class="md:ml-0 w-full"
+              id="street address"
+              placeholder="Graaf Karel De Goedelaan"
+              type="text"
+              :label="$t('order_street')"
+              :full="true"
+              :disabled="addressInputDisabled"
+              v-model="address.street"
+            />
+            <div class="flex">
+              <InputComponent
+                class="md:ml-0 w-full mr-2"
+                id="number"
+                placeholder="32"
+                type="text"
+                :label="$t('order_streetnr')"
+                :full="true"
+                :disabled="addressInputDisabled"
+                v-model="address.number"
+              />
+              <InputComponent
+                class="md:ml-2 w-full ml-2"
+                id="zip code"
+                placeholder="8500"
+                type="text"
+                :label="$t('order_zip')"
+                :full="true"
+                :disabled="addressInputDisabled"
+                v-model="address.zip_code"
+              />
+            </div>
+            <!-- <div
+              v-if="addressInputDisabled"
+              class="-mt-5 underline"
+              @click="addressInputDisabled = false"
+            >
+              {{ $t('order_change') }}
+            </div> -->
+          </div>
             <div class="flex flex-row space-x-4">
               <button
                 v-if="addressInput"
@@ -506,7 +594,7 @@ export default defineComponent({
               @click="addressInput = true"
               class="px-5 py-2 bg-gray-400 rounded-lg text-white font-medium"
             >
-              Edit
+              {{ $t('btn_edit') }}
             </button>
           </div>
         </div>
@@ -516,7 +604,7 @@ export default defineComponent({
           @click="handleLogout"
           class="px-6 py-3 bg-p-red text-white font-medium rounded-xl w-1/5"
         >
-          Sign out
+          {{ $t('btn_signout') }}
         </button>
       </section>
     </div>

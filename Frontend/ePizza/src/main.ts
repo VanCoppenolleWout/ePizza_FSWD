@@ -15,7 +15,6 @@ import useFirebase from './composables/useFirebase'
   const lang: any = localStorage.getItem('lang')
 
   app.use(store, key)
-  app.use(router)
   app.use(lazyPlugin, {
     loading: 'loading.png',
     error: 'error.png',
@@ -27,17 +26,16 @@ import useFirebase from './composables/useFirebase'
   }
 
   const i18n = createI18n({
-    locale: lang, // set locale
-    fallbackLocale: 'en', // set fallback locale
-    messages, // set locale messages
-    // If you need to specify other options, you can set other options
-    // ...
+    locale: lang,
+    fallbackLocale: 'en',
+    messages,
   })
 
   app.use(i18n)
 
   const { restoreAuth } = useFirebase()
   await restoreAuth()
+  app.use(router)
 
   app.mount('#app')
 })()

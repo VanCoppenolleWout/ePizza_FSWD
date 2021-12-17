@@ -101,7 +101,7 @@ export default defineComponent({
         >
           <path d="M15 18l-6-6 6-6" />
         </svg>
-        <p>Go back</p>
+        <p>{{ $t('item_back') }}</p>
       </router-link>
     </div>
 
@@ -126,10 +126,10 @@ export default defineComponent({
           md:max-w-xs
         "
       >
-        <h1 class="p-2 text-xl font-bold text-p-gray-1000">Select size</h1>
+        <h1 class="p-2 text-xl font-bold text-p-gray-1000">{{ $t('item_size_title') }}</h1>
         <div class="flex justify-between p-2" @click="size = 1">
           <div class="flex gap-4">
-            <p class="cursor-default">Small</p>
+            <p class="cursor-default">{{ $t('size_small') }}</p>
           </div>
           <div class="flex gap-3">
             <p class="cursor-default">€0</p>
@@ -157,7 +157,7 @@ export default defineComponent({
         </div>
         <div class="flex justify-between p-2" @click="size = 2">
           <div class="flex gap-4">
-            <p class="cursor-default">Medium</p>
+            <p class="cursor-default">{{ $t('size_medium') }}</p>
           </div>
           <div class="flex gap-3">
             <p class="cursor-default">€5</p>
@@ -185,7 +185,7 @@ export default defineComponent({
         </div>
         <div class="flex justify-between p-2" @click="size = 3">
           <div class="flex gap-4">
-            <p class="cursor-default">Large</p>
+            <p class="cursor-default">{{ $t('size_large') }}</p>
           </div>
           <div class="flex gap-3">
             <p class="cursor-default">€10</p>
@@ -212,7 +212,7 @@ export default defineComponent({
             </div>
           </div>
         </div>
-        <h1 class="p-2 text-xl font-bold text-p-gray-1000">Add toppings</h1>
+        <h1 class="p-2 text-xl font-bold text-p-gray-1000">{{ $t('item_addtoppings') }}</h1>
         <div
           class="flex justify-between p-2"
           v-for="(topping, index) in toppingsAr"

@@ -80,7 +80,7 @@ export default defineComponent({
       </div>
       <div class="flex lg:flex-col space-x-2 lg:space-x-0">
         <button class="hover:underline hover:text-p-red" @click="deletePizza">
-          Remove
+          {{ $t('basket_remove') }}
         </button>
       </div>
     </div>

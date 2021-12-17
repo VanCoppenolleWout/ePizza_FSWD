@@ -38,14 +38,14 @@ export default defineComponent({
             :class="{ ' bg-p-red text-white hover:bg-p-red': !vegetarian }"
             @click="vegetarian = false"
           >
-            All
+            {{ $t('menu_all') }}
           </div>
           <div
             class="px-6 py-0 cursor-pointer rounded-md hover:bg-red-100"
             :class="{ ' bg-p-red text-white hover:bg-p-red': vegetarian }"
             @click="vegetarian = true"
           >
-            Vegetarian
+            {{ $t('menu_vegetarian') }}
           </div>
         </div>
         <Suspense>
