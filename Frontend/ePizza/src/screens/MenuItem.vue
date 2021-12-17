@@ -17,18 +17,33 @@ export default defineComponent({
     const type: Ref<string> = ref('pan')
 
     const toppingsAr: any = computed(() => store.getters.getToppingsArr)
-
+    const toppingsArr: any = toppingsAr.value
+    console.log(toppingsArr)
     const highlightedToppingArr: any = ref([])
 
+    const checkToppings = () => {
+      for (const topping of toppingsAr.value) {
+        for (const toppingPizza of pizza.toppings) {
+          if (topping.name === toppingPizza.name) {
+            toppingsArr[toppingsAr.value.indexOf(topping)].stock -= 1
+          }
+        }
+      }
+    }
+
     const highlightTopping = (topping: any) => {
-      console.log(topping.name)
-      if (!highlightedToppingArr.value.includes(topping) && topping.stock !== 0)
-        highlightedToppingArr.value.push(topping)
-      else
-        highlightedToppingArr.value.splice(
-          highlightedToppingArr.value.indexOf(topping),
-          1,
+      if (toppingsArr[toppingsAr.value.indexOf(topping)].stock != 0) {
+        if (
+          !highlightedToppingArr.value.includes(topping) &&
+          topping.stock !== 0
         )
+          highlightedToppingArr.value.push(topping)
+        else
+          highlightedToppingArr.value.splice(
+            highlightedToppingArr.value.indexOf(topping),
+            1,
+          )
+      }
     }
 
     const addPizza = () => {
@@ -62,6 +77,8 @@ export default defineComponent({
       router.push('menu')
     }
 
+    checkToppings()
+
     return {
       toppingsAr,
       highlightTopping,
@@ -70,6 +87,7 @@ export default defineComponent({
       type,
       addPizza,
       pizza,
+      toppingsArr
     }
   },
   components: {
@@ -215,7 +233,7 @@ export default defineComponent({
         <h1 class="p-2 text-xl font-bold text-p-gray-1000">Add toppings</h1>
         <div
           class="flex justify-between p-2"
-          v-for="(topping, index) in toppingsAr"
+          v-for="(topping, index) in toppingsArr"
           @click="topping.stock === 0 ? null : highlightTopping(topping)"
           :key="index"
         >
