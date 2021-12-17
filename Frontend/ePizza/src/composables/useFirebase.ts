@@ -84,7 +84,7 @@ export default () => {
   }
 
   const logout = () => {
-    //user.value = null
+    user.value = null
     store.dispatch(ActionTypes.setUser, user)
     return signOut(auth)
   }

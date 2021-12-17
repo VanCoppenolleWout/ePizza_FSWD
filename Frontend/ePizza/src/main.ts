@@ -21,20 +21,20 @@ import useFirebase from './composables/useFirebase'
     // loading: 'loading.png',
     // error: 'error.png',
   })
-  Sentry.init({
-    app,
-    dsn: 'https://fd56de59dd5646c587f358cf1f617f32@o1088091.ingest.sentry.io/6110686',
-    integrations: [
-      new Integrations.BrowserTracing({
-        routingInstrumentation: Sentry.vueRouterInstrumentation(router),
-        tracingOrigins: ['localhost', 'my-site-url.com', /^\//],
-      }),
-    ],
-    // Set tracesSampleRate to 1.0 to capture 100%
-    // of transactions for performance monitoring.
-    // We recommend adjusting this value in production
-    tracesSampleRate: 1.0,
-  })
+  // Sentry.init({
+  //   app,
+  //   dsn: 'https://fd56de59dd5646c587f358cf1f617f32@o1088091.ingest.sentry.io/6110686',
+  //   integrations: [
+  //     new Integrations.BrowserTracing({
+  //       routingInstrumentation: Sentry.vueRouterInstrumentation(router),
+  //       tracingOrigins: ['localhost', 'my-site-url.com', /^\//],
+  //     }),
+  //   ],
+  //   // Set tracesSampleRate to 1.0 to capture 100%
+  //   // of transactions for performance monitoring.
+  //   // We recommend adjusting this value in production
+  //   tracesSampleRate: 1.0,
+  // })
 
   const messages = {
     en: en,

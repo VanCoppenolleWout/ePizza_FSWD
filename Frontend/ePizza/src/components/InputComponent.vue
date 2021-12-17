@@ -24,6 +24,8 @@ export default defineComponent({
     full: Boolean,
     disabled: Boolean,
     modelValue: String,
+    accountFull: Boolean,
+    accountSmall: Boolean,
   },
   emits: ['update:modelValue'],
 })
@@ -47,7 +49,6 @@ export default defineComponent({
         border-gray-200
         box-border
         w-full
-        max-w-md
         border-2
         p-2
         px-4
@@ -59,8 +60,12 @@ export default defineComponent({
         id === 'email' || full
           ? 'md:max-w-sm'
           : id === 'phone_nr'
-          ? 'lg:w-72'
-          : 'md:w-72 md:max-w-xs lg:w-96'
+          ? 'lg:w-72 '
+          : accountFull
+          ? 'w-full'
+          : accountSmall
+          ? 'w-1/2'
+          : 'md:w-72 md:max-w-xs lg:w-96 '
       "
       autocomplete="on"
       :type="type"
