@@ -1,4 +1,10 @@
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common'
+import {
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common'
 import { User } from './user.entity'
 import { Repository } from 'typeorm'
 import { getAuth } from 'firebase-admin/auth'
@@ -119,5 +125,33 @@ export class UserService {
     user.addresses ? user.addresses.push(address) : (user.addresses = [address])
 
     return await this.userRepository.save(user)
+  }
+
+  async changeAddress(headers: any, body: any) {
+    const { city, street, number, zip_code, address_id } = body
+    if (!city || !street || !number || !zip_code)
+      throw new HttpException(
+        'Not all fields are filled in ..',
+        HttpStatus.BAD_REQUEST,
+      )
+
+    const bearer = headers.authorization.replace('Bearer ', '')
+    const firebaseUser = await getAuth().verifyIdToken(bearer)
+
+    const address: Address = await this.addressRepository
+      .createQueryBuilder('address')
+      .leftJoinAndSelect('address.users', 'users')
+      .where('address.address_id = :address_id', { address_id })
+      .getOne()
+
+    if (firebaseUser.uid !== address.users[0].user_id)
+      throw new UnauthorizedException()
+
+    address.city = city
+    address.street = street
+    address.number = number
+    address.postal_code = zip_code
+
+    return await this.addressRepository.save(address)
   }
 }

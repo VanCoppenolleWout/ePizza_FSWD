@@ -4,11 +4,13 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm'
 import { Address } from '../address/address.entity'
 import { Guest } from '../guest/guest.entity'
 import { OrderPizzaSizeTopping } from '../order_pizza/order.pizza.size.entity'
+import { Review } from '../review/review.entity'
 import { User } from '../user/user.entity'
 
 @Entity('Order')
@@ -42,4 +44,8 @@ export class Order {
 
   @OneToMany(() => OrderPizzaSizeTopping, (orders) => orders.order)
   pizzaSizeToppings?: OrderPizzaSizeTopping[]
+
+  @OneToOne(() => Review)
+  @JoinColumn({ name: 'review_id' })
+  review?: Review
 }

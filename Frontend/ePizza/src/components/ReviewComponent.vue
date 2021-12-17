@@ -14,9 +14,13 @@ export default defineComponent({
     const formstate: Ref<boolean> = ref(true)
     const stars: Ref<number> = ref(0)
 
-    const { post } = fetchData()
-
     const { order }: { order: Order } = context
+    if (order.review) {
+      formstate.value = false
+      stars.value = order.review.stars
+      title.value = order.review.title
+      text.value = order.review.description
+    }
 
     const handleReview = async () => {
       if (title.value === null || text.value === null || stars.value === 0) {
@@ -33,6 +37,7 @@ export default defineComponent({
           stars: stars.value,
         }
         const submitReview = await postReview('review', review)
+        formstate.value = false
 
         console.log(submitReview)
       }
@@ -64,9 +69,10 @@ export default defineComponent({
       @submit.prevent="handleReview"
       class="p-8 flex flex-col justify-between h-full"
     >
-      <div :class="formstate === false ? 'pointer-events-none opacity-40' : ''">
+      <div
+        :class="formstate === false ? 'pointer-events-none opacity-100' : ''"
+      >
         <div>
-          <div></div>
           <div>
             <ul id="review" class="mt-4 flex sm:gap-4 gap-2 flex-wrap">
               <li
@@ -171,7 +177,7 @@ export default defineComponent({
           lg:mt-8
           self-center
         "
-        :class="formstate === false ? 'pointer-events-none opacity-40' : ''"
+        :class="formstate === false ? 'pointer-events-none opacity-50' : ''"
         type="submit"
       >
         <p v-if="formstate === true" class="text-white">Submit review</p>

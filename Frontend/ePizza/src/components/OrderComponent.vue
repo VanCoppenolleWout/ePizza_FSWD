@@ -74,7 +74,7 @@ export default defineComponent({
             </p>
           </div>
           <div v-for="(topping, index) in item.toppings" :key="index">
-            <div class="ml-6 flex justify-between">
+            <div class="sm:ml-6 ml-2 flex justify-between">
               <p>{{ topping.name }}</p>
               <p>{{ topping.price }}€</p>
             </div>

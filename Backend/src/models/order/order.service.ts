@@ -266,9 +266,10 @@ export class OrderService {
       .leftJoinAndSelect('order.guest', 'guest')
       .addSelect('pizzaSizeTopping.order_id')
       .innerJoin('order.pizzaSizeToppings', 'pizzaSizeTopping')
-      .innerJoinAndSelect('pizzaSizeTopping.pizza', 'pizza')
+      .leftJoinAndSelect('pizzaSizeTopping.pizza', 'pizza')
       .addSelect(['size.size_name', 'size.price'])
-      .innerJoin('pizzaSizeTopping.size', 'size')
+      .leftJoinAndSelect('pizzaSizeTopping.size', 'size')
+      .leftJoinAndSelect('order.review', 'review')
       .where('order.order_id = :order_id', { order_id })
       .getOne()
 

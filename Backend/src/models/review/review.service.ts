@@ -11,6 +11,8 @@ export class ReviewService {
   constructor(
     @Inject('ReviewRepository')
     private reviewRepository: Repository<Review>,
+    @Inject('OrderRepository')
+    private orderRepository: Repository<Order>,
   ) {}
 
   async addReview(reviewORM: ReviewORM): Promise<Review> {
@@ -24,7 +26,7 @@ export class ReviewService {
       )
 
     //get order for the review
-    const order: Order = { order_id }
+    let order: Order = { order_id }
     //get user/guest for the review
     const user: User = { user_id }
     const guest: Guest = { guest_id }
@@ -46,6 +48,10 @@ export class ReviewService {
         'Oops, something went wrong saving your review',
         HttpStatus.BAD_REQUEST,
       )
+
+    order = await this.orderRepository.findOne(order_id)
+    order.review = review
+    await this.orderRepository.save(order)
     return review
   }
 

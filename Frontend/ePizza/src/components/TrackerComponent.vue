@@ -107,12 +107,12 @@ export default defineComponent({
               left-0
               rounded-xl
               h-full
-              animate-pulse
               transition-all
               duration-300
               ease-in
               w-5
             "
+            :class="width1 === 100 ? '' : 'animate-pulse'"
             :style="{ width: width1 + '%' }"
           ></div>
         </div>
@@ -142,13 +142,13 @@ export default defineComponent({
               left-0
               rounded-xl
               h-full
-              animate-pulse
               transition-all
               duration-300
               ease-in
               w-5
             "
             :style="{ width: width2 + '%' }"
+            :class="width2 === 100 ? '' : 'animate-pulse'"
           ></div>
         </div>
         <div
@@ -175,13 +175,13 @@ export default defineComponent({
               left-0
               rounded-xl
               h-full
-              animate-pulse
               transition-all
               duration-300
               ease-in
               w-5
             "
             :style="{ width: width3 + '%' }"
+            :class="width3 === 100 ? '' : 'animate-pulse'"
           ></div>
         </div>
 
@@ -212,12 +212,12 @@ export default defineComponent({
               left-0
               rounded-xl
               h-full
-              animate-pulse
               transition-all
               duration-300
               ease-in
               w-5
             "
+            :class="width4 === 100 ? '' : 'animate-pulse'"
             :style="{ width: width4 + '%' }"
           ></div>
         </div>
@@ -248,13 +248,13 @@ export default defineComponent({
               left-0
               rounded-xl
               h-full
-              animate-pulse
               transition-all
               duration-300
               ease-in
               w-5
             "
             :style="{ width: width4 + '%' }"
+            :class="width4 === 100 ? '' : 'animate-pulse'"
           ></div>
         </div>
         <div
