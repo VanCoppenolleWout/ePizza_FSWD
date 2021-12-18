@@ -58,10 +58,10 @@ export default defineComponent({
     <table class="mb-4">
       <thead>
         <tr class="text-gray-500 font-semibold">
-          <th class="cursor-pointer" @click="filterById">Order ID</th>
-          <th class="cursor-default">Delivery</th>
-          <th class="cursor-pointer" @click="filterById">Date</th>
-          <th class="cursor-default">Price</th>
+          <th class="cursor-pointer" @click="filterById">{{ $t('table_id') }}</th>
+          <th class="cursor-default">{{ $t('table_delivery') }}</th>
+          <th class="cursor-pointer" @click="filterById">{{ $t('order_date') }}</th>
+          <th class="cursor-default">{{ $t('table_price') }}</th>
           <th class="cursor-default">Status</th>
         </tr>
       </thead>
@@ -86,13 +86,13 @@ export default defineComponent({
             #{{ order.order_id }}
           </td>
           <td data-label="Delivery" @click="handleDetail(order)">
-            {{ order.delivery ? 'yes' : 'no' }}
+            {{ order.delivery ? $t('table_yes') : $t('table_no') }}
           </td>
           <td data-label="Date" @click="handleDetail(order)">
-            {{ moment(order.delivery_date).format('DD/MM - hh:mm a') }}
+            {{ moment(order.delivery_date).format('DD/MM - HH:mm') }}
           </td>
           <td data-label="Price" @click="handleDetail(order)">
-            €{{ order.price }}
+            € {{ order.price }}
           </td>
           <td data-label="Status" class="flex justify-end md:justify-center">
             <p

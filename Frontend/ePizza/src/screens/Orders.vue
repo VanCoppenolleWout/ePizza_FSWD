@@ -45,10 +45,9 @@ export default defineComponent({
 <template>
   <div class="sm:ml-24 mb-12 md:mb-0">
     <div class="sm:p-8 p-4">
-      <h3 class="text-gray-700 text-2xl font-semibold mb-4">Order details</h3>
+      <h3 class="text-gray-700 text-2xl font-semibold mb-4">{{ $t('order_h1') }}</h3>
       <p class="max-w-6xl text-gray-500 mb-8">
-        In the order details section, you can review and manage all orders with
-        their details.
+        {{ $t('order_sub') }}
       </p>
 
       <ul class="flex flex-wrap sm:flex-row gap-8 mb-8">
@@ -66,7 +65,7 @@ export default defineComponent({
           "
           @click="filter = 'all'"
         >
-          All orders
+          {{ $t('order_all') }}
         </li>
         <li
           class="
@@ -82,7 +81,7 @@ export default defineComponent({
           "
           @click="filter = 'processing'"
         >
-          Processing
+          {{ $t('order_processing') }}
         </li>
         <li
           class="
@@ -98,7 +97,7 @@ export default defineComponent({
           "
           @click="filter = 'completed'"
         >
-          Completed
+          {{ $t('order_completed') }}
         </li>
         <li
           class="
@@ -114,7 +113,7 @@ export default defineComponent({
           "
           @click="filter = 'cancelled'"
         >
-          Canceled
+          {{ $t('order_canceled') }}
         </li>
       </ul>
 
@@ -125,7 +124,7 @@ export default defineComponent({
         @updateOrders="updateOrders"
       />
 
-      <div v-else>Loading orders...</div>
+      <div v-else>{{ $t('order_loading') }}</div>
     </div>
   </div>
 </template>

@@ -8,22 +8,6 @@ import useGraphql from '../../composables/useGraphql'
 
 export default defineComponent({
   setup() {
-    // const testData = {
-    //   labels: ['Paris', 'Nîmes', 'Toulon', 'Perpignan', 'Autre'],
-    //   datasets: [
-    //     {
-    //       data: [30, 40, 60, 70, 5],
-    //       backgroundColor: [
-    //         '#77CEFF',
-    //         '#0079AF',
-    //         '#123E6B',
-    //         '#97B0C4',
-    //         '#A5C8ED',
-    //       ],
-    //     },
-    //   ],
-    // }
-
     const { get, put } = fetchData()
     const { query } = useGraphql()
 
@@ -174,8 +158,8 @@ export default defineComponent({
               "
               @click="showDetail(item)"
             >
-              <p class="text-white px-4 py-1 w-24 text-center">
-                {{ item.stock }} left
+              <p class="text-white px-4 py-1 w-28 text-center font-medium">
+                {{ item.stock }} {{ $t('stock_left') }}
               </p>
             </div>
           </div>
@@ -213,11 +197,11 @@ export default defineComponent({
               />
               <div class="space-y-3">
                 <p>
-                  Current stock:
+                  {{ $t('stock_current') }}:
                   <span class="font-medium">{{ selectedItem.stock }}</span>
                 </p>
                 <p>
-                  Current price:
+                  {{ $t('stock_currentprice') }}:
                   <span class="font-medium">€{{ selectedItem.price }}</span>
                 </p>
               </div>
