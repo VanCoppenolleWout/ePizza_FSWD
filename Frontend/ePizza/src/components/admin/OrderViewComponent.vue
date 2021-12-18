@@ -11,6 +11,7 @@ export default defineComponent({
 
     const getAllOrders = async () => {
       orders.value = await get('/order/all')
+      console.log(orders.value)
     }
     getAllOrders()
 
@@ -31,7 +32,10 @@ export default defineComponent({
   <div class="bg-white rounded-lg p-8 overflow-scroll md:h-order">
     <div class="flex flex-row justify-between items-center">
       <h1 class="text-p-red text-2xl font-semibold mb-4">Orders</h1>
-      <div v-if="orders.length > 0" class="flex flex-row items-center space-x-2">
+      <div
+        v-if="orders.length > 0"
+        class="flex flex-row items-center space-x-2"
+      >
         <p>Date</p>
         <button @click="filter()">
           <svg
@@ -73,7 +77,7 @@ export default defineComponent({
           </p>
         </div>
         <p class="mt-4 mb-2 font-semibold text-lg">
-          {{ item.user.name }} {{ item.user.lastname }}
+          {{ item.guest.name }} {{ item.guest.lastname }}
         </p>
         <div v-for="(i, indx) in item.pizzaSizeToppings" :key="indx" class="">
           <div class="flex flex-row justify-between">
@@ -84,7 +88,10 @@ export default defineComponent({
         </div>
       </div>
     </section>
-    <section v-else class="flex items-center self-center justify-center flex-1 mt-12">
+    <section
+      v-else
+      class="flex items-center self-center justify-center flex-1 mt-12"
+    >
       <p class="font-medium text-sm">No orders yet.</p>
     </section>
   </div>

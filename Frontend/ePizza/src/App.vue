@@ -1,14 +1,22 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
+import SideBar from './components/SideBar.vue'
+import { useStore } from './store/store'
 
 export default defineComponent({
   setup() {
-    return {}
+    const { store } = useStore()
+    const admin = computed(() => {
+      return store.getters.getAdmin
+    })
+    return { admin }
   },
+  components: { SideBar },
 })
 </script>
 
 <template>
+  <SideBar v-if="admin" />
   <router-view v-slot="{ Component }">
     <transition
       :duration="{ enter: 400, leave: 400 }"

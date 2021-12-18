@@ -34,7 +34,6 @@ export default defineComponent({
     }
 
     const filterToppings = (toppings: any) => {
-      console.log(typeof toppings[0])
       //get the toppings for the current pizza from the store
       if (typeof toppings[0] !== 'undefined') {
         if (toppings[0].topping_id) {
@@ -85,14 +84,9 @@ export default defineComponent({
         a.name !== b.name ? (a.name < b.name ? -1 : 1) : 0,
       )
 
-    const deletePizza = async (
-      pizza: Pizza,
-      element: string,
-      count: number,
-    ) => {
+    const deletePizza = async (pizza: Pizza, element: string) => {
       const timeline = new TimelineLite()
-
-      if (count === 1)
+      if (pizzaCounts.value[JSON.stringify(pizza)] === 1)
         await timeline.to(`#${element}`, 0.5, {
           x: '33%',
           opacity: 0,
@@ -101,7 +95,7 @@ export default defineComponent({
       pizzas.value = deletePizzaLocal(pizza)
       sortPizzas()
 
-      timeline.to(`.${element}`, 0, {
+      await timeline.to(`#${element}`, 0, {
         x: '0%',
         opacity: 1,
       })
@@ -253,7 +247,6 @@ export default defineComponent({
                   `${JSON.parse(pizza)
                     .name.replaceAll(' ', '')
                     .replace('&', '')}${index}`,
-                  pizzaCounts[pizza],
                 )
               "
               @addPizza="AddPizza(JSON.parse(pizza))"

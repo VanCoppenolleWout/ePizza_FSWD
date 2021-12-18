@@ -12,6 +12,8 @@ export interface Order {
   delivery_date: Date
   delivery_cost: number
   review: Review
+  payment_method?: string
+  delivery?: boolean
 
   address: Address | null
   guest?: Guest

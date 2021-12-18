@@ -88,13 +88,6 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
-    path: '/test',
-    component: () =>
-      import(/* webpackChunkName: "tracker"*/ '../screens/Test.vue'),
-    props: true,
-  },
-
-  {
     path: '/detail',
     component: () =>
       import(/* webpackChunkName: "detail"*/ '../screens/MenuItem.vue'),
@@ -122,6 +115,45 @@ const routes: RouteRecordRaw[] = [
     path: '/stock',
     component: () =>
       import(/* webpackChunkName: "stock"*/ '../screens/Stock.vue'),
+    beforeEnter: async (to, from, next) => {
+      const auth = getAuth()
+      const idToken = await auth.currentUser?.getIdToken()
+
+      const { admin } = await get('/user/admin', idToken)
+
+      admin ? next() : next({ name: 'home' })
+    },
+  },
+  {
+    path: '/chart',
+    component: () =>
+      import(/* webpackChunkName: "stock"*/ '../screens/Chart.vue'),
+    beforeEnter: async (to, from, next) => {
+      const auth = getAuth()
+      const idToken = await auth.currentUser?.getIdToken()
+
+      const { admin } = await get('/user/admin', idToken)
+
+      admin ? next() : next({ name: 'home' })
+    },
+  },
+  {
+    path: '/rating',
+    component: () =>
+      import(/* webpackChunkName: "register"*/ '../screens/Rating.vue'),
+    beforeEnter: async (to, from, next) => {
+      const auth = getAuth()
+      const idToken = await auth.currentUser?.getIdToken()
+
+      const { admin } = await get('/user/admin', idToken)
+
+      admin ? next() : next({ name: 'home' })
+    },
+  },
+  {
+    path: '/order',
+    component: () =>
+      import(/* webpackChunkName: "register"*/ '../screens/Order.vue'),
     beforeEnter: async (to, from, next) => {
       const auth = getAuth()
       const idToken = await auth.currentUser?.getIdToken()

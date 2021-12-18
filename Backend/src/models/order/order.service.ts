@@ -239,14 +239,13 @@ export class OrderService {
   async getAll(): Promise<Array<Order>> {
     return await this.orderRepository
       .createQueryBuilder('order')
-      .select(['order.order_id', 'order.order_date'])
-      .addSelect(['user.user_id', 'user.name', 'user.lastname'])
-      .innerJoin('order.user', 'user')
+      // .select(['order.order_id', 'order.order_date'])
+      .leftJoinAndSelect('order.user', 'user')
+      .leftJoinAndSelect('order.guest', 'guest')
       .addSelect('pizzaSizeTopping.order_id')
-      .innerJoin('order.pizzaSizeToppings', 'pizzaSizeTopping')
-      .innerJoinAndSelect('pizzaSizeTopping.pizza', 'pizza')
-      .addSelect(['size.size_name', 'size.price'])
-      .innerJoin('pizzaSizeTopping.size', 'size')
+      .leftJoin('order.pizzaSizeToppings', 'pizzaSizeTopping')
+      .leftJoinAndSelect('pizzaSizeTopping.pizza', 'pizza')
+      .leftJoinAndSelect('pizzaSizeTopping.size', 'size')
       .orderBy('order.order_date', 'DESC')
       .getMany()
   }
