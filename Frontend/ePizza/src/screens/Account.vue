@@ -17,6 +17,7 @@ import {
   reactive,
   Ref,
   ref,
+  toRefs,
   watch,
   watchEffect,
 } from 'vue'
@@ -159,16 +160,19 @@ export default defineComponent({
     getUserAddress()
 
     const editAddress = async () => {
-      const addressInterface: Address = {
+      const { user }: any = toRefs(useFirebase())
+      const addressInterface: any = {
         address_id: address.address_id,
         city: address.city,
         number: address.number,
-        postal_code: address.zip_code,
+        zip_code: address.zip_code,
         street: address.street,
       }
-
-      console.log(addressInterface)
-      await put('/user/change/address', addressInterface)
+      await put(
+        '/user/change/address',
+        addressInterface,
+        await user.value?.getIdToken(),
+      )
     }
 
     return {
