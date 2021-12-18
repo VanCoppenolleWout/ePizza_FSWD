@@ -10,6 +10,8 @@ import { fetchData } from '../composables/useNetwork'
 import { Pizza } from '../interfaces/pizza'
 import { User } from '../interfaces/user'
 import { store } from '../store/store'
+import Dropdown from '../components/Dropdown.vue'
+import moment from 'moment'
 
 export default defineComponent({
   setup(context) {
@@ -24,6 +26,29 @@ export default defineComponent({
     const router: Router = useRouter()
     const error: Ref<boolean> = ref(false)
     const paymentOption: Ref<string> = ref('Paypal')
+
+    const datesArr: Array<Date> = []
+    let dateNow = new Date()
+
+    function roundTimeQuarterHour(time: Date) {
+      let timeToReturn: Date = new Date(time)
+
+      timeToReturn.setMilliseconds(
+        Math.round(timeToReturn.getMilliseconds() / 1000) * 1000,
+      )
+      timeToReturn.setSeconds(Math.round(timeToReturn.getSeconds() / 60) * 60)
+      timeToReturn.setMinutes(Math.round(timeToReturn.getMinutes() / 15) * 15)
+      timeToReturn.setMinutes(timeToReturn.getMinutes() + 15)
+
+      return timeToReturn
+    }
+
+    dateNow = roundTimeQuarterHour(dateNow)
+    const dateSelection: Ref<Date> = ref(dateNow)
+    for (let i = 1; i <= 10; i++) {
+      const newDateObj = new Date(dateNow.getTime() + i * 900000)
+      datesArr.push(newDateObj)
+    }
 
     const user: User = reactive({
       name: '',
@@ -85,7 +110,6 @@ export default defineComponent({
           data = await post('/order', body)
           handleRoute(data)
         }
-
         if (userInputDisabled.value && !addressInputDisabled.value) {
           let date = new Date()
           date.setMinutes(new Date().getMinutes() + 5)
@@ -119,7 +143,6 @@ export default defineComponent({
           for (let value of Object.values(address)) {
             if (value === '' && delivery == 'true') error.value = true
           }
-
           if (error.value !== true) {
             loader.value = true
             const body = {
@@ -141,7 +164,6 @@ export default defineComponent({
               time_preference: date,
               payment_method: paymentOption.value,
             }
-
             data = await post('/order', body)
             handleRoute(data)
           }
@@ -163,6 +185,10 @@ export default defineComponent({
         })
     }
 
+    const handleTime = (selection: Date) => {
+      dateSelection.value = selection
+    }
+
     getUserAddress()
 
     return {
@@ -171,9 +197,12 @@ export default defineComponent({
       address,
       userInputDisabled,
       addressInputDisabled,
-      placeOrder,
       error,
       paymentOption,
+      datesArr,
+      dateSelection,
+      placeOrder,
+      handleTime,
     }
   },
   components: {
@@ -181,6 +210,7 @@ export default defineComponent({
     Basket,
     InputComponent,
     Loader,
+    Dropdown,
   },
   props: {
     delivery: String,
@@ -445,6 +475,11 @@ export default defineComponent({
                   :class="paymentOption === 'Bancontact App' ? 'bg-p-red' : ''"
                 ></div>
               </div>
+            </div>
+
+            <div class="h-96">
+              <h3>Select time option</h3>
+              <Dropdown :dropdownArr="datesArr" @dateSelection="handleTime" />
             </div>
           </div>
         </form>
