@@ -79,7 +79,7 @@ export default defineComponent({
       <p class="text-base">{{ currPizza.name }}</p>
       <div class="flex items-center justify-between">
         <p>
-          <span class="text-gray-400 text-xs mr-1">Vanaf</span>
+          <span class="text-gray-400 text-xs mr-1">{{ $t('menu_from') }}</span>
           {{ `€${currPizza.price.toFixed(2)}` }}
         </p>
 

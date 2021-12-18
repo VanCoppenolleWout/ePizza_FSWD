@@ -209,8 +209,8 @@ export default defineComponent({
         @click="error = false"
       >
         <div class="w-96 h-48 bg-white rounded-sm p-4 relative">
-          <h3 class="text-xl text-red-600">Oh Snap!</h3>
-          <p>Please fill in all fields!</p>
+          <h3 class="text-xl text-red-600">{{ $t('order_error_title') }}</h3>
+          <p>{{ $t('order_error_desc') }}</p>
           <p
             class="
               absolute
@@ -243,22 +243,22 @@ export default defineComponent({
           >
             <path d="M15 18l-6-6 6-6" />
           </svg>
-          <p>Go back</p>
+          <p>{{ $t('item_back') }}</p>
         </router-link>
       </div>
       <div class="md:flex items-start mt-12 pb-32">
         <div class="md:w-1/3 lg:mx-1 hidden md:block">
           <div class="md:h-80">
             <p class="font-bold text-gray-500 text-xl">01</p>
-            <h3 class="font-bold text-2xl">Personal Details</h3>
+            <h3 class="font-bold text-2xl">{{ $t('order_title1') }}</h3>
           </div>
           <div class="md:h-80" v-if="delivery === 'true'">
             <p class="font-bold text-gray-500 text-xl">02</p>
-            <h3 class="font-bold text-2xl">Shipping Details</h3>
+            <h3 class="font-bold text-2xl">{{ $t('order_title2') }}</h3>
           </div>
           <div>
             <p class="font-bold text-gray-500 text-xl">03</p>
-            <h3 class="font-bold text-2xl">Payment Methods</h3>
+            <h3 class="font-bold text-2xl">{{ $t('order_title3') }}</h3>
           </div>
         </div>
 
@@ -266,14 +266,14 @@ export default defineComponent({
           <div class="md:h-80">
             <div class="flex items-center mb-2 md:hidden">
               <p class="font-bold text-gray-500 text-lg mr-2">01</p>
-              <h3 class="font-bold text-xl">Personal Details</h3>
+              <h3 class="font-bold text-xl">{{ $t('order_title1') }}</h3>
             </div>
             <InputComponent
               class="mr-2 w-full"
               id="name"
               placeholder="Johhn"
               type="text"
-              label="Name"
+              :label="$t('order_name')"
               :full="true"
               v-model="user.name"
               :disabled="userInputDisabled"
@@ -283,7 +283,7 @@ export default defineComponent({
               id="name"
               placeholder="Doe"
               type="text"
-              label="Lastname"
+              :label="$t('order_lastname')"
               :full="true"
               v-model="user.lastname"
               :value="user.lastname"
@@ -295,7 +295,7 @@ export default defineComponent({
               id="email"
               placeholder="johndoe@gmail.com"
               type="email"
-              label="Email"
+              :label="$t('order_mail')"
               :full="true"
               v-model="user.email"
               :value="user.email"
@@ -309,7 +309,7 @@ export default defineComponent({
           >
             <p class="font-bold text-gray-500 text-lg mr-2">02</p>
             <h3 class="font-bold text-xl" v-if="delivery === 'true'">
-              Shipping Details
+              {{ $t('order_title2') }}
             </h3>
           </div>
 
@@ -319,7 +319,7 @@ export default defineComponent({
               id="city"
               placeholder="Kortrijk"
               type="text"
-              label="City"
+              :label="$t('order_city')"
               :full="true"
               :disabled="addressInputDisabled"
               v-model="address.city"
@@ -329,7 +329,7 @@ export default defineComponent({
               id="street address"
               placeholder="Graaf Karel De Goedelaan"
               type="text"
-              label="Street Address"
+              :label="$t('order_street')"
               :full="true"
               :disabled="addressInputDisabled"
               v-model="address.street"
@@ -340,7 +340,7 @@ export default defineComponent({
                 id="number"
                 placeholder="32"
                 type="text"
-                label="Number"
+                :label="$t('order_streetnr')"
                 :full="true"
                 :disabled="addressInputDisabled"
                 v-model="address.number"
@@ -350,7 +350,7 @@ export default defineComponent({
                 id="zip code"
                 placeholder="8500"
                 type="text"
-                label="Zip Code"
+                :label="$t('order_zip')"
                 :full="true"
                 :disabled="addressInputDisabled"
                 v-model="address.zip_code"
@@ -361,14 +361,14 @@ export default defineComponent({
               class="-mt-5 underline"
               @click="addressInputDisabled = false"
             >
-              Change details
+              {{ $t('order_change') }}
             </div>
           </div>
 
           <div>
             <div class="flex items-center mb-2 md:hidden">
               <p class="font-bold text-gray-500 text-lg mr-2">03</p>
-              <h3 class="font-bold text-xl">Payment Method</h3>
+              <h3 class="font-bold text-xl">{{ $t('order_title3') }}d</h3>
             </div>
             <div
               class="

@@ -1,3 +1,5 @@
+import { StringifyOptions } from 'querystring'
+
 export const fetchData = () => {
   const url = 'http://localhost:3001'
 
@@ -34,6 +36,7 @@ export const fetchData = () => {
       return await fetch(`${url}${endpoint}`, {
         method: 'PUT',
         headers: {
+          Authorization: `Bearer ${bearer}`,
           Accept: 'application/json',
           'Content-Type': 'application/json',
           Authorization: `Bearer ${bearer}`,

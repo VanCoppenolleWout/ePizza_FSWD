@@ -197,7 +197,7 @@ export default defineComponent({
     <div class="p-4 flex flex-col justify-between">
       <div>
         <div class="flex items-center justify-between mb-2 lg:mb-5">
-          <h1 class="text-3xl font-bold text-p-gray-1000">Basket</h1>
+          <h1 class="text-3xl font-bold text-p-gray-1000">{{ $t('basket_title') }}</h1>
           <div
             class="lg:hidden cursor-pointer"
             :class="active ? 'transform rotate-0' : 'transform rotate-180'"
@@ -219,7 +219,7 @@ export default defineComponent({
           </div>
         </div>
         <div class="lg:h-72" v-if="pizzas.length == 0">
-          <p>Add items to the order.</p>
+          <p>{{ $t('basket_empty') }}</p>
         </div>
         <div
           class="
@@ -262,7 +262,7 @@ export default defineComponent({
       </div>
       <div v-if="pizzas !== null" class="lg:mt-10">
         <div class="lg:flex flex-row justify-between items-center hidden">
-          <h2 class="text-xl font-semibold">Total</h2>
+          <h2 class="text-xl font-semibold">{{ $t('basket_total') }}</h2>
           <p class="text-xl font-medium text-p-gray-300">
             €{{ totalPrice.toFixed(2) }}
           </p>
@@ -282,7 +282,7 @@ export default defineComponent({
           "
           @click="addPizza"
         >
-          Add to order
+          {{ $t('basket_add') }}
         </button>
         <button
           v-else-if="orderPage"
@@ -301,7 +301,7 @@ export default defineComponent({
           :disabled="pizzas.length == 0"
           @click="placeOrder"
         >
-          Order (€ {{ totalPrice.toFixed(2) }})
+          {{ $t('basket_btn') }} (€ {{ totalPrice.toFixed(2) }})
         </button>
 
         <router-link to="order" v-else>
@@ -320,7 +320,7 @@ export default defineComponent({
             "
             :disabled="pizzas.length == 0"
           >
-            Order (€ {{ totalPrice.toFixed(2) }})
+            {{ $t('basket_btn') }} (€ {{ totalPrice.toFixed(2) }})
           </button>
         </router-link>
       </div>
