@@ -75,7 +75,7 @@ export default defineComponent({
               sm:block
             "
           >
-            Order
+            {{ $t('side_order') }}
           </p>
         </div>
       </router-link>
@@ -135,7 +135,7 @@ export default defineComponent({
             </svg>
           </div>
           <p class="ml-2 text-md text-gray-500 font-semibold hidden sm:block">
-            Stock
+            {{ $t('side_stock') }}
           </p>
         </div>
       </router-link>
@@ -174,7 +174,7 @@ export default defineComponent({
             </svg>
           </div>
           <p class="ml-2 text-md text-gray-500 font-semibold hidden sm:block">
-            Reviews
+            {{ $t('side_reviews') }}
           </p>
         </div>
       </router-link>
@@ -214,7 +214,7 @@ export default defineComponent({
             </svg>
           </div>
           <p class="ml-2 text-md text-gray-500 font-semibold hidden sm:block">
-            Charts
+            {{ $t('side_chart') }}
           </p>
         </div>
       </router-link>

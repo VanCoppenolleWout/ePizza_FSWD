@@ -152,7 +152,7 @@ export default defineComponent({
             text-center
           "
         >
-          Create an Account
+          {{ $t('register_h1') }}
         </h3>
         <div class="w-8"></div>
       </div>
@@ -162,14 +162,14 @@ export default defineComponent({
           id="name"
           placeholder="John"
           type="text"
-          label="Name"
+          :label="$t('order_name')"
           v-model="name"
         />
         <InputComponent
           id="lastname"
           placeholder="Doe"
           type="text"
-          label="lastname"
+          :label="$t('order_lastname')"
           v-model="lastname"
         />
       </div>
@@ -186,7 +186,7 @@ export default defineComponent({
           id="phone_nr"
           placeholder="0496 05 43 89"
           type="text"
-          label="Phone number"
+          :label="$t('order_phonenr')"
           v-model="phone_nr"
         />
       </div>
@@ -196,14 +196,14 @@ export default defineComponent({
           id="password"
           placeholder="●●●●●●●●"
           type="password"
-          label="Password"
+          :label="$t('account_password')"
           v-model="password"
         />
         <InputComponent
           id="confirm"
           placeholder="●●●●●●●●"
           type="password"
-          label="Confirm password"
+          :label="$t('account_confirmpassword')"
           v-model="confirmPassword"
         />
       </div>
@@ -256,7 +256,7 @@ export default defineComponent({
                 d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
               ></path>
             </svg>
-            <p class="">Register</p>
+            <p class="">{{ $t('btn_register') }}</p>
           </button>
         </div>
       </div>

@@ -31,12 +31,12 @@ export default defineComponent({
 <template>
   <div class="bg-white rounded-lg p-8 overflow-scroll md:h-order">
     <div class="flex flex-row justify-between items-center">
-      <h1 class="text-p-red text-2xl font-semibold mb-4">Orders</h1>
+      <h1 class="text-p-red text-2xl font-semibold mb-4">{{ $t('order_title') }}</h1>
       <div
         v-if="orders.length > 0"
         class="flex flex-row items-center space-x-2"
       >
-        <p>Date</p>
+        <p>{{ $t('order_date') }}</p>
         <button @click="filter()">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -92,7 +92,7 @@ export default defineComponent({
       v-else
       class="flex items-center self-center justify-center flex-1 mt-12"
     >
-      <p class="font-medium text-sm">No orders yet.</p>
+      <p class="font-medium text-sm">{{ $t('order_empty') }}</p>
     </section>
   </div>
 </template>
