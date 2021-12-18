@@ -6,7 +6,7 @@ import { Review } from './review'
 import { User } from './user'
 
 export interface Order {
-  order_id: string
+  order_id: number
   price: string
   order_date: Date
   delivery_date: Date

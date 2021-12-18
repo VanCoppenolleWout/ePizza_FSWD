@@ -1,25 +1,54 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent, Ref, ref, toRefs, watch } from 'vue'
 import moment from 'moment'
 import { Order } from '../../interfaces/order'
 
 export default defineComponent({
   setup(context, { emit }) {
+    const { orders } = toRefs(context)
+
+    watch(orders, (oldVal, newVal) => {
+      filterDesc()
+    })
+
+    const idCounter: Ref<number> = ref(1)
+
     const handleDetail = async (order: Order) => {
       emit('handleDetail', order)
     }
     const handleStatus = async (order: Order) => {
       emit('handleStatus', order)
     }
+
+    const filterAsc = () => {
+      orders.value = orders.value.sort((a, b) => a.order_id - b.order_id)
+    }
+    const filterDesc = () => {
+      orders.value = orders.value.sort((a, b) => b.order_id - a.order_id)
+    }
+
+    const filterById = () => {
+      idCounter.value++
+      if (idCounter.value === 1) filterDesc()
+      if (idCounter.value === 2) filterAsc()
+      if (idCounter.value === 3) {
+        filterDesc()
+        idCounter.value = 1
+      }
+    }
+
+    filterDesc()
     return {
       moment,
       handleDetail,
       handleStatus,
+      filterById,
+      orders,
     }
   },
 
   props: {
-    orders: { type: Array as () => Array<Order> },
+    orders: { type: Array as () => Array<Order>, required: true },
   },
 })
 </script>
@@ -29,11 +58,11 @@ export default defineComponent({
     <table class="mb-4">
       <thead>
         <tr class="text-gray-500 font-semibold">
-          <th>Order ID</th>
-          <th>Delivery</th>
-          <th>Date</th>
-          <th>Price</th>
-          <th>Status</th>
+          <th class="cursor-pointer" @click="filterById">Order ID</th>
+          <th class="cursor-default">Delivery</th>
+          <th class="cursor-pointer" @click="filterById">Date</th>
+          <th class="cursor-default">Price</th>
+          <th class="cursor-default">Status</th>
         </tr>
       </thead>
 
@@ -65,15 +94,17 @@ export default defineComponent({
           <td data-label="Price" @click="handleDetail(order)">
             €{{ order.price }}
           </td>
-          <td data-label="Status" class="flex justify-center">
+          <td data-label="Status" class="flex justify-end md:justify-center">
             <p
               class="
                 rounded-md
-                w-1/2
+                w-32
                 transition
                 hover:scale-105
                 ease-out
                 duration-300
+                flex
+                justify-center
               "
               :class="
                 order.status === 'completed'

@@ -208,7 +208,7 @@ export default defineComponent({
         v-if="error"
         @click="error = false"
       >
-        <div class="w-96 h-48 bg-white rounded-sm p-4 relative">
+        <div class="w-96 h-48 bg-white rounded-md p-4 relative">
           <h3 class="text-xl text-red-600">{{ $t('order_error_title') }}</h3>
           <p>{{ $t('order_error_desc') }}</p>
           <p

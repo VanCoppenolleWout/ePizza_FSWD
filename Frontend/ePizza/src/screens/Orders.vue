@@ -43,7 +43,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="sm:ml-24">
+  <div class="sm:ml-24 mb-12 md:mb-0">
     <div class="sm:p-8 p-4">
       <h3 class="text-gray-700 text-2xl font-semibold mb-4">Order details</h3>
       <p class="max-w-6xl text-gray-500 mb-8">
@@ -119,16 +119,13 @@ export default defineComponent({
       </ul>
 
       <OrdersComponent
-        v-if="orders"
+        v-if="orders.length > 0"
         :orders="orders"
         :filter="filter"
         @updateOrders="updateOrders"
       />
+
       <div v-else>Loading orders...</div>
-
-      <!-- <OrderViewComponent /> -->
-
-      <!-- <Map /> -->
     </div>
   </div>
 </template>

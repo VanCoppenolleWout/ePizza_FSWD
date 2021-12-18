@@ -164,13 +164,15 @@ export default defineComponent({
           md:max-w-xs
         "
       >
-        <h1 class="p-2 text-xl font-bold text-p-gray-1000">{{ $t('item_size_title') }}</h1>
+        <h1 class="p-2 text-xl font-bold text-p-gray-1000">
+          {{ $t('item_size_title') }}
+        </h1>
         <div class="flex justify-between p-2" @click="size = 1">
           <div class="flex gap-4">
             <p class="cursor-default">{{ $t('size_small') }}</p>
           </div>
           <div class="flex gap-3">
-            <p class="cursor-default">€0</p>
+            <p class="cursor-default">€{{ pizza.price }}</p>
 
             <div
               class="w-6 h-6 rounded-md cursor-pointer hover:bg-red-300"
@@ -198,7 +200,7 @@ export default defineComponent({
             <p class="cursor-default">{{ $t('size_medium') }}</p>
           </div>
           <div class="flex gap-3">
-            <p class="cursor-default">€5</p>
+            <p class="cursor-default">€{{ pizza.price + 5 }}</p>
 
             <div
               class="w-6 h-6 rounded-md cursor-pointer hover:bg-red-300"
@@ -226,7 +228,7 @@ export default defineComponent({
             <p class="cursor-default">{{ $t('size_large') }}</p>
           </div>
           <div class="flex gap-3">
-            <p class="cursor-default">€10</p>
+            <p class="cursor-default">€{{ pizza.price + 10 }}</p>
 
             <div
               class="w-6 h-6 rounded-md cursor-pointer hover:bg-red-300"
@@ -250,7 +252,9 @@ export default defineComponent({
             </div>
           </div>
         </div>
-        <h1 class="p-2 text-xl font-bold text-p-gray-1000">{{ $t('item_addtoppings') }}</h1>
+        <h1 class="p-2 text-xl font-bold text-p-gray-1000">
+          {{ $t('item_addtoppings') }}
+        </h1>
         <div
           class="flex justify-between p-2"
           v-for="(topping, index) in toppingsAr"

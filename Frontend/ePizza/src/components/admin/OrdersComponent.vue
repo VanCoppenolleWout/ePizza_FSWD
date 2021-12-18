@@ -12,6 +12,7 @@ export default defineComponent({
     const router = useRouter()
     const { put } = fetchData()
     const { orders } = toRefs(context)
+
     const completedOrders = computed(() =>
       orders.value.filter((order) => order.status === 'completed'),
     )
@@ -88,7 +89,7 @@ export default defineComponent({
   <div>
     <div
       class="
-        bg-black bg-opacity-50
+        bg-black bg-opacity-30
         fixed
         w-screen
         h-full
@@ -280,4 +281,3 @@ export default defineComponent({
     />
   </div>
 </template>
-
