@@ -368,7 +368,7 @@ export default defineComponent({
           <div>
             <div class="flex items-center mb-2 md:hidden">
               <p class="font-bold text-gray-500 text-lg mr-2">03</p>
-              <h3 class="font-bold text-xl">{{ $t('order_title3') }}d</h3>
+              <h3 class="font-bold text-xl">{{ $t('order_title3') }}</h3>
             </div>
             <div
               class="

@@ -62,13 +62,12 @@ export default defineComponent({
               </svg>
             </div>
           </routerLink>
-          <h1 class="text-2xl font-semibold text-p-red">🧠 Forgot password</h1>
+          <h1 class="text-2xl font-semibold text-p-red">🧠 {{ $t('forgot_h1') }}</h1>
           <div class="w-8"></div>
         </div>
         <div class="flex justify-center space-x-2">
-          <p class="">
-            Enter your email address and we'll send you a link to reset your
-            password.
+          <p class=" text-center">
+            {{ $t('forgot_sub') }}
           </p>
         </div>
         <form @submit.prevent="handleForm" class="mt-10">
@@ -129,7 +128,7 @@ export default defineComponent({
                 ></path>
               </svg>
 
-              <p class="">Reset password</p>
+              <p class="">{{ $t('btn_forgot') }}</p>
             </button>
           </div>
         </form>

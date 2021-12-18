@@ -76,9 +76,9 @@ export default defineComponent({
     <section class="p-8 cursor-default">
       <div class="mb-8">
         <h1 class="text-center text-p-red text-2xl font-semibold mb-5">
-          Thanks for ordering!
+          {{ $t('tracker_title') }}
         </h1>
-        <p class="text-center">{{ 'Tracking order...' }}</p>
+        <p class="text-center">{{ $t('tracker_sub') }}</p>
       </div>
       <div class="space-y-4">
         <div
@@ -97,7 +97,7 @@ export default defineComponent({
           "
         >
           <h2 class="font-semibold relative text-white z-50">
-            Preparing pizza
+            {{ $t('order_prep') }}
           </h2>
           <div
             class="
@@ -132,7 +132,7 @@ export default defineComponent({
           "
         >
           <h2 class="font-semibold relative text-white z-50">
-            Pizza is in the oven
+            {{ $t('order_oven') }}
           </h2>
           <div
             class="
@@ -166,7 +166,7 @@ export default defineComponent({
             z-50
           "
         >
-          <h2 class="font-semibold relative text-white z-50">Pizza is baked</h2>
+          <h2 class="font-semibold relative text-white z-50">{{ $t('order_baked') }}</h2>
           <div
             class="
               bg-red-500
@@ -202,7 +202,7 @@ export default defineComponent({
           v-if="delivery"
         >
           <h2 class="font-semibold relative text-white z-50">
-            Order is underway
+            {{ $t('order_underway') }}
           </h2>
           <div
             class="
@@ -238,7 +238,7 @@ export default defineComponent({
           v-else
         >
           <h2 class="font-semibold relative text-white z-50">
-            Ready at our shop
+            {{ $t('order_ready') }}
           </h2>
           <div
             class="

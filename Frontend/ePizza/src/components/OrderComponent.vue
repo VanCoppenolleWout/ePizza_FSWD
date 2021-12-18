@@ -29,7 +29,7 @@ export default defineComponent({
       <div class="flex flex-wrap justify-between mb-6">
         <div class="w-32 lg:w-auto mb-6">
           <h3 class="text-gray-700 text-xl font-semibold mb-2">
-            {{ order.address ? 'Delivery to' : 'Take out address' }}
+            {{ order.address ? $t('order_deliveryto') : $t('order_takeout') }}
           </h3>
           <div v-if="order.address">
             <p>{{ order.address.street }}, {{ order.address.number }}</p>
@@ -43,13 +43,13 @@ export default defineComponent({
         </div>
         <div class="w-28 lg:w-auto">
           <h3 class="text-gray-700 text-xl font-semibold mb-2 sm:text-right">
-            Payment method
+            {{ $t('order_method') }}
           </h3>
           <p class="sm:text-right">{{ order.payment_method }}</p>
         </div>
       </div>
       <div class="">
-        <h3 class="text-gray-700 text-xl font-semibold mb-2">Your order</h3>
+        <h3 class="text-gray-700 text-xl font-semibold mb-2">{{ $t('order_yours') }}</h3>
         <div
           v-for="(item, index) in order.pizzaSizeToppings"
           :key="index"
@@ -81,7 +81,7 @@ export default defineComponent({
           </div>
         </div>
         <div class="flex justify-between font-medium mt-4">
-          <p>Total</p>
+          <p> {{ $t('basket_total') }} </p>
           <p>{{ order.price }}€</p>
         </div>
       </div>

@@ -112,9 +112,9 @@ export default defineComponent({
           </router-link>
         </div>
         <div class="flex justify-center space-x-2">
-          <p class="text-p-red">No account yet?</p>
+          <p class="text-p-red">{{ $t('login_sub') }}</p>
           <RouterLink to="/register" class="underline"
-            >Register here</RouterLink
+            >{{ $t('login_sub2') }}</RouterLink
           >
         </div>
         <form @submit.prevent="handleForm" class="mt-10">
@@ -131,7 +131,7 @@ export default defineComponent({
               id="password"
               placeholder="●●●●●●●"
               type="password"
-              label="password"
+              :label="$t('account_password')"
               :full="true"
               v-model="password"
             />
@@ -140,7 +140,7 @@ export default defineComponent({
           <div class="flex flex-row justify-between">
             <div></div>
             <router-link to="/forgotpassword" class="underline"
-              >Forgot password?</router-link
+              >{{ $t('login_sub3') }}</router-link
             >
           </div>
 

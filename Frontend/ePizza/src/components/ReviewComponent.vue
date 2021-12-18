@@ -117,7 +117,7 @@ export default defineComponent({
         <div>
           <label class="block text-left mt-4" for="text">
             <span class="text-gray-700 text-2xl font-semibold"
-              >Leave a review</span
+              >{{ $t('review_title') }}</span
             >
             <textarea
               class="
@@ -134,7 +134,7 @@ export default defineComponent({
                 bg-primary
               "
               rows="3"
-              placeholder="Type..."
+              :placeholder="$t('review_input')"
               id="text"
               v-model="text"
             ></textarea>
@@ -143,7 +143,7 @@ export default defineComponent({
         <div class="mt-8">
           <label class="flex flex-col" for="title">
             <span class="text-gray-700 text-lg font-medium"
-              >Title of review</span
+              >{{ $t('review_subtitle') }}</span
             >
             <input
               type="text"
@@ -180,8 +180,8 @@ export default defineComponent({
         :class="formstate === false ? 'pointer-events-none opacity-50' : ''"
         type="submit"
       >
-        <p v-if="formstate === true" class="text-white">Submit review</p>
-        <p v-else class="text-white">Submitted</p>
+        <p v-if="formstate === true" class="text-white">{{ $t('btn_review') }}</p>
+        <p v-else class="text-white">{{ $t('btn_review2') }}</p>
       </button>
     </form>
   </div>
