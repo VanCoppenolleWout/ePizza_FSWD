@@ -132,7 +132,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="rounded-lg p-8">
+  <div>
     <div class="flex flex-row justify-between items-center">
       <h1 class="text-p-red text-2xl font-semibold mb-4">Stock</h1>
       <button v-if="!detailScreen && !graphScreen" @click="showGraph()">

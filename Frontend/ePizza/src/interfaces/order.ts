@@ -14,6 +14,7 @@ export interface Order {
   review: Review
   payment_method?: string
   delivery?: boolean
+  status?: string
 
   address: Address | null
   guest?: Guest

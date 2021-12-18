@@ -29,6 +29,8 @@ export class Order {
   delivery?: boolean
   @Column()
   payment_method?: string
+  @Column()
+  status?: string
 
   @ManyToOne(() => User, (user) => user.orderConnection)
   @JoinColumn({ name: 'user_id' })

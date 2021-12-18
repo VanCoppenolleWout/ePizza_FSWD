@@ -248,10 +248,12 @@ export default defineComponent({
   opacity: 0;
   height: 0;
   overflow: hidden;
+  width: 0;
 }
 nav:hover p {
   opacity: 1;
   height: auto;
+  width: auto;
 }
 .router-link:hover p {
   color: #f54749;

@@ -65,6 +65,7 @@ export class OrderService {
       payment_method: orderORM.payment_method,
       user: user,
       guest: guest,
+      status: 'processing',
     }
     let totalPizzaPrice = 0
     for (let i = 0; i < pizzaIds.length; i++) {
@@ -239,14 +240,17 @@ export class OrderService {
   async getAll(): Promise<Array<Order>> {
     return await this.orderRepository
       .createQueryBuilder('order')
-      // .select(['order.order_id', 'order.order_date'])
-      .leftJoinAndSelect('order.user', 'user')
+      .addSelect(['guest.guest_id', 'guest.name', 'guest.lastname'])
       .leftJoinAndSelect('order.guest', 'guest')
+      .leftJoinAndSelect('order.user', 'user')
       .addSelect('pizzaSizeTopping.order_id')
-      .leftJoin('order.pizzaSizeToppings', 'pizzaSizeTopping')
-      .leftJoinAndSelect('pizzaSizeTopping.pizza', 'pizza')
-      .leftJoinAndSelect('pizzaSizeTopping.size', 'size')
-      .orderBy('order.order_date', 'DESC')
+      .innerJoinAndSelect('order.pizzaSizeToppings', 'pizzaSizeTopping')
+      .innerJoinAndSelect('pizzaSizeTopping.pizza', 'pizza')
+      .addSelect(['size.size_name', 'size.price'])
+      .innerJoin('pizzaSizeTopping.size', 'size')
+      .leftJoinAndSelect('pizzaSizeTopping.toppings', 'topping')
+      .leftJoinAndSelect('order.address', 'adddress')
+
       .getMany()
   }
 
@@ -258,17 +262,17 @@ export class OrderService {
       )
     const order: Order = await this.orderRepository
       .createQueryBuilder('order')
-      .select(['order.order_id', 'order.order_date', 'order.delivery_date'])
-      .addSelect(['user.user_id', 'user.name', 'user.lastname'])
-      .leftJoinAndSelect('order.user', 'user')
       .addSelect(['guest.guest_id', 'guest.name', 'guest.lastname'])
       .leftJoinAndSelect('order.guest', 'guest')
+      .leftJoinAndSelect('order.user', 'user')
       .addSelect('pizzaSizeTopping.order_id')
-      .innerJoin('order.pizzaSizeToppings', 'pizzaSizeTopping')
-      .leftJoinAndSelect('pizzaSizeTopping.pizza', 'pizza')
+      .innerJoinAndSelect('order.pizzaSizeToppings', 'pizzaSizeTopping')
+      .innerJoinAndSelect('pizzaSizeTopping.pizza', 'pizza')
       .addSelect(['size.size_name', 'size.price'])
-      .leftJoinAndSelect('pizzaSizeTopping.size', 'size')
-      .leftJoinAndSelect('order.review', 'review')
+      .innerJoin('pizzaSizeTopping.size', 'size')
+      .leftJoinAndSelect('pizzaSizeTopping.toppings', 'topping')
+      .leftJoinAndSelect('order.address', 'adddress')
+
       .where('order.order_id = :order_id', { order_id })
       .getOne()
 
@@ -306,5 +310,26 @@ export class OrderService {
         HttpStatus.BAD_REQUEST,
       )
     return orders
+  }
+
+  async changeStatus(body: any): Promise<Array<Order>> {
+    const { order_id, status } = body
+    if (!order_id || !status)
+      throw new HttpException(
+        'Oops you forgot the order id or status',
+        HttpStatus.BAD_REQUEST,
+      )
+    const order: Order = await this.orderRepository.findOne(order_id)
+    if (!order)
+      throw new HttpException(
+        `Oops we couldn't find that order ..`,
+        HttpStatus.BAD_REQUEST,
+      )
+
+    order.status = status
+
+    await this.orderRepository.save(order)
+
+    return await this.getAll()
   }
 }

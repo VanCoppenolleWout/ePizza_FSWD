@@ -12,18 +12,24 @@ import OrderViewComponent from '../components/admin/OrderViewComponent.vue'
 export default defineComponent({
   setup() {
     const { get } = fetchData()
-    const status = ref('all')
+    const filter = ref('all')
     const orders: Ref<Array<Order>> = ref([])
 
     const getAllOrders = async () => {
       orders.value = await get('/order/all')
       console.log(orders.value)
     }
+
+    const updateOrders = async (newOrders: Array<Order>) => {
+      orders.value = newOrders
+    }
+
     getAllOrders()
 
     return {
-      status,
+      filter,
       orders,
+      updateOrders,
     }
   },
   components: {
@@ -41,7 +47,7 @@ export default defineComponent({
   <div class="sm:ml-24">
     <div class="sm:p-8 p-4">
       <h3 class="text-gray-700 text-2xl font-semibold mb-4">Order details</h3>
-      <p class="max-w-6xl text-gray-500 mb-16">
+      <p class="max-w-6xl text-gray-500 mb-8">
         In the order details section, you can review and manage all orders with
         their details.
       </p>
@@ -55,11 +61,11 @@ export default defineComponent({
             hover:text-p-red hover:border-p-red hover:border-b-2
           "
           :class="
-            status === 'all'
+            filter === 'all'
               ? 'text-p-red border-p-red border-b-2'
               : 'text-gray-500'
           "
-          @click="status = 'all'"
+          @click="filter = 'all'"
         >
           All orders
         </li>
@@ -71,11 +77,11 @@ export default defineComponent({
             hover:text-p-red hover:border-p-red hover:border-b-2
           "
           :class="
-            status === 'processing'
+            filter === 'processing'
               ? 'text-p-red border-p-red border-b-2'
               : 'text-gray-500'
           "
-          @click="status = 'processing'"
+          @click="filter = 'processing'"
         >
           Processing
         </li>
@@ -87,11 +93,11 @@ export default defineComponent({
             hover:text-p-red hover:border-p-red hover:border-b-2
           "
           :class="
-            status === 'completed'
+            filter === 'completed'
               ? 'text-p-red border-p-red border-b-2'
               : 'text-gray-500'
           "
-          @click="status = 'completed'"
+          @click="filter = 'completed'"
         >
           Completed
         </li>
@@ -103,20 +109,25 @@ export default defineComponent({
             hover:text-p-red hover:border-p-red hover:border-b-2
           "
           :class="
-            status === 'cancelled'
+            filter === 'cancelled'
               ? 'text-p-red border-p-red border-b-2'
               : 'text-gray-500'
           "
-          @click="status = 'cancelled'"
+          @click="filter = 'cancelled'"
         >
           Canceled
         </li>
       </ul>
 
-      <OrdersComponent v-if="orders" :orders="orders" />
+      <OrdersComponent
+        v-if="orders"
+        :orders="orders"
+        :filter="filter"
+        @updateOrders="updateOrders"
+      />
       <div v-else>Loading orders...</div>
 
-      <OrderViewComponent />
+      <!-- <OrderViewComponent /> -->
 
       <!-- <Map /> -->
     </div>

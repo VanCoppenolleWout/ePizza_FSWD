@@ -19,10 +19,14 @@ export default defineComponent({
 </script>
 
 <template>
-  <div>
-    <!-- <SideBar /> -->
-    <StockComponent class="sm:ml-24" />
-
-    <!-- charts, administrators, -->
+  <div class="sm:ml-24">
+    <div class="sm:p-8 p-4">
+      <h3 class="text-gray-700 text-2xl font-semibold mb-4">Stock details</h3>
+      <p class="max-w-6xl text-gray-500 mb-8">
+        In the stock details section, you can review and manage all toppings and
+        their price.
+      </p>
+      <StockComponent />
+    </div>
   </div>
 </template>

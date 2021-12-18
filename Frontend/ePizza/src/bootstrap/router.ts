@@ -100,6 +100,7 @@ const routes: RouteRecordRaw[] = [
   //admin routes
   {
     path: '/orders',
+    name: 'orders',
     component: () =>
       import(/* webpackChunkName: "orders"*/ '../screens/Orders.vue'),
     beforeEnter: async (to, from, next) => {
@@ -148,6 +149,45 @@ const routes: RouteRecordRaw[] = [
       const { admin } = await get('/user/admin', idToken)
 
       admin ? next() : next({ name: 'home' })
+    },
+  },
+  {
+    path: '/orders/detail/:order_id',
+    component: () =>
+      import(
+        /* webpackChunkName: "orders/detail/order_id"*/ '../screens/OrdersDetail.vue'
+      ),
+    beforeEnter: async (to, from, next) => {
+      const auth = getAuth()
+      const idToken = await auth.currentUser?.getIdToken()
+
+      const { admin } = await get('/user/admin', idToken)
+
+      if (admin) {
+        next()
+      } else {
+        next()
+      }
+    },
+  },
+  {
+    path: '/orders/detail',
+    name: 'orders/detail',
+    component: () =>
+      import(/* webpackChunkName: "orders"*/ '../screens/OrdersDetail.vue'),
+    props: true,
+    beforeEnter: async (to, from, next) => {
+      const auth = getAuth()
+      const idToken = await auth.currentUser?.getIdToken()
+
+      const { admin } = await get('/user/admin', idToken)
+
+      if (admin) {
+        if (to.params.order === undefined) next({ name: 'orders' })
+        next()
+      } else {
+        next()
+      }
     },
   },
   {

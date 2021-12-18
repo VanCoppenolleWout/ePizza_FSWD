@@ -29,13 +29,14 @@ export const fetchData = () => {
     }
   }
 
-  const put = async (endpoint: string, body: any) => {
+  const put = async (endpoint: string, body: any, bearer?: string) => {
     try {
       return await fetch(`${url}${endpoint}`, {
         method: 'PUT',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${bearer}`,
         },
         body: JSON.stringify(body),
       }).then((res) => res.json())
