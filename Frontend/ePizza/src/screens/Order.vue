@@ -151,10 +151,16 @@ export default defineComponent({
 
     const handleRoute = (data: any) => {
       deletePizzasLocal()
-      router.push({
-        name: 'tracker',
-        params: { order: JSON.stringify(data) },
-      })
+      if (!data.message)
+        router.push({
+          name: 'tracker',
+          params: { order: JSON.stringify(data) },
+        })
+      else
+        router.push({
+          name: 'notFound',
+          params: { error: data.message, status: data.statusCode },
+        })
     }
 
     getUserAddress()

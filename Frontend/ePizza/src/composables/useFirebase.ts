@@ -42,7 +42,7 @@ export default () => {
           resolve(true)
         })
         .catch((error) => {
-          reject('falsee')
+          resolve(error)
         })
     })
   }

@@ -44,9 +44,8 @@ export default defineComponent({
 
         if (user.email && user.password) {
           try {
-            login(user.email, user.password).then((succes: any) => {
-              console.log(succes)
-              if (succes) {
+            login(user.email, user.password).then((response: any) => {
+              if (response === true) {
                 animateCircle.value = false
                 if (admin) {
                   router.push('/stock')
@@ -55,11 +54,12 @@ export default defineComponent({
                 }
               } else {
                 animateCircle.value = false
-                errorMsg.value = 'failed'
+                errorMsg.value = 'Failed to login'
               }
             })
           } catch (error) {
-            console.log(error)
+            errorMsg.value = 'Failed to login'
+            animateCircle.value = false
           }
         }
       }

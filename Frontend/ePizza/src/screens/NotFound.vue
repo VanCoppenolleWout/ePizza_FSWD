@@ -4,12 +4,11 @@ import { useRoute } from 'vue-router'
 import AppHeader from '../components/AppHeader.vue'
 
 export default defineComponent({
-  setup(context) {
-    // const error: Ref<string | undefined> = ref(context.error)
-  },
+  setup() {},
   components: { AppHeader },
   props: {
     error: String,
+    status: String,
   },
 })
 </script>
@@ -24,6 +23,7 @@ export default defineComponent({
           pizza-image
           hidden
           md:block
+          w-input
           pointer-events-none
           transition-all
           ease
@@ -55,9 +55,23 @@ export default defineComponent({
               moving-bg
             "
           >
-            <span class="text-lg opacity-90 font-medium">Page not found</span>
+            <span v-if="status === '400'" class="text-lg opacity-90 font-medium"
+              >Bad request</span
+            >
+            <span v-else class="text-lg opacity-90 font-medium"
+              >Page not found</span
+            >
           </div>
-          <h1 class="font-semibold text-5xl md:text-7xl text-red-700 mt-8">
+          <h1
+            v-if="status"
+            class="font-semibold text-5xl md:text-7xl text-red-700 mt-8"
+          >
+            Oh no, Error {{ status }}!
+          </h1>
+          <h1
+            v-else
+            class="font-semibold text-5xl md:text-7xl text-red-700 mt-8"
+          >
             Oh no, Error 404!
           </h1>
           <p v-if="error" class="text-2xl mt-6">
@@ -68,12 +82,14 @@ export default defineComponent({
           </p>
           <div
             class="
-              flex flex-row
-              items-center
+              flex
+              sm:flex-row sm:items-center
               md:justify-start
               justify-between
-              md:space-x-10
+              md:gap-9
+              gap-y-2
               mt-8
+              flex-col
             "
           >
             <router-link
@@ -89,7 +105,9 @@ export default defineComponent({
               "
               >Back to homepage</router-link
             >
-            <a href="#contact" class="font-medium md:text-lg">Contact us</a>
+            <a href="#contact" class="ml-1 font-medium md:text-lg"
+              >Contact us</a
+            >
           </div>
         </section>
       </div>
@@ -101,12 +119,11 @@ export default defineComponent({
 .pizza-image {
   right: -250px;
   top: 700px;
-  width: 900px;
 }
 @media (min-width: 1024px) {
   .pizza-image {
-    right: -400px;
-    top: 8rem;
+    right: -250px;
+    top: 12rem;
   }
 }
 </style>

@@ -45,7 +45,7 @@ export default defineComponent({
           <h3 class="text-gray-700 text-xl font-semibold mb-2 sm:text-right">
             Payment method
           </h3>
-          <p class="sm:text-right">Bancontact App</p>
+          <p class="sm:text-right">{{ order.payment_method }}</p>
         </div>
       </div>
       <div class="">

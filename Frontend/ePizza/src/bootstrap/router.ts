@@ -93,13 +93,6 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
-    path: '/test',
-    component: () =>
-      import(/* webpackChunkName: "tracker"*/ '../screens/Test.vue'),
-    props: true,
-  },
-
-  {
     path: '/detail',
     component: () =>
       import(/* webpackChunkName: "detail"*/ '../screens/MenuItem.vue'),
@@ -112,6 +105,7 @@ const routes: RouteRecordRaw[] = [
   //admin routes
   {
     path: '/orders',
+    name: 'orders',
     component: () =>
       import(/* webpackChunkName: "orders"*/ '../screens/Orders.vue'),
     beforeEnter: async (to, from, next) => {
@@ -127,6 +121,84 @@ const routes: RouteRecordRaw[] = [
     path: '/stock',
     component: () =>
       import(/* webpackChunkName: "stock"*/ '../screens/Stock.vue'),
+    beforeEnter: async (to, from, next) => {
+      const auth = getAuth()
+      const idToken = await auth.currentUser?.getIdToken()
+
+      const { admin } = await get('/user/admin', idToken)
+
+      admin ? next() : next({ name: 'home' })
+    },
+  },
+  {
+    path: '/chart',
+    component: () =>
+      import(/* webpackChunkName: "stock"*/ '../screens/Chart.vue'),
+    beforeEnter: async (to, from, next) => {
+      const auth = getAuth()
+      const idToken = await auth.currentUser?.getIdToken()
+
+      const { admin } = await get('/user/admin', idToken)
+
+      admin ? next() : next({ name: 'home' })
+    },
+  },
+  {
+    path: '/rating',
+    component: () =>
+      import(/* webpackChunkName: "register"*/ '../screens/Rating.vue'),
+    beforeEnter: async (to, from, next) => {
+      const auth = getAuth()
+      const idToken = await auth.currentUser?.getIdToken()
+
+      const { admin } = await get('/user/admin', idToken)
+
+      admin ? next() : next({ name: 'home' })
+    },
+  },
+  {
+    path: '/orders/detail/:order_id',
+    component: () =>
+      import(
+        /* webpackChunkName: "orders/detail/order_id"*/ '../screens/OrdersDetail.vue'
+      ),
+    beforeEnter: async (to, from, next) => {
+      const auth = getAuth()
+      const idToken = await auth.currentUser?.getIdToken()
+
+      const { admin } = await get('/user/admin', idToken)
+
+      if (admin) {
+        next()
+      } else {
+        next()
+      }
+    },
+  },
+  {
+    path: '/orders/detail',
+    name: 'orders/detail',
+    component: () =>
+      import(/* webpackChunkName: "orders"*/ '../screens/OrdersDetail.vue'),
+    props: true,
+    beforeEnter: async (to, from, next) => {
+      const auth = getAuth()
+      const idToken = await auth.currentUser?.getIdToken()
+
+      const { admin } = await get('/user/admin', idToken)
+
+      if (admin) {
+        if (to.params.order === undefined) next({ name: 'orders' })
+        next()
+      } else {
+        next()
+      }
+    },
+  },
+  {
+    path: '/order',
+    component: () =>
+      import(/* webpackChunkName: "register"*/ '../screens/Order.vue'),
     beforeEnter: async (to, from, next) => {
       const auth = getAuth()
       const idToken = await auth.currentUser?.getIdToken()

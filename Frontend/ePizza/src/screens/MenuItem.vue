@@ -4,6 +4,7 @@ import { Router, useRouter } from 'vue-router'
 import AppHeader from '../components/AppHeader.vue'
 import Basket from '../components/Basket.vue'
 import { Pizza } from '../interfaces/pizza'
+import { Topping } from '../interfaces/topping'
 import { useStore } from '../store/store'
 
 export default defineComponent({
@@ -12,23 +13,58 @@ export default defineComponent({
     const { store } = useStore()
 
     const pizza: Pizza = JSON.parse(context.pizza)
+    const pizzaToppings = pizza.toppings.map((topping) => topping.topping_id)
 
     const size: Ref<number> = ref(1)
     const type: Ref<string> = ref('pan')
 
     const toppingsAr: any = computed(() => store.getters.getToppingsArr)
-
+    // console.log(toppingsAr.value)
+    const toppingsArr: any = toppingsAr.value
     const highlightedToppingArr: any = ref([])
 
+    const checkToppings = () => {
+      for (const topping of toppingsAr.value) {
+        for (const toppingPizza of pizza.toppings) {
+          if (topping.name === toppingPizza.name) {
+            toppingsAr.value[toppingsAr.value.indexOf(topping)].stock -= 1
+            console.log(toppingsAr.value)
+          }
+        }
+      }
+    }
+
     const highlightTopping = (topping: any) => {
-      console.log(topping.name)
-      if (!highlightedToppingArr.value.includes(topping) && topping.stock !== 0)
-        highlightedToppingArr.value.push(topping)
-      else
-        highlightedToppingArr.value.splice(
-          highlightedToppingArr.value.indexOf(topping),
-          1,
-        )
+      if (pizzaToppings.includes(topping.topping_id)) {
+        if (
+          toppingsAr.value[toppingsAr.value.indexOf(topping)].stock - 1 !==
+          0
+        ) {
+          if (
+            !highlightedToppingArr.value.includes(topping) &&
+            topping.stock !== 0
+          )
+            highlightedToppingArr.value.push(topping)
+          else
+            highlightedToppingArr.value.splice(
+              highlightedToppingArr.value.indexOf(topping),
+              1,
+            )
+        }
+      } else {
+        if (toppingsAr.value[toppingsAr.value.indexOf(topping)].stock !== 0) {
+          if (
+            !highlightedToppingArr.value.includes(topping) &&
+            topping.stock !== 0
+          )
+            highlightedToppingArr.value.push(topping)
+          else
+            highlightedToppingArr.value.splice(
+              highlightedToppingArr.value.indexOf(topping),
+              1,
+            )
+        }
+      }
     }
 
     const addPizza = () => {
@@ -70,6 +106,8 @@ export default defineComponent({
       type,
       addPizza,
       pizza,
+      toppingsArr,
+      pizzaToppings,
     }
   },
   components: {
@@ -135,7 +173,7 @@ export default defineComponent({
             <p class="cursor-default">€0</p>
 
             <div
-              class="w-6 h-6 rounded-md cursor-pointer"
+              class="w-6 h-6 rounded-md cursor-pointer hover:bg-red-300"
               :class="size === 1 ? 'bg-p-red' : 'bg-gray-100'"
             >
               <svg
@@ -163,7 +201,7 @@ export default defineComponent({
             <p class="cursor-default">€5</p>
 
             <div
-              class="w-6 h-6 rounded-md cursor-pointer"
+              class="w-6 h-6 rounded-md cursor-pointer hover:bg-red-300"
               :class="size === 2 ? 'bg-p-red' : 'bg-gray-100'"
             >
               <svg
@@ -191,7 +229,7 @@ export default defineComponent({
             <p class="cursor-default">€10</p>
 
             <div
-              class="w-6 h-6 rounded-md cursor-pointer"
+              class="w-6 h-6 rounded-md cursor-pointer hover:bg-red-300"
               :class="size === 3 ? 'bg-p-red' : 'bg-gray-100'"
               @click="size = 3"
             >
@@ -229,11 +267,15 @@ export default defineComponent({
             <div
               class="w-6 h-6 bg-p-red rounded-md cursor-pointer"
               :class="{
+                'opacity-50 cursor-default': topping.stock === 0,
                 'text-white bg-red-500':
                   highlightedToppingArr.includes(topping),
                 'bg-p-gray-100': !highlightedToppingArr.includes(topping),
-                'opacity-50 cursor-default': topping.stock === 0,
-                'hover:bg-red-300': topping.stock !== 0,
+                'hover:bg-red-300':
+                  toppingsAr[toppingsAr.indexOf(topping)].stock !== 0,
+                'cursor-default hover:bg-p-gray-100':
+                  toppingsAr[toppingsAr.indexOf(topping)].stock - 1 === 0 &&
+                  pizzaToppings.includes(topping.topping_id),
               }"
             >
               <svg
