@@ -44,8 +44,8 @@ export class ToppingService {
   }
 
   async updateStock(body: any): Promise<UpdateResult> {
-    const { topping_id, amount } = body
-    if (!topping_id || !amount || typeof amount !== 'number')
+    const { topping_id, amount, price } = body
+    if (!topping_id || !amount || typeof amount !== 'number' || !price)
       throw new HttpException(
         'Some fields are not filled in correctly',
         HttpStatus.BAD_REQUEST,
@@ -63,6 +63,7 @@ export class ToppingService {
       .update()
       .set({
         stock: amount,
+        price: price,
       })
       .where('topping_id = :topping_id', { topping_id })
       .execute()

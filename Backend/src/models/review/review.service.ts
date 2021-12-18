@@ -96,22 +96,28 @@ export class ReviewService {
     if (req.date === 'asc') {
       return await this.reviewRepository
         .createQueryBuilder('review')
-        .innerJoinAndSelect('review.user', 'user')
-        .innerJoinAndSelect('review.order', 'order')
+        .leftJoinAndSelect('review.user', 'user')
+        .leftJoinAndSelect('review.guest', 'guest')
+        .leftJoinAndSelect('review.order', 'order')
         .orderBy('review.date', 'ASC')
         .getMany()
     } else if (req.date === 'desc') {
       return await this.reviewRepository
         .createQueryBuilder('review')
-        .innerJoinAndSelect('review.user', 'user')
-        .innerJoinAndSelect('review.order', 'order')
+        .leftJoinAndSelect('review.guest', 'guest')
+        .leftJoinAndSelect('review.user', 'user')
+        .leftJoinAndSelect('review.order', 'order')
         .orderBy('review.date', 'DESC')
         .getMany()
-    } else
-      return await this.reviewRepository
+    } else {
+      const test = await this.reviewRepository
         .createQueryBuilder('review')
-        .innerJoinAndSelect('review.user', 'user')
-        .innerJoinAndSelect('review.order', 'order')
+        .leftJoinAndSelect('review.user', 'user')
+        .leftJoinAndSelect('review.guest', 'guest')
+        .leftJoinAndSelect('review.order', 'order')
         .getMany()
+      console.log(test)
+      return test
+    }
   }
 }

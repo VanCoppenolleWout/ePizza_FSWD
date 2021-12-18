@@ -104,7 +104,7 @@ export default defineComponent({
             user: userId.value,
             address: addressId.value,
             pizzas: pizzas,
-            time_preference: date,
+            time_preference: dateSelection.value,
             payment_method: paymentOption.value,
           }
           data = await post('/order', body)
@@ -130,7 +130,7 @@ export default defineComponent({
                     }
                   : undefined,
               pizzas: pizzas,
-              time_preference: date,
+              time_preference: dateSelection.value,
               payment_method: paymentOption.value,
             }
             data = await post('/order', body)
@@ -161,7 +161,7 @@ export default defineComponent({
                     }
                   : undefined,
               pizzas: pizzas,
-              time_preference: date,
+              time_preference: dateSelection.value,
               payment_method: paymentOption.value,
             }
             data = await post('/order', body)

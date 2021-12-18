@@ -48,7 +48,7 @@ export default defineComponent({
               if (response === true) {
                 animateCircle.value = false
                 if (admin) {
-                  router.push('/stock')
+                  router.push('/orders')
                 } else {
                   router.push('/')
                 }

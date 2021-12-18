@@ -8,29 +8,14 @@ import useGraphql from '../../composables/useGraphql'
 
 export default defineComponent({
   setup() {
-    // const testData = {
-    //   labels: ['Paris', 'Nîmes', 'Toulon', 'Perpignan', 'Autre'],
-    //   datasets: [
-    //     {
-    //       data: [30, 40, 60, 70, 5],
-    //       backgroundColor: [
-    //         '#77CEFF',
-    //         '#0079AF',
-    //         '#123E6B',
-    //         '#97B0C4',
-    //         '#A5C8ED',
-    //       ],
-    //     },
-    //   ],
-    // }
-
-    const { get, put } = fetchData()
+    const { put } = fetchData()
     const { query } = useGraphql()
 
     const stock: any = ref([])
     const stockData: any = ref([])
     const stockName: any = ref([])
     const selectedItem: any = ref([])
+    const animateCircle: Ref<Boolean> = ref(false)
 
     const stockAmount = ref<number>(0)
     const price = ref<number>(0)
@@ -66,6 +51,11 @@ export default defineComponent({
       stockAmount.value = item.stock
       price.value = item.price
     }
+    const hideDetail = () => {
+      selectedItem.value = null
+      detailScreen.value = false
+      graphScreen.value = false
+    }
 
     const showGraph = () => {
       graphScreen.value = true
@@ -84,13 +74,13 @@ export default defineComponent({
     }
 
     const removePrice = () => {
-      if (price.value >= 1) {
-        price.value = price.value - 1
+      if (price.value > 0.5) {
+        price.value = Math.round((price.value - 0.1) * 1e2) / 1e2
       }
     }
 
     const addPrice = () => {
-      price.value = price.value + 0.5
+      price.value = Math.round((price.value + 0.1) * 1e2) / 1e2
     }
 
     const updateStock = async (
@@ -98,14 +88,17 @@ export default defineComponent({
       stock: number,
       price: number,
     ) => {
+      animateCircle.value = true
       const toppingInterface: any = {
         topping_id: topping_id,
         amount: stock,
+        price: price,
       }
 
-      console.log(topping_id, stock)
-
       await put('/topping/stock', toppingInterface)
+      getStock()
+      animateCircle.value = false
+      hideDetail()
     }
 
     return {
@@ -117,6 +110,7 @@ export default defineComponent({
       price,
       stockData,
       stockName,
+      animateCircle,
       showDetail,
       showGraph,
       removeStock,
@@ -133,12 +127,12 @@ export default defineComponent({
 
 <template>
   <div>
-    <div class="flex flex-row justify-between items-center">
+    <!-- <div class="flex flex-row justify-between items-center">
       <h1 class="text-p-red text-2xl font-semibold mb-4">Stock</h1>
       <button v-if="!detailScreen && !graphScreen" @click="showGraph()">
         Graph
       </button>
-    </div>
+    </div> -->
     <div class="bg-white p-6 shadow-lg rounded-md">
       <section v-if="!detailScreen && !graphScreen" class="space-y-6">
         <div v-for="(item, index) in stock" :key="index" class="">
@@ -182,23 +176,25 @@ export default defineComponent({
         </div>
       </section>
       <section v-if="detailScreen">
-        <div class="flex flex-row space-x-4 items-center">
+        <div class="flex flex-row items-center">
           <button @click="detailScreen = false">
             <svg
+              class="stroke-current text-gray-600 mr-2"
               xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
+              width="32"
+              height="32"
               viewBox="0 0 24 24"
               fill="none"
-              stroke="#000000"
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
             >
-              <path d="M19 12H6M12 5l-7 7 7 7" />
+              <path d="M15 18l-6-6 6-6"></path>
             </svg>
           </button>
-          <p class="font-medium text-xl">{{ selectedItem.name }}</p>
+          <p class="font-medium text-xl text-gray-500 font-semibold">
+            {{ selectedItem.name }}
+          </p>
         </div>
         <div class="flex flex-col space-y-10">
           <div
@@ -311,7 +307,28 @@ export default defineComponent({
             "
             @click="updateStock(selectedItem.topping_id, stockAmount, price)"
           >
-            Update
+            <svg
+              class="h-5 w-5 text-white inline-block animate-spin"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              v-if="animateCircle"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+            <p v-else>Update</p>
           </button>
         </div>
       </section>

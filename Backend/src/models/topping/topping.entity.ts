@@ -12,7 +12,7 @@ export class Topping {
   @Column()
   @Field()
   name?: string
-  @Column()
+  @Column('float')
   @Field()
   price?: number
   @Column()
