@@ -17,7 +17,6 @@ export default defineComponent({
 
     const getAllOrders = async () => {
       orders.value = await get('/order/all')
-      console.log(orders.value)
     }
 
     const updateOrders = async (newOrders: Array<Order>) => {

@@ -15,7 +15,7 @@ import { User } from '../user/user.entity'
 
 @Entity('Order')
 export class Order {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn('increment')
   order_id?: string
   @Column()
   price?: number

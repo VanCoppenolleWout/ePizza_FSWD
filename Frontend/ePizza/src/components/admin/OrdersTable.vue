@@ -25,7 +25,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="bg-white shadow-sm rounded-md">
+  <div class="md:bg-white shadow-sm rounded-md">
     <table class="mb-4">
       <thead>
         <tr class="text-gray-500 font-semibold">
@@ -43,16 +43,18 @@ export default defineComponent({
             text-gray-500
             cursor-pointer
             transform
-            hover:scale-105
             transition
             ease-out
             duration-300
+            hover:scale-[101%]
+            mb-4
           "
+          style=""
           v-for="(order, index) in orders"
           :key="index"
         >
           <td data-label="Order ID" @click="handleDetail(order)">
-            {{ order.order_id }}
+            #{{ order.order_id }}
           </td>
           <td data-label="Delivery" @click="handleDetail(order)">
             {{ order.delivery ? 'yes' : 'no' }}
@@ -68,8 +70,8 @@ export default defineComponent({
               class="
                 rounded-md
                 w-1/2
-                hover:scale-105
                 transition
+                hover:scale-105
                 ease-out
                 duration-300
               "
@@ -90,3 +92,63 @@ export default defineComponent({
     </table>
   </div>
 </template>
+
+<style>
+table {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+table tr {
+  padding: 5px;
+}
+
+table th,
+table td {
+  padding: 10px;
+  text-align: center;
+}
+
+table th {
+  font-size: 14px;
+  letter-spacing: 1px;
+  border-bottom: 1px solid #ddd;
+}
+
+@media (max-width: 768px) {
+  table thead {
+    display: none;
+  }
+  table,
+  table tbody,
+  table tr,
+  table td {
+    display: block;
+    width: 100%;
+  }
+  table tr {
+    margin-bottom: 16px;
+    background-color: white;
+    padding: 16px;
+    border-radius: 12px;
+  }
+  table td {
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
+    margin-bottom: 16px;
+  }
+
+  table td:before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    width: 50%;
+    font-size: 16px;
+    text-align: left;
+  }
+}
+</style>

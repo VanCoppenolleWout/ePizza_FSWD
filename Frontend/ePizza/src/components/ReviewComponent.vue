@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, Ref, ref } from 'vue'
+import { defineComponent, Ref, ref, toRefs } from 'vue'
 import InputComponent from '../components/InputComponent.vue'
 import { fetchData } from '../composables/useNetwork'
 import { Order } from '../interfaces/order'
@@ -13,19 +13,21 @@ export default defineComponent({
     const errorMsg: Ref<string> = ref('')
     const formstate: Ref<boolean> = ref(true)
     const stars: Ref<number> = ref(0)
+    const { admin } = toRefs(context)
 
     const { order }: { order: Order } = context
+    console.log(order)
     if (order.review) {
       formstate.value = false
       stars.value = order.review.stars
       title.value = order.review.title
       text.value = order.review.description
     }
+    if (admin.value === true) formstate.value = false
 
     const handleReview = async () => {
       if (title.value === null || text.value === null || stars.value === 0) {
         errorMsg.value = 'Please fill in all fields'
-        console.log('iets is leeg')
       } else {
         errorMsg.value = ''
         const review: Review = {
@@ -38,8 +40,6 @@ export default defineComponent({
         }
         const submitReview = await postReview('review', review)
         formstate.value = false
-
-        console.log(submitReview)
       }
     }
 
@@ -58,6 +58,9 @@ export default defineComponent({
     order: {
       type: Object as () => Order,
       required: true,
+    },
+    admin: {
+      type: Boolean,
     },
   },
 })
@@ -116,7 +119,10 @@ export default defineComponent({
         </div>
         <div>
           <label class="block text-left mt-4" for="text">
-            <span class="text-gray-700 text-2xl font-semibold"
+            <span class="text-gray-700 text-2xl font-semibold" v-if="admin"
+              >Review</span
+            >
+            <span v-else class="text-gray-700 text-2xl font-semibold"
               >Leave a review</span
             >
             <textarea
@@ -134,7 +140,7 @@ export default defineComponent({
                 bg-primary
               "
               rows="3"
-              placeholder="Type..."
+              :placeholder="admin ? 'Nothing yet...' : 'Type...'"
               id="text"
               v-model="text"
             ></textarea>
@@ -164,8 +170,16 @@ export default defineComponent({
             />
           </label>
         </div>
+        <div v-if="admin" class="mt-6">
+          <h3 class="text-gray-700 text-lg font-medium">Review by</h3>
+          <p>{{ order.user?.name }} {{ order.user?.lastname }}</p>
+          <p>{{ order.user?.email }}</p>
+          <p>{{ order.user?.phone_nr }}</p>
+        </div>
       </div>
+
       <button
+        v-if="admin !== true"
         class="
           bg-p-red
           w-full
