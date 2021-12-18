@@ -12,6 +12,7 @@ export default defineComponent({
     const router = useRouter()
     const { put } = fetchData()
     const { orders } = toRefs(context)
+
     const completedOrders = computed(() =>
       orders.value.filter((order) => order.status === 'completed'),
     )
@@ -88,7 +89,7 @@ export default defineComponent({
   <div>
     <div
       class="
-        bg-black bg-opacity-50
+        bg-black bg-opacity-30
         fixed
         w-screen
         h-full
@@ -280,63 +281,3 @@ export default defineComponent({
     />
   </div>
 </template>
-
-<style>
-table {
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-
-table tr {
-  padding: 5px;
-}
-
-table th,
-table td {
-  padding: 10px;
-  text-align: center;
-}
-
-table th {
-  font-size: 14px;
-  letter-spacing: 1px;
-  border-bottom: 1px solid #ddd;
-}
-
-@media (max-width: 768px) {
-  table thead {
-    display: none;
-  }
-  table,
-  table tbody,
-  table tr,
-  table td {
-    display: block;
-    width: 100%;
-  }
-  table tr {
-    margin-bottom: 16px;
-    background-color: white;
-    padding: 16px;
-    border-radius: 12px;
-  }
-  table td {
-    text-align: right;
-    padding-left: 50%;
-    position: relative;
-    margin-bottom: 16px;
-  }
-
-  table td:before {
-    content: attr(data-label);
-    position: absolute;
-    left: 0;
-    width: 50%;
-    font-size: 16px;
-    text-align: left;
-  }
-}
-</style>

@@ -54,10 +54,9 @@ export class OrderService {
       .getMany()
 
     //order_id
-    const order_id = crypto.randomBytes(8).toString('base64')
+    // const order_id = crypto.randomBytes(8).toString('base64')
     //Create the order
     const order: Order = {
-      order_id,
       delivery_date: orderORM.time_preference
         ? orderORM.time_preference
         : new Date(),
@@ -186,6 +185,7 @@ export class OrderService {
 
     //Save order
     const result = await this.orderRepository.save(order)
+    const order_id = result.order_id
 
     //Save into many to many relation
     let orderPizzaSizeTopping: OrderPizzaSizeTopping[] = pizzaIds.map(
@@ -243,6 +243,7 @@ export class OrderService {
       .addSelect(['guest.guest_id', 'guest.name', 'guest.lastname'])
       .leftJoinAndSelect('order.guest', 'guest')
       .leftJoinAndSelect('order.user', 'user')
+      .leftJoinAndSelect('order.review', 'review')
       .addSelect('pizzaSizeTopping.order_id')
       .innerJoinAndSelect('order.pizzaSizeToppings', 'pizzaSizeTopping')
       .innerJoinAndSelect('pizzaSizeTopping.pizza', 'pizza')
@@ -265,6 +266,7 @@ export class OrderService {
       .addSelect(['guest.guest_id', 'guest.name', 'guest.lastname'])
       .leftJoinAndSelect('order.guest', 'guest')
       .leftJoinAndSelect('order.user', 'user')
+      .leftJoinAndSelect('order.review', 'review')
       .addSelect('pizzaSizeTopping.order_id')
       .innerJoinAndSelect('order.pizzaSizeToppings', 'pizzaSizeTopping')
       .innerJoinAndSelect('pizzaSizeTopping.pizza', 'pizza')

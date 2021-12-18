@@ -6,12 +6,6 @@ export default defineComponent({
   setup(context) {
     const { order } = context
 
-    const toppingPrice = order.pizzaSizeToppings.reduce(
-      (totalValue, currValue) => totalValue,
-      0,
-    )
-    console.log(order)
-
     return {
       order,
     }

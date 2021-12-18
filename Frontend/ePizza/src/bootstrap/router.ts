@@ -168,11 +168,7 @@ const routes: RouteRecordRaw[] = [
 
       const { admin } = await get('/user/admin', idToken)
 
-      if (admin) {
-        next()
-      } else {
-        next()
-      }
+      admin ? next() : next({ name: 'home' })
     },
   },
   {

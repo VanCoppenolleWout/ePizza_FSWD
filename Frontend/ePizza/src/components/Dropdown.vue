@@ -1,30 +1,24 @@
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, watch } from 'vue'
+import moment from 'moment'
 
 export default defineComponent({
-  setup() {
-    let lang = ref<string | null>('nl')
-    const handleChange = (e: any) => {
-      localStorage.setItem('lang', e.target.value)
-      window.location.reload()
-    }
+  setup(context, { emit }) {
+    const time = context.dropdownArr![0]
+    let selection = ref<Date | null>(time)
 
-    const getLang = () => {
-      if (localStorage.getItem('lang') !== null) {
-        lang.value = localStorage.getItem('lang')
-      }
-    }
-    getLang()
+    watch(selection, () => {
+      emit('dateSelection', selection)
+    })
 
     return {
-      handleChange,
-      lang,
+      selection,
+      moment,
     }
   },
 
   props: {
-    background: String,
-    dropdownArr: Array,
+    dropdownArr: { type: Array as () => Array<Date> },
   },
 })
 </script>
@@ -46,16 +40,11 @@ export default defineComponent({
         leading-tight
         focus:outline-none focus:shadow-outline
       "
-      :style="
-        background === 'white'
-          ? 'background-color: #ffffff'
-          : 'background-color: #f1f0f2'
-      "
-      v-model="lang"
-      @change="handleChange"
+      v-model="selection"
     >
-      <option value="en">{{ $t('btn_english') }}</option>
-      <option value="nl">{{ $t('btn_dutch') }}</option>
+      <option v-for="(item, index) in dropdownArr" :key="index" :value="item">
+        {{ moment(item).format('HH:mm') }}
+      </option>
     </select>
     <div
       class="

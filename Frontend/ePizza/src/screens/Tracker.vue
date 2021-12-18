@@ -13,7 +13,6 @@ export default defineComponent({
   setup(context) {
     const { get } = fetchData()
     const route = useRoute()
-    const router = useRouter()
     const order: Ref<Order | null> = ref(null)
     const loading: Ref<boolean> = ref(false)
 
