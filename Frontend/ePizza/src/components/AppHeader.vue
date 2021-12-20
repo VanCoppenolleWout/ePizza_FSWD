@@ -5,12 +5,17 @@ import useFirebase from '../composables/useFirebase'
 import { useStore } from '../store/store'
 
 export default defineComponent({
-  setup() {
+  setup(context, { emit }) {
     const { store } = useStore()
     const userFirebase = useFirebase().user.value
     // console.log(userFirebase)
     const menuActive: Ref<boolean> = ref(false)
+    const selectedMenu = ref(false)
     const router = useRouter()
+
+    const handleStatus = () => {
+      emit('handleStatus')
+    }
 
     const username = ref<string>('')
 
@@ -22,7 +27,7 @@ export default defineComponent({
       return store.getters.getAdmin
     })
 
-    console.log()
+    console.log() 
 
     const decideName = () => {
       if (user.value !== null && !admin.value) {
@@ -46,8 +51,10 @@ export default defineComponent({
       admin,
       username,
       menuActive,
+      selectedMenu,
       handleDelivery,
       handleCarryout,
+      handleStatus,
     }
   },
 
@@ -59,7 +66,19 @@ export default defineComponent({
 
 <template>
   <div class="flex flex-row justify-between" v-if="admin">
-    <router-link to="/" class="cursor-pointer font-bold text-3xl text-p-red"
+    <router-link
+      to="/"
+      class="
+        cursor-pointer
+        font-bold
+        text-3xl text-p-red
+        transform
+        transition
+        hover:-translate-y-0.5
+        ease-out
+        duration-300
+        hover:scale-[103%]
+      "
       >ePizza</router-link
     >
     <div class="hidden md:flex flex-row justify-between space-x-8 font-medium">
@@ -186,8 +205,7 @@ export default defineComponent({
             >
               {{ $t('header_services') }}
             </a>
-            <router-link
-              to="/menu"
+            <div
               class="
                 cursor-pointer
                 px-6
@@ -196,9 +214,10 @@ export default defineComponent({
                 rounded-xl
                 hover:bg-red-100
               "
+              @click="handleStatus"
             >
               Menu
-            </router-link>
+            </div>
             <a
               class="
                 cursor-pointer
@@ -386,7 +405,7 @@ export default defineComponent({
         v-show="menuActive"
         @click="menuActive = !menuActive"
       >
-        <router-link to="/menu"> Menu </router-link>
+        <div @click="handleStatus">Menu</div>
       </li></transition-group
     >
   </div>

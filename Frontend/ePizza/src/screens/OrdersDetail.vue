@@ -31,7 +31,7 @@ export default defineComponent({
 
 <template>
   <div class="sm:ml-24">
-    <div class="sm:p-8 p-4">
+    <div class="sm:p-8 p-4 sm:max-w-[80%] sm:m-auto">
       <div class="flex gap-2">
         <router-link to="/orders">
           <svg

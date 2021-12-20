@@ -43,8 +43,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="sm:ml-24 mb-12 md:mb-0">
-    <div class="sm:p-8 p-4">
+  <div class="sm:ml-24 mb-12 md:mb-0 ">
+    <div class="sm:p-8 p-4 sm:max-w-[80%] sm:m-auto">
       <h3 class="text-gray-700 text-2xl font-semibold mb-4">{{ $t('order_h1') }}</h3>
       <p class="max-w-6xl text-gray-500 mb-8">
         {{ $t('order_sub') }}
