@@ -39,18 +39,19 @@ export default defineComponent({
         </svg>
       </div>
     </div>
-    <div class="ml-8">
-      <div class="bg-gray-200  animate-pulse h-6">Glenn Troncquo</div>
+    <div class="ml-8 flex-1">
+      <div class="bg-gray-200 animate-pulse h-6 w-36 mb-2"></div>
       <div class="flex gap-2 -ml-1 mb-4">
         <svg
+          class="animate-pulse"
           v-for="index in 5"
           :key="index"
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
           viewBox="0 0 24 24"
-          fill="#FFC800"
-          stroke="#FFD700"
+          fill="#E5E7EB"
+          stroke="#E5E7EB"
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
@@ -62,10 +63,10 @@ export default defineComponent({
       </div>
 
       <div>
-        <h3 class="text-gray-500 font-semibold">Title</h3>
-        <p class="mb-2">Title of review</p>
-        <h3 class="text-gray-500 font-semibold">Description</h3>
-        <p>Description of review</p>
+        <div class="bg-gray-200 animate-pulse h-6 w-36 mb-1"></div>
+
+        <div class="bg-gray-200 animate-pulse h-6 max-w-sm w-full mb-2"></div>
+        <p></p>
       </div>
     </div>
   </div>

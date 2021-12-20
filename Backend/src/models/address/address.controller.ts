@@ -9,9 +9,4 @@ export class AddressController {
   async newAddress(@Body() body): Promise<Address> {
     return await this.addressService.newAddress(body)
   }
-
-  // @Post()
-  // async getAddress(): Promise<Array<Address>> {
-  //   return await this.addressService.getAddress()
-  // }
 }

@@ -41,15 +41,17 @@ export default defineComponent({
         In the review section, you can see all review placed by customers.
       </p>
 
-      <!-- <div v-if="reviews.length > 0">
+      <div v-if="reviews.length > 0">
         <RatingComponent
           v-for="(review, index) in reviews"
           :key="index"
           :review="review"
         />
-      </div> -->
+      </div>
 
-      <div><RatingSkeleton /></div>
+      <div v-else>
+        <RatingSkeleton v-for="index in 5" :key="index" />
+      </div>
     </div>
   </div>
 </template>

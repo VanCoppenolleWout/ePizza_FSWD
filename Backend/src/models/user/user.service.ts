@@ -8,7 +8,6 @@ import {
 import { User } from './user.entity'
 import { Repository } from 'typeorm'
 import { getAuth } from 'firebase-admin/auth'
-import firebaseApp from '../../firebase/firebase'
 import { Address } from '../address/address.entity'
 
 @Injectable()
@@ -121,12 +120,9 @@ export class UserService {
         HttpStatus.BAD_REQUEST,
       )
 
-    // user.addresses ? user.addresses.push(address) : ()
     user.addresses = [address]
 
-    const test = await this.userRepository.save(user)
-    console.log(test)
-    return test
+    return await this.userRepository.save(user)
   }
 
   async changeAddress(headers: any, body: any) {
@@ -144,7 +140,6 @@ export class UserService {
       .getOne()
 
     if (address) {
-      console.log('hello')
       const bearer = headers.authorization.replace('Bearer ', '')
       const firebaseUser = await getAuth().verifyIdToken(bearer)
 
