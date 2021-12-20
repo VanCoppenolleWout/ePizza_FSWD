@@ -1,10 +1,4 @@
-import {
-  HttpCode,
-  HttpException,
-  HttpStatus,
-  Inject,
-  Injectable,
-} from '@nestjs/common'
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common'
 import { Repository } from 'typeorm'
 import { User } from '../user/user.entity'
 import { Address } from './address.entity'
@@ -33,12 +27,4 @@ export class AddressService {
     }
     return await this.addressRepository.save(address)
   }
-
-  // async getAddress(): Promise<Array<Address>> {
-  //   const address = await this.addressRepository
-  //     .createQueryBuilder('address')
-  //     .getMany()
-
-  //   return address
-  // }
 }

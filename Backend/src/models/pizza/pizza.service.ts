@@ -1,11 +1,8 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common'
-import { Query, Resolver } from '@nestjs/graphql'
-import { Repository, UpdateResult } from 'typeorm'
-import { Size } from '../size/size.entity'
+import { Repository } from 'typeorm'
 import { Pizza } from './pizza.entity'
 
 @Injectable()
-// @Resolver()
 export class PizzaService {
   constructor(
     @Inject('PizzaRepository') private pizzaRepository: Repository<Pizza>,
@@ -24,7 +21,6 @@ export class PizzaService {
     return pizza
   }
 
-  // @Query(() => [Pizza])
   async getAll(): Promise<Array<Pizza>> {
     return await this.pizzaRepository
       .createQueryBuilder('pizza')

@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common'
+import { Module } from '@nestjs/common'
 import { DatabaseModule } from 'src/database/database.module'
 import { repositoryProviders } from 'src/database/repository.providers'
 import { UserController } from './user.controller'
