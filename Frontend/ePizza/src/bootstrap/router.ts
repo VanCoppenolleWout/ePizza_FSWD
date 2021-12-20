@@ -34,11 +34,11 @@ const routes: RouteRecordRaw[] = [
     path: '/login',
     component: () =>
       import(/* webpackChunkName: "login"*/ '../screens/Login.vue'),
-      beforeEnter: async (to, from, next) => {
-        const { user } = toRefs(useFirebase())
-  
-        ;(await user.value?.getIdToken()) ? next({ name: 'home' }) : next()
-      },
+    beforeEnter: async (to, from, next) => {
+      const { user } = toRefs(useFirebase())
+
+      ;(await user.value?.getIdToken()) ? next({ name: 'home' }) : next()
+    },
   },
   {
     path: '/menu',
@@ -220,6 +220,12 @@ const routes: RouteRecordRaw[] = [
       import(/* webpackChunkName: "notFound"*/ '../screens/NotFound.vue'),
     props: true,
     name: 'notFound',
+  },
+  {
+    path: '/test',
+    component: () =>
+      import(/* webpackChunkName: "test"*/ '../screens/Test.vue'),
+    name: 'test',
   },
 ]
 
