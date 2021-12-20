@@ -1,10 +1,5 @@
 <script lang="ts">
-import {
-  getAuth,
-  updateEmail,
-  updatePassword,
-  updateProfile,
-} from 'firebase/auth'
+import { getAuth, updateProfile } from 'firebase/auth'
 import {
   getDownloadURL,
   getStorage,
@@ -41,9 +36,9 @@ export default defineComponent({
       return store.getters.getUser
     })
 
-    watchEffect(() => {
-      console.log(user)
-    })
+    // watchEffect(() => {
+    //   console.log(user)
+    // })
 
     // watch(
     //   () => user.value,
@@ -54,14 +49,12 @@ export default defineComponent({
     // )
 
     let nameInput = ref<boolean>(false)
-    let passwordInput = ref<boolean>(false)
     let addressInput = ref<boolean>(false)
     const addressInputDisabled: Ref<boolean> = ref(false)
 
     let profileImg = ref<string>(user.value.photoURL)
     let displayName = ref<string>(user.value.displayName)
     let email = ref<string>(user.value.email)
-    let password = ref<string>('●●●●●●●●')
 
     const { logout } = useFirebase()
     const { push } = useRouter()
@@ -85,17 +78,6 @@ export default defineComponent({
           console.log(error)
         })
       nameInput.value = false
-    }
-
-    const editPassword = (input: string) => {
-      updatePassword(firebaseUser, input)
-        .then(() => {
-          // Update successful.
-        })
-        .catch((error) => {
-          // An error ocurred
-          // ...
-        })
     }
 
     const file: any = ref(null)
@@ -176,21 +158,21 @@ export default defineComponent({
       address.street = newAddress.street
       address.number = newAddress.number
       address.zip_code = newAddress.zip_code!
+
+      addressInput.value = false
+      addressInputDisabled.value = true
     }
 
     return {
       user,
       nameInput,
-      passwordInput,
       addressInput,
       address,
       addressInputDisabled,
       displayName,
       email,
-      password,
       profileImg,
       editName,
-      editPassword,
       editAddress,
       handleLogout,
       handleFileUpload,
@@ -286,8 +268,13 @@ export default defineComponent({
       </div>
       <section class="mt-6 md:mt-10 bg-white rounded-2xl py-8 px-4 sm:p-8">
         <div class="flex flex-row justify-between items-center">
-          <h1 class="font-semibold text-lg sm:text-2xl">{{ $t('account_title') }}</h1>
-          <LanguageChanger background="white" class=" max-w-[7rem] sm:max-w-full" />
+          <h1 class="font-semibold text-lg sm:text-2xl">
+            {{ $t('account_title') }}
+          </h1>
+          <LanguageChanger
+            background="white"
+            class="max-w-[7rem] sm:max-w-full"
+          />
         </div>
         <div class="mt-6">
           <p class="text-sm text-gray-600">{{ $t('account_name') }}</p>
@@ -317,8 +304,21 @@ export default defineComponent({
               <button
                 v-if="nameInput"
                 @click=";(nameInput = false), (displayName = user.displayName)"
-                class="px-3 py-2 sm:px-5 sm:py-2 rounded-lg text-white font-medium"
-                style="background-color: #d2222d"
+                class="
+                  px-3
+                  py-2
+                  sm:px-5 sm:py-2
+                  rounded-lg
+                  text-white
+                  font-medium
+                  hover:bg-red-900
+                  bg-btn-red
+                  transform
+                  transition
+                  ease-out
+                  duration-300
+                  hover:scale-[101%]
+                "
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -338,8 +338,21 @@ export default defineComponent({
               <button
                 v-if="nameInput"
                 @click="editName(displayName)"
-                class="px-3 py-2 sm:px-5 sm:py-2 rounded-lg text-white font-medium"
-                style="background-color: #238823"
+                class="
+                  px-3
+                  py-2
+                  sm:px-5 sm:py-2
+                  rounded-lg
+                  text-white
+                  font-medium
+                  hover:bg-green-600
+                  bg-btn-green
+                  transform
+                  transition
+                  ease-out
+                  duration-300
+                  hover:scale-[101%]
+                "
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -359,79 +372,20 @@ export default defineComponent({
             <button
               v-if="!nameInput"
               @click="nameInput = true"
-              class="px-5 py-2 bg-gray-400 rounded-lg text-white font-medium"
-            >
-              {{ $t('btn_edit') }}
-            </button>
-          </div>
-        </div>
-        <div class="mt-6">
-          <p class="text-sm text-gray-600">{{ $t('account_password') }}</p>
-          <div class="flex flex-row justify-between items-center">
-            <p v-if="!passwordInput" class="text-lg font-medium">●●●●●●●●</p>
-            <input
-              v-if="passwordInput"
-              type="password"
-              name=""
-              id=""
-              placeholder="●●●●●●●●"
-              v-model="password"
               class="
-                outline-none
-                border border-gray-300
-                py-1
-                px-4
+                px-5
+                py-2
+                bg-gray-400
                 rounded-lg
-                md:w-96
+                text-white
+                font-medium
+                hover:bg-gray-500
+                transform
+                transition
+                ease-out
+                duration-300
+                hover:scale-[101%]
               "
-            />
-            <div class="flex flex-row space-x-4">
-              <button
-                v-if="passwordInput"
-                @click="passwordInput = false"
-                class="px-5 py-2 rounded-lg text-white font-medium"
-                style="background-color: #d2222d"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#FFFFFF"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <line x1="18" y1="6" x2="6" y2="18"></line>
-                  <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-              </button>
-              <button
-                v-if="passwordInput"
-                @click="editPassword(password)"
-                class="px-5 py-2 rounded-lg text-white font-medium"
-                style="background-color: #238823"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#FFFFFF"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-              </button>
-            </div>
-            <button
-              v-if="!passwordInput"
-              @click="passwordInput = true"
-              class="px-5 py-2 bg-gray-400 rounded-lg text-white font-medium"
             >
               {{ $t('btn_edit') }}
             </button>
@@ -490,12 +444,25 @@ export default defineComponent({
                 />
               </div>
             </div>
-            <div class="flex flex-row space-x-4">
+            <div class="flex flex-row space-x-2 sm:space-x-4">
               <button
                 v-if="!addressInputDisabled"
                 @click="addressInputDisabled = true"
-                class="px-5 py-2 rounded-lg text-white font-medium"
-                style="background-color: #d2222d"
+                class="
+                  px-3
+                  py-2
+                  sm:px-5 sm:py-2
+                  rounded-lg
+                  text-white
+                  font-medium
+                  hover:bg-red-900
+                  bg-btn-red
+                  transform
+                  transition
+                  ease-out
+                  duration-300
+                  hover:scale-[101%]
+                "
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -515,8 +482,21 @@ export default defineComponent({
               <button
                 v-if="!addressInputDisabled"
                 @click="editAddress"
-                class="px-5 py-2 rounded-lg text-white font-medium"
-                style="background-color: #238823"
+                class="
+                  px-3
+                  py-2
+                  sm:px-5 sm:py-2
+                  rounded-lg
+                  text-white
+                  font-medium
+                  hover:bg-green-600
+                  bg-btn-green
+                  transform
+                  transition
+                  ease-out
+                  duration-300
+                  hover:scale-[101%]
+                "
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -536,7 +516,20 @@ export default defineComponent({
             <button
               v-if="addressInputDisabled"
               @click="addressInputDisabled = false"
-              class="px-5 py-2 bg-gray-400 rounded-lg text-white font-medium"
+              class="
+                px-5
+                py-2
+                bg-gray-400
+                rounded-lg
+                text-white
+                font-medium
+                hover:bg-gray-500
+                transform
+                transition
+                ease-out
+                duration-300
+                hover:scale-[101%]
+              "
             >
               {{ $t('btn_edit') }}
             </button>
@@ -545,7 +538,20 @@ export default defineComponent({
         <section class="flex flex-row justify-center">
           <button
             @click="handleLogout"
-            class="px-6 py-3 bg-p-red text-white font-medium rounded-xl md:w-1/5"
+            class="
+              px-6
+              py-3
+              bg-p-red
+              text-white
+              font-medium
+              rounded-xl
+              md:w-1/5
+              hover:bg-red-700
+              transform
+              transition
+              ease-out
+              duration-300
+            "
           >
             {{ $t('btn_signout') }}
           </button>

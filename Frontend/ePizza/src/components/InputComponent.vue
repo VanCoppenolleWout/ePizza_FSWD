@@ -62,7 +62,7 @@ export default defineComponent({
           : id === 'phone_nr'
           ? 'lg:w-72 '
           : accountFull
-          ? 'w-full'
+          ? 'w-[80%] sm:w-full'
           : accountSmall
           ? 'w-1/2'
           : 'md:w-72 md:max-w-xs lg:w-96 '

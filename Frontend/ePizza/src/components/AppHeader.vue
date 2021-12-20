@@ -27,7 +27,7 @@ export default defineComponent({
       return store.getters.getAdmin
     })
 
-    console.log() 
+    console.log()
 
     const decideName = () => {
       if (user.value !== null && !admin.value) {
@@ -135,8 +135,14 @@ export default defineComponent({
           flex flex-row
           items-center
           space-x-3
+          hover:bg-blue-700
+          bg-p-account
+          transform
+          transition
+          ease-out
+          duration-300
+          hover:scale-[101%]
         "
-        style="background-color: #0071ff"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -261,8 +267,14 @@ export default defineComponent({
             flex flex-row
             items-center
             space-x-3
+            hover:bg-blue-700
+            bg-p-account
+            transform
+            transition
+            ease-out
+            duration-300
+            hover:scale-[101%]
           "
-          style="background-color: #0071ff"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
