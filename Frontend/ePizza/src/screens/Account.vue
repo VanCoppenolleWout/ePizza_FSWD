@@ -139,6 +139,9 @@ export default defineComponent({
     getUserAddress()
 
     const editAddress = async () => {
+      addressInput.value = false
+      addressInputDisabled.value = true
+
       const { user }: any = toRefs(useFirebase())
       const addressInterface: Address = {
         address_id: address.address_id,
@@ -147,6 +150,8 @@ export default defineComponent({
         zip_code: address.zip_code,
         street: address.street,
       }
+
+      console.log(addressInterface)
       const newAddress: Address = await put(
         '/user/change/address',
         addressInterface,
@@ -157,16 +162,14 @@ export default defineComponent({
       address.city = newAddress.city
       address.street = newAddress.street
       address.number = newAddress.number
-      address.zip_code = newAddress.zip_code!
+      address.zip_code = newAddress.postal_code!
 
-      addressInput.value = false
-      addressInputDisabled.value = true
+      console.log(newAddress)
     }
 
     return {
       user,
       nameInput,
-      addressInput,
       address,
       addressInputDisabled,
       displayName,
