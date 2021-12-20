@@ -23,6 +23,11 @@ services:
       - docker.ormconfig.env
     depends_on:
       - mariadb
+  vue:
+    image: glenntroncquo/project-frontend:1.0.0
+    ports:
+      - 8080:8080
+  
 
 volumes:
   database-pizza:

@@ -147,6 +147,7 @@ export default defineComponent({
             address.number = data.addresses[0].number.toString()
             addressInputDisabled.value = true
           }
+          console.log(address)
         }
       } catch (error) {
         addressInputDisabled.value = true
@@ -157,18 +158,24 @@ export default defineComponent({
 
     const editAddress = async () => {
       const { user }: any = toRefs(useFirebase())
-      const addressInterface: any = {
+      const addressInterface: Address = {
         address_id: address.address_id,
         city: address.city,
         number: address.number,
         zip_code: address.zip_code,
         street: address.street,
       }
-      await put(
+      const newAddress: Address = await put(
         '/user/change/address',
         addressInterface,
         await user.value?.getIdToken(),
       )
+
+      address.address_id = newAddress.address_id
+      address.city = newAddress.city
+      address.street = newAddress.street
+      address.number = newAddress.number
+      address.zip_code = newAddress.zip_code!
     }
 
     return {
