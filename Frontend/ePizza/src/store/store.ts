@@ -114,7 +114,7 @@ export function useStore() {
   const store = baseUseStore(key)
   const user = store.getters.getUser
   const admin = store.getters.getAdmin
-
+  
   return {
     store,
     user,

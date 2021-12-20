@@ -115,16 +115,18 @@ export class UserService {
       .where('user_id = :user_id', { user_id })
       .getOne()
 
-    console.log(user)
     if (!user)
       throw new HttpException(
         `Oops we couldn't find that user ..`,
         HttpStatus.BAD_REQUEST,
       )
 
-    user.addresses ? user.addresses.push(address) : (user.addresses = [address])
+    // user.addresses ? user.addresses.push(address) : ()
+    user.addresses = [address]
 
-    return await this.userRepository.save(user)
+    const test = await this.userRepository.save(user)
+    console.log(test)
+    return test
   }
 
   async changeAddress(headers: any, body: any) {
@@ -135,23 +137,30 @@ export class UserService {
         HttpStatus.BAD_REQUEST,
       )
 
-    const bearer = headers.authorization.replace('Bearer ', '')
-    const firebaseUser = await getAuth().verifyIdToken(bearer)
-
     const address: Address = await this.addressRepository
       .createQueryBuilder('address')
       .leftJoinAndSelect('address.users', 'users')
       .where('address.address_id = :address_id', { address_id })
       .getOne()
 
-    if (firebaseUser.uid !== address.users[0].user_id)
-      throw new UnauthorizedException()
+    if (address) {
+      console.log('hello')
+      const bearer = headers.authorization.replace('Bearer ', '')
+      const firebaseUser = await getAuth().verifyIdToken(bearer)
 
-    address.city = city
-    address.street = street
-    address.number = number
-    address.postal_code = zip_code
+      if (firebaseUser.uid !== address.users[0].user_id)
+        throw new UnauthorizedException()
 
-    return await this.addressRepository.save(address)
+      address.city = city
+      address.street = street
+      address.number = number
+      address.postal_code = zip_code
+
+      return await this.addressRepository.save(address)
+    } else {
+      const bearer = headers.authorization.replace('Bearer ', '')
+      const firebaseUser = await getAuth().verifyIdToken(bearer)
+      this.addAddress(firebaseUser.uid, body)
+    }
   }
 }
