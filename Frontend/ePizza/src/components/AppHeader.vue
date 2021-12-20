@@ -162,7 +162,7 @@ export default defineComponent({
       </router-link>
     </div>
 
-    <div class="md:hidden">
+    <div class="md:hidden cursor-pointer" @click="menuActive = !menuActive">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="32"
@@ -179,6 +179,99 @@ export default defineComponent({
         <line x1="3" y1="18" x2="21" y2="18"></line>
       </svg>
     </div>
+    <transition-group
+      class="absolute left-0 right-0 w-full z-10 md:hidden"
+      name="list"
+      tag="ul"
+    >
+      <li
+        class="
+          items-center
+          h-16
+          p-4
+          bg-red-400
+          font-bold
+          text-white
+          left-0
+          shadow-lg
+          flex
+          justify-center
+        "
+        :style="
+          menuActive === true
+            ? 'transition-delay: 0.1s'
+            : 'transition-delay: 0.2s'
+        "
+        :key="3"
+        v-show="menuActive"
+        @click="
+          () => {
+            menuActive = !menuActive
+          }
+        "
+      >
+        <router-link to="/stock"> Dashboard </router-link>
+      </li>
+      <li
+        v-if="!user"
+        class="
+          items-center
+          h-16
+          p-4
+          bg-red-400
+          font-bold
+          text-white
+          left-0
+          shadow-lg
+          flex
+          justify-center
+        "
+        :style="
+          menuActive === true
+            ? 'transition-delay: 0.1s'
+            : 'transition-delay: 0.2s'
+        "
+        :key="4"
+        v-show="menuActive"
+        @click="
+          () => {
+            menuActive = !menuActive
+          }
+        "
+      >
+        <router-link to="/login"> Login </router-link>
+      </li>
+      <li
+        v-else
+        class="
+          items-center
+          h-16
+          p-4
+          bg-red-400
+          font-bold
+          text-white
+          left-0
+          shadow-lg
+          flex
+          justify-center
+        "
+        :style="
+          menuActive === true
+            ? 'transition-delay: 0.1s'
+            : 'transition-delay: 0.2s'
+        "
+        v-show="menuActive"
+        @click="
+          () => {
+            menuActive = !menuActive
+          }
+        "
+      >
+        <router-link to="/account">
+          <p>{{ username }}</p>
+        </router-link>
+      </li>
+    </transition-group>
   </div>
   <div class="" v-else>
     <div class="flex flex-row justify-between items-center">
@@ -318,29 +411,60 @@ export default defineComponent({
       name="list"
       tag="ul"
     >
-      <div
-        to="/"
-        class="p-4 bg-red-400 text-lg text-white left-0 shadow-lg h-16"
-        :style="menuActive === true ? '' : 'transition-delay: 0.3s'"
+      <li
+        class="
+          items-center
+          p-4
+          h-16
+          bg-red-400
+          font-bold
+          text-white
+          left-0
+          shadow-lg
+          flex
+          justify-center
+        "
+        :style="
+          menuActive === true
+            ? 'transition-delay: 0.2s'
+            : 'transition-delay: 0.1s'
+        "
         :key="1"
         v-show="menuActive"
+        @click="
+          () => {
+            menuActive = !menuActive
+          }
+        "
       >
-        <router-link
-          to="/"
-          class="flex items-center justify-center gap-2"
-          @click="menuActive = !menuActive"
-        >
-          <div>
-            <img
-              class="w-8"
-              src="../assets/images/pizza-bg.png"
-              alt="pizza logo"
-            />
-          </div>
-          <p class="text-lg font-bold">ePizza</p>
-        </router-link>
-      </div>
-
+        <a class="" href="#services">
+          {{ $t('header_services') }}
+        </a>
+      </li>
+      <li
+        class="
+          p-4
+          h-16
+          bg-red-400
+          font-bold
+          text-white
+          left-0
+          shadow-lg
+          flex
+          justify-center
+          items-center
+        "
+        :style="
+          menuActive === true
+            ? 'transition-delay: 0.1s'
+            : 'transition-delay: 0.2s'
+        "
+        :key="2"
+        v-show="menuActive"
+        @click="menuActive = !menuActive"
+      >
+        <div @click="handleStatus">Menu</div>
+      </li>
       <li
         class="
           items-center
@@ -363,18 +487,20 @@ export default defineComponent({
         v-show="menuActive"
         @click="
           () => {
-            handleDelivery()
             menuActive = !menuActive
           }
         "
       >
-        {{ $t('header_delivery') }}
+        <a class="" href="#contact">
+          {{ $t('header_contact') }}
+        </a>
       </li>
       <li
+        v-if="!user"
         class="
           items-center
-          p-4
           h-16
+          p-4
           bg-red-400
           font-bold
           text-white
@@ -385,24 +511,25 @@ export default defineComponent({
         "
         :style="
           menuActive === true
-            ? 'transition-delay: 0.2s'
-            : 'transition-delay: 0.1s'
+            ? 'transition-delay: 0.1s'
+            : 'transition-delay: 0.2s'
         "
         :key="4"
         v-show="menuActive"
         @click="
           () => {
-            handleCarryout()
             menuActive = !menuActive
           }
         "
       >
-        {{ $t('header_carryout') }}
+        <router-link to="/login"> Login </router-link>
       </li>
       <li
+        v-else
         class="
-          p-4
+          items-center
           h-16
+          p-4
           bg-red-400
           font-bold
           text-white
@@ -410,16 +537,24 @@ export default defineComponent({
           shadow-lg
           flex
           justify-center
-          items-center
         "
-        :style="menuActive === true ? 'transition-delay: 0.3s' : ''"
-        :key="5"
+        :style="
+          menuActive === true
+            ? 'transition-delay: 0.1s'
+            : 'transition-delay: 0.2s'
+        "
         v-show="menuActive"
-        @click="menuActive = !menuActive"
+        @click="
+          () => {
+            menuActive = !menuActive
+          }
+        "
       >
-        <div @click="handleStatus">Menu</div>
-      </li></transition-group
-    >
+        <router-link to="/account">
+          <p>{{ username }}</p>
+        </router-link>
+      </li>
+    </transition-group>
   </div>
 </template>
 
