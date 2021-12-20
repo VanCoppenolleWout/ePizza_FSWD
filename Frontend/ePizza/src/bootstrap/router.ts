@@ -1,6 +1,6 @@
 import { initializeApp } from '@firebase/app'
 import { getAuth } from '@firebase/auth'
-import { toRefs } from 'vue'
+import { computed, toRefs } from 'vue'
 import {
   createRouter,
   createWebHistory,
@@ -9,7 +9,11 @@ import {
 } from 'vue-router'
 import useFirebase from '../composables/useFirebase'
 import { fetchData } from '../composables/useNetwork'
+import { store } from '../store/store'
 const { get } = fetchData()
+const admin = computed(() => {
+  return store.getters.getAdmin
+})
 
 const routes: RouteRecordRaw[] = [
   //global routes
@@ -34,11 +38,11 @@ const routes: RouteRecordRaw[] = [
     path: '/login',
     component: () =>
       import(/* webpackChunkName: "login"*/ '../screens/Login.vue'),
-      beforeEnter: async (to, from, next) => {
-        const { user } = toRefs(useFirebase())
-  
-        ;(await user.value?.getIdToken()) ? next({ name: 'home' }) : next()
-      },
+    beforeEnter: async (to, from, next) => {
+      const { user } = toRefs(useFirebase())
+
+      ;(await user.value?.getIdToken()) ? next({ name: 'home' }) : next()
+    },
   },
   {
     path: '/menu',
@@ -106,6 +110,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/orders',
     name: 'orders',
+    meta: { showSideBar: true },
     component: () =>
       import(/* webpackChunkName: "orders"*/ '../screens/Orders.vue'),
     beforeEnter: async (to, from, next) => {
@@ -119,6 +124,7 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/stock',
+    meta: { showSideBar: true },
     component: () =>
       import(/* webpackChunkName: "stock"*/ '../screens/Stock.vue'),
     beforeEnter: async (to, from, next) => {
@@ -132,6 +138,7 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/chart',
+    meta: { showSideBar: true },
     component: () =>
       import(/* webpackChunkName: "stock"*/ '../screens/Chart.vue'),
     beforeEnter: async (to, from, next) => {
@@ -145,6 +152,7 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/rating',
+    meta: { showSideBar: true },
     component: () =>
       import(/* webpackChunkName: "register"*/ '../screens/Rating.vue'),
     beforeEnter: async (to, from, next) => {
@@ -158,6 +166,7 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/orders/detail/:order_id',
+    meta: { showSideBar: true },
     component: () =>
       import(
         /* webpackChunkName: "orders/detail/order_id"*/ '../screens/OrdersDetail.vue'
@@ -174,6 +183,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/orders/detail',
     name: 'orders/detail',
+    meta: { showSideBar: true },
     component: () =>
       import(/* webpackChunkName: "orders"*/ '../screens/OrdersDetail.vue'),
     props: true,
@@ -191,19 +201,19 @@ const routes: RouteRecordRaw[] = [
       }
     },
   },
-  {
-    path: '/order',
-    component: () =>
-      import(/* webpackChunkName: "register"*/ '../screens/Order.vue'),
-    beforeEnter: async (to, from, next) => {
-      const auth = getAuth()
-      const idToken = await auth.currentUser?.getIdToken()
+  // {
+  //   path: '/order',
+  //   component: () =>
+  //     import(/* webpackChunkName: "register"*/ '../screens/Order.vue'),
+  //   beforeEnter: async (to, from, next) => {
+  //     const auth = getAuth()
+  //     const idToken = await auth.currentUser?.getIdToken()
 
-      const { admin } = await get('/user/admin', idToken)
+  //     const { admin } = await get('/user/admin', idToken)
 
-      admin ? next() : next({ name: 'home' })
-    },
-  },
+  //     admin ? next() : next({ name: 'home' })
+  //   },
+  // },
   {
     path: '/account',
     component: () =>

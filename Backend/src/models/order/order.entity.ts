@@ -17,7 +17,7 @@ import { User } from '../user/user.entity'
 export class Order {
   @PrimaryGeneratedColumn('increment')
   order_id?: string
-  @Column()
+  @Column('float')
   price?: number
   @Column()
   order_date?: Date

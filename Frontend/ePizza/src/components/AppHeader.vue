@@ -74,7 +74,7 @@ export default defineComponent({
           "
         >
           <router-link
-            to="/stock"
+            to="/orders"
             class="
               cursor-pointer
               px-6

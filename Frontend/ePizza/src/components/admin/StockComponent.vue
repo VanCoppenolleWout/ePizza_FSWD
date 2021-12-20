@@ -192,7 +192,7 @@ export default defineComponent({
               <path d="M15 18l-6-6 6-6"></path>
             </svg>
           </button>
-          <p class="font-medium text-xl text-gray-500 font-semibold">
+          <p class="text-xl text-gray-500 font-semibold">
             {{ selectedItem.name }}
           </p>
         </div>

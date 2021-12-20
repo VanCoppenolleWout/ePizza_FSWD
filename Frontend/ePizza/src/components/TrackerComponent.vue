@@ -22,7 +22,7 @@ export default defineComponent({
     const progressBar = () => {
       currTime.value = deliveryDate.getTime() - new Date().getTime()
 
-      if (currTime.value <= 0) {
+      if (currTime.value <= 0 || order.value.status === 'completed') {
         width1.value = 100
         width2.value = 100
         width3.value = 100
@@ -63,6 +63,7 @@ export default defineComponent({
       width2,
       width3,
       width4,
+      order,
     }
   },
   props: {
@@ -78,7 +79,10 @@ export default defineComponent({
         <h1 class="text-center text-p-red text-2xl font-semibold mb-5">
           {{ $t('tracker_title') }}
         </h1>
-        <p class="text-center">{{ $t('tracker_sub') }}</p>
+        <p v-if="order.status === 'completed'" class="text-center">
+          Your order is ready!
+        </p>
+        <p v-else class="text-center">{{ $t('tracker_sub') }}</p>
       </div>
       <div class="space-y-4">
         <div
@@ -166,7 +170,9 @@ export default defineComponent({
             z-50
           "
         >
-          <h2 class="font-semibold relative text-white z-50">{{ $t('order_baked') }}</h2>
+          <h2 class="font-semibold relative text-white z-50">
+            {{ $t('order_baked') }}
+          </h2>
           <div
             class="
               bg-red-500

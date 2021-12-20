@@ -122,9 +122,9 @@ export default defineComponent({
             <span class="text-gray-700 text-2xl font-semibold" v-if="admin"
               >Review</span
             >
-            <span v-else class="text-gray-700 text-2xl font-semibold"
-              >{{ $t('review_title') }}</span
-            >
+            <span v-else class="text-gray-700 text-2xl font-semibold">{{
+              $t('review_title')
+            }}</span>
             <textarea
               class="
                 form-textarea
@@ -148,9 +148,9 @@ export default defineComponent({
         </div>
         <div class="mt-8">
           <label class="flex flex-col" for="title">
-            <span class="text-gray-700 text-lg font-medium"
-              >{{ $t('review_subtitle') }}</span
-            >
+            <span class="text-gray-700 text-lg font-medium">{{
+              $t('review_subtitle')
+            }}</span>
             <input
               type="text"
               name="title"
@@ -172,9 +172,12 @@ export default defineComponent({
         </div>
         <div v-if="admin" class="mt-6">
           <h3 class="text-gray-700 text-lg font-medium">Review by</h3>
-          <p>{{ order.user?.name }} {{ order.user?.lastname }}</p>
-          <p>{{ order.user?.email }}</p>
-          <p>{{ order.user?.phone_nr }}</p>
+          <p v-if="order.user">
+            {{ order.user?.name }} {{ order.user?.lastname }}
+          </p>
+          <p v-if="order.guest">
+            {{ order.guest?.name }} {{ order.guest?.lastname }}
+          </p>
         </div>
       </div>
 
@@ -194,7 +197,9 @@ export default defineComponent({
         :class="formstate === false ? 'pointer-events-none opacity-50' : ''"
         type="submit"
       >
-        <p v-if="formstate === true" class="text-white">{{ $t('btn_review') }}</p>
+        <p v-if="formstate === true" class="text-white">
+          {{ $t('btn_review') }}
+        </p>
         <p v-else class="text-white">{{ $t('btn_review2') }}</p>
       </button>
     </form>
