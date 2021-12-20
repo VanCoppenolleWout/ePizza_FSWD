@@ -52,6 +52,7 @@ export default defineComponent({
         }
       }
     }
+    progressBar()
     const intervalId = setInterval(progressBar, currTime.value / 100)
 
     onBeforeUnmount(() => {
