@@ -139,10 +139,6 @@ export default defineComponent({
         if (user.value) {
           const data = await get(`/user/${user.value.uid}`)
 
-          // user.value.name = data.name
-          // user.value.lastname = data.lastname
-          // user.value.email = data.email
-
           if (data.addresses.length > 0) {
             address.address_id = data.addresses[0].address_id
             address.city = data.addresses[0].city
@@ -199,7 +195,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="container mx-auto p-8 md:px-0">
+  <div class="container mx-auto p-4 py-8 sm:p-8 md:px-0">
     <AppHeader />
     <div
       class="
@@ -215,7 +211,8 @@ export default defineComponent({
           <div
             class="
               rounded-full
-              p-6
+              p-4
+              sm:p-6
               flex
               bg-gray-300
               hover:bg-gray-400
@@ -223,9 +220,8 @@ export default defineComponent({
             "
           >
             <svg
+              class="w-8 h-8 sm:w-12 sm:h-12"
               xmlns="http://www.w3.org/2000/svg"
-              width="48"
-              height="48"
               viewBox="0 0 24 24"
               fill="none"
               stroke="#FFFFFF"
@@ -238,6 +234,7 @@ export default defineComponent({
             </svg>
             <input
               ref="file"
+              accept="image/x-png,image/gif,image/jpeg"
               v-on:change="handleFileUpload()"
               style="display: none"
               type="file"
@@ -264,6 +261,7 @@ export default defineComponent({
           </div>
           <input
             ref="file"
+            accept="image/x-png,image/gif,image/jpeg"
             v-on:change="handleFileUpload()"
             style="display: none"
             type="file"
@@ -271,18 +269,18 @@ export default defineComponent({
         </label>
 
         <div>
-          <p class="text-2xl md:text-3xl font-semibold">
+          <p class="text-xl sm:text-2xl md:text-3xl font-semibold">
             {{ user.displayName }}
           </p>
-          <p class="text-lg md:text-xl">
+          <p class="text-sm sm:text-lg md:text-xl">
             {{ email }}
           </p>
         </div>
       </div>
-      <section class="mt-6 md:mt-10 bg-white rounded-2xl p-8">
+      <section class="mt-6 md:mt-10 bg-white rounded-2xl py-8 px-4 sm:p-8">
         <div class="flex flex-row justify-between items-center">
-          <h1 class="font-semibold text-2xl">{{ $t('account_title') }}</h1>
-          <LanguageChanger background="white" />
+          <h1 class="font-semibold text-lg sm:text-2xl">{{ $t('account_title') }}</h1>
+          <LanguageChanger background="white" class=" max-w-[7rem] sm:max-w-full" />
         </div>
         <div class="mt-6">
           <p class="text-sm text-gray-600">{{ $t('account_name') }}</p>
@@ -304,14 +302,15 @@ export default defineComponent({
                 py-1
                 px-4
                 rounded-lg
+                w-[60%]
                 md:w-96
               "
             />
-            <div class="flex flex-row space-x-4">
+            <div class="flex flex-row space-x-2 sm:space-x-4">
               <button
                 v-if="nameInput"
                 @click=";(nameInput = false), (displayName = user.displayName)"
-                class="px-5 py-2 rounded-lg text-white font-medium"
+                class="px-3 py-2 sm:px-5 sm:py-2 rounded-lg text-white font-medium"
                 style="background-color: #d2222d"
               >
                 <svg
@@ -332,7 +331,7 @@ export default defineComponent({
               <button
                 v-if="nameInput"
                 @click="editName(displayName)"
-                class="px-5 py-2 rounded-lg text-white font-medium"
+                class="px-3 py-2 sm:px-5 sm:py-2 rounded-lg text-white font-medium"
                 style="background-color: #238823"
               >
                 <svg
@@ -539,7 +538,7 @@ export default defineComponent({
         <section class="flex flex-row justify-center">
           <button
             @click="handleLogout"
-            class="px-6 py-3 bg-p-red text-white font-medium rounded-xl w-1/5"
+            class="px-6 py-3 bg-p-red text-white font-medium rounded-xl md:w-1/5"
           >
             {{ $t('btn_signout') }}
           </button>

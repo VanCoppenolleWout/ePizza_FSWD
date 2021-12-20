@@ -20,7 +20,7 @@ export default defineComponent({
 
 <template>
   <div class="sm:ml-24 mb-16 md:mb-0">
-    <div class="sm:p-8 p-4">
+    <div class="sm:p-8 p-4 sm:max-w-[80%] sm:m-auto">
       <h3 class="text-gray-700 text-2xl font-semibold mb-4">{{ $t('stock_h1') }}</h3>
       <p class="max-w-6xl text-gray-500 mb-8">
         {{ $t('stock_sub') }}

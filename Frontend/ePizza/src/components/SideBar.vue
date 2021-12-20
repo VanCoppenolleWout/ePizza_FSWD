@@ -222,7 +222,7 @@ export default defineComponent({
   </nav>
 </template>
 
-<style>
+<style scoped>
 .router-link-active .router-link-svg {
   --tw-bg-opacity: 1;
   background-color: rgba(252, 165, 165, var(--tw-bg-opacity));

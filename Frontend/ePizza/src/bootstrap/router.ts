@@ -232,10 +232,10 @@ const routes: RouteRecordRaw[] = [
     name: 'notFound',
   },
   {
-    path: '/test',
+    path: '/locations',
     component: () =>
-      import(/* webpackChunkName: "test"*/ '../screens/Test.vue'),
-    name: 'test',
+      import(/* webpackChunkName: "test"*/ '../screens/Locations.vue'),
+    name: 'locations',
   },
 ]
 

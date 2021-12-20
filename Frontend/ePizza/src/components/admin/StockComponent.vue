@@ -165,6 +165,7 @@ export default defineComponent({
                 transition
                 ease-out
                 duration-300
+                hover:bg-red-600
               "
               @click="showDetail(item)"
             >
@@ -304,6 +305,12 @@ export default defineComponent({
               m-auto
               font-medium
               text-lg
+              transform
+              transition
+              hover:-translate-y-0.5 hover:bg-red-600
+              ease-out
+              duration-300
+              hover:scale-[101%]
             "
             @click="updateStock(selectedItem.topping_id, stockAmount, price)"
           >

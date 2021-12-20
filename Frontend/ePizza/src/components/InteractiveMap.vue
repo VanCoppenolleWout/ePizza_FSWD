@@ -60,7 +60,8 @@ export default defineComponent({
             </div>
             <p class="text-lg">Graaf Karel de Goedelaan 6, Kortrijk</p>
           </div>
-          <button
+          <router-link
+            to="/menu"
             class="
               cursor-pointer
               m-auto
@@ -78,7 +79,7 @@ export default defineComponent({
             "
           >
             <p class="">Bestel</p>
-          </button>
+          </router-link>
         </GMapInfoWindow>
       </GMapMarker>
     </GMapCluster>

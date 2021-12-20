@@ -33,14 +33,37 @@ export default defineComponent({
           <div class="w-8"></div>
         </div>
 
-        <div class="bg-white rounded-xl p-6 mt-8 drop-shadow-sm max-w-[80%] m-auto md:max-w-full">
-          <div class="flex flex-row space-x-4 items-center">
-            <div class="bg-p-red px-4 py-2 rounded-lg pointer-events-none">
-              <p class="text-white font-medium">1</p>
+        <div
+          class="
+            bg-white
+            rounded-xl
+            p-6
+            mt-8
+            drop-shadow-sm
+            max-w-[80%]
+            m-auto
+            md:max-w-full
+            transform
+            transition
+            ease-out
+            duration-300
+            hover:scale-[101%]
+          "
+        >
+          <div class="flex flex-row justify-between items-center">
+            <div class="flex flex-row space-x-4 items-center mb-4">
+              <div class="bg-p-red px-4 py-2 rounded-lg pointer-events-none">
+                <p class="text-white font-medium">1</p>
+              </div>
+              <p class="text-xl font-medium">ePizza</p>
             </div>
-            <p class="text-lg">Graaf Karel de Goedelaan 6, Kortrijk</p>
           </div>
-          <button
+
+          <p class="">Graaf Karel de Goedelaan 6</p>
+          <p class="">8500, Kortrijk</p>
+          <p class="">België</p>
+          <router-link
+          to="/menu"
             class="
               cursor-pointer
               m-auto
@@ -58,7 +81,7 @@ export default defineComponent({
             "
           >
             <p class="">Bestel</p>
-          </button>
+          </router-link>
         </div>
       </div>
     </aside>
