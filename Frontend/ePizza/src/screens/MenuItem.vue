@@ -307,7 +307,7 @@ export default defineComponent({
             <h1 class="text-3xl font-semibold text-p-gray">
               {{ pizza.name }}
             </h1>
-            <p>{{ pizza.description }}</p>
+            <p class="max-w-lg">{{ pizza.description }}</p>
             <div class="flex justify-center mt-10 lg:mt-16">
               <img class="w-96" :src="pizza.img_url_nobg" />
             </div>

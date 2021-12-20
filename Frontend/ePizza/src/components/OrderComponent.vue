@@ -1,13 +1,14 @@
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
+import { defineComponent } from 'vue'
 import { Order } from '../interfaces/order'
-
+import moment from 'moment'
 export default defineComponent({
   setup(context) {
     const { order } = context
 
     return {
       order,
+      moment,
     }
   },
 
@@ -36,14 +37,27 @@ export default defineComponent({
           </div>
         </div>
         <div class="w-28 lg:w-auto">
-          <h3 class="text-gray-700 text-xl font-semibold mb-2 sm:text-right">
-            {{ $t('order_method') }}
-          </h3>
-          <p class="sm:text-right">{{ order.payment_method }}</p>
+          <div class="mb-2">
+            <h3 class="text-gray-700 text-xl font-semibold mb-2 sm:text-right">
+              {{ $t('order_method') }}
+            </h3>
+            <p class="sm:text-right">{{ order.payment_method }}</p>
+          </div>
+
+          <div class="mb-2">
+            <h3 class="text-gray-700 text-xl font-semibold mb-2 sm:text-right">
+              Date
+            </h3>
+            <p class="sm:text-right">
+              {{ moment(order.delivery_date).format('HH:mm') }}
+            </p>
+          </div>
         </div>
       </div>
       <div class="">
-        <h3 class="text-gray-700 text-xl font-semibold mb-2">{{ $t('order_yours') }}</h3>
+        <h3 class="text-gray-700 text-xl font-semibold mb-2">
+          {{ $t('order_yours') }}
+        </h3>
         <div
           v-for="(item, index) in order.pizzaSizeToppings"
           :key="index"
@@ -75,7 +89,7 @@ export default defineComponent({
           </div>
         </div>
         <div class="flex justify-between font-medium mt-4">
-          <p> {{ $t('basket_total') }} </p>
+          <p>{{ $t('basket_total') }}</p>
           <p>{{ order.price }}€</p>
         </div>
       </div>
