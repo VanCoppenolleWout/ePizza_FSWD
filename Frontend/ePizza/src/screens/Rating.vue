@@ -5,6 +5,7 @@ import SideBar from '../components/SideBar.vue'
 import { fetchData } from '../composables/useNetwork'
 import { Review } from '../interfaces/review'
 import RatingComponent from '../components/admin/RatingComponent.vue'
+import RatingSkeleton from '../components/admin/RatingSkeleton.vue'
 
 export default defineComponent({
   setup() {
@@ -27,6 +28,7 @@ export default defineComponent({
   components: {
     SideBar,
     RatingComponent,
+    RatingSkeleton,
   },
 })
 </script>
@@ -39,15 +41,15 @@ export default defineComponent({
         In the review section, you can see all review placed by customers.
       </p>
 
-      <div v-if="reviews.length > 0">
+      <!-- <div v-if="reviews.length > 0">
         <RatingComponent
           v-for="(review, index) in reviews"
           :key="index"
           :review="review"
         />
-      </div>
+      </div> -->
 
-      <div v-else>Loading reviews ...</div>
+      <div><RatingSkeleton /></div>
     </div>
   </div>
 </template>

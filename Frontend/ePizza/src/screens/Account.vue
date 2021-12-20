@@ -31,6 +31,8 @@ export default defineComponent({
     const { get, post, put } = fetchData()
     const auth = getAuth()
     const firebaseUser: any = auth.currentUser
+    const animateCircle: Ref<boolean> = ref(false)
+    const animateCircle2: Ref<boolean> = ref(false)
 
     const user = computed(() => {
       return store.getters.getUser
@@ -64,6 +66,7 @@ export default defineComponent({
     }
 
     const editName = (input: string) => {
+      animateCircle.value = true
       displayName.value = input
       const auth: any = getAuth()
       updateProfile(auth.currentUser, {
@@ -73,11 +76,14 @@ export default defineComponent({
           console.log('updated')
           console.log(user.value, 'in edit name')
           //store.dispatch(ActionTypes.setUser, user)
+          animateCircle.value = false
         })
         .catch((error) => {
           console.log(error)
+          animateCircle.value = false
         })
       nameInput.value = false
+      animateCircle.value = false
     }
 
     const file: any = ref(null)
@@ -139,6 +145,7 @@ export default defineComponent({
     getUserAddress()
 
     const editAddress = async () => {
+      animateCircle2.value = true
       addressInput.value = false
       addressInputDisabled.value = true
 
@@ -164,7 +171,7 @@ export default defineComponent({
       address.number = newAddress.number
       address.zip_code = newAddress.postal_code!
 
-      console.log(newAddress)
+      animateCircle2.value = false
     }
 
     return {
@@ -180,6 +187,8 @@ export default defineComponent({
       handleLogout,
       handleFileUpload,
       file,
+      animateCircle,
+      animateCircle2,
     }
   },
   components: { AppHeader, InputComponent, LanguageChanger },
@@ -390,7 +399,33 @@ export default defineComponent({
                 hover:scale-[101%]
               "
             >
-              {{ $t('btn_edit') }}
+              <div>
+                <svg
+                  class="h-5 w-5 text-white animate-spin"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  :class="animateCircle ? 'block' : 'hidden'"
+                >
+                  <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                  ></circle>
+                  <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+              </div>
+
+              <p v-if="!animateCircle">
+                {{ $t('btn_edit') }}
+              </p>
             </button>
           </div>
         </div>
@@ -534,7 +569,33 @@ export default defineComponent({
                 hover:scale-[101%]
               "
             >
-              {{ $t('btn_edit') }}
+              <div>
+                <svg
+                  class="h-5 w-5 text-white animate-spin"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  :class="animateCircle2 ? 'block' : 'hidden'"
+                >
+                  <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                  ></circle>
+                  <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+              </div>
+
+              <p v-if="!animateCircle2">
+                {{ $t('btn_edit') }}
+              </p>
             </button>
           </div>
         </div>
