@@ -231,6 +231,12 @@ const routes: RouteRecordRaw[] = [
     props: true,
     name: 'notFound',
   },
+  {
+    path: '/test',
+    component: () =>
+      import(/* webpackChunkName: "test"*/ '../screens/Test.vue'),
+    name: 'test',
+  },
 ]
 
 const router: Router = createRouter({

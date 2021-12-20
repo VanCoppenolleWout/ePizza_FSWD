@@ -10,6 +10,7 @@ import en from './assets/i18n/en.json'
 import nl from './assets/i18n/nl.json'
 import * as Sentry from '@sentry/vue'
 import { Integrations } from '@sentry/tracing'
+import VueGoogleMaps from '@fawmi/vue-google-maps'
 
 import useFirebase from './composables/useFirebase'
 ;(async () => {
@@ -48,6 +49,11 @@ import useFirebase from './composables/useFirebase'
   })
 
   app.use(i18n)
+  app.use(VueGoogleMaps, {
+    load: {
+      key: 'AIzaSyBOYHJY2dqs-bNqacxobU5CvYRJRoJAR6E',
+    },
+  })
 
   const { restoreAuth } = useFirebase()
   await restoreAuth()
