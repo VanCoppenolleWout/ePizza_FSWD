@@ -111,6 +111,7 @@ export default defineComponent({
             payment_method: paymentOption.value,
           }
           data = await post('/order', body)
+          console.log(data)
           handleRoute(data)
         }
         if (userInputDisabled.value && !addressInputDisabled.value) {

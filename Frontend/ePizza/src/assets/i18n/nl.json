@@ -113,6 +113,7 @@
     "order_title": "Bestellingen",
     "order_date": "Datum",
     "order_empty": "Nog geen bestellingen.",
+    "review_empty": "Nog geen reviews.",
     "table_id": "Bestelling ID",
     "table_delivery": "Levering",
     "table_price": "Prijs",
@@ -121,5 +122,10 @@
     "side_order": "Bestellingen",
     "Side_stock": "Stock",
     "Side_reviews": "Reviews",
-    "side_chart": "Grafieken"
+    "side_chart": "Grafieken",
+    "popup_title": "Kies tussen",
+    "popup_sub": "Kies of je je pizza wilt laten bezorgen of wilt afhalen.",
+    "rating_sub": "In het reviewgedeelte kunt u alle beoordelingen zien die door klanten zijn geplaatst.",
+    "rating_title": "Titel",
+    "rating_des": "Beschrijving"
 }

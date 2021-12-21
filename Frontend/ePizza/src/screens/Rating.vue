@@ -38,7 +38,7 @@ export default defineComponent({
     <div class="sm:p-8 p-4 sm:max-w-[80%] sm:m-auto">
       <h3 class="text-gray-700 text-2xl font-semibold mb-4">Reviews</h3>
       <p class="max-w-6xl text-gray-500 mb-8">
-        In the review section, you can see all review placed by customers.
+        {{ $t('rating_sub') }}
       </p>
 
       <div v-if="reviews.length > 0">

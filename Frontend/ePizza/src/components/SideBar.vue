@@ -182,46 +182,7 @@ export default defineComponent({
             </p>
           </div>
         </router-link>
-        <router-link to="/chart" class="sm:ml-7">
-          <div class="flex items-center router-link">
-            <div
-              class="
-                w-10
-                h-10
-                rounded-full
-                flex
-                items-center
-                justify-center
-                router-link-svg
-              "
-            >
-              <svg
-                class="fill-current text-gray-500"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 32 29.793"
-              >
-                <g id="chart" transform="translate(-1 -2)">
-                  <path
-                    id="Path_78"
-                    data-name="Path 78"
-                    d="M3.23,3.117a1.115,1.115,0,1,0-2.23,0V30.676a1.117,1.117,0,0,0,1.115,1.117H29.253a1.117,1.117,0,0,0,0-2.235H3.23Z"
-                  />
-                  <path
-                    id="Path_79"
-                    data-name="Path 79"
-                    d="M31.542,8.436a1.14,1.14,0,0,0-1.612-1.612l-8.7,8.7L15.578,9.866a1.14,1.14,0,0,0-1.612,0L4.844,18.988A1.14,1.14,0,1,0,6.456,20.6l8.317-8.317,5.656,5.656a1.14,1.14,0,0,0,1.612,0l9.5-9.5Z"
-                    transform="translate(1.151 2.087)"
-                  />
-                </g>
-              </svg>
-            </div>
-            <p class="ml-2 text-md text-gray-500 font-semibold hidden sm:block">
-              {{ $t('side_chart') }}
-            </p>
-          </div>
-        </router-link>
+        
         <router-link to="/" class="md:hidden sm:ml-7">
           <div class="flex items-center router-link">
             <div

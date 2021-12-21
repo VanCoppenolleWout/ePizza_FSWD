@@ -20,11 +20,10 @@ export default defineComponent({
 
     const handleDelivery = () => {
       localStorage.setItem('delivery', 'true')
-      router.push('/locations')
+      router.push('/menu')
     }
 
     const testfunction = (value: boolean) => {
-      console.log(localStorage.getItem('delivery'))
       if (localStorage.getItem('delivery') === null) {
         selectedMenu.value = value
       } else {
@@ -34,20 +33,12 @@ export default defineComponent({
 
     const handleCarryout = () => {
       localStorage.setItem('delivery', 'false')
-      router.push('/menu')
+      router.push('/locations')
     }
 
     function goBack() {
       router.push('/')
     }
-
-    // onMounted(() => {
-    //   const timeline = new TimelineLite()
-
-    //   timeline.from('.animation1', { y: '-50px', opacity: 0, stagger: 0.2 })
-    //   timeline.from('.animation2', { y: '-50px', opacity: 0 }, '-=0.4')
-    //   timeline.from('.animation3', { y: '-50px', opacity: 0 }, '-=0.2')
-    // })
 
     const link = 'src/assets/images/pizza-bg.png'
 
@@ -99,7 +90,9 @@ export default defineComponent({
           <div class="flex flex-col items-center">
             <div class="w-full flex flex-row justify-between items-center">
               <div class="w-8"></div>
-              <h1 class="text-lg sm:text-2xl font-semibold text-p-red">Choose between</h1>
+              <h1 class="text-lg sm:text-2xl font-semibold text-p-red">
+                {{ $t('popup_title') }}
+              </h1>
               <div
                 class="transform rotate-45 border-2 rounded-full p-1"
                 @click="testfunction(false)"
@@ -126,18 +119,16 @@ export default defineComponent({
               </div>
             </div>
             <p class="text-center mt-6">
-              Select if you want to carryout your pizza or if you would like it
-              delivered.
+              {{ $t('popup_sub') }}
             </p>
 
             <div
               class="
-                flex flex-col sm:flex-row
+                flex flex-col
+                sm:flex-row
                 items-center
                 space-y-3
-
-                sm:space-y-0
-                sm:space-x-3
+                sm:space-y-0 sm:space-x-3
                 md:space-x-5
                 mt-6
                 animation1

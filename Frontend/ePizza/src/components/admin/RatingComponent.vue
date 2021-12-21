@@ -3,7 +3,10 @@ import { defineComponent } from 'vue'
 import { Review } from '../../interfaces/review'
 
 export default defineComponent({
-  setup() {},
+  setup(props) {
+
+    console.log(props.review)
+  },
   props: {
     review: { type: Object as () => Review, required: true },
   },
@@ -15,9 +18,14 @@ export default defineComponent({
     class="
       bg-white
       max-w-2xl
-      rounded-sm
-      shadow-md
-      hover:shadow-lg
+      rounded-lg
+      shadow-sm
+      hover:shadow-md
+      transform
+      transition
+      ease-out
+      duration-300
+      hover:scale-[101%]
       p-4
       h-full
       max-h-96
@@ -26,11 +34,18 @@ export default defineComponent({
     "
   >
     <div class="flex h-full items-start">
-      <div class="bg-gray-400 w-12 h-12 rounded-full">
+      <div
+        class="
+          rounded-full
+          p-3
+          sm:p-4
+          flex
+          bg-gray-300
+        "
+      >
         <svg
+          class="w-7 h-7"
           xmlns="http://www.w3.org/2000/svg"
-          width="48"
-          height="48"
           viewBox="0 0 24 24"
           fill="none"
           stroke="#FFFFFF"
@@ -42,6 +57,7 @@ export default defineComponent({
           <circle cx="12" cy="7" r="4"></circle>
         </svg>
       </div>
+      <div></div>
     </div>
     <div class="ml-8">
       <h3 class="text-gray-500 font-semibold mb-2" v-if="review.user">
@@ -50,13 +66,13 @@ export default defineComponent({
       <h3 class="text-gray-500 font-semibold mb-2" v-if="review.guest">
         {{ review.guest.name }} {{ review.guest.lastname }}
       </h3>
-      <div class="flex gap-2 -ml-1 mb-4">
+      <div class="flex gap-1 -ml-1 mb-4">
         <svg
           v-for="index in review.stars"
           :key="index"
           xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
+          width="20"
+          height="20"
           viewBox="0 0 24 24"
           fill="#FFC800"
           stroke="#FFD700"
@@ -71,9 +87,9 @@ export default defineComponent({
       </div>
 
       <div>
-        <h3 class="text-gray-500 font-semibold">Title</h3>
+        <h3 class="text-gray-500 font-semibold">{{ $t('rating_title') }}</h3>
         <p class="mb-2">{{ review.title }}</p>
-        <h3 class="text-gray-500 font-semibold">Description</h3>
+        <h3 class="text-gray-500 font-semibold">{{ $t('rating_des') }}</h3>
         <p>
           {{ review.description }}
         </p>
