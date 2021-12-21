@@ -3,10 +3,7 @@ import { defineComponent } from 'vue'
 import { Review } from '../../interfaces/review'
 
 export default defineComponent({
-  setup(props) {
-
-    console.log(props.review)
-  },
+  setup(props) {},
   props: {
     review: { type: Object as () => Review, required: true },
   },
@@ -34,15 +31,7 @@ export default defineComponent({
     "
   >
     <div class="flex h-full items-start">
-      <div
-        class="
-          rounded-full
-          p-3
-          sm:p-4
-          flex
-          bg-gray-300
-        "
-      >
+      <div class="rounded-full p-3 sm:p-4 flex bg-gray-300">
         <svg
           class="w-7 h-7"
           xmlns="http://www.w3.org/2000/svg"

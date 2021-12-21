@@ -23,7 +23,6 @@ export default defineComponent({
     let errorMsg: Ref<string> = ref('')
 
     const handleForm = async () => {
-      console.log(email.value, password.value)
       animateCircle.value = true
 
       if (
@@ -113,9 +112,9 @@ export default defineComponent({
         </div>
         <div class="flex justify-center space-x-2">
           <p class="text-p-red">{{ $t('login_sub') }}</p>
-          <RouterLink to="/register" class="underline"
-            >{{ $t('login_sub2') }}</RouterLink
-          >
+          <RouterLink to="/register" class="underline">{{
+            $t('login_sub2')
+          }}</RouterLink>
         </div>
         <form @submit.prevent="handleForm" class="mt-10">
           <div class="mb-7 flex-1 relative">
@@ -139,9 +138,9 @@ export default defineComponent({
 
           <div class="flex flex-row justify-between">
             <div></div>
-            <router-link to="/forgotpassword" class="underline"
-              >{{ $t('login_sub3') }}</router-link
-            >
+            <router-link to="/forgotpassword" class="underline">{{
+              $t('login_sub3')
+            }}</router-link>
           </div>
 
           <div class="mt-20 mb-7">

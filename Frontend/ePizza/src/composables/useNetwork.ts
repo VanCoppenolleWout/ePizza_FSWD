@@ -1,5 +1,5 @@
 export const fetchData = () => {
-  const url = 'http://localhost:3001'
+  const url = 'http://localhost:30601'
 
   const get = async (endpoint: string, bearer?: string) => {
     try {

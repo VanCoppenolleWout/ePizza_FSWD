@@ -187,7 +187,6 @@ export default defineComponent({
       <div class="md:mt-32 mt-16">
         <img
           class="
-            lazyload
             absolute
             pizza-image
             hidden
@@ -199,10 +198,9 @@ export default defineComponent({
             duration-300
             img
           "
-          v-lazy="link"
+          src="../assets/images/pizza-bg.png"
           alt=""
         />
-        <!-- <Image source="src/assets/images/pizza-bg.png" /> -->
 
         <header id="header" class="m-w-top">
           <h1 class="font-semibold text-3xl md:text-6xl animation1">

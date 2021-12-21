@@ -1,16 +1,14 @@
 import { precacheAndRoute, cleanupOutdatedCaches } from 'workbox-precaching'
 import { registerRoute } from 'workbox-routing'
-import { StaleWhileRevalidate, CacheFirst } from 'workbox-strategies'
+import { StaleWhileRevalidate,  } from 'workbox-strategies'
 
 declare let self: ServiceWorkerGlobalScope
 
 self.addEventListener('message', (event) => {
-  console.log('skip waiting')
   if (event.data && event.data.type === 'SKIP_WAITING') self.skipWaiting()
 })
 
 self.addEventListener('updatefound', () => {
-  console.log('hello world')
 })
 
 registerRoute(

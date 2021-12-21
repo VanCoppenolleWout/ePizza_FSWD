@@ -3,9 +3,7 @@ import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   setup() {
-    const selectLocation = () => {
-      console.log('selected')
-    }
+    const selectLocation = () => {}
 
     let openedMarkerID = ref<any>(null)
 
