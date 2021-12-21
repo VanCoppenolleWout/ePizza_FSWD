@@ -37,7 +37,6 @@ export default defineComponent({
     }
 
     const handleStatus = (order: Order) => {
-      console.log(completedOrders.value)
       selectedOrder.value = order
       activeStatus.value = order.status!
     }

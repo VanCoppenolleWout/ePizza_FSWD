@@ -41,7 +41,7 @@ const pwaOptions: Partial<VitePWAOptions> = {
 }
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [vue(), VitePWA(pwaOptions)],
 
   server: {
     port: 8888,

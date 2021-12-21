@@ -24,7 +24,7 @@ services:
     depends_on:
       - mariadb
   vue:
-    image: glenntroncquo/project-frontend:1.0.0
+    image: glenntroncquo/project-frontend:2.0.1
     ports:
       - 8080:8080
   

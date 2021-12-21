@@ -16,7 +16,6 @@ export default defineComponent({
     const { admin } = toRefs(context)
 
     const { order }: { order: Order } = context
-    console.log(order)
     if (order.review) {
       formstate.value = false
       stars.value = order.review.stars

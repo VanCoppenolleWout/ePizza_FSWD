@@ -1,4 +1,4 @@
-<script lang="ts">
+<!-- <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { fetchData } from '../../composables/useNetwork'
 import moment from 'moment'
@@ -95,4 +95,4 @@ export default defineComponent({
       <p class="font-medium text-sm">{{ $t('order_empty') }}</p>
     </section>
   </div>
-</template>
+</template> -->

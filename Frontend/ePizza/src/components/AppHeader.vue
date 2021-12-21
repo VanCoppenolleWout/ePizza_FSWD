@@ -25,13 +25,9 @@ export default defineComponent({
       return store.getters.getName
     })
 
-    console.log(name.value)
-
     const admin = computed(() => {
       return store.getters.getAdmin
     })
-
-    console.log()
 
     const decideName = () => {
       if (user.value !== null && !admin.value) {

@@ -57,12 +57,6 @@ export default defineComponent({
       graphScreen.value = false
     }
 
-    const showGraph = () => {
-      graphScreen.value = true
-      console.log(graphScreen.value, 'graphScreen.value')
-      detailScreen.value = false
-    }
-
     const removeStock = () => {
       if (stockAmount.value >= 1) {
         stockAmount.value = stockAmount.value - 1

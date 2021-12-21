@@ -6,20 +6,11 @@ import {
   ref as stRef,
   uploadBytes,
 } from 'firebase/storage'
-import {
-  computed,
-  defineComponent,
-  reactive,
-  Ref,
-  ref,
-  toRefs,
-  watch,
-  watchEffect,
-} from 'vue'
+import { computed, defineComponent, reactive, Ref, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import AppHeader from '../components/AppHeader.vue'
 import useFirebase from '../composables/useFirebase'
-import { ActionTypes, MutationTypes, store } from '../store/store'
+import { MutationTypes, store } from '../store/store'
 import { app } from '../composables/useFirebase'
 import InputComponent from '../components/InputComponent.vue'
 import { fetchData } from '../composables/useNetwork'
@@ -28,9 +19,8 @@ import { Address } from '../interfaces/address'
 
 export default defineComponent({
   setup() {
-    const { get, post, put } = fetchData()
+    const { get, put } = fetchData()
     const auth = getAuth()
-    const firebaseUser: any = auth.currentUser
     const animateCircle: Ref<boolean> = ref(false)
     const animateCircle2: Ref<boolean> = ref(false)
 
@@ -133,7 +123,7 @@ export default defineComponent({
       addressInput.value = false
       addressInputDisabled.value = true
 
-      const { user }: any = toRefs(useFirebase())
+      const { user }: any = useFirebase()
       const addressInterface: Address = {
         address_id: address.address_id,
         city: address.city,

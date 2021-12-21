@@ -29,7 +29,7 @@ export default defineComponent({
       history.pushState(
         {},
         '',
-        `https://localhost:8888/tracker/${order.value?.order_id}`,
+        `https://project-pizza-fswd.netlify.app/tracker/${order.value?.order_id}`,
       )
     } else getOrder()
 
