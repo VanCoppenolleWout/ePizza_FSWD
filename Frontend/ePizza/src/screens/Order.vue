@@ -11,7 +11,6 @@ import { Pizza } from '../interfaces/pizza'
 import { User } from '../interfaces/user'
 import { store } from '../store/store'
 import Dropdown from '../components/Dropdown.vue'
-import moment from 'moment'
 
 export default defineComponent({
   setup(context) {
@@ -96,15 +95,19 @@ export default defineComponent({
     const placeOrder = async (pizzas: Pizza[]) => {
       try {
         let data: any
-        let date = new Date()
-        date.setMinutes(new Date().getMinutes() + 5)
+        let selectedDate
+
+        //@ts-ignore
+        selectedDate = dateSelection.value._value
+        selectedDate === undefined ? (selectedDate = dateSelection.value) : null
+
         if (userInputDisabled.value && addressInputDisabled.value) {
           loader.value = true
           const body = {
             user: userId.value,
             address: addressId.value,
             pizzas: pizzas,
-            time_preference: dateSelection.value,
+            time_preference: selectedDate,
             payment_method: paymentOption.value,
           }
           data = await post('/order', body)
@@ -131,7 +134,7 @@ export default defineComponent({
                     }
                   : undefined,
               pizzas: pizzas,
-              time_preference: dateSelection.value,
+              time_preference: selectedDate,
               payment_method: paymentOption.value,
             }
             data = await post('/order', body)
@@ -162,7 +165,7 @@ export default defineComponent({
                     }
                   : undefined,
               pizzas: pizzas,
-              time_preference: dateSelection.value,
+              time_preference: selectedDate,
               payment_method: paymentOption.value,
             }
             data = await post('/order', body)
