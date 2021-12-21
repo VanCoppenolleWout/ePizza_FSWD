@@ -8,7 +8,6 @@ export default defineComponent({
   setup(context, { emit }) {
     const { store } = useStore()
     const userFirebase = useFirebase().user.value
-    // console.log(userFirebase)
     const menuActive: Ref<boolean> = ref(false)
     const selectedMenu = ref(false)
     const router = useRouter()

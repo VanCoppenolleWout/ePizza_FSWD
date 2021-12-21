@@ -19,7 +19,6 @@ export default defineComponent({
     const type: Ref<string> = ref('pan')
 
     const toppingsAr: any = computed(() => store.getters.getToppingsArr)
-    // console.log(toppingsAr.value)
     const toppingsArr: any = toppingsAr.value
     const highlightedToppingArr: any = ref([])
 
@@ -28,7 +27,6 @@ export default defineComponent({
         for (const toppingPizza of pizza.toppings) {
           if (topping.name === toppingPizza.name) {
             toppingsAr.value[toppingsAr.value.indexOf(topping)].stock -= 1
-            console.log(toppingsAr.value)
           }
         }
       }

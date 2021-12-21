@@ -112,7 +112,6 @@ export default defineComponent({
       stockName,
       animateCircle,
       showDetail,
-      showGraph,
       removeStock,
       addStock,
       removePrice,
@@ -127,12 +126,6 @@ export default defineComponent({
 
 <template>
   <div>
-    <!-- <div class="flex flex-row justify-between items-center">
-      <h1 class="text-p-red text-2xl font-semibold mb-4">Stock</h1>
-      <button v-if="!detailScreen && !graphScreen" @click="showGraph()">
-        Graph
-      </button>
-    </div> -->
     <div class="bg-white p-6 shadow-lg rounded-md">
       <section v-if="!detailScreen && !graphScreen" class="space-y-6">
         <div v-for="(item, index) in stock" :key="index" class="">

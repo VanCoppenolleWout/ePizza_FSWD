@@ -38,18 +38,6 @@ export default defineComponent({
       return store.getters.getUser
     })
 
-    // watchEffect(() => {
-    //   console.log(user)
-    // })
-
-    // watch(
-    //   () => user.value,
-    //   (count, prevCount) => {
-    //     /* ... */
-    //     console.log(user.value, count, prevCount)
-    //   },
-    // )
-
     let nameInput = ref<boolean>(false)
     let addressInput = ref<boolean>(false)
     const addressInputDisabled: Ref<boolean> = ref(false)
@@ -73,13 +61,10 @@ export default defineComponent({
         displayName: input,
       })
         .then(() => {
-          console.log('updated')
-          console.log(user.value, 'in edit name')
           //store.dispatch(ActionTypes.setUser, user)
           animateCircle.value = false
         })
         .catch((error) => {
-          console.log(error)
           animateCircle.value = false
         })
       nameInput.value = false
@@ -92,22 +77,18 @@ export default defineComponent({
     const handleFileUpload = async () => {
       const auth: any = getAuth()
       // debugger;
-      console.log('selected file', file.value.files[0])
       //Upload to server
       const uploadImage = stRef(
         storage,
         `profilePicture/${user.value.uid}/${file.value.files[0].name}`,
       )
-      await uploadBytes(uploadImage, file.value.files[0]).then((snapshot) => {
-        console.log('Uploaded a blob or file!')
-      })
+      await uploadBytes(uploadImage, file.value.files[0]).then((snapshot) => {})
       await getDownloadURL(
         stRef(
           storage,
           `profilePicture/${user.value.uid}/${file.value.files[0].name}`,
         ),
       ).then((url) => {
-        console.log(url)
         updateProfile(auth.currentUser, {
           photoURL: url,
         })
@@ -135,7 +116,6 @@ export default defineComponent({
             address.number = data.addresses[0].number.toString()
             addressInputDisabled.value = true
           }
-          console.log(address)
         }
       } catch (error) {
         addressInputDisabled.value = true
@@ -158,7 +138,6 @@ export default defineComponent({
         street: address.street,
       }
 
-      console.log(addressInterface)
       const newAddress: Address = await put(
         '/user/change/address',
         addressInterface,
