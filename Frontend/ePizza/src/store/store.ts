@@ -16,6 +16,7 @@ export type State = {
   admin: boolean | undefined
   pizzaCounts: Record<string, number>
   toppingsArr: Array<Topping>
+  name: string | null
 }
 
 const state: State = {
@@ -23,6 +24,7 @@ const state: State = {
   admin: undefined,
   pizzaCounts: {},
   toppingsArr: [],
+  name: null,
 }
 
 // define injection key
@@ -34,6 +36,7 @@ export enum MutationTypes {
   setAdmin = 'setAdmin',
   setPizzaCounts = 'setPizzaCounts',
   setToppingsArr = 'setToppingsArr',
+  setName = 'setName',
 }
 
 // mutations types
@@ -46,6 +49,7 @@ export type Mutations = {
   ): void
 
   [MutationTypes.setToppingsArr](state: State, payload: Array<Topping>): void
+  [MutationTypes.setName](state: State, payload: string): void
 }
 
 const mutations: MutationTree<State> & Mutations = {
@@ -64,6 +68,9 @@ const mutations: MutationTree<State> & Mutations = {
 
   [MutationTypes.setToppingsArr](state: State, payload: Array<Topping>) {
     state.toppingsArr = payload
+  },
+  [MutationTypes.setName](state: State, payload: string) {
+    state.name = payload
   },
 }
 
@@ -93,6 +100,7 @@ export type Getters = {
   getAdmin(state: State): boolean | undefined
   getPizzaCounts(state: State): Record<string, number>
   getToppingsArr(state: State): Array<Topping>
+  getName(state: State): string | null
 }
 
 export const getters: GetterTree<State, State> & Getters = {
@@ -100,6 +108,7 @@ export const getters: GetterTree<State, State> & Getters = {
   getAdmin: (state: State) => state.admin,
   getPizzaCounts: (state: State) => state.pizzaCounts,
   getToppingsArr: (state: State) => state.toppingsArr,
+  getName: (state: State) => state.name,
 }
 
 export const store = createStore<State>({
@@ -114,7 +123,7 @@ export function useStore() {
   const store = baseUseStore(key)
   const user = store.getters.getUser
   const admin = store.getters.getAdmin
-  
+
   return {
     store,
     user,

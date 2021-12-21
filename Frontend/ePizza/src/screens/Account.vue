@@ -19,7 +19,7 @@ import {
 import { useRouter } from 'vue-router'
 import AppHeader from '../components/AppHeader.vue'
 import useFirebase from '../composables/useFirebase'
-import { ActionTypes, store } from '../store/store'
+import { ActionTypes, MutationTypes, store } from '../store/store'
 import { app } from '../composables/useFirebase'
 import InputComponent from '../components/InputComponent.vue'
 import { fetchData } from '../composables/useNetwork'
@@ -51,6 +51,9 @@ export default defineComponent({
     // )
 
     let nameInput = ref<boolean>(false)
+    const name = computed(() => {
+      return store.getters.getName
+    })
     let addressInput = ref<boolean>(false)
     const addressInputDisabled: Ref<boolean> = ref(false)
 
@@ -75,6 +78,7 @@ export default defineComponent({
         .then(() => {
           console.log('updated')
           console.log(user.value, 'in edit name')
+          store.commit(MutationTypes.setName, input)
           //store.dispatch(ActionTypes.setUser, user)
           animateCircle.value = false
         })
@@ -158,8 +162,7 @@ export default defineComponent({
         street: address.street,
       }
 
-      console.log(addressInterface)
-      const newAddress: Address = await put(
+      const newAddress = await put(
         '/user/change/address',
         addressInterface,
         await user.value?.getIdToken(),
@@ -189,6 +192,7 @@ export default defineComponent({
       file,
       animateCircle,
       animateCircle2,
+      name,
     }
   },
   components: { AppHeader, InputComponent, LanguageChanger },
@@ -292,7 +296,7 @@ export default defineComponent({
           <p class="text-sm text-gray-600">{{ $t('account_name') }}</p>
           <div class="flex flex-row justify-between items-center">
             <p v-if="!nameInput" class="text-lg font-medium">
-              {{ displayName }}
+              {{ name }}
             </p>
             <input
               v-if="nameInput"

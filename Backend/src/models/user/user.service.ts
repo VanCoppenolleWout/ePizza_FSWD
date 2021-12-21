@@ -122,7 +122,8 @@ export class UserService {
 
     user.addresses = [address]
 
-    return await this.userRepository.save(user)
+    const userAddress = await this.userRepository.save(user)
+    return userAddress.addresses[0]
   }
 
   async changeAddress(headers: any, body: any) {
@@ -155,7 +156,7 @@ export class UserService {
     } else {
       const bearer = headers.authorization.replace('Bearer ', '')
       const firebaseUser = await getAuth().verifyIdToken(bearer)
-      this.addAddress(firebaseUser.uid, body)
+      return this.addAddress(firebaseUser.uid, body)
     }
   }
 }

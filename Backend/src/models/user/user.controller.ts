@@ -32,7 +32,7 @@ export class UserController {
   }
 
   @Post('address/:user_id')
-  async addAddress(@Param() params, @Body() body): Promise<User> {
+  async addAddress(@Param() params, @Body() body){
     return await this.userService.addAddress(params.user_id, body)
   }
 

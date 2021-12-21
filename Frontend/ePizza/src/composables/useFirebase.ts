@@ -56,11 +56,13 @@ export default () => {
           if (res !== null) {
             const admin = await get('/user/admin', await res?.getIdToken())
             store.dispatch(MutationTypes.setAdmin, admin.admin)
+            store.commit(MutationTypes.setName, res.displayName)
             store.dispatch(ActionTypes.setUser, user)
 
             user.value = res
           } else {
             store.dispatch(ActionTypes.setUser, user)
+            store.commit(MutationTypes.setName, null)
             store.dispatch(MutationTypes.setAdmin, undefined)
           }
           resolve(true)
