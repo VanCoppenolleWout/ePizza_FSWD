@@ -119,7 +119,7 @@ export default defineComponent({
       v-else
       class="flex items-center self-center justify-center flex-1 mt-12"
     >
-      <p class="font-medium text-sm">No reviews yet.</p>
+      <p class="font-medium text-sm">{{ $t('review_empty') }}</p>
     </section>
   </div>
 </template>

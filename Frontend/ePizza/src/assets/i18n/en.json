@@ -113,6 +113,7 @@
     "order_title": "Orders",
     "order_date": "Date",
     "order_empty": "No orders yet.",
+    "review_empty": "No reviews yet.",
     "table_id": "Order ID",
     "table_delivery": "Delivery",
     "table_price": "Price",
@@ -121,5 +122,10 @@
     "side_order": "Orders",
     "side_stock": "Stock",
     "side_reviews": "Reviews",
-    "side_chart": "Charts"
+    "side_chart": "Charts",
+    "popup_title": "Choose between",
+    "popup_sub": "Select if you want to carryout your pizza or if you would like it delivered.",
+    "rating_sub": "In the review section, you can see all review placed by customers.",
+    "rating_title": "Title",
+    "rating_des": "Description"
 }
