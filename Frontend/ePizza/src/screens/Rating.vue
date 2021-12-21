@@ -16,9 +16,7 @@ export default defineComponent({
 
     const getReviews = async () => {
       const idToken = await auth.currentUser?.getIdToken()
-
       reviews.value = await get('/review/all', idToken)
-      console.log(reviews.value)
     }
 
     getReviews()

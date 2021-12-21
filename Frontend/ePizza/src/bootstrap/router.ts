@@ -137,20 +137,6 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
-    path: '/chart',
-    meta: { showSideBar: true },
-    component: () =>
-      import(/* webpackChunkName: "stock"*/ '../screens/Chart.vue'),
-    beforeEnter: async (to, from, next) => {
-      const auth = getAuth()
-      const idToken = await auth.currentUser?.getIdToken()
-
-      const { admin } = await get('/user/admin', idToken)
-
-      admin ? next() : next({ name: 'home' })
-    },
-  },
-  {
     path: '/rating',
     meta: { showSideBar: true },
     component: () =>
