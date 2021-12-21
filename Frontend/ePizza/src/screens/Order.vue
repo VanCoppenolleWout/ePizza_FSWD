@@ -481,8 +481,8 @@ export default defineComponent({
               </div>
             </div>
 
-            <div class="h-96">
-              <h3>Select time option</h3>
+            <div class="h-96 mt-7">
+              <h3 class="mb-1 font-semibold">{{ $t('ddl_time') }}</h3>
               <Dropdown :dropdownArr="datesArr" @dateSelection="handleTime" />
             </div>
           </div>

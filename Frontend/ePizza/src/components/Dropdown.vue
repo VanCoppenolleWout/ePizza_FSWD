@@ -24,7 +24,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="inline-block relative w-64" style="width: 10rem">
+  <div class="inline-block relative w-full" >
     <select
       class="
         block
@@ -35,11 +35,13 @@ export default defineComponent({
         px-4
         py-2
         pr-8
+        
         rounded
         shadow
         leading-tight
         focus:outline-none focus:shadow-outline
       "
+      style="background-color: #faf7fa;"
       v-model="selection"
     >
       <option v-for="(item, index) in dropdownArr" :key="index" :value="item">

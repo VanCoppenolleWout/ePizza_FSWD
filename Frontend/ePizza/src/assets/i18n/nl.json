@@ -127,5 +127,6 @@
     "popup_sub": "Kies of je je pizza wilt laten bezorgen of wilt afhalen.",
     "rating_sub": "In het reviewgedeelte kunt u alle beoordelingen zien die door klanten zijn geplaatst.",
     "rating_title": "Titel",
-    "rating_des": "Beschrijving"
+    "rating_des": "Beschrijving",
+    "ddl_time": "Kies tijd"
 }

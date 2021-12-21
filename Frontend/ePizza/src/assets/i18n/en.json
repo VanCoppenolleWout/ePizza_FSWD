@@ -127,5 +127,6 @@
     "popup_sub": "Select if you want to carryout your pizza or if you would like it delivered.",
     "rating_sub": "In the review section, you can see all review placed by customers.",
     "rating_title": "Title",
-    "rating_des": "Description"
+    "rating_des": "Description",
+    "ddl_time": "Select time option"
 }
